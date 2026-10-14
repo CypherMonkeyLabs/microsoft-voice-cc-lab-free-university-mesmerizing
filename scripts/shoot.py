@@ -95,7 +95,13 @@ async def run() -> None:
             await cdp(ws, "Page.enable")
             await cdp(ws, "Runtime.enable")
             pages = [
-                ("home.png", BASE + "#/", 1440, 1280, None),
+                (
+                    "home.png",
+                    BASE + "#/",
+                    1440,
+                    1280,
+                    "document.querySelector('#home-orbit').click(); new Promise((r)=>setTimeout(r, 900))",
+                ),
                 ("home-mobile.png", BASE + "#/", 390, 844, None),
                 (
                     "lab-direct-routing.png",
@@ -132,12 +138,26 @@ async def run() -> None:
                     1200,
                     None,
                 ),
+                (
+                    "powershell.png",
+                    BASE + "#/powershell",
+                    1440,
+                    1000,
+                    "document.querySelector('#ps-in').value='Get-CsOnlinePSTNGateway'; document.querySelector('#ps-form').requestSubmit()",
+                ),
+                (
+                    "sbc-mesh.png",
+                    BASE + "#/topology",
+                    1440,
+                    1100,
+                    "new Promise((resolve)=>{ const start=Date.now(); const tick=()=>{ const canvas=document.querySelector('#topo-gl'); if(canvas && !canvas.hidden || Date.now()-start>2500) resolve(true); else setTimeout(tick, 50); }; tick(); })",
+                ),
             ]
             for name, url, width, height, action in pages:
                 await cdp(ws, "Page.navigate", {"url": url})
                 await evaluate(
                     ws,
-                    "new Promise((resolve) => { const start = Date.now(); const tick = () => { if (document.querySelector('h1') || Date.now()-start>4000) resolve(document.querySelector('h1') && document.querySelector('h1').textContent); else setTimeout(tick, 50); }; tick(); })",
+                    "new Promise((resolve) => { const start = Date.now(); const tick = () => { const view = document.querySelector('#view'); const ready = view && view.childElementCount > 0 && !view.querySelector('.loading'); if (ready || Date.now()-start>8000) resolve(document.querySelector('h1') && document.querySelector('h1').textContent); else setTimeout(tick, 50); }; tick(); })",
                 )
                 await evaluate(ws, "new Promise((r) => setTimeout(r, 400))")
                 title = await evaluate(ws, "document.querySelector('h1') && document.querySelector('h1').textContent")
@@ -151,6 +171,45 @@ async def run() -> None:
                     )
                     print("  live:", live)
                 await shot(ws, OUT / name, width, height)
+            for theme_name, theme_id in (
+                ("theme-light.png", "light"),
+                ("theme-dark.png", "dark"),
+                ("theme-hc.png", "hc"),
+                ("theme-teams.png", "teams"),
+            ):
+                await evaluate(
+                    ws,
+                    "localStorage.setItem('mvcc-lab-v1', JSON.stringify(Object.assign(JSON.parse(localStorage.getItem('mvcc-lab-v1') || '{}'), {theme: '%s', font: 'md', reduceMotion: 'system'}))); 'ok'"
+                    % theme_id,
+                )
+                await cdp(ws, "Page.navigate", {"url": BASE + "?theme=" + theme_id + "#/"})
+                got = await evaluate(
+                    ws,
+                    "new Promise((resolve) => { const start = Date.now(); const tick = () => { const view = document.querySelector('#view'); const ready = view && view.childElementCount > 0 && !view.querySelector('.loading') && document.documentElement.dataset.theme === '%s'; if (ready) resolve(document.documentElement.dataset.theme); else if (Date.now()-start>8000) resolve(document.documentElement.dataset.theme || 'timeout'); else setTimeout(tick, 50); }; tick(); })"
+                    % theme_id,
+                )
+                print(theme_name, "theme:", got)
+                if got != theme_id:
+                    raise SystemExit(f"{theme_name} rendered {got}")
+                await evaluate(ws, "new Promise((r) => setTimeout(r, 300))")
+                await shot(ws, OUT / theme_name, 1440, 1100)
+            await evaluate(
+                ws,
+                "localStorage.setItem('mvcc-lab-v1', JSON.stringify(Object.assign(JSON.parse(localStorage.getItem('mvcc-lab-v1') || '{}'), {theme: 'light'}))); 'ok'",
+            )
+            await cdp(ws, "Page.navigate", {"url": BASE + "#/settings"})
+            await evaluate(
+                ws,
+                "new Promise((resolve) => { const start = Date.now(); const tick = () => { const view = document.querySelector('#set-voice'); if (view || Date.now()-start>8000) resolve(true); else setTimeout(tick, 50); }; tick(); })",
+            )
+            await evaluate(ws, "new Promise((r) => setTimeout(r, 500))")
+            await shot(ws, OUT / "settings.png", 1440, 1200)
+            await cdp(ws, "Page.navigate", {"url": BASE + "#/tips/t05"})
+            await evaluate(
+                ws,
+                "new Promise((resolve) => { const start = Date.now(); const tick = () => { const view = document.querySelector('.sheet'); if (view || Date.now()-start>8000) resolve(true); else setTimeout(tick, 50); }; tick(); })",
+            )
+            await shot(ws, OUT / "tips-pstn.png", 1440, 1200)
     finally:
         proc.terminate()
         try:

@@ -9,8 +9,9 @@ import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-HTML = ROOT / "campus" / "index.html"
-CARD = ROOT / "campus" / "og-card.png"
+CAMPUS = ROOT / "campus"
+HTML = CAMPUS / "index.html"
+CARD = CAMPUS / "og-card.png"
 
 REQUIRED_LABS = [
     "dr-path",
@@ -60,18 +61,63 @@ def fail(message: str) -> None:
     sys.exit(1)
 
 
+def load_payload() -> dict:
+    manifest = json.loads((CAMPUS / "data" / "manifest.json").read_text(encoding="utf-8"))
+    lessons = []
+    for track in manifest["tracks"]:
+        pack = json.loads((CAMPUS / "data" / "tracks" / f"{track['id']}.json").read_text(encoding="utf-8"))
+        lessons.extend(pack["lessons"])
+    manifest["lessons"] = lessons
+    manifest["quiz"] = json.loads((CAMPUS / "data" / "quiz.json").read_text(encoding="utf-8"))
+    manifest["cards"] = json.loads((CAMPUS / "data" / "cards.json").read_text(encoding="utf-8"))
+    manifest["glossary"] = json.loads((CAMPUS / "data" / "glossary.json").read_text(encoding="utf-8"))
+    manifest["charts"] = json.loads((CAMPUS / "data" / "charts.json").read_text(encoding="utf-8"))
+    manifest["bosses"] = json.loads((CAMPUS / "data" / "bosses.json").read_text(encoding="utf-8"))
+    return manifest
+
+
 def main() -> None:
     if not HTML.exists():
         fail(f"missing {HTML}")
-    text = HTML.read_text(encoding="utf-8")
+    html = HTML.read_text(encoding="utf-8")
+    css = (CAMPUS / "app.css").read_text(encoding="utf-8")
+    js = (CAMPUS / "app.js").read_text(encoding="utf-8")
+    sw = (CAMPUS / "sw.js").read_text(encoding="utf-8")
+    manifest_text = (CAMPUS / "data" / "manifest.json").read_text(encoding="utf-8")
+    text = "\n".join([html, css, js, sw, manifest_text])
     lowered = text.lower()
     for needle in BANNED:
         if needle in lowered:
             fail(f"remote asset: {needle}")
-    if re.search(r"<script[^>]+src=", text, re.I):
-        fail("external script src")
-    if re.search(r"<link[^>]+stylesheet", text, re.I):
-        fail("external stylesheet")
+    if re.search(r"<script[^>]+src=[\"']https?:", html, re.I):
+        fail("remote script src")
+    if re.search(r"<link[^>]+href=[\"']https?:", html, re.I):
+        fail("remote stylesheet")
+    if html.lower().count("<h1") != 1:
+        fail(f"expected one h1 in the shell, found {html.lower().count('<h1')}")
+    if "voiceschanged" not in js:
+        fail("speech voices are not waited on")
+    if "isRoboticEdge" not in js:
+        fail("narration still defaults without an Edge check")
+    for theme_name in ('data-theme="dark"', 'data-theme="hc"', 'data-theme="teams"'):
+        if theme_name not in css:
+            fail(f"missing theme {theme_name}")
+    if "#/settings" not in js or "set-voice" not in js:
+        fail("settings panel missing")
+    if '#/track/t01' not in js or "redirectHash" not in js:
+        fail("hash router fallback missing")
+    if "--cc-bg" not in css or "--cc-accent-4" not in css:
+        fail("campus-core tokens missing")
+    if "max-width: 640px" not in css or "bottom-nav" not in css:
+        fail("mobile bottom nav missing")
+    if not (CAMPUS / "vendor" / "three.module.min.js").exists():
+        fail("three.js is not vendored")
+    if "three.module.min.js" not in html and "three" not in html:
+        fail("three import map missing")
+    shell = sum((CAMPUS / name).stat().st_size for name in ("index.html", "app.css", "app.js"))
+    shell += (CAMPUS / "data" / "manifest.json").stat().st_size
+    if shell > 1_500_000:
+        fail(f"first load {shell} bytes")
     for tag in (
         'property="og:image"',
         'name="twitter:card" content="summary_large_image"',
@@ -84,14 +130,13 @@ def main() -> None:
         fail("missing reduced-motion")
     if "mvcc-lab-v1" not in text:
         fail("missing localStorage key")
-    match = re.search(
-        r'<script type="application/json" id="campus-data">(.*?)</script>',
-        text,
-        re.S,
-    )
-    if not match:
-        fail("campus-data missing")
-    data = json.loads(match.group(1))
+    if "<link rel=\"stylesheet\" href=\"app.css\">" not in html:
+        fail("stylesheet not in head")
+    if not (CAMPUS / "sw.js").exists():
+        fail("service worker missing")
+    data = load_payload()
+    if not isinstance(data.get("illustrations"), list) or not isinstance(data.get("flows"), list):
+        fail("illustration counters are not arrays")
     tracks = data["tracks"]
     lessons = data["lessons"]
     labs = data["labs"]
@@ -101,6 +146,13 @@ def main() -> None:
     glossary = data["glossary"]
     if len(tracks) < 17:
         fail(f"tracks {len(tracks)}")
+    tips = data.get("tips") or {}
+    if len(tips) < 17:
+        fail(f"tips {len(tips)}")
+    for track in tracks:
+        pack = tips.get(track["id"]) or {}
+        if len(pack.get("tips") or []) < 2 or len(pack.get("traps") or []) < 1 or not pack.get("sheet"):
+            fail(f"thin tips for {track['id']}")
     eco = next((track for track in tracks if track["id"] == "t17"), None)
     if not eco:
         fail("ecosystem track missing")
@@ -175,6 +227,12 @@ def main() -> None:
         fail(f"illustrations {len(figures)}")
     if len(flow_svgs) < 300:
         fail(f"flows {len(flow_svgs)}")
+    if len(data["illustrations"]) != len(figures) or len(data["flows"]) != len(flow_svgs):
+        fail("figure index does not match the lesson svgs")
+    for boss in data.get("bosses") or []:
+        incident = boss.get("incident") or {}
+        if len(incident.get("steps") or []) < 3 or "syslog" not in incident:
+            fail(f"boss incident {boss.get('code')}")
     normalized = []
     for svg in figures:
         bare = re.sub(r"<title>.*?</title>", "", svg, flags=re.S)

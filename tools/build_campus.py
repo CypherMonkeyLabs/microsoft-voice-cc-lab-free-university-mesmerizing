@@ -1,12 +1,15 @@
 #!/usr/bin/env python3
-"""Assemble the single-file campus from local sources. No network."""
+"""Assemble the campus as a shell plus on-demand track modules. No CDN."""
 
 from __future__ import annotations
 
+import hashlib
 import json
+import shutil
 from pathlib import Path
 
 from curriculum import build_payload
+from tips import TIPS
 
 ROOT = Path(__file__).resolve().parents[1]
 SRC = ROOT / "src"
@@ -14,20 +17,163 @@ CAMPUS = ROOT / "campus"
 CHECKED = "2026-10-14"
 
 
-def main() -> None:
-    from make_audio import build as build_audio
+def dump(obj: object) -> str:
+    return json.dumps(obj, ensure_ascii=True, separators=(",", ":")).replace("<", "\\u003c")
 
-    build_audio()
+
+def write_json(path: Path, obj: object) -> None:
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_text(dump(obj), encoding="utf-8")
+
+
+def figure_index(lessons: list[dict]) -> tuple[list[dict], list[dict]]:
+    illustrations = []
+    flows = []
+    for lesson in lessons:
+        for fig in lesson.get("figures") or []:
+            row = {
+                "id": fig["id"],
+                "lesson": lesson["id"],
+                "title": fig.get("title") or "",
+                "animated": bool(fig.get("animated")),
+            }
+            illustrations.append(row)
+            if fig.get("animated"):
+                flows.append(row)
+    return illustrations, flows
+
+
+def main() -> None:
+    import shutil as shutil_mod
+
+    if shutil_mod.which("espeak-ng"):
+        from make_audio import build as build_audio
+
+        build_audio()
+    else:
+        print("espeak-ng missing; keeping the audio already in campus/audio")
+
     payload = build_payload()
+    illustrations, flows = figure_index(payload["lessons"])
+    payload["illustrations"] = illustrations
+    payload["flows"] = flows
+
+    data_dir = CAMPUS / "data"
+    if data_dir.exists():
+        shutil.rmtree(data_dir)
+    tracks_dir = data_dir / "tracks"
+    tracks_dir.mkdir(parents=True)
+
+    by_track: dict[str, list[dict]] = {track["id"]: [] for track in payload["tracks"]}
+    for lesson in payload["lessons"]:
+        by_track.setdefault(lesson["track"], []).append(lesson)
+    for track_id, lessons in by_track.items():
+        write_json(tracks_dir / f"{track_id}.json", {"id": track_id, "lessons": lessons})
+
+    write_json(data_dir / "quiz.json", payload["quiz"])
+    write_json(data_dir / "cards.json", payload["cards"])
+    write_json(data_dir / "glossary.json", payload["glossary"])
+    write_json(data_dir / "charts.json", payload["charts"])
+    write_json(data_dir / "bosses.json", payload["bosses"])
+
+    lesson_index = [
+        {
+            "id": lesson["id"],
+            "track": lesson["track"],
+            "title": lesson["title"],
+            "minutes": lesson["minutes"],
+            "say": lesson["say"],
+            "tryLab": lesson.get("tryLab"),
+        }
+        for lesson in payload["lessons"]
+    ]
+    term_index = [{"term": row["term"], "track": row["track"]} for row in payload["glossary"]]
+    manifest = {
+        "checked": payload["checked"],
+        "examFact": payload["examFact"],
+        "tracks": payload["tracks"],
+        "lessonIndex": lesson_index,
+        "termIndex": term_index,
+        "labs": payload["labs"],
+        "exams": payload["exams"],
+        "sources": payload["sources"],
+        "audio": payload["audio"],
+        "scenarios": payload["scenarios"],
+        "map": payload["map"],
+        "faults": payload["faults"],
+        "illustrations": illustrations,
+        "flows": flows,
+        "tips": TIPS,
+        "counts": {
+            "tracks": len(payload["tracks"]),
+            "lessons": len(payload["lessons"]),
+            "labs": len(payload["labs"]),
+            "quiz": len(payload["quiz"]),
+            "cards": len(payload["cards"]),
+            "scenarios": len(payload["scenarios"]),
+            "glossary": len(payload["glossary"]),
+            "illustrations": len(illustrations),
+            "flows": len(flows),
+            "charts": len(payload["charts"]),
+            "faults": len(payload["faults"]),
+            "bosses": len(payload["bosses"]),
+            "audio": len(payload["audio"]),
+            "sources": len(payload["sources"]),
+        },
+    }
+    write_json(data_dir / "manifest.json", manifest)
+
     css = (SRC / "campus.css").read_text(encoding="utf-8")
-    teaching = (SRC / "teaching.js").read_text(encoding="utf-8")
-    app = (SRC / "campus.js").read_text(encoding="utf-8")
-    data = json.dumps(payload, ensure_ascii=True, separators=(",", ":")).replace("<", "\\u003c")
-    html = HTML_TEMPLATE.format(css=css, data=data, js=teaching + "\n" + app, checked=CHECKED)
-    CAMPUS.mkdir(parents=True, exist_ok=True)
-    target = CAMPUS / "index.html"
-    target.write_text(html, encoding="utf-8")
-    print(f"wrote {target} ({target.stat().st_size} bytes)")
+    (CAMPUS / "app.css").write_text(css, encoding="utf-8")
+    app = "\n".join(
+        [
+            (SRC / "teaching.js").read_text(encoding="utf-8"),
+            (SRC / "studios.js").read_text(encoding="utf-8"),
+            (SRC / "campus.js").read_text(encoding="utf-8"),
+        ]
+    )
+    (CAMPUS / "app.js").write_text(app, encoding="utf-8")
+    studios = CAMPUS / "studios"
+    studios.mkdir(parents=True, exist_ok=True)
+    shutil.copyfile(SRC / "studios" / "topology.js", studios / "topology.js")
+
+    version = hashlib.sha256(app.encode("utf-8")).hexdigest()[:12]
+    precache = [
+        "./",
+        "./index.html",
+        "./app.css",
+        "./app.js",
+        "./studios/topology.js",
+        "./vendor/three.module.min.js",
+        "./vendor/OrbitControls.js",
+        "./og-card.png",
+        "./data/manifest.json",
+        "./data/quiz.json",
+        "./data/cards.json",
+        "./data/glossary.json",
+        "./data/charts.json",
+        "./data/bosses.json",
+    ]
+    for track in payload["tracks"]:
+        precache.append(f"./data/tracks/{track['id']}.json")
+    audio_dir = CAMPUS / "audio"
+    if audio_dir.is_dir():
+        for clip in sorted(audio_dir.glob("*.wav")):
+            precache.append("./audio/" + clip.name)
+    sw = SW_TEMPLATE.format(version=version, precache=json.dumps(precache, indent=2))
+    (CAMPUS / "sw.js").write_text(sw, encoding="utf-8")
+
+    html = HTML_TEMPLATE.format(css_href="app.css", checked=CHECKED)
+    (CAMPUS / "index.html").write_text(html, encoding="utf-8")
+
+    shell = (
+        (CAMPUS / "index.html").stat().st_size
+        + (CAMPUS / "app.css").stat().st_size
+        + (CAMPUS / "app.js").stat().st_size
+        + (data_dir / "manifest.json").stat().st_size
+    )
+    print(f"wrote {CAMPUS / 'index.html'}")
+    print(f"first-load bytes {shell} (html+css+js+manifest)")
     print(
         "tracks", len(payload["tracks"]),
         "lessons", len(payload["lessons"]),
@@ -36,6 +182,8 @@ def main() -> None:
         "cards", len(payload["cards"]),
         "scenarios", len(payload["scenarios"]),
         "glossary", len(payload["glossary"]),
+        "illustrations", len(illustrations),
+        "flows", len(flows),
     )
 
 
@@ -58,38 +206,66 @@ HTML_TEMPLATE = """<!DOCTYPE html>
 <meta name="twitter:description" content="Free offline Teams voice and contact-center campus. Zero-key labs, quiz, and ecosystem map. Checked {checked}.">
 <meta name="twitter:image" content="og-card.png">
 <meta name="twitter:image:alt" content="Microsoft Voice and Contact Center Lab card.">
-<style>
-{css}
-</style>
+<link rel="stylesheet" href="{css_href}">
+<script type="importmap">
+{{"imports":{{"three":"./vendor/three.module.min.js"}}}}
+</script>
+<script>
+try {{
+  var saved = JSON.parse(localStorage.getItem("mvcc-lab-v1") || "{{}}");
+  var theme = saved.theme;
+  if (!theme && window.matchMedia && matchMedia("(prefers-color-scheme: dark)").matches) theme = "dark";
+  if (theme) document.documentElement.dataset.theme = theme;
+  document.documentElement.dataset.font = saved.font || "md";
+  var motion = saved.reduceMotion || "system";
+  var reduce = motion === "reduce" || (motion !== "full" && window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches);
+  document.documentElement.dataset.motion = reduce ? "reduce" : "full";
+}} catch (err) {{}}
+</script>
 </head>
 <body>
 <a class="skip" href="#main">Skip to content</a>
 <header class="top">
-  <button class="icon-btn menu-btn" id="menu" type="button" aria-label="Open the track menu">Menu</button>
+  <button class="icon-btn menu-btn" id="menu" type="button" aria-label="Open the track menu">
+    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"></path></svg>
+  </button>
   <a class="brand" href="#/">
     <svg class="mark" viewBox="0 0 36 36" aria-hidden="true">
-      <rect width="36" height="36" rx="10" fill="#102433"></rect>
-      <path d="M6 22c4-8 8-8 12 0s8 8 12 0" fill="none" stroke="#3ee0c3" stroke-width="2"></path>
-      <circle cx="18" cy="14" r="3" fill="#a89bff"></circle>
+      <rect width="36" height="36" rx="8" fill="#5b5fc7"></rect>
+      <rect x="8" y="9" width="20" height="14" rx="3" fill="none" stroke="#fff" stroke-width="1.7"></rect>
+      <path d="M14 23v3h8v-3" fill="none" stroke="#fff" stroke-width="1.7" stroke-linecap="round"></path>
+      <circle cx="18" cy="16" r="2" fill="#9be7ff"></circle>
     </svg>
-    <span><b>Voice Lab</b><small>Contact center campus</small></span>
+    <span><b>Voice Lab</b><small>Teams phone campus</small></span>
   </a>
   <button class="search-btn" id="search" type="button">Search lessons, labs, and terms · Ctrl+K</button>
   <div class="top-meta">
     <span class="pill" id="streak">Streak 0</span>
     <span class="pill" id="done">0%</span>
     <span class="pill" id="ach-count">0 badges</span>
-    <button class="icon-btn" id="theme" type="button" aria-label="Cycle color theme">Theme</button>
+    <a class="icon-btn" id="settings" href="#/settings" aria-label="Settings">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="3" fill="none" stroke="currentColor" stroke-width="1.8"></circle><path d="M12 3.5v2.2M12 18.3v2.2M3.5 12h2.2M18.3 12h2.2M6 6l1.6 1.6M16.4 16.4 18 18M18 6l-1.6 1.6M7.6 16.4 6 18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"></path></svg>
+    </a>
   </div>
 </header>
 <div class="shell">
   <nav id="nav" class="nav" aria-label="Campus"></nav>
-  <main id="main" tabindex="-1"></main>
+  <main id="main" tabindex="-1">
+    <h1 id="view-title">Microsoft Voice &amp; Contact Center Lab</h1>
+    <div id="view"><p class="loading">Opening the campus.</p></div>
+  </main>
 </div>
+<nav class="bottom-nav" aria-label="Mobile">
+  <a href="#/" data-tab="home">Home</a>
+  <a href="#/labs" data-tab="labs">Labs</a>
+  <button type="button" id="bottom-menu" data-tab="tracks">Tracks</button>
+  <a href="#/powershell" data-tab="powershell">Shell</a>
+  <a href="#/topology" data-tab="topology">Mesh</a>
+</nav>
 <div class="dock" role="region" aria-label="Section audio">
   <button id="listen" type="button">Listen</button>
   <p id="transcript">Open a lesson. Listen uses a voice already installed in this browser. Nothing is uploaded.</p>
-  <label>Rate <input id="rate" type="range" min="0.8" max="1.25" step="0.05" value="1" aria-label="Speech rate"></label>
+  <label>Rate <input id="rate" type="range" min="0.75" max="1.5" step="0.05" value="1" aria-label="Speech rate"></label>
 </div>
 <div id="palette" class="palette" hidden>
   <div class="box" role="dialog" aria-modal="true" aria-label="Search">
@@ -98,12 +274,38 @@ HTML_TEMPLATE = """<!DOCTYPE html>
   </div>
 </div>
 <noscript><p>This campus needs JavaScript. It does not load a CDN. Enable JavaScript in this browser and open the file again.</p></noscript>
-<script type="application/json" id="campus-data">{data}</script>
-<script>
-{js}
-</script>
+<script src="app.js" defer></script>
 </body>
 </html>
+"""
+
+
+SW_TEMPLATE = """/* Offline cache for the Voice Lab. Generated. Cache {version}. */
+"use strict";
+const CACHE = "mvcc-lab-{version}";
+const PRECACHE = {precache};
+self.addEventListener("install", function (event) {{
+  event.waitUntil(caches.open(CACHE).then(function (cache) {{ return cache.addAll(PRECACHE); }}).then(function () {{ return self.skipWaiting(); }}));
+}});
+self.addEventListener("activate", function (event) {{
+  event.waitUntil(caches.keys().then(function (keys) {{
+    return Promise.all(keys.filter(function (key) {{ return key !== CACHE; }}).map(function (key) {{ return caches.delete(key); }}));
+  }}).then(function () {{ return self.clients.claim(); }}));
+}});
+self.addEventListener("fetch", function (event) {{
+  const url = new URL(event.request.url);
+  if (url.origin !== self.location.origin || event.request.method !== "GET") return;
+  event.respondWith(caches.match(event.request).then(function (cached) {{
+    const fetched = fetch(event.request).then(function (response) {{
+      if (response && response.ok) {{
+        const copy = response.clone();
+        caches.open(CACHE).then(function (cache) {{ cache.put(event.request, copy); }});
+      }}
+      return response;
+    }}).catch(function () {{ return cached || caches.match("./index.html"); }});
+    return cached || fetched;
+  }}));
+}});
 """
 
 

@@ -2,9 +2,9 @@
 
 ![Microsoft Voice and Contact Center Lab](campus/og-card.png)
 
-A free, offline campus for a voice engineer preparing for Teams Phone and Microsoft contact-center work. One HTML file. No account, no API key, and no CDN. Open it, and it keeps working with the network off.
+A free, offline campus for a voice engineer preparing for Teams Phone and Microsoft contact-center work. The shell is a small Fluent page. Lessons, quiz, and figures load per track. No account, no API key, and no CDN. After the first online visit, a service worker keeps the campus available with the network off.
 
-**Description.** Free offline campus for Teams voice and Microsoft contact-center study: labs, a fault catalog, and cited notes in one HTML file.
+**Description.** Free offline campus for Teams voice and Microsoft contact-center study: a PowerShell console, a Direct Routing ladder, a 3D SBC mesh, labs, a fault catalog, and cited notes.
 
 **Topics.** `microsoft-teams` `teams-phone` `direct-routing` `contact-center` `dynamics-365` `microsoft-365` `voice` `offline` `education` `study-guide`
 
@@ -18,9 +18,9 @@ GitHub Pages serves the `campus` folder. Locally:
 python3 -m http.server 8741
 ```
 
-Then open [http://127.0.0.1:8741/campus/](http://127.0.0.1:8741/campus/). You can also open `campus/index.html` as a file. Search is Ctrl+K or `/`. `[` and `]` move between lessons in a track. Theme cycles dark, light, and high contrast. Listen uses a voice already installed in the browser and does not upload anything.
+Then open [http://127.0.0.1:8741/campus/](http://127.0.0.1:8741/campus/). Search is Ctrl+K or `/`. `[` and `]` move between lessons in a track. Theme cycles light mica, dark acrylic, and high contrast. Listen waits for a voice already installed in the browser and does not upload anything. Partial hashes such as `#/track/` and `#/lesson/` redirect to a real track or home.
 
-A zip of the HTML, the social card, and the audio folder is in `releases/microsoft-voice-contact-center-lab.zip`. Unzip it and open the HTML file. The clips live in `audio/` next to that file.
+A zip of the campus folder is in `releases/microsoft-voice-contact-center-lab.zip`. Unzip it and serve that folder with the same Python command. Fetching the track files needs HTTP, which is also how GitHub Pages hosts it.
 
 Progress, theme, lab runs, and exam self-ratings stay in `localStorage` under `mvcc-lab-v1`. The file does not ask for a name.
 
@@ -35,7 +35,7 @@ Progress, theme, lab runs, and exam self-ratings stay in `localStorage` under `m
 | Charts | 22, including licensing, CQD, Erlang C, and the certification and feature timelines |
 | Labs | 25, all runnable with no key |
 | Quiz | 644 questions, each with an explanation and a source |
-| Boss exams | 6: MS-700, AB-250, MB-280, AB-210, AZ-900, SC-900 |
+| Boss exams | 6: MS-700, AB-250, MB-280, AB-210, AZ-900, SC-900. Each one opens as an incident with a synthetic SBC or service log, then the question bank |
 | Flashcards | 607 |
 | Scenarios | 24 |
 | Glossary | 347 terms, with a config note and a fault |
@@ -50,6 +50,27 @@ python3 tools/build_campus.py
 python3 tools/make_og.py
 python3 scripts/verify_campus.py
 ```
+
+## Studios
+
+- **Teams PowerShell.** A simulated tenant for `Get-CsOnlinePSTNGateway`, `New-CsOnlineVoiceRoute`, `Set-CsTeamsCallingPolicy`, and the Grant cmdlets that actually assign a policy. Nothing signs in to Microsoft 365.
+- **Direct Routing ladder.** Play, pause, step, and inspect TLS, OPTIONS, INVITE, and the media-bypass or media-processor path. Lesson flows use the same controls.
+- **E.164 sandbox.** Edit a normalization pattern and see the capture groups on the dialed string.
+- **E911 discovery.** A client BSSID or subnet is matched to a teaching LIS record, a civic address, and the Direct Routing emergency hop.
+- **SBC mesh.** Three.js, vendored in `campus/vendor`, draws the London and Manchester gateway pair, the three SIP proxies, and the Survivable Branch Appliance. Orbit the scene and toggle a dead primary, a WAN cut, or a certificate mismatch. Reduced motion keeps a still frame.
+
+The skin uses campus-core tokens (`--cc-bg`, `--cc-surface`, `--cc-accent-1` through `--cc-accent-4`) with Aptos / Segoe UI fallbacks, acrylic panels, and icons drawn in the page. Settings, in the header, stores the theme (light mica, dark acrylic, high contrast, Teams purple), sound, narration, type size, and motion in this browser. Narration waits for `voiceschanged` and will not start on a robotic Microsoft Edge voice. Each track has pro tips, interview traps, and a cheat sheet under Tips and traps.
+
+## Page weight
+
+Checked 14 October 2026 against a local server.
+
+| | Before | After |
+|---|---|---|
+| First load | 4.91 MB in one HTML file | 472 KB: HTML 5 KB, CSS 26 KB, app script 151 KB, manifest 290 KB |
+| Three.js | none | 671 KB, loaded only when the mesh opens |
+| DOM | one lesson stays on screen | Home 303 nodes, Direct Routing lesson 567 nodes |
+| Lighthouse mobile | not scored on the monolith | Performance 92, accessibility 100 |
 
 ## Study order
 
@@ -116,6 +137,24 @@ A lesson, with the flow and the chart:
 
 ![Direct Routing lesson](docs/assets/lesson-direct-routing.png)
 
+Teams PowerShell, after `Get-CsOnlinePSTNGateway`:
+
+![PowerShell](docs/assets/powershell.png)
+
+The geo-redundant SBC mesh:
+
+![SBC mesh](docs/assets/sbc-mesh.png)
+
 Ecosystem mind map:
 
 ![Mind map](docs/assets/ecosystem-map.png)
+
+The same home page in each theme:
+
+![Light mica](docs/assets/theme-light.png)
+
+![Dark acrylic](docs/assets/theme-dark.png)
+
+![High contrast](docs/assets/theme-hc.png)
+
+![Teams purple](docs/assets/theme-teams.png)

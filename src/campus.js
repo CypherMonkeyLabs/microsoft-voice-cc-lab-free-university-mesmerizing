@@ -1,7 +1,91 @@
 "use strict";
 
-const DATA = JSON.parse(document.getElementById("campus-data").textContent);
+const DATA = {
+  tracks: [],
+  lessons: [],
+  labs: [],
+  glossary: [],
+  quiz: [],
+  cards: [],
+  scenarios: [],
+  exams: [],
+  map: { nodes: [], edges: [] },
+  sources: [],
+  charts: [],
+  faults: [],
+  bosses: [],
+  audio: [],
+  illustrations: [],
+  flows: [],
+  examFact: "",
+  lessonIndex: [],
+  termIndex: [],
+  counts: {},
+  tips: {},
+};
 const STORE = "mvcc-lab-v1";
+const trackPacks = {};
+const moduleFlags = {};
+let topoHandle = null;
+
+function disposeTopology() {
+  if (topoHandle && topoHandle.dispose) topoHandle.dispose();
+  topoHandle = null;
+}
+
+async function fetchJson(url) {
+  const response = await fetch(url);
+  if (!response.ok) throw new Error(url);
+  return response.json();
+}
+
+async function bootData() {
+  const manifest = await fetchJson("data/manifest.json");
+  DATA.tracks = manifest.tracks || [];
+  DATA.labs = manifest.labs || [];
+  DATA.scenarios = manifest.scenarios || [];
+  DATA.exams = manifest.exams || [];
+  DATA.map = manifest.map || { nodes: [], edges: [] };
+  DATA.sources = manifest.sources || [];
+  DATA.faults = manifest.faults || [];
+  DATA.audio = manifest.audio || [];
+  DATA.illustrations = manifest.illustrations || [];
+  DATA.flows = manifest.flows || [];
+  DATA.examFact = manifest.examFact || "";
+  DATA.lessonIndex = manifest.lessonIndex || [];
+  DATA.termIndex = manifest.termIndex || [];
+  DATA.counts = manifest.counts || {};
+  DATA.checked = manifest.checked || "";
+  DATA.tips = manifest.tips || {};
+}
+
+async function ensureTrack(trackId) {
+  if (!trackId) return null;
+  if (trackPacks[trackId]) return trackPacks[trackId];
+  const pack = await fetchJson("data/tracks/" + trackId + ".json");
+  trackPacks[trackId] = pack;
+  (pack.lessons || []).forEach((lesson) => {
+    const index = DATA.lessons.findIndex((item) => item.id === lesson.id);
+    if (index === -1) DATA.lessons.push(lesson);
+    else DATA.lessons[index] = lesson;
+  });
+  return pack;
+}
+
+async function ensureModule(name) {
+  if (moduleFlags[name]) return;
+  const rows = await fetchJson("data/" + name + ".json");
+  if (name === "quiz") DATA.quiz = rows;
+  else if (name === "cards") DATA.cards = rows;
+  else if (name === "glossary") DATA.glossary = rows;
+  else if (name === "charts") DATA.charts = rows;
+  else if (name === "bosses") DATA.bosses = rows;
+  else {
+    const unknown = name;
+    throw new Error(unknown);
+  }
+  moduleFlags[name] = true;
+}
 
 const $ = (sel, root) => (root || document).querySelector(sel);
 const $$ = (sel, root) => Array.from((root || document).querySelectorAll(sel));
@@ -35,6 +119,12 @@ function freshState() {
     quizTaken: 0,
     days: [],
     theme: "",
+    sound: true,
+    narration: true,
+    voiceURI: "",
+    rate: 1,
+    reduceMotion: "system",
+    font: "md",
     exam: {},
     achievements: [],
     sbcChecks: {},
@@ -85,12 +175,23 @@ function trackById(id) {
   return DATA.tracks.find((track) => track.id === id);
 }
 
+function lessonStub(id) {
+  return (DATA.lessonIndex || []).find((lesson) => lesson.id === id) || null;
+}
+
 function lessonById(id) {
-  return DATA.lessons.find((lesson) => lesson.id === id);
+  return DATA.lessons.find((lesson) => lesson.id === id) || lessonStub(id);
 }
 
 function lessonsIn(trackId) {
-  return DATA.lessons.filter((lesson) => lesson.track === trackId);
+  const full = DATA.lessons.filter((lesson) => lesson.track === trackId);
+  const indexed = (DATA.lessonIndex || []).filter((lesson) => lesson.track === trackId);
+  if (full.length && full.length >= indexed.length) return full;
+  return indexed.length ? indexed : full;
+}
+
+function lessonTotal() {
+  return (DATA.counts && DATA.counts.lessons) || (DATA.lessonIndex || []).length || DATA.lessons.length;
 }
 
 function progressCount() {
@@ -140,29 +241,56 @@ const ACH_COPY = {
   boss: "Boss exam — a certification sitting scored 80 percent or better.",
 };
 
+const THEMES = [
+  { id: "light", label: "Light mica" },
+  { id: "dark", label: "Dark acrylic" },
+  { id: "hc", label: "High contrast" },
+  { id: "teams", label: "Teams purple" },
+];
+const FONTS = [
+  { id: "sm", label: "Small" },
+  { id: "md", label: "Medium" },
+  { id: "lg", label: "Large" },
+  { id: "xl", label: "Extra large" },
+];
+
+function initialTheme() {
+  if (window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches) return "dark";
+  return "light";
+}
+
+function activeTheme() {
+  const id = state.theme || initialTheme();
+  return THEMES.some((theme) => theme.id === id) ? id : initialTheme();
+}
+
+function motionMode() {
+  if (state.reduceMotion === "reduce") return "reduce";
+  if (state.reduceMotion === "full") return "full";
+  if (window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches) return "reduce";
+  return "full";
+}
+
 function paintChrome() {
-  const pct = DATA.lessons.length ? Math.round((progressCount() / DATA.lessons.length) * 100) : 0;
+  const total = lessonTotal();
+  const pct = total ? Math.round((progressCount() / total) * 100) : 0;
   $("#streak").textContent = "Streak " + streak();
   $("#done").textContent = pct + "%";
   $("#ach-count").textContent = computeAchievements().length + " badges";
-  document.documentElement.dataset.theme = state.theme || initialTheme();
-}
-
-function initialTheme() {
-  if (window.matchMedia && window.matchMedia("(prefers-color-scheme: light)").matches) return "light";
-  return "dark";
+  const root = document.documentElement;
+  root.dataset.theme = activeTheme();
+  const font = FONTS.some((item) => item.id === state.font) ? state.font : "md";
+  root.dataset.font = font;
+  root.dataset.motion = motionMode();
+  const rate = $("#rate");
+  if (rate && document.activeElement !== rate) rate.value = String(state.rate || 1);
+  const listen = $("#listen");
+  if (listen && state.narration === false && !speaking) listen.textContent = "Narration off";
 }
 
 function setTheme(next) {
   state.theme = next;
   save();
-}
-
-function cycleTheme() {
-  const order = ["dark", "light", "hc"];
-  const current = state.theme || initialTheme();
-  const index = order.indexOf(current);
-  setTheme(order[(index + 1) % order.length]);
 }
 
 function flowSvg(steps, title) {
@@ -241,15 +369,16 @@ function sourceList(sources) {
 }
 
 function renderHome() {
+  const counts = DATA.counts || {};
   const stats = [
-    [DATA.tracks.length, "Tracks"],
-    [DATA.lessons.length, "Lessons"],
-    [DATA.labs.length, "Zero-key labs"],
-    [DATA.quiz.length, "Quiz questions"],
-    [DATA.flows, "Animated flows"],
-    [DATA.illustrations, "Illustrations"],
-    [DATA.cards.length, "Flashcards"],
-    [DATA.scenarios.length, "Scenarios"],
+    [counts.tracks || DATA.tracks.length, "Tracks"],
+    [lessonTotal(), "Lessons"],
+    [counts.labs || DATA.labs.length, "Zero-key labs"],
+    [counts.quiz || 0, "Quiz questions"],
+    [(DATA.flows || []).length, "Animated flows"],
+    [(DATA.illustrations || []).length, "Illustrations"],
+    [counts.cards || 0, "Flashcards"],
+    [counts.scenarios || DATA.scenarios.length, "Scenarios"],
   ];
   const tiles = DATA.tracks.map((track) => {
     return (
@@ -264,21 +393,26 @@ function renderHome() {
     '<p class="kicker">Free offline campus · checked 14 October 2026</p>' +
     "<h1>Microsoft Voice &amp; Contact Center Lab</h1>" +
     '<p class="lede">A study bench for the engineer who has to explain a Teams call, a queue, a recorder, and a contact-center route without guessing. No account. No key. No network after this file is open.</p>' +
+    '<p class="callout">' + esc(DATA.examFact || "") + "</p>" +
     '<div class="hero-actions row">' +
     '<a class="primary" href="#/track/t01">Start with the tenant</a>' +
     '<a class="ghost" href="#/lab/dr-path">Trace a Direct Routing call</a>' +
-    '<a class="ghost" href="#/map">Open the ecosystem map</a>' +
+    '<a class="ghost" href="#/powershell">Open the Teams shell</a>' +
+    '<a class="ghost" href="#/topology">Open the SBC mesh</a>' +
+    '<a class="ghost" href="#/tips">Tips and traps</a>' +
     "</div>" +
     '<div class="grid stats">' + stats.map((item) => '<div class="stat"><b>' + item[0] + "</b><span>" + item[1] + "</span></div>").join("") + "</div>" +
     '<div class="hero-frame">' +
-    '<div class="hero3d" aria-label="Teams, SIP proxy, SBC, and carrier in perspective">' +
-    '<div class="floor" aria-hidden="true"></div>' +
-    '<article class="glass-plane p1"><b>Teams</b><span>Client</span></article>' +
-    '<article class="glass-plane p2"><b>SIP proxy</b><span>TLS 5061</span></article>' +
-    '<article class="glass-plane p3"><b>SBC</b><span>Certified</span></article>' +
-    '<article class="glass-plane p4"><b>Carrier</b><span>PSTN</span></article>' +
-    '<span class="hero-packet" aria-hidden="true"></span>' +
-    '<div class="core">' + callRibbon() + "</div></div></div>" +
+    '<div class="topology-stage" id="home-stage">' +
+    '<div class="gl-fallback" id="home-fallback">' + callRibbon() + "</div>" +
+    '<canvas id="home-gl" hidden aria-label="Three.js geo-redundant SBC topology"></canvas>' +
+    "</div></div>" +
+    '<div class="scenario-bar">' +
+    '<button class="primary" id="home-orbit" type="button">Orbit the SBC mesh</button>' +
+    '<label class="row"><input id="home-lon" type="checkbox"> London primary down</label>' +
+    '<label class="row"><input id="home-wan" type="checkbox"> Manchester WAN down</label>' +
+    '<label class="row"><input id="home-cert" type="checkbox"> Certificate mismatch</label>' +
+    "</div>" +
     "<h2>Seventeen tracks</h2>" +
     '<div class="track-grid">' + tiles + "</div>" +
     '<div class="split">' +
@@ -330,6 +464,7 @@ function renderTrack(id) {
     '<p class="tiny">' + done + " of " + lessons.length + " lessons marked in this browser. " + esc(track.outcome) + "</p>" +
     chartSvg(track.chart) +
     '<p class="tiny">' + esc(track.chart.note) + "</p>" +
+    tipsBlock(id) +
     '<div class="lesson-list">' +
     lessons.map((lesson, index) => {
       const on = state.lessons.indexOf(lesson.id) !== -1;
@@ -339,6 +474,26 @@ function renderTrack(id) {
     }).join("") +
     "</div>" +
     (labs.length ? "<h2>Labs on this track</h2><div class=\"lab-grid\">" + labs.map(labCard).join("") + "</div>" : "")
+  );
+}
+
+function tipPack(id) {
+  return (DATA.tips && DATA.tips[id]) || null;
+}
+
+function tipsBlock(id) {
+  const pack = tipPack(id);
+  if (!pack) return "";
+  const tips = (pack.tips || []).map((line) => "<li>" + esc(line) + "</li>").join("");
+  const traps = (pack.traps || []).map((line) => "<li>" + esc(line) + "</li>").join("");
+  return (
+    '<section class="panel tips">' +
+    "<h2>Tips and traps</h2>" +
+    "<h3>Pro tips</h3><ul>" + tips + "</ul>" +
+    "<h3>Interview traps</h3><ul>" + traps + "</ul>" +
+    "<h3>Cheat sheet</h3><pre class=\"sheet\">" + esc(pack.sheet || "") + "</pre>" +
+    '<p><a href="#/tips/' + esc(id) + '">Open this sheet</a></p>' +
+    "</section>"
   );
 }
 
@@ -362,6 +517,8 @@ function figuresHtml(lesson) {
     '<div class="figure-grid">' + lead.map(figureBlock).join("") + "</div>" +
     (rest.length ? '<details class="more-figures"><summary>' + rest.length + ' more illustrations in this lesson</summary><div class="figure-grid">' + rest.map(figureBlock).join("") + "</div></details>" : "") +
     "</div>" +
+    "<h2>Step the flow</h2>" +
+    '<div id="flow-player"></div>' +
     "<ol>" + (lesson.flow || []).map((step) => "<li><strong>" + esc(step.label) + ".</strong> " + esc(step.detail) + "</li>").join("") + "</ol>"
   );
 }
@@ -393,8 +550,44 @@ function audioFor(trackId) {
   return '<figure class="panel audio-card"><figcaption><strong>' + esc(clip.title) + '.</strong> ' + esc(clip.blurb) + '</figcaption><audio controls preload="none" src="' + esc(clip.file) + '"></audio></figure>';
 }
 
+let audioCtx = null;
+
+function playTone(freq, ms, force) {
+  if (state.sound === false && !force) return;
+  const Ctx = window.AudioContext || window.webkitAudioContext;
+  if (!Ctx) return;
+  try {
+    if (!audioCtx) audioCtx = new Ctx();
+    if (audioCtx.state === "suspended") audioCtx.resume();
+    const now = audioCtx.currentTime;
+    const osc = audioCtx.createOscillator();
+    const gain = audioCtx.createGain();
+    osc.type = "sine";
+    osc.frequency.value = freq;
+    gain.gain.setValueAtTime(0.0001, now);
+    gain.gain.exponentialRampToValueAtTime(0.045, now + 0.02);
+    gain.gain.exponentialRampToValueAtTime(0.0001, now + ms / 1000);
+    osc.connect(gain);
+    gain.connect(audioCtx.destination);
+    osc.start(now);
+    osc.stop(now + ms / 1000 + 0.02);
+  } catch (err) {
+    /* sound is optional */
+  }
+}
+
+function blip(kind) {
+  if (kind === "done") {
+    playTone(523, 80, false);
+    window.setTimeout(() => playTone(784, 120, false), 90);
+    return;
+  }
+  playTone(kind === "test" ? 660 : 520, 90, kind === "test");
+}
+
 function confetti() {
-  if (window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+  blip("done");
+  if (motionMode() === "reduce") return;
   const layer = document.createElement("div");
   layer.className = "confetti";
   layer.setAttribute("aria-hidden", "true");
@@ -486,6 +679,7 @@ const LABS = {
       select("dr-media", "Media", [["proxy", "Via media processor"], ["bypass", "Bypass candidate, same site"]], "proxy") +
       select("dr-lic", "Teams Phone license", [["yes", "Assigned"], ["no", "Missing"]], "yes") +
       '<button class="primary" id="dr-run" type="button">Run the path</button></div>' +
+      '<div id="dr-ladder"></div>' +
       '<div id="dr-out" class="panel" aria-live="polite"></div>'
     );
   },
@@ -505,6 +699,17 @@ const LABS = {
       field("dp-num", "What the person dialed", "4255550100") +
       '<button class="primary" id="dp-run" type="button">Normalize</button></div>' +
       '<div id="dp-out" class="panel" aria-live="polite"></div>' +
+      "<h2>Regex sandbox</h2>" +
+      "<p>Edit a pattern and a translation. Capture groups light up on the dialed string. Punctuation is stripped the same way the tenant rules strip it.</p>" +
+      '<div class="controls">' +
+      field("rx-pat", "Pattern", "^(\\d{10})$") +
+      field("rx-tr", "Translation", "+1$1") +
+      field("rx-in", "Dialed", "4255550100") +
+      '<button class="primary" id="rx-run" type="button">Test pattern</button></div>' +
+      '<div class="row">' +
+      ["4255550100", "+442075554010", "911", "(425) 555-0100", "999"].map((sample) => '<button type="button" class="chip" data-sample="' + esc(sample) + '">' + esc(sample) + "</button>").join("") +
+      "</div>" +
+      '<div id="rx-out" class="panel" aria-live="polite"></div>' +
       "<h2>Rules, first match wins</h2>" + rulesTable(US_TENANT_RULES)
     );
   },
@@ -643,8 +848,13 @@ const LABS = {
       '<div id="qos-out" class="panel" aria-live="polite"></div>';
   },
   "e911-match": function () {
-    return field("e911-ip", "Client address", "10.20.4.15") +
-      '<button class="primary" id="e911-run" type="button">Look up</button><div id="e911-out" class="panel" aria-live="polite"></div>';
+    return '<div class="controls">' +
+      field("e911-ip", "Client address", "10.20.4.15") +
+      field("e911-bssid", "BSSID", "A1:B2:C3:D4:E5:10") +
+      '<button class="primary" id="e911-run" type="button">Look up</button></div>' +
+      '<div id="e911-board"></div>' +
+      '<div id="e911-out" class="panel" aria-live="polite"></div>' +
+      '<p class="tiny">Teaching topology. BSSID wins over subnet when both are present. A VPN pool is not a dispatchable civic address. Do not place a real emergency call from this lab.</p>';
   },
   "options-health": function () {
     return select("opt-miss", "Consecutive missed OPTIONS", [["0", "0"], ["1", "1"], ["2", "2"], ["3", "3"], ["4", "4"]], "0") +
@@ -754,22 +964,37 @@ function wireLabs(id) {
       const dialed = $("#dr-num").value;
       const policy = policyByKey($("#dr-pol").value);
       const rows = [];
-      if ($("#dr-lic").value === "no") {
-        rows.push(["Admin", "User", "Teams Phone license", "Stop. No PSTN."]);
+      const steps = [];
+      function push(from, to, title, detail, inspect, fail) {
+        rows.push([from, to, title, detail]);
+        steps.push({
+          from: from,
+          to: to,
+          title: title,
+          detail: detail,
+          inspect: inspect || (from + " -> " + to + "\n" + title + "\n" + detail),
+          fail: !!fail,
+        });
+      }
+      function finish() {
         $("#dr-out").innerHTML = ladder(rows);
+        mountSipLadder($("#dr-ladder"), steps);
+      }
+      if ($("#dr-lic").value === "no") {
+        push("Admin", "User", "Teams Phone license", "Stop. No PSTN.", "License check\nTeams Phone is not assigned.\nDirect Routing never starts.", true);
+        finish();
         return;
       }
-      rows.push(["Client", "Dial plan", "Normalize " + dialed, ""]);
       const norm = applyNormalization(dialed, US_TENANT_RULES);
-      rows[0][3] = norm.ok ? norm.output + " via " + norm.rule : norm.error;
+      push("Client", "Dial plan", "Normalize " + dialed, norm.ok ? norm.output + " via " + norm.rule : norm.error, "Dialed " + dialed + "\n" + (norm.ok ? "Rule: " + norm.rule + "\nE.164: " + norm.output : norm.error), !norm.ok);
       if (!norm.ok) {
-        $("#dr-out").innerHTML = ladder(rows);
+        finish();
         return;
       }
       const match = matchVoiceRoute(norm.output, policy);
-      rows.push(["Policy", "Route", policy.name, match.ok ? match.usage + " / " + match.route : "No route"]);
+      push("Policy", "Route", policy.name, match.ok ? match.usage + " / " + match.route : "No route", "Voice routing policy " + policy.name + "\n" + (match.ok ? match.usage + " / " + match.route : "No usage matched."), !match.ok);
       if (!match.ok) {
-        $("#dr-out").innerHTML = ladder(rows);
+        finish();
         return;
       }
       const primaryUp = $("#dr-sbc").value === "up";
@@ -777,33 +1002,46 @@ function wireLabs(id) {
       const gw = match.gateways[0];
       const alt = match.gateways[1];
       let target = gw ? gw.fqdn : "sbc";
-      if (!primaryUp) {
-        rows.push(["Teams", target, "SIP OPTIONS", "Miss"]);
-        if (backupUp && alt) {
-          target = alt.fqdn;
-          rows.push(["Teams", target, "Failover gateway", "Use priority 2"]);
-        } else if (backupUp && !alt) {
-          rows.push(["Teams", "sbc-man.contoso.example", "No second gateway on this route", "Call fails"]);
-          $("#dr-out").innerHTML = ladder(rows) + callRibbon();
-          return;
-        } else {
-          rows.push(["Teams", target, "Trunk", "Unavailable"]);
-          $("#dr-out").innerHTML = ladder(rows);
-          return;
-        }
-      }
+      push("Client", "Teams", "TLS ClientHello", "sip.pstnhub.microsoft.com:5061", "ClientHello\nTLS 1.2+\nSNI: sip.pstnhub.microsoft.com\nport: 5061");
       const cert = $("#dr-cert").value;
       const certMsg = { ok: "TLS up, SAN matches", name: "Fail. Name mismatch.", expired: "Fail. Expired.", private: "Fail. Private CA." }[cert];
-      rows.push(["SBC", "sip.pstnhub.microsoft.com:5061", "TLS handshake", certMsg]);
+      push("SBC", "Teams", "Certificate", certMsg, "Certificate\npaired FQDN must be in the SAN\npublic CA\n" + certMsg, cert !== "ok");
       if (cert !== "ok") {
-        $("#dr-out").innerHTML = ladder(rows);
+        finish();
         return;
       }
-      rows.push(["Proxy", target, "INVITE", "100 / 180 / 200"]);
-      rows.push(["SBC", "Carrier", "PSTN leg", "Connected"]);
+      if (!primaryUp) {
+        push("Teams", "SBC", "SIP OPTIONS", "Miss on " + target, "OPTIONS sip:" + target + " SIP/2.0\nno 200 OK\nmiss count rising", true);
+        if (backupUp && alt) {
+          target = alt.fqdn;
+          push("Teams", "SBC", "Failover gateway", "Use priority 2 " + target, "Route lists " + target + " at the next priority.\nOPTIONS expected 200 OK.");
+        } else if (backupUp && !alt) {
+          push("Teams", "SBC", "No second gateway", "Call fails", "This route has one gateway. Failover was selected and there is nowhere to send the INVITE.", true);
+          finish();
+          return;
+        } else {
+          push("Teams", "SBC", "Trunk", "Unavailable", "Primary missed OPTIONS and the backup is down.", true);
+          finish();
+          return;
+        }
+      } else {
+        push("Teams", "SBC", "SIP OPTIONS", "200 OK " + target, "OPTIONS sip:" + target + " SIP/2.0\nSIP/2.0 200 OK\ntrunk in service");
+      }
+      push("Teams", "SBC", "INVITE", "SDP offer toward " + target, "INVITE sip:" + norm.output + " SIP/2.0\nVia: SIP/2.0/TLS\nCall-ID: lab-" + norm.output.slice(-4) + "\nContent-Type: application/sdp");
+      push("SBC", "Teams", "100 Trying", "Transaction accepted", "SIP/2.0 100 Trying");
+      push("SBC", "Carrier", "PSTN leg", "180 Ringing then 200 OK", "180 Ringing\n200 OK\nACK completes the dialog");
       const bypass = $("#dr-media").value === "bypass";
-      rows.push(["Media", bypass ? "Client ↔ SBC" : "Client ↔ media processor ↔ SBC", bypass ? "Bypass candidate" : "Processor path", "SRTP"]);
-      $("#dr-out").innerHTML = ladder(rows) + callRibbon();
+      push(
+        bypass ? "Client" : "Teams",
+        "SBC",
+        bypass ? "ICE media bypass" : "Media processor",
+        bypass ? "RTP between client and SBC" : "RTP via the media processor",
+        bypass
+          ? "Media bypass candidate\nICE between the client and " + target + "\nSignaling still belongs to Teams\nSRTP"
+          : "Media processor path\nUDP 3478-3481 and 49152-53247\nSRTP\nSignaling stays on 5061"
+      );
+      push("Client", "SBC", "BYE", "Dialog ends", "BYE sip:" + target + " SIP/2.0\n200 OK");
+      finish();
     };
   }
   if (id === "route-match") {
@@ -825,6 +1063,18 @@ function wireLabs(id) {
         ? "<p>Rule " + (result.index + 1) + " <strong>" + esc(result.rule) + "</strong> produces <strong>" + esc(result.output) + "</strong>. Later rules are not tried.</p>"
         : "<p>" + esc(result.error) + "</p>";
     };
+    function runSandbox() {
+      noteRun("dial-plan");
+      const result = testRegexSandbox($("#rx-pat").value, $("#rx-tr").value, $("#rx-in").value);
+      $("#rx-out").innerHTML = result.html;
+    }
+    $("#rx-run").onclick = runSandbox;
+    $$("[data-sample]").forEach((button) => {
+      button.onclick = function () {
+        $("#rx-in").value = button.getAttribute("data-sample");
+        runSandbox();
+      };
+    });
   }
   if (id === "aa-cq") {
     $("#aa-run").onclick = function () {
@@ -1060,18 +1310,17 @@ function wireLabs(id) {
     draw();
   }
   if (id === "e911-match") {
-    const sites = [
-      { cidr: "10.20.4.0/24", site: "London HQ 4th floor", address: "1 Example Plaza, London", dispatchable: true },
-      { cidr: "10.30.0.0/16", site: "Manchester branch", address: "9 Sample Street, Manchester", dispatchable: true },
-      { cidr: "10.8.0.0/16", site: "VPN pool", address: "Unassigned", dispatchable: false },
-    ];
     $("#e911-run").onclick = function () {
       noteRun("e911-match");
-      const ip = $("#e911-ip").value.trim();
-      const hit = sites.find((site) => inCidr(ip, site.cidr));
-      $("#e911-out").innerHTML = hit
-        ? "<p><strong>" + esc(hit.site) + "</strong> · " + esc(hit.address) + "</p><p>" + (hit.dispatchable ? "Civic address is present in this teaching topology." : "VPN pool has no dispatchable address. Do not pretend the HQ address applies.") + "</p>"
-        : "<p>No subnet matched. Dynamic location would fall through. Fix the network site before you blame the SBC.</p>";
+      const found = lisLookup($("#e911-ip").value, $("#e911-bssid").value);
+      mountLisBoard($("#e911-board"), found && found.hit ? found : { hit: { bssid: "", site: "No match", address: "Unknown", method: "No dispatchable location", dispatchable: false }, via: "none" });
+      if (!found.hit) {
+        $("#e911-out").innerHTML = "<p>No BSSID and no subnet matched. Dynamic location would fall through. Fix the network site before you blame the SBC.</p>";
+        return;
+      }
+      const hit = found.hit;
+      $("#e911-out").innerHTML = "<p>Matched by <strong>" + esc(found.via) + "</strong> · " + esc(hit.site) + " · " + esc(hit.address) + "</p><p>" +
+        (hit.dispatchable ? "Civic address is present. Emergency signaling for this teaching site uses " + esc(hit.method) + "." : "VPN pool has no dispatchable address. Do not pretend the HQ address applies.") + "</p>";
     };
   }
   if (id === "options-health") {
@@ -1458,13 +1707,56 @@ function renderBoss(id) {
   if (!boss) return missing();
   window.__listen = boss.note;
   const best = state.boss && state.boss[id] ? state.boss[id] + "% best in this browser" : "No score saved yet";
-  return '<p class="kicker"><a href="#/boss">Boss exams</a></p><h1>' + esc(boss.code) + "</h1><p>" + esc(boss.note) + '</p><p class="tiny">' + best + '</p><button class="primary" id="boss-start" type="button">Start ' + boss.questions.length + ' questions</button><div id="boss-out"></div>';
+  const incident = boss.incident;
+  const incidentHtml = incident
+    ? '<section class="incident panel"><h2>' + esc(incident.title) + "</h2><p>" + esc(incident.brief) + '</p><h3>SBC and service log</h3><pre class="syslog">' + esc(incident.syslog) + '</pre><button class="primary" id="boss-incident" type="button">Work the incident</button><div id="incident-out" aria-live="polite"></div></section>'
+    : "";
+  return '<p class="kicker"><a href="#/boss">Boss exams</a></p><h1>' + esc(boss.code) + "</h1><p>" + esc(boss.note) + '</p><p class="tiny">' + best + "</p>" +
+    incidentHtml +
+    '<h2>Question bank</h2><button class="primary" id="boss-start" type="button">Start ' + boss.questions.length + ' questions</button><div id="boss-out"></div>';
+}
+
+function wireQuizRun(host, items, onDone) {
+  let index = 0;
+  let score = 0;
+  function draw() {
+    const item = items[index];
+    if (!item) {
+      onDone(score, items.length);
+      return;
+    }
+    host.innerHTML = "<p class=\"tiny\">" + (index + 1) + " / " + items.length + "</p><h2>" + esc(item.q) + "</h2>" +
+      item.choices.map((choice, choiceIndex) => '<button class="choice" type="button" data-i="' + choiceIndex + '">' + esc(choice) + "</button>").join("");
+    $$(".choice", host).forEach((button) => {
+      button.onclick = function () {
+        const chosen = Number(button.getAttribute("data-i"));
+        if (chosen === item.answer) score += 1;
+        $$(".choice", host).forEach((peer, peerIndex) => {
+          if (peerIndex === item.answer) peer.classList.add("right");
+          if (peerIndex === chosen && chosen !== item.answer) peer.classList.add("wrong");
+          peer.disabled = true;
+        });
+        host.insertAdjacentHTML("beforeend", "<div class=\"callout\">" + esc(item.explain) + "</div><button class=\"primary\" type=\"button\" data-next=\"1\">Next</button>");
+        host.querySelector("[data-next]").onclick = function () { index += 1; draw(); };
+      };
+    });
+  }
+  draw();
 }
 
 function wireBoss(id) {
   const boss = (DATA.bosses || []).find((item) => item.id === id);
   const start = $("#boss-start");
   if (!boss || !start) return;
+  const incidentButton = $("#boss-incident");
+  if (incidentButton && boss.incident) {
+    incidentButton.onclick = function () {
+      wireQuizRun($("#incident-out"), boss.incident.steps, function (score, total) {
+        const pct = Math.round((score / total) * 100);
+        $("#incident-out").innerHTML = "<p><strong>" + score + " / " + total + "</strong> incident steps · " + pct + "%. The question bank is the study gate.</p>";
+      });
+    };
+  }
   start.onclick = function () {
     let index = 0;
     let score = 0;
@@ -1499,11 +1791,136 @@ function wireBoss(id) {
   };
 }
 
-function render() {
+function renderSettings() {
+  window.__listen = "Settings for this browser. Theme, sound, narration, speed, motion, and type size stay on this device.";
+  const theme = activeTheme();
+  const themeButtons = THEMES.map((item) => '<button type="button" class="choice" data-theme-pick="' + item.id + '" aria-pressed="' + (theme === item.id) + '">' + esc(item.label) + "</button>").join("");
+  const font = FONTS.some((item) => item.id === state.font) ? state.font : "md";
+  const fontButtons = FONTS.map((item) => '<button type="button" class="choice" data-font-pick="' + item.id + '" aria-pressed="' + (font === item.id) + '">' + esc(item.label) + "</button>").join("");
+  const motion = state.reduceMotion === "reduce" || state.reduceMotion === "full" ? state.reduceMotion : "system";
+  return (
+    '<p class="kicker">This browser</p>' +
+    "<h1>Settings</h1>" +
+    '<p class="lede">Theme, sound, narration, motion, and type size stay in local storage on this device. Nothing is uploaded.</p>' +
+    '<div class="settings-grid">' +
+    '<fieldset class="setting"><legend>Theme</legend><div class="choice-row">' + themeButtons + "</div></fieldset>" +
+    '<fieldset class="setting"><legend>Sound effects</legend>' +
+    '<label class="row"><input id="set-sound" type="checkbox"' + (state.sound === false ? "" : " checked") + "> Play a short tone when you finish a lesson</label>" +
+    '<button class="ghost" id="set-sound-test" type="button">Play a tone</button></fieldset>' +
+    '<fieldset class="setting"><legend>Narration</legend>' +
+    '<label class="row"><input id="set-narration" type="checkbox"' + (state.narration === false ? "" : " checked") + "> Listen reads the page aloud</label>" +
+    '<label class="field">Voice<select id="set-voice" aria-label="Narration voice"><option value="">Waiting for voices</option></select></label>' +
+    '<p class="tiny" id="set-voice-note">Waiting for the browser to list voices.</p>' +
+    '<label class="field">Speed <span id="set-rate-val"></span><input id="set-rate" type="range" min="0.75" max="1.5" step="0.05" value="' + esc(state.rate || 1) + '" aria-label="Narration speed"></label>' +
+    '<button class="ghost" id="set-sample" type="button">Read a sample</button></fieldset>' +
+    '<fieldset class="setting"><legend>Motion</legend>' +
+    '<label class="field">Reduced motion<select id="set-motion" aria-label="Reduced motion">' +
+    '<option value="system"' + (motion === "system" ? " selected" : "") + ">Match this device</option>" +
+    '<option value="reduce"' + (motion === "reduce" ? " selected" : "") + ">Reduce motion</option>" +
+    '<option value="full"' + (motion === "full" ? " selected" : "") + ">Allow motion</option>" +
+    "</select></label></fieldset>" +
+    '<fieldset class="setting"><legend>Type size</legend><div class="choice-row">' + fontButtons + "</div></fieldset>" +
+    "</div>"
+  );
+}
+
+function renderTips(id) {
+  window.__listen = "Tips and traps for each track, plus a one-page cheat sheet.";
+  if (!id) {
+    const cards = DATA.tracks.map((track) => '<a class="card" href="#/tips/' + track.id + '"><p class="kicker">Track ' + esc(track.num) + "</p><h3>" + esc(track.title) + "</h3><p>Pro tips, interview traps, and a cheat sheet.</p></a>").join("");
+    return '<p class="kicker">Study layer</p><h1>Tips and tricks</h1><p class="lede">One sheet per track. Open a track when you want the traps, not every sheet at once.</p><div class="lab-grid">' + cards + "</div>";
+  }
+  const track = trackById(id);
+  if (!track || !tipPack(id)) return missing();
+  return '<p class="kicker"><a href="#/tips">Tips</a> · Track ' + esc(track.num) + "</p><h1>" + esc(track.title) + "</h1>" + tipsBlock(id);
+}
+
+function paintView(html) {
+  const view = $("#view");
+  view.innerHTML = html;
+  const heading = view.querySelector("h1");
+  const title = heading ? heading.textContent : "Microsoft Voice & Contact Center Lab";
+  const h1 = $("#view-title");
+  if (h1) h1.textContent = title;
+  document.title = title + " · Voice Lab";
+  view.querySelectorAll("h1").forEach((node) => node.remove());
+}
+
+function readRoute() {
   const hash = location.hash || "#/";
-  const parts = hash.replace(/^#\/?/, "").split("/").filter(Boolean);
+  const parts = hash.replace(/^#\/?/, "").split("/");
   const root = parts[0] || "home";
   const arg = parts[1] || "";
+  return { root: root, arg: arg };
+}
+
+function redirectHash(next) {
+  if ((location.hash || "#/") !== next) location.replace(next);
+}
+
+let renderGen = 0;
+async function render() {
+  const gen = ++renderGen;
+  clearLadders();
+  disposeTopology();
+  if (window.speechSynthesis) window.speechSynthesis.cancel();
+  speaking = false;
+  const listen = $("#listen");
+  if (listen) listen.textContent = state.narration === false ? "Narration off" : "Listen";
+  const route = readRoute();
+  const root = route.root;
+  const arg = route.arg;
+  const needsArg = { track: "#/track/t01", lesson: "#/", lab: "#/labs", scenario: "#/scenarios" };
+  if (Object.prototype.hasOwnProperty.call(needsArg, root) && !arg) {
+    redirectHash(needsArg[root]);
+    return;
+  }
+  const known = ["home", "track", "lesson", "labs", "lab", "quiz", "cards", "scenarios", "scenario", "glossary", "map", "charts", "faults", "audio", "boss", "exam", "sources", "powershell", "topology", "settings", "tips"];
+  if (known.indexOf(root) === -1) {
+    redirectHash("#/");
+    return;
+  }
+  if (root === "track" && !trackById(arg)) {
+    redirectHash("#/");
+    return;
+  }
+  if (root === "lesson" && !lessonStub(arg)) {
+    redirectHash("#/");
+    return;
+  }
+  if (root === "lab" && !DATA.labs.some((lab) => lab.id === arg)) {
+    redirectHash("#/labs");
+    return;
+  }
+  if (root === "scenario" && !DATA.scenarios.some((scene) => scene.id === arg)) {
+    redirectHash("#/scenarios");
+    return;
+  }
+  if (root === "tips" && arg && !tipPack(arg)) {
+    redirectHash("#/tips");
+    return;
+  }
+  paintView('<p class="loading">Loading this page.</p>');
+  try {
+    if (root === "lesson") {
+      const stub = lessonStub(arg);
+      await ensureTrack(stub.track);
+    }
+    if (root === "quiz") await ensureModule("quiz");
+    if (root === "cards") await ensureModule("cards");
+    if (root === "glossary") await ensureModule("glossary");
+    if (root === "charts") await ensureModule("charts");
+    if (root === "boss") await ensureModule("bosses");
+    if (root === "boss" && arg && !(DATA.bosses || []).some((boss) => boss.id === arg)) {
+      redirectHash("#/boss");
+      return;
+    }
+  } catch (err) {
+    if (gen !== renderGen) return;
+    paintView('<p class="callout bad">This page did not load. Open the campus once while you are online so the service worker can keep it.</p>');
+    return;
+  }
+  if (gen !== renderGen) return;
   let html = "";
   if (root === "home") html = renderHome();
   else if (root === "track") html = renderTrack(arg);
@@ -1522,13 +1939,40 @@ function render() {
   else if (root === "boss") html = arg ? renderBoss(arg) : renderBossList();
   else if (root === "exam") html = renderExamPage();
   else if (root === "sources") html = renderSources();
+  else if (root === "powershell") html = renderPowerShell();
+  else if (root === "topology") html = renderTopology();
+  else if (root === "settings") html = renderSettings();
+  else if (root === "tips") html = renderTips(arg);
   else html = missing();
-  $("#main").innerHTML = html;
+  paintView(html);
   $("#main").focus();
   wire(root, arg);
   paintNav(root, arg);
   const transcript = window.__listen || "Pick a lesson or a lab. Listen reads the short script for that page.";
   $("#transcript").textContent = transcript;
+}
+
+function renderPowerShell() {
+  window.__listen = "Teams PowerShell simulator. New-CsOnlineVoiceRoute, Set-CsTeamsCallingPolicy, and Get-CsOnlinePSTNGateway run against a browser tenant.";
+  return '<p class="kicker">Browser tenant</p><h1>Teams PowerShell</h1>' +
+    '<p class="lede">The cmdlets below change a simulated tenant in this tab. They do not sign in to Microsoft 365. Get-Command lists what this shell accepts. Confirm every parameter with Get-Help in the module you actually run.</p>' +
+    '<div id="ps-host"></div>';
+}
+
+function renderTopology() {
+  window.__listen = "Geo-redundant SBC mesh. London and Manchester pairs, three SIP proxies, and a survivable branch appliance. Orbit the scene and toggle a failure.";
+  return '<p class="kicker">Direct Routing</p><h1>SBC mesh</h1>' +
+    '<p class="lede">London and Manchester each have a gateway. Three Teams SIP proxies sit in front of them. The Survivable Branch Appliance is the path that remains when the Manchester WAN drops. This is a teaching model, drawn with Three.js in this browser.</p>' +
+    '<div class="topology-stage" id="topo-stage">' +
+    '<div class="gl-fallback" id="topo-fallback">' + callRibbon() + '<p>Reduced motion keeps this flat diagram. The mesh does not spin on its own.</p></div>' +
+    '<canvas id="topo-gl" hidden aria-label="Three.js topology of geo-redundant SBCs"></canvas>' +
+    '</div>' +
+    '<div class="scenario-bar">' +
+    '<label class="row"><input id="topo-lon" type="checkbox"> London primary down</label>' +
+    '<label class="row"><input id="topo-wan" type="checkbox"> Manchester WAN down</label>' +
+    '<label class="row"><input id="topo-cert" type="checkbox"> Certificate mismatch</label>' +
+    '</div>' +
+    '<p class="tiny">Failover only works when the voice route lists the next gateway. A certificate name mismatch stops TLS before OPTIONS matters. A WAN failure does not move signaling onto the SBA unless the client can reach the appliance.</p>';
 }
 
 function paintNav(root, arg) {
@@ -1538,11 +1982,19 @@ function paintNav(root, arg) {
     if (on) link.setAttribute("aria-current", "page");
     else link.removeAttribute("aria-current");
   });
+  $$(".bottom-nav a").forEach((link) => {
+    const tab = link.getAttribute("data-tab");
+    const on = tab === root || (tab === "home" && root === "home");
+    if (on) link.setAttribute("aria-current", "page");
+    else link.removeAttribute("aria-current");
+  });
 }
 
 function wire(root, arg) {
   const mark = $("#mark");
   if (mark && root === "lesson") {
+    const lesson = lessonById(arg);
+    if (lesson && lesson.flow && $("#flow-player")) mountFlowPlayer($("#flow-player"), lesson.flow);
     mark.onclick = function () {
       if (state.lessons.indexOf(arg) === -1) state.lessons.push(arg);
       markStudy();
@@ -1586,6 +2038,16 @@ function wire(root, arg) {
     paintFaults();
   }
   if (root === "boss" && arg) wireBoss(arg);
+  if (root === "settings") wireSettings();
+  if (root === "home") {
+    const orbit = $("#home-orbit");
+    if (orbit) {
+      orbit.onclick = function () { openMesh("home-gl", "home-fallback", "home"); };
+    }
+    bindScenario("home");
+  }
+  if (root === "powershell") mountPowerShell($("#ps-host"));
+  if (root === "topology") openMesh("topo-gl", "topo-fallback", "topo");
   if (root === "map") {
     $$("[data-href]").forEach((node) => {
       const go = () => { location.hash = node.getAttribute("data-href"); };
@@ -1600,6 +2062,8 @@ function navHtml() {
   const views = [
     ["#/", "Home"],
     ["#/labs", "Labs"],
+    ["#/powershell", "PowerShell"],
+    ["#/topology", "SBC mesh"],
     ["#/quiz", "Quiz"],
     ["#/cards", "Flashcards"],
     ["#/scenarios", "Scenarios"],
@@ -1610,6 +2074,8 @@ function navHtml() {
     ["#/audio", "Audio"],
     ["#/boss", "Boss exams"],
     ["#/exam", "Exam map"],
+    ["#/tips", "Tips and traps"],
+    ["#/settings", "Settings"],
     ["#/sources", "Sources"],
   ];
   return '<h2>Campus</h2>' + views.map((view) => '<a class="item" href="' + view[0] + '">' + esc(view[1]) + "</a>").join("") +
@@ -1631,9 +2097,11 @@ function closePalette() {
 function paintHits(query) {
   const q = query.toLowerCase();
   const hits = [];
-  DATA.lessons.forEach((lesson) => hits.push({ href: "#/lesson/" + lesson.id, title: lesson.title, kind: "Lesson" }));
+  const lessonHits = (DATA.lessonIndex && DATA.lessonIndex.length) ? DATA.lessonIndex : DATA.lessons;
+  lessonHits.forEach((lesson) => hits.push({ href: "#/lesson/" + lesson.id, title: lesson.title, kind: "Lesson" }));
   DATA.labs.forEach((lab) => hits.push({ href: "#/lab/" + lab.id, title: lab.title, kind: "Lab" }));
-  DATA.glossary.forEach((item) => hits.push({ href: "#/glossary", title: item.term, kind: "Term" }));
+  const termHits = (DATA.glossary && DATA.glossary.length) ? DATA.glossary : (DATA.termIndex || []);
+  termHits.forEach((item) => hits.push({ href: "#/glossary", title: item.term, kind: "Term" }));
   DATA.scenarios.forEach((scene) => hits.push({ href: "#/scenario/" + scene.id, title: scene.title, kind: "Scenario" }));
   const filtered = hits.filter((hit) => !q || (hit.title + hit.kind).toLowerCase().indexOf(q) !== -1).slice(0, 12);
   $("#hits").innerHTML = filtered.map((hit, index) => '<button type="button" data-href="' + hit.href + '" aria-selected="' + (index === 0 ? "true" : "false") + '"><strong>' + esc(hit.kind) + "</strong> · " + esc(hit.title) + "</button>").join("") || "<p>No matches.</p>";
@@ -1646,28 +2114,312 @@ function paintHits(query) {
 }
 
 let speaking = false;
-function toggleListen() {
+
+function voicesReady() {
+  const synth = window.speechSynthesis;
+  if (!synth) return Promise.resolve([]);
+  const existing = synth.getVoices();
+  if (existing && existing.length) return Promise.resolve(existing);
+  return new Promise((resolve) => {
+    let settled = false;
+    const finish = () => {
+      const list = synth.getVoices();
+      if (settled) return;
+      if (list && list.length) {
+        settled = true;
+        synth.removeEventListener("voiceschanged", finish);
+        resolve(list);
+      }
+    };
+    synth.addEventListener("voiceschanged", finish);
+    try { synth.getVoices(); } catch (err) { /* Safari loads voices later */ }
+    window.setTimeout(() => {
+      if (settled) return;
+      settled = true;
+      synth.removeEventListener("voiceschanged", finish);
+      resolve(synth.getVoices() || []);
+    }, 1200);
+  });
+}
+
+function isRoboticEdge(voice) {
+  const name = voice.name || "";
+  const uri = (voice.voiceURI || "") + " " + name;
+  if (/natural|neural|premium|enhanced|wavenet/i.test(uri)) return false;
+  if (/edge/i.test(voice.voiceURI || "") || /edge/i.test(name)) return true;
+  if (/microsoft/i.test(uri) && /david|zira|mark|hazel|susan|george|heera|ravi/i.test(name)) return true;
+  if (/microsoft/i.test(name) && !/online/i.test(name)) return true;
+  return false;
+}
+
+function voiceScore(voice) {
+  const name = voice.name || "";
+  const blob = name + " " + (voice.voiceURI || "");
+  let score = 0;
+  if (/^en/i.test(voice.lang || "")) score += 30;
+  if (/en[-_]US/i.test(voice.lang || "")) score += 12;
+  else if (/en[-_]GB/i.test(voice.lang || "")) score += 8;
+  if (/natural|neural|premium|enhanced|wavenet|studio/i.test(blob)) score += 60;
+  if (/google/i.test(name)) score += 25;
+  if (/samantha|daniel|karen|moira|tessa|serena|allison|ava|nicky|victoria/i.test(name)) score += 20;
+  if (isRoboticEdge(voice)) score -= 100;
+  return score;
+}
+
+function pickVoice(voices) {
+  if (state.voiceURI) {
+    const chosen = voices.find((voice) => voice.voiceURI === state.voiceURI || voice.name === state.voiceURI);
+    if (chosen) return chosen;
+  }
+  const ranked = voices.slice().sort((a, b) => voiceScore(b) - voiceScore(a));
+  const best = ranked[0];
+  if (!best || isRoboticEdge(best) || voiceScore(best) < 0) return null;
+  return best;
+}
+
+function listenLabel() {
+  return state.narration === false ? "Narration off" : "Listen";
+}
+
+async function toggleListen() {
   const text = $("#transcript").textContent || "";
-  if (!window.speechSynthesis) return;
+  const synth = window.speechSynthesis;
+  if (!synth) return;
+  if (state.narration === false) {
+    synth.cancel();
+    speaking = false;
+    $("#listen").textContent = "Narration off";
+    return;
+  }
   if (speaking) {
-    window.speechSynthesis.cancel();
+    synth.cancel();
     speaking = false;
     $("#listen").textContent = "Listen";
     return;
   }
+  const voices = await voicesReady();
+  if (speaking) return;
+  const voice = pickVoice(voices);
+  if (!voice) {
+    $("#listen").textContent = "Pick a voice";
+    return;
+  }
   const utterance = new SpeechSynthesisUtterance(text);
-  utterance.rate = Number($("#rate").value || 1);
-  utterance.onend = function () { speaking = false; $("#listen").textContent = "Listen"; };
+  utterance.rate = Number(state.rate || $("#rate").value || 1);
+  utterance.voice = voice;
+  utterance.onend = function () { speaking = false; $("#listen").textContent = listenLabel(); };
+  utterance.onerror = function () { speaking = false; $("#listen").textContent = listenLabel(); };
   speaking = true;
   $("#listen").textContent = "Stop";
-  window.speechSynthesis.cancel();
-  window.speechSynthesis.speak(utterance);
+  synth.cancel();
+  window.setTimeout(() => {
+    if (!speaking) return;
+    if (synth.paused) synth.resume();
+    synth.speak(utterance);
+  }, 60);
 }
 
-function boot() {
-  $("#nav").innerHTML = navHtml();
+let voiceWatch = null;
+
+function fillVoiceSelect(voices) {
+  const select = $("#set-voice");
+  const note = $("#set-voice-note");
+  if (!select || !note) return;
+  const saved = state.voiceURI;
+  const previous = state.voiceURI;
+  state.voiceURI = "";
+  const automatic = pickVoice(voices);
+  state.voiceURI = previous;
+  const options = ['<option value="">Automatic, natural voices only</option>'].concat(voices.map((voice) => {
+    const robotic = isRoboticEdge(voice);
+    const label = voice.name + " · " + (voice.lang || "") + (robotic ? " · robotic" : "");
+    return '<option value="' + esc(voice.voiceURI || voice.name) + '">' + esc(label) + "</option>";
+  }));
+  select.innerHTML = options.join("");
+  const match = saved && voices.some((voice) => voice.voiceURI === saved || voice.name === saved);
+  select.value = match ? saved : "";
+  if (!voices.length) {
+    note.textContent = "No voices yet. This page waits for voiceschanged, then fills the list.";
+  } else if (!automatic) {
+    note.textContent = "No natural voice is available, so Listen will not start on a robotic Microsoft Edge voice. Pick one in the list if you want that voice.";
+  } else {
+    note.textContent = "Automatic uses " + automatic.name + ". Robotic Microsoft Edge voices stay in the list and are never the default.";
+  }
+}
+
+function wireSettings() {
+  const gen = renderGen;
+  $$("[data-theme-pick]").forEach((button) => {
+    button.onclick = function () {
+      setTheme(button.getAttribute("data-theme-pick"));
+      render();
+    };
+  });
+  $$("[data-font-pick]").forEach((button) => {
+    button.onclick = function () {
+      state.font = button.getAttribute("data-font-pick");
+      save();
+      render();
+    };
+  });
+  const sound = $("#set-sound");
+  if (sound) {
+    sound.onchange = function () {
+      state.sound = sound.checked;
+      save();
+      if (state.sound) blip("ok");
+    };
+  }
+  const test = $("#set-sound-test");
+  if (test) {
+    test.onclick = function () {
+      if (state.sound === false) {
+        test.textContent = "Turn sound on first";
+        return;
+      }
+      test.textContent = "Play a tone";
+      playTone(660, 120, false);
+    };
+  }
+  const narration = $("#set-narration");
+  if (narration) {
+    narration.onchange = function () {
+      state.narration = narration.checked;
+      if (!state.narration && window.speechSynthesis) window.speechSynthesis.cancel();
+      speaking = false;
+      $("#listen").textContent = listenLabel();
+      save();
+    };
+  }
+  const motion = $("#set-motion");
+  if (motion) {
+    motion.onchange = function () {
+      state.reduceMotion = motion.value;
+      save();
+    };
+  }
+  const rate = $("#set-rate");
+  const rateVal = $("#set-rate-val");
+  const syncRate = function () {
+    if (rateVal && rate) rateVal.textContent = Number(rate.value).toFixed(2) + "×";
+  };
+  syncRate();
+  if (rate) {
+    rate.oninput = function () {
+      state.rate = Number(rate.value);
+      const dock = $("#rate");
+      if (dock) dock.value = String(state.rate);
+      save();
+      syncRate();
+    };
+  }
+  const sample = $("#set-sample");
+  if (sample) {
+    sample.onclick = async function () {
+      const synth = window.speechSynthesis;
+      if (!synth) return;
+      if (state.narration === false) {
+        const note = $("#set-voice-note");
+        if (note) note.textContent = "Turn narration on to read the sample.";
+        return;
+      }
+      const voices = await voicesReady();
+      if (gen !== renderGen) return;
+      const voice = pickVoice(voices);
+      if (!voice) {
+        const note = $("#set-voice-note");
+        if (note) note.textContent = "Pick a voice first. Automatic will not use a robotic Microsoft Edge voice.";
+        return;
+      }
+      synth.cancel();
+      const utterance = new SpeechSynthesisUtterance("Teams Phone is a license. A Calling Plan is a separate purchase.");
+      utterance.voice = voice;
+      utterance.rate = Number(state.rate || 1);
+      synth.speak(utterance);
+    };
+  }
+  const applyVoices = function (voices) {
+    if (gen !== renderGen) return;
+    fillVoiceSelect(voices || []);
+    const select = $("#set-voice");
+    if (!select || select.dataset.bound === "1") return;
+    select.dataset.bound = "1";
+    select.onchange = function () {
+      state.voiceURI = select.value;
+      save();
+      fillVoiceSelect(window.speechSynthesis ? window.speechSynthesis.getVoices() : []);
+    };
+  };
+  voicesReady().then(applyVoices);
+  if (voiceWatch && window.speechSynthesis) {
+    window.speechSynthesis.removeEventListener("voiceschanged", voiceWatch);
+  }
+  voiceWatch = function () {
+    if (gen !== renderGen) {
+      if (window.speechSynthesis) window.speechSynthesis.removeEventListener("voiceschanged", voiceWatch);
+      return;
+    }
+    applyVoices(window.speechSynthesis.getVoices());
+  };
+  if (window.speechSynthesis) window.speechSynthesis.addEventListener("voiceschanged", voiceWatch);
+}
+
+function scenarioState(prefix) {
+  return {
+    lonDown: !!($("#" + prefix + "-lon") && $("#" + prefix + "-lon").checked),
+    wanDown: !!($("#" + prefix + "-wan") && $("#" + prefix + "-wan").checked),
+    certFail: !!($("#" + prefix + "-cert") && $("#" + prefix + "-cert").checked),
+  };
+}
+
+function bindScenario(prefix) {
+  ["lon", "wan", "cert"].forEach((key) => {
+    const box = $("#" + prefix + "-" + key);
+    if (!box) return;
+    box.onchange = function () {
+      if (topoHandle) topoHandle.setScenario(scenarioState(prefix));
+    };
+  });
+}
+
+async function openMesh(canvasId, fallbackId, prefix) {
+  const canvas = document.getElementById(canvasId);
+  const fallback = document.getElementById(fallbackId);
+  if (!canvas) return;
+  const gen = renderGen;
+  const reduced = motionMode() === "reduce";
+  try {
+    const mod = await import("./studios/topology.js");
+    if (gen !== renderGen) return;
+    disposeTopology();
+    canvas.hidden = false;
+    if (fallback) fallback.hidden = true;
+    topoHandle = mod.mount(canvas);
+    topoHandle.setScenario(scenarioState(prefix));
+    if (reduced && fallback) {
+      const note = document.createElement("p");
+      note.className = "tiny";
+      note.textContent = "Reduced motion: the mesh stays still until you drag it.";
+      fallback.parentElement.appendChild(note);
+    }
+    bindScenario(prefix);
+  } catch (err) {
+    canvas.hidden = true;
+    if (fallback) fallback.hidden = false;
+  }
+}
+
+async function boot() {
   $("#menu").onclick = function () { $("#nav").classList.toggle("open"); };
-  $("#theme").onclick = cycleTheme;
+  const bottom = $("#bottom-menu");
+  if (bottom) bottom.onclick = function () { $("#nav").classList.toggle("open"); };
+  try {
+    await bootData();
+  } catch (err) {
+    paintView('<p class="callout bad">The campus manifest did not load. Use a local server or GitHub Pages, then the service worker can keep the files.</p>');
+    return;
+  }
+  $("#nav").innerHTML = navHtml();
   $("#search").onclick = openPalette;
   $("#palette").addEventListener("click", function (event) {
     if (event.target.id === "palette") closePalette();
@@ -1675,6 +2427,8 @@ function boot() {
   $("#q").addEventListener("input", function () { paintHits($("#q").value); });
   $("#listen").onclick = toggleListen;
   $("#rate").addEventListener("input", function () {
+    state.rate = Number($("#rate").value || 1);
+    save();
     if (window.speechSynthesis && speaking) {
       window.speechSynthesis.cancel();
       speaking = false;
@@ -1715,6 +2469,9 @@ function boot() {
   if (!state.theme) state.theme = initialTheme();
   paintChrome();
   render();
+  if ("serviceWorker" in navigator && location.protocol.indexOf("http") === 0) {
+    navigator.serviceWorker.register("sw.js").catch(function () { /* offline until the next visit */ });
+  }
 }
 
 document.addEventListener("DOMContentLoaded", boot);

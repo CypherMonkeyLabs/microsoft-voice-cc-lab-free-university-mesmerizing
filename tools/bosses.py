@@ -2,13 +2,15 @@
 
 from __future__ import annotations
 
+from boss_incidents import INCIDENTS
+
 
 def q(prompt: str, choices: list[str], answer: int, explain: str) -> dict:
     return {"q": prompt, "choices": choices, "answer": answer, "explain": explain}
 
 
 def build_bosses() -> list[dict]:
-    return [
+    rows = [
         {
             "id": "ms700",
             "code": "MS-700",
@@ -130,3 +132,6 @@ def build_bosses() -> list[dict]:
             ],
         },
     ]
+    for row in rows:
+        row["incident"] = INCIDENTS[row["id"]]
+    return rows
