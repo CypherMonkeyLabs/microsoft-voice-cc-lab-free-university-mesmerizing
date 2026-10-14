@@ -784,6 +784,7 @@ const DATA = {
   lessonIndex: [],
   termIndex: [],
   counts: {},
+  tips: {},
 };
 const STORE = "mvcc-lab-v1";
 const trackPacks = {};
@@ -818,6 +819,7 @@ async function bootData() {
   DATA.termIndex = manifest.termIndex || [];
   DATA.counts = manifest.counts || {};
   DATA.checked = manifest.checked || "";
+  DATA.tips = manifest.tips || {};
 }
 
 async function ensureTrack(trackId) {
@@ -880,6 +882,12 @@ function freshState() {
     quizTaken: 0,
     days: [],
     theme: "",
+    sound: true,
+    narration: true,
+    voiceURI: "",
+    rate: 1,
+    reduceMotion: "system",
+    font: "md",
     exam: {},
     achievements: [],
     sbcChecks: {},
@@ -996,30 +1004,56 @@ const ACH_COPY = {
   boss: "Boss exam — a certification sitting scored 80 percent or better.",
 };
 
-function paintChrome() {
-  const total = lessonTotal();
-  const pct = total ? Math.round((progressCount() / total) * 100) : 0;
-  $("#streak").textContent = "Streak " + streak();
-  $("#done").textContent = pct + "%";
-  $("#ach-count").textContent = computeAchievements().length + " badges";
-  document.documentElement.dataset.theme = state.theme || initialTheme();
-}
+const THEMES = [
+  { id: "light", label: "Light mica" },
+  { id: "dark", label: "Dark acrylic" },
+  { id: "hc", label: "High contrast" },
+  { id: "teams", label: "Teams purple" },
+];
+const FONTS = [
+  { id: "sm", label: "Small" },
+  { id: "md", label: "Medium" },
+  { id: "lg", label: "Large" },
+  { id: "xl", label: "Extra large" },
+];
 
 function initialTheme() {
   if (window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches) return "dark";
   return "light";
 }
 
+function activeTheme() {
+  const id = state.theme || initialTheme();
+  return THEMES.some((theme) => theme.id === id) ? id : initialTheme();
+}
+
+function motionMode() {
+  if (state.reduceMotion === "reduce") return "reduce";
+  if (state.reduceMotion === "full") return "full";
+  if (window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches) return "reduce";
+  return "full";
+}
+
+function paintChrome() {
+  const total = lessonTotal();
+  const pct = total ? Math.round((progressCount() / total) * 100) : 0;
+  $("#streak").textContent = "Streak " + streak();
+  $("#done").textContent = pct + "%";
+  $("#ach-count").textContent = computeAchievements().length + " badges";
+  const root = document.documentElement;
+  root.dataset.theme = activeTheme();
+  const font = FONTS.some((item) => item.id === state.font) ? state.font : "md";
+  root.dataset.font = font;
+  root.dataset.motion = motionMode();
+  const rate = $("#rate");
+  if (rate && document.activeElement !== rate) rate.value = String(state.rate || 1);
+  const listen = $("#listen");
+  if (listen && state.narration === false && !speaking) listen.textContent = "Narration off";
+}
+
 function setTheme(next) {
   state.theme = next;
   save();
-}
-
-function cycleTheme() {
-  const order = ["dark", "light", "hc"];
-  const current = state.theme || initialTheme();
-  const index = order.indexOf(current);
-  setTheme(order[(index + 1) % order.length]);
 }
 
 function flowSvg(steps, title) {
@@ -1128,6 +1162,7 @@ function renderHome() {
     '<a class="ghost" href="#/lab/dr-path">Trace a Direct Routing call</a>' +
     '<a class="ghost" href="#/powershell">Open the Teams shell</a>' +
     '<a class="ghost" href="#/topology">Open the SBC mesh</a>' +
+    '<a class="ghost" href="#/tips">Tips and traps</a>' +
     "</div>" +
     '<div class="grid stats">' + stats.map((item) => '<div class="stat"><b>' + item[0] + "</b><span>" + item[1] + "</span></div>").join("") + "</div>" +
     '<div class="hero-frame">' +
@@ -1192,6 +1227,7 @@ function renderTrack(id) {
     '<p class="tiny">' + done + " of " + lessons.length + " lessons marked in this browser. " + esc(track.outcome) + "</p>" +
     chartSvg(track.chart) +
     '<p class="tiny">' + esc(track.chart.note) + "</p>" +
+    tipsBlock(id) +
     '<div class="lesson-list">' +
     lessons.map((lesson, index) => {
       const on = state.lessons.indexOf(lesson.id) !== -1;
@@ -1201,6 +1237,26 @@ function renderTrack(id) {
     }).join("") +
     "</div>" +
     (labs.length ? "<h2>Labs on this track</h2><div class=\"lab-grid\">" + labs.map(labCard).join("") + "</div>" : "")
+  );
+}
+
+function tipPack(id) {
+  return (DATA.tips && DATA.tips[id]) || null;
+}
+
+function tipsBlock(id) {
+  const pack = tipPack(id);
+  if (!pack) return "";
+  const tips = (pack.tips || []).map((line) => "<li>" + esc(line) + "</li>").join("");
+  const traps = (pack.traps || []).map((line) => "<li>" + esc(line) + "</li>").join("");
+  return (
+    '<section class="panel tips">' +
+    "<h2>Tips and traps</h2>" +
+    "<h3>Pro tips</h3><ul>" + tips + "</ul>" +
+    "<h3>Interview traps</h3><ul>" + traps + "</ul>" +
+    "<h3>Cheat sheet</h3><pre class=\"sheet\">" + esc(pack.sheet || "") + "</pre>" +
+    '<p><a href="#/tips/' + esc(id) + '">Open this sheet</a></p>' +
+    "</section>"
   );
 }
 
@@ -1257,8 +1313,44 @@ function audioFor(trackId) {
   return '<figure class="panel audio-card"><figcaption><strong>' + esc(clip.title) + '.</strong> ' + esc(clip.blurb) + '</figcaption><audio controls preload="none" src="' + esc(clip.file) + '"></audio></figure>';
 }
 
+let audioCtx = null;
+
+function playTone(freq, ms, force) {
+  if (state.sound === false && !force) return;
+  const Ctx = window.AudioContext || window.webkitAudioContext;
+  if (!Ctx) return;
+  try {
+    if (!audioCtx) audioCtx = new Ctx();
+    if (audioCtx.state === "suspended") audioCtx.resume();
+    const now = audioCtx.currentTime;
+    const osc = audioCtx.createOscillator();
+    const gain = audioCtx.createGain();
+    osc.type = "sine";
+    osc.frequency.value = freq;
+    gain.gain.setValueAtTime(0.0001, now);
+    gain.gain.exponentialRampToValueAtTime(0.045, now + 0.02);
+    gain.gain.exponentialRampToValueAtTime(0.0001, now + ms / 1000);
+    osc.connect(gain);
+    gain.connect(audioCtx.destination);
+    osc.start(now);
+    osc.stop(now + ms / 1000 + 0.02);
+  } catch (err) {
+    /* sound is optional */
+  }
+}
+
+function blip(kind) {
+  if (kind === "done") {
+    playTone(523, 80, false);
+    window.setTimeout(() => playTone(784, 120, false), 90);
+    return;
+  }
+  playTone(kind === "test" ? 660 : 520, 90, kind === "test");
+}
+
 function confetti() {
-  if (window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+  blip("done");
+  if (motionMode() === "reduce") return;
   const layer = document.createElement("div");
   layer.className = "confetti";
   layer.setAttribute("aria-hidden", "true");
@@ -2462,6 +2554,50 @@ function wireBoss(id) {
   };
 }
 
+function renderSettings() {
+  window.__listen = "Settings for this browser. Theme, sound, narration, speed, motion, and type size stay on this device.";
+  const theme = activeTheme();
+  const themeButtons = THEMES.map((item) => '<button type="button" class="choice" data-theme-pick="' + item.id + '" aria-pressed="' + (theme === item.id) + '">' + esc(item.label) + "</button>").join("");
+  const font = FONTS.some((item) => item.id === state.font) ? state.font : "md";
+  const fontButtons = FONTS.map((item) => '<button type="button" class="choice" data-font-pick="' + item.id + '" aria-pressed="' + (font === item.id) + '">' + esc(item.label) + "</button>").join("");
+  const motion = state.reduceMotion === "reduce" || state.reduceMotion === "full" ? state.reduceMotion : "system";
+  return (
+    '<p class="kicker">This browser</p>' +
+    "<h1>Settings</h1>" +
+    '<p class="lede">Theme, sound, narration, motion, and type size stay in local storage on this device. Nothing is uploaded.</p>' +
+    '<div class="settings-grid">' +
+    '<fieldset class="setting"><legend>Theme</legend><div class="choice-row">' + themeButtons + "</div></fieldset>" +
+    '<fieldset class="setting"><legend>Sound effects</legend>' +
+    '<label class="row"><input id="set-sound" type="checkbox"' + (state.sound === false ? "" : " checked") + "> Play a short tone when you finish a lesson</label>" +
+    '<button class="ghost" id="set-sound-test" type="button">Play a tone</button></fieldset>' +
+    '<fieldset class="setting"><legend>Narration</legend>' +
+    '<label class="row"><input id="set-narration" type="checkbox"' + (state.narration === false ? "" : " checked") + "> Listen reads the page aloud</label>" +
+    '<label class="field">Voice<select id="set-voice" aria-label="Narration voice"><option value="">Waiting for voices</option></select></label>' +
+    '<p class="tiny" id="set-voice-note">Waiting for the browser to list voices.</p>' +
+    '<label class="field">Speed <span id="set-rate-val"></span><input id="set-rate" type="range" min="0.75" max="1.5" step="0.05" value="' + esc(state.rate || 1) + '" aria-label="Narration speed"></label>' +
+    '<button class="ghost" id="set-sample" type="button">Read a sample</button></fieldset>' +
+    '<fieldset class="setting"><legend>Motion</legend>' +
+    '<label class="field">Reduced motion<select id="set-motion" aria-label="Reduced motion">' +
+    '<option value="system"' + (motion === "system" ? " selected" : "") + ">Match this device</option>" +
+    '<option value="reduce"' + (motion === "reduce" ? " selected" : "") + ">Reduce motion</option>" +
+    '<option value="full"' + (motion === "full" ? " selected" : "") + ">Allow motion</option>" +
+    "</select></label></fieldset>" +
+    '<fieldset class="setting"><legend>Type size</legend><div class="choice-row">' + fontButtons + "</div></fieldset>" +
+    "</div>"
+  );
+}
+
+function renderTips(id) {
+  window.__listen = "Tips and traps for each track, plus a one-page cheat sheet.";
+  if (!id) {
+    const cards = DATA.tracks.map((track) => '<a class="card" href="#/tips/' + track.id + '"><p class="kicker">Track ' + esc(track.num) + "</p><h3>" + esc(track.title) + "</h3><p>Pro tips, interview traps, and a cheat sheet.</p></a>").join("");
+    return '<p class="kicker">Study layer</p><h1>Tips and tricks</h1><p class="lede">One sheet per track. Open a track when you want the traps, not every sheet at once.</p><div class="lab-grid">' + cards + "</div>";
+  }
+  const track = trackById(id);
+  if (!track || !tipPack(id)) return missing();
+  return '<p class="kicker"><a href="#/tips">Tips</a> · Track ' + esc(track.num) + "</p><h1>" + esc(track.title) + "</h1>" + tipsBlock(id);
+}
+
 function paintView(html) {
   const view = $("#view");
   view.innerHTML = html;
@@ -2493,7 +2629,7 @@ async function render() {
   if (window.speechSynthesis) window.speechSynthesis.cancel();
   speaking = false;
   const listen = $("#listen");
-  if (listen) listen.textContent = "Listen";
+  if (listen) listen.textContent = state.narration === false ? "Narration off" : "Listen";
   const route = readRoute();
   const root = route.root;
   const arg = route.arg;
@@ -2502,7 +2638,7 @@ async function render() {
     redirectHash(needsArg[root]);
     return;
   }
-  const known = ["home", "track", "lesson", "labs", "lab", "quiz", "cards", "scenarios", "scenario", "glossary", "map", "charts", "faults", "audio", "boss", "exam", "sources", "powershell", "topology"];
+  const known = ["home", "track", "lesson", "labs", "lab", "quiz", "cards", "scenarios", "scenario", "glossary", "map", "charts", "faults", "audio", "boss", "exam", "sources", "powershell", "topology", "settings", "tips"];
   if (known.indexOf(root) === -1) {
     redirectHash("#/");
     return;
@@ -2521,6 +2657,10 @@ async function render() {
   }
   if (root === "scenario" && !DATA.scenarios.some((scene) => scene.id === arg)) {
     redirectHash("#/scenarios");
+    return;
+  }
+  if (root === "tips" && arg && !tipPack(arg)) {
+    redirectHash("#/tips");
     return;
   }
   paintView('<p class="loading">Loading this page.</p>');
@@ -2564,6 +2704,8 @@ async function render() {
   else if (root === "sources") html = renderSources();
   else if (root === "powershell") html = renderPowerShell();
   else if (root === "topology") html = renderTopology();
+  else if (root === "settings") html = renderSettings();
+  else if (root === "tips") html = renderTips(arg);
   else html = missing();
   paintView(html);
   $("#main").focus();
@@ -2659,6 +2801,7 @@ function wire(root, arg) {
     paintFaults();
   }
   if (root === "boss" && arg) wireBoss(arg);
+  if (root === "settings") wireSettings();
   if (root === "home") {
     const orbit = $("#home-orbit");
     if (orbit) {
@@ -2694,6 +2837,8 @@ function navHtml() {
     ["#/audio", "Audio"],
     ["#/boss", "Boss exams"],
     ["#/exam", "Exam map"],
+    ["#/tips", "Tips and traps"],
+    ["#/settings", "Settings"],
     ["#/sources", "Sources"],
   ];
   return '<h2>Campus</h2>' + views.map((view) => '<a class="item" href="' + view[0] + '">' + esc(view[1]) + "</a>").join("") +
@@ -2760,17 +2905,55 @@ function voicesReady() {
   });
 }
 
+function isRoboticEdge(voice) {
+  const name = voice.name || "";
+  const uri = (voice.voiceURI || "") + " " + name;
+  if (/natural|neural|premium|enhanced|wavenet/i.test(uri)) return false;
+  if (/edge/i.test(voice.voiceURI || "") || /edge/i.test(name)) return true;
+  if (/microsoft/i.test(uri) && /david|zira|mark|hazel|susan|george|heera|ravi/i.test(name)) return true;
+  if (/microsoft/i.test(name) && !/online/i.test(name)) return true;
+  return false;
+}
+
+function voiceScore(voice) {
+  const name = voice.name || "";
+  const blob = name + " " + (voice.voiceURI || "");
+  let score = 0;
+  if (/^en/i.test(voice.lang || "")) score += 30;
+  if (/en[-_]US/i.test(voice.lang || "")) score += 12;
+  else if (/en[-_]GB/i.test(voice.lang || "")) score += 8;
+  if (/natural|neural|premium|enhanced|wavenet|studio/i.test(blob)) score += 60;
+  if (/google/i.test(name)) score += 25;
+  if (/samantha|daniel|karen|moira|tessa|serena|allison|ava|nicky|victoria/i.test(name)) score += 20;
+  if (isRoboticEdge(voice)) score -= 100;
+  return score;
+}
+
 function pickVoice(voices) {
-  return voices.find((voice) => /en[-_]US/i.test(voice.lang))
-    || voices.find((voice) => /^en/i.test(voice.lang))
-    || voices[0]
-    || null;
+  if (state.voiceURI) {
+    const chosen = voices.find((voice) => voice.voiceURI === state.voiceURI || voice.name === state.voiceURI);
+    if (chosen) return chosen;
+  }
+  const ranked = voices.slice().sort((a, b) => voiceScore(b) - voiceScore(a));
+  const best = ranked[0];
+  if (!best || isRoboticEdge(best) || voiceScore(best) < 0) return null;
+  return best;
+}
+
+function listenLabel() {
+  return state.narration === false ? "Narration off" : "Listen";
 }
 
 async function toggleListen() {
   const text = $("#transcript").textContent || "";
   const synth = window.speechSynthesis;
   if (!synth) return;
+  if (state.narration === false) {
+    synth.cancel();
+    speaking = false;
+    $("#listen").textContent = "Narration off";
+    return;
+  }
   if (speaking) {
     synth.cancel();
     speaking = false;
@@ -2779,12 +2962,16 @@ async function toggleListen() {
   }
   const voices = await voicesReady();
   if (speaking) return;
-  const utterance = new SpeechSynthesisUtterance(text);
-  utterance.rate = Number($("#rate").value || 1);
   const voice = pickVoice(voices);
-  if (voice) utterance.voice = voice;
-  utterance.onend = function () { speaking = false; $("#listen").textContent = "Listen"; };
-  utterance.onerror = function () { speaking = false; $("#listen").textContent = "Listen"; };
+  if (!voice) {
+    $("#listen").textContent = "Pick a voice";
+    return;
+  }
+  const utterance = new SpeechSynthesisUtterance(text);
+  utterance.rate = Number(state.rate || $("#rate").value || 1);
+  utterance.voice = voice;
+  utterance.onend = function () { speaking = false; $("#listen").textContent = listenLabel(); };
+  utterance.onerror = function () { speaking = false; $("#listen").textContent = listenLabel(); };
   speaking = true;
   $("#listen").textContent = "Stop";
   synth.cancel();
@@ -2793,6 +2980,151 @@ async function toggleListen() {
     if (synth.paused) synth.resume();
     synth.speak(utterance);
   }, 60);
+}
+
+let voiceWatch = null;
+
+function fillVoiceSelect(voices) {
+  const select = $("#set-voice");
+  const note = $("#set-voice-note");
+  if (!select || !note) return;
+  const saved = state.voiceURI;
+  const previous = state.voiceURI;
+  state.voiceURI = "";
+  const automatic = pickVoice(voices);
+  state.voiceURI = previous;
+  const options = ['<option value="">Automatic, natural voices only</option>'].concat(voices.map((voice) => {
+    const robotic = isRoboticEdge(voice);
+    const label = voice.name + " · " + (voice.lang || "") + (robotic ? " · robotic" : "");
+    return '<option value="' + esc(voice.voiceURI || voice.name) + '">' + esc(label) + "</option>";
+  }));
+  select.innerHTML = options.join("");
+  const match = saved && voices.some((voice) => voice.voiceURI === saved || voice.name === saved);
+  select.value = match ? saved : "";
+  if (!voices.length) {
+    note.textContent = "No voices yet. This page waits for voiceschanged, then fills the list.";
+  } else if (!automatic) {
+    note.textContent = "No natural voice is available, so Listen will not start on a robotic Microsoft Edge voice. Pick one in the list if you want that voice.";
+  } else {
+    note.textContent = "Automatic uses " + automatic.name + ". Robotic Microsoft Edge voices stay in the list and are never the default.";
+  }
+}
+
+function wireSettings() {
+  const gen = renderGen;
+  $$("[data-theme-pick]").forEach((button) => {
+    button.onclick = function () {
+      setTheme(button.getAttribute("data-theme-pick"));
+      render();
+    };
+  });
+  $$("[data-font-pick]").forEach((button) => {
+    button.onclick = function () {
+      state.font = button.getAttribute("data-font-pick");
+      save();
+      render();
+    };
+  });
+  const sound = $("#set-sound");
+  if (sound) {
+    sound.onchange = function () {
+      state.sound = sound.checked;
+      save();
+      if (state.sound) blip("ok");
+    };
+  }
+  const test = $("#set-sound-test");
+  if (test) {
+    test.onclick = function () {
+      if (state.sound === false) {
+        test.textContent = "Turn sound on first";
+        return;
+      }
+      test.textContent = "Play a tone";
+      playTone(660, 120, false);
+    };
+  }
+  const narration = $("#set-narration");
+  if (narration) {
+    narration.onchange = function () {
+      state.narration = narration.checked;
+      if (!state.narration && window.speechSynthesis) window.speechSynthesis.cancel();
+      speaking = false;
+      $("#listen").textContent = listenLabel();
+      save();
+    };
+  }
+  const motion = $("#set-motion");
+  if (motion) {
+    motion.onchange = function () {
+      state.reduceMotion = motion.value;
+      save();
+    };
+  }
+  const rate = $("#set-rate");
+  const rateVal = $("#set-rate-val");
+  const syncRate = function () {
+    if (rateVal && rate) rateVal.textContent = Number(rate.value).toFixed(2) + "×";
+  };
+  syncRate();
+  if (rate) {
+    rate.oninput = function () {
+      state.rate = Number(rate.value);
+      const dock = $("#rate");
+      if (dock) dock.value = String(state.rate);
+      save();
+      syncRate();
+    };
+  }
+  const sample = $("#set-sample");
+  if (sample) {
+    sample.onclick = async function () {
+      const synth = window.speechSynthesis;
+      if (!synth) return;
+      if (state.narration === false) {
+        const note = $("#set-voice-note");
+        if (note) note.textContent = "Turn narration on to read the sample.";
+        return;
+      }
+      const voices = await voicesReady();
+      if (gen !== renderGen) return;
+      const voice = pickVoice(voices);
+      if (!voice) {
+        const note = $("#set-voice-note");
+        if (note) note.textContent = "Pick a voice first. Automatic will not use a robotic Microsoft Edge voice.";
+        return;
+      }
+      synth.cancel();
+      const utterance = new SpeechSynthesisUtterance("Teams Phone is a license. A Calling Plan is a separate purchase.");
+      utterance.voice = voice;
+      utterance.rate = Number(state.rate || 1);
+      synth.speak(utterance);
+    };
+  }
+  const applyVoices = function (voices) {
+    if (gen !== renderGen) return;
+    fillVoiceSelect(voices || []);
+    const select = $("#set-voice");
+    if (!select || select.dataset.bound === "1") return;
+    select.dataset.bound = "1";
+    select.onchange = function () {
+      state.voiceURI = select.value;
+      save();
+      fillVoiceSelect(window.speechSynthesis ? window.speechSynthesis.getVoices() : []);
+    };
+  };
+  voicesReady().then(applyVoices);
+  if (voiceWatch && window.speechSynthesis) {
+    window.speechSynthesis.removeEventListener("voiceschanged", voiceWatch);
+  }
+  voiceWatch = function () {
+    if (gen !== renderGen) {
+      if (window.speechSynthesis) window.speechSynthesis.removeEventListener("voiceschanged", voiceWatch);
+      return;
+    }
+    applyVoices(window.speechSynthesis.getVoices());
+  };
+  if (window.speechSynthesis) window.speechSynthesis.addEventListener("voiceschanged", voiceWatch);
 }
 
 function scenarioState(prefix) {
@@ -2818,7 +3150,7 @@ async function openMesh(canvasId, fallbackId, prefix) {
   const fallback = document.getElementById(fallbackId);
   if (!canvas) return;
   const gen = renderGen;
-  const reduced = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const reduced = motionMode() === "reduce";
   try {
     const mod = await import("./studios/topology.js");
     if (gen !== renderGen) return;
@@ -2851,7 +3183,6 @@ async function boot() {
     return;
   }
   $("#nav").innerHTML = navHtml();
-  $("#theme").onclick = cycleTheme;
   $("#search").onclick = openPalette;
   $("#palette").addEventListener("click", function (event) {
     if (event.target.id === "palette") closePalette();
@@ -2859,6 +3190,8 @@ async function boot() {
   $("#q").addEventListener("input", function () { paintHits($("#q").value); });
   $("#listen").onclick = toggleListen;
   $("#rate").addEventListener("input", function () {
+    state.rate = Number($("#rate").value || 1);
+    save();
     if (window.speechSynthesis && speaking) {
       window.speechSynthesis.cancel();
       speaking = false;

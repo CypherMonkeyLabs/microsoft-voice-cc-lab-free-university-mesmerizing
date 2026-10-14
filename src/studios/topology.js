@@ -1,7 +1,12 @@
 import * as THREE from "three";
 import { OrbitControls } from "../vendor/OrbitControls.js";
 
-const REDUCED = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+function motionReduced() {
+  const mode = document.documentElement.dataset.motion;
+  if (mode === "reduce") return true;
+  if (mode === "full") return false;
+  return window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+}
 
 function makeLabel(text) {
   const canvas = document.createElement("canvas");
@@ -55,6 +60,7 @@ function linkMesh(start, end, color) {
 }
 
 export function mount(canvas) {
+  const reduced = motionReduced();
   const renderer = new THREE.WebGLRenderer({ canvas: canvas, antialias: true, alpha: true });
   renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 1.75));
   renderer.setClearColor(0x000000, 0);
@@ -63,7 +69,7 @@ export function mount(canvas) {
   const camera = new THREE.PerspectiveCamera(40, 1, 0.1, 80);
   camera.position.set(9.2, 6.4, 11.5);
   const controls = new OrbitControls(camera, canvas);
-  controls.enableDamping = !REDUCED;
+  controls.enableDamping = !reduced;
   controls.target.set(0.2, 0.4, 0);
   controls.maxDistance = 28;
   controls.minDistance = 4;
@@ -201,7 +207,7 @@ export function mount(canvas) {
 
   function renderFrame() {
     const time = clock.getElapsedTime();
-    if (!REDUCED) {
+    if (!reduced) {
       const path = scenario.lonDown
         ? ["lon", "sip", "lonb"]
         : scenario.wanDown
@@ -232,7 +238,7 @@ export function mount(canvas) {
   }
 
   apply();
-  if (REDUCED) {
+  if (reduced) {
     controls.addEventListener("change", renderFrame);
     renderFrame();
   } else {
@@ -245,7 +251,7 @@ export function mount(canvas) {
       if (typeof next.wanDown === "boolean") scenario.wanDown = next.wanDown;
       if (typeof next.certFail === "boolean") scenario.certFail = next.certFail;
       apply();
-      if (REDUCED) renderFrame();
+      if (reduced) renderFrame();
     },
     dispose() {
       running = false;

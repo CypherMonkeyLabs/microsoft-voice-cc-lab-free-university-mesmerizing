@@ -97,6 +97,13 @@ def main() -> None:
         fail(f"expected one h1 in the shell, found {html.lower().count('<h1')}")
     if "voiceschanged" not in js:
         fail("speech voices are not waited on")
+    if "isRoboticEdge" not in js:
+        fail("narration still defaults without an Edge check")
+    for theme_name in ('data-theme="dark"', 'data-theme="hc"', 'data-theme="teams"'):
+        if theme_name not in css:
+            fail(f"missing theme {theme_name}")
+    if "#/settings" not in js or "set-voice" not in js:
+        fail("settings panel missing")
     if '#/track/t01' not in js or "redirectHash" not in js:
         fail("hash router fallback missing")
     if "--cc-bg" not in css or "--cc-accent-4" not in css:
@@ -139,6 +146,13 @@ def main() -> None:
     glossary = data["glossary"]
     if len(tracks) < 17:
         fail(f"tracks {len(tracks)}")
+    tips = data.get("tips") or {}
+    if len(tips) < 17:
+        fail(f"tips {len(tips)}")
+    for track in tracks:
+        pack = tips.get(track["id"]) or {}
+        if len(pack.get("tips") or []) < 2 or len(pack.get("traps") or []) < 1 or not pack.get("sheet"):
+            fail(f"thin tips for {track['id']}")
     eco = next((track for track in tracks if track["id"] == "t17"), None)
     if not eco:
         fail("ecosystem track missing")

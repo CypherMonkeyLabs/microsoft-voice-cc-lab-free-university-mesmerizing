@@ -171,6 +171,45 @@ async def run() -> None:
                     )
                     print("  live:", live)
                 await shot(ws, OUT / name, width, height)
+            for theme_name, theme_id in (
+                ("theme-light.png", "light"),
+                ("theme-dark.png", "dark"),
+                ("theme-hc.png", "hc"),
+                ("theme-teams.png", "teams"),
+            ):
+                await evaluate(
+                    ws,
+                    "localStorage.setItem('mvcc-lab-v1', JSON.stringify(Object.assign(JSON.parse(localStorage.getItem('mvcc-lab-v1') || '{}'), {theme: '%s', font: 'md', reduceMotion: 'system'}))); 'ok'"
+                    % theme_id,
+                )
+                await cdp(ws, "Page.navigate", {"url": BASE + "?theme=" + theme_id + "#/"})
+                got = await evaluate(
+                    ws,
+                    "new Promise((resolve) => { const start = Date.now(); const tick = () => { const view = document.querySelector('#view'); const ready = view && view.childElementCount > 0 && !view.querySelector('.loading') && document.documentElement.dataset.theme === '%s'; if (ready) resolve(document.documentElement.dataset.theme); else if (Date.now()-start>8000) resolve(document.documentElement.dataset.theme || 'timeout'); else setTimeout(tick, 50); }; tick(); })"
+                    % theme_id,
+                )
+                print(theme_name, "theme:", got)
+                if got != theme_id:
+                    raise SystemExit(f"{theme_name} rendered {got}")
+                await evaluate(ws, "new Promise((r) => setTimeout(r, 300))")
+                await shot(ws, OUT / theme_name, 1440, 1100)
+            await evaluate(
+                ws,
+                "localStorage.setItem('mvcc-lab-v1', JSON.stringify(Object.assign(JSON.parse(localStorage.getItem('mvcc-lab-v1') || '{}'), {theme: 'light'}))); 'ok'",
+            )
+            await cdp(ws, "Page.navigate", {"url": BASE + "#/settings"})
+            await evaluate(
+                ws,
+                "new Promise((resolve) => { const start = Date.now(); const tick = () => { const view = document.querySelector('#set-voice'); if (view || Date.now()-start>8000) resolve(true); else setTimeout(tick, 50); }; tick(); })",
+            )
+            await evaluate(ws, "new Promise((r) => setTimeout(r, 500))")
+            await shot(ws, OUT / "settings.png", 1440, 1200)
+            await cdp(ws, "Page.navigate", {"url": BASE + "#/tips/t05"})
+            await evaluate(
+                ws,
+                "new Promise((resolve) => { const start = Date.now(); const tick = () => { const view = document.querySelector('.sheet'); if (view || Date.now()-start>8000) resolve(true); else setTimeout(tick, 50); }; tick(); })",
+            )
+            await shot(ws, OUT / "tips-pstn.png", 1440, 1200)
     finally:
         proc.terminate()
         try:

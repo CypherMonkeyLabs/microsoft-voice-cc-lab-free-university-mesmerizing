@@ -59,7 +59,7 @@ python3 scripts/verify_campus.py
 - **E911 discovery.** A client BSSID or subnet is matched to a teaching LIS record, a civic address, and the Direct Routing emergency hop.
 - **SBC mesh.** Three.js, vendored in `campus/vendor`, draws the London and Manchester gateway pair, the three SIP proxies, and the Survivable Branch Appliance. Orbit the scene and toggle a dead primary, a WAN cut, or a certificate mismatch. Reduced motion keeps a still frame.
 
-The skin uses campus-core tokens (`--cc-bg`, `--cc-surface`, `--cc-accent-1` through `--cc-accent-4`) with Aptos / Segoe UI fallbacks, acrylic panels, and icons drawn in the page.
+The skin uses campus-core tokens (`--cc-bg`, `--cc-surface`, `--cc-accent-1` through `--cc-accent-4`) with Aptos / Segoe UI fallbacks, acrylic panels, and icons drawn in the page. Settings, in the header, stores the theme (light mica, dark acrylic, high contrast, Teams purple), sound, narration, type size, and motion in this browser. Narration waits for `voiceschanged` and will not start on a robotic Microsoft Edge voice. Each track has pro tips, interview traps, and a cheat sheet under Tips and traps.
 
 ## Page weight
 
@@ -67,7 +67,7 @@ Checked 14 October 2026 against a local server.
 
 | | Before | After |
 |---|---|---|
-| First load | 4.91 MB in one HTML file | 442 KB: HTML 5 KB, CSS 23 KB, app script 138 KB, manifest 277 KB |
+| First load | 4.91 MB in one HTML file | 472 KB: HTML 5 KB, CSS 26 KB, app script 151 KB, manifest 290 KB |
 | Three.js | none | 671 KB, loaded only when the mesh opens |
 | DOM | one lesson stays on screen | Home 303 nodes, Direct Routing lesson 567 nodes |
 | Lighthouse mobile | not scored on the monolith | Performance 92, accessibility 100 |
@@ -148,3 +148,13 @@ The geo-redundant SBC mesh:
 Ecosystem mind map:
 
 ![Mind map](docs/assets/ecosystem-map.png)
+
+The same home page in each theme:
+
+![Light mica](docs/assets/theme-light.png)
+
+![Dark acrylic](docs/assets/theme-dark.png)
+
+![High contrast](docs/assets/theme-hc.png)
+
+![Teams purple](docs/assets/theme-teams.png)
