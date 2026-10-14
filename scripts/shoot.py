@@ -95,7 +95,13 @@ async def run() -> None:
             await cdp(ws, "Page.enable")
             await cdp(ws, "Runtime.enable")
             pages = [
-                ("home.png", BASE + "#/", 1440, 1280, None),
+                (
+                    "home.png",
+                    BASE + "#/",
+                    1440,
+                    1280,
+                    "document.querySelector('#home-orbit').click(); new Promise((r)=>setTimeout(r, 900))",
+                ),
                 ("home-mobile.png", BASE + "#/", 390, 844, None),
                 (
                     "lab-direct-routing.png",
@@ -132,12 +138,26 @@ async def run() -> None:
                     1200,
                     None,
                 ),
+                (
+                    "powershell.png",
+                    BASE + "#/powershell",
+                    1440,
+                    1000,
+                    "document.querySelector('#ps-in').value='Get-CsOnlinePSTNGateway'; document.querySelector('#ps-form').requestSubmit()",
+                ),
+                (
+                    "sbc-mesh.png",
+                    BASE + "#/topology",
+                    1440,
+                    1100,
+                    "new Promise((resolve)=>{ const start=Date.now(); const tick=()=>{ const canvas=document.querySelector('#topo-gl'); if(canvas && !canvas.hidden || Date.now()-start>2500) resolve(true); else setTimeout(tick, 50); }; tick(); })",
+                ),
             ]
             for name, url, width, height, action in pages:
                 await cdp(ws, "Page.navigate", {"url": url})
                 await evaluate(
                     ws,
-                    "new Promise((resolve) => { const start = Date.now(); const tick = () => { if (document.querySelector('h1') || Date.now()-start>4000) resolve(document.querySelector('h1') && document.querySelector('h1').textContent); else setTimeout(tick, 50); }; tick(); })",
+                    "new Promise((resolve) => { const start = Date.now(); const tick = () => { const view = document.querySelector('#view'); const ready = view && view.childElementCount > 0 && !view.querySelector('.loading'); if (ready || Date.now()-start>8000) resolve(document.querySelector('h1') && document.querySelector('h1').textContent); else setTimeout(tick, 50); }; tick(); })",
                 )
                 await evaluate(ws, "new Promise((r) => setTimeout(r, 400))")
                 title = await evaluate(ws, "document.querySelector('h1') && document.querySelector('h1').textContent")
