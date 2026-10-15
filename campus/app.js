@@ -1071,14 +1071,14 @@ function armLightbox() {
 }
 
 const I18N = {
-  en: { greet: "The call path, in light.", diagrams: "Diagrams", flows: "Flows", charts: "Charts", codes: "Cheat Codes", play: "Play", eco: "Ecosystem", downloads: "Downloads", careers: "Careers", regions: "Regions", codesShort: "Codes", enlarge: "Enlarge", listen: "Architect briefing", light: "Light", dark: "Dark" },
-  es: { greet: "La ruta de la llamada, en luz.", diagrams: "Diagramas", flows: "Flujos", charts: "Gráficos", codes: "Chuletas", play: "Jugar", eco: "Ecosistema", downloads: "Descargas", careers: "Carreras", regions: "Regiones", codesShort: "Chuletas", enlarge: "Ampliar", listen: "Charla de arquitectura", light: "Claro", dark: "Oscuro" },
-  hi: { greet: "कॉल का रास्ता, रोशनी में।", diagrams: "आरेख", flows: "प्रवाह", charts: "चार्ट", codes: "चीट कोड", play: "खेल", eco: "इकोसिस्टम", downloads: "डाउनलोड", careers: "करियर", regions: "क्षेत्र", codesShort: "कोड", enlarge: "बड़ा करें", listen: "आर्किटेक्ट वार्ता", light: "हल्का", dark: "गहरा" },
-  te: { greet: "కాల్ మార్గం, వెలుగులో.", diagrams: "రేఖాచిత్రాలు", flows: "ప్రవాహాలు", charts: "పటాలు", codes: "చీట్ కోడ్", play: "ఆట", eco: "వ్యవస్థ", downloads: "డౌన్‌లోడ్", careers: "వృత్తులు", regions: "ప్రాంతాలు", codesShort: "కోడ్", enlarge: "పెద్దది", listen: "వాస్తు సంభాషణ", light: "వెలుతురు", dark: "చీకటి" },
-  fr: { greet: "Le chemin de l'appel, en lumière.", diagrams: "Schémas", flows: "Flux", charts: "Graphiques", codes: "Antisèches", play: "Jouer", eco: "Écosystème", downloads: "Téléchargements", careers: "Carrières", regions: "Régions", codesShort: "Fiches", enlarge: "Agrandir", listen: "Brief architectes", light: "Clair", dark: "Sombre" },
-  de: { greet: "Der Anrufweg, in Licht.", diagrams: "Diagramme", flows: "Flüsse", charts: "Charts", codes: "Spickzettel", play: "Spielen", eco: "Ökosystem", downloads: "Downloads", careers: "Karriere", regions: "Regionen", codesShort: "Zettel", enlarge: "Vergrößern", listen: "Architektenbriefing", light: "Hell", dark: "Dunkel" },
-  ja: { greet: "通話経路を、光で。", diagrams: "図", flows: "フロー", charts: "チャート", codes: "チートシート", play: "練習", eco: "エコシステム", downloads: "ダウンロード", careers: "キャリア", regions: "地域", codesShort: "シート", enlarge: "拡大", listen: "設計者の対話", light: "ライト", dark: "ダーク" },
-  ar: { greet: "مسار المكالمة، في الضوء.", diagrams: "مخططات", flows: "تدفقات", charts: "رسوم", codes: "أوراق الغش", play: "تدريب", eco: "المنظومة", downloads: "تنزيلات", careers: "مسارات", regions: "مناطق", codesShort: "أوراق", enlarge: "تكبير", listen: "حوار المعماريين", light: "فاتح", dark: "داكن" },
+  en: { greet: "The call path, in light.", diagrams: "Diagrams", flows: "Flows", charts: "Charts", codes: "Cheat Codes", play: "Play", eco: "Ecosystem", downloads: "Downloads", careers: "Careers", regions: "Regions", codesShort: "Codes", enlarge: "Enlarge", listen: "Architect briefing", light: "Light", dark: "Dark", menu: "Menu", learn: "Learn", close: "Close", listenBar: "Listen", settings: "Settings" },
+  es: { greet: "La ruta de la llamada, en luz.", diagrams: "Diagramas", flows: "Flujos", charts: "Gráficos", codes: "Chuletas", play: "Jugar", eco: "Ecosistema", downloads: "Descargas", careers: "Carreras", regions: "Regiones", codesShort: "Chuletas", enlarge: "Ampliar", listen: "Charla de arquitectura", light: "Claro", dark: "Oscuro", menu: "Menú", learn: "Aprender", close: "Cerrar", listenBar: "Escuchar", settings: "Ajustes" },
+  hi: { greet: "कॉल का रास्ता, रोशनी में।", diagrams: "आरेख", flows: "प्रवाह", charts: "चार्ट", codes: "चीट कोड", play: "खेल", eco: "इकोसिस्टम", downloads: "डाउनलोड", careers: "करियर", regions: "क्षेत्र", codesShort: "कोड", enlarge: "बड़ा करें", listen: "आर्किटेक्ट वार्ता", light: "हल्का", dark: "गहरा", menu: "मेनू", learn: "सीखें", close: "बंद", listenBar: "सुनें", settings: "सेटिंग" },
+  te: { greet: "కాల్ మార్గం, వెలుగులో.", diagrams: "రేఖాచిత్రాలు", flows: "ప్రవాహాలు", charts: "పటాలు", codes: "చీట్ కోడ్", play: "ఆట", eco: "వ్యవస్థ", downloads: "డౌన్‌లోడ్", careers: "వృత్తులు", regions: "ప్రాంతాలు", codesShort: "కోడ్", enlarge: "పెద్దది", listen: "వాస్తు సంభాషణ", light: "వెలుతురు", dark: "చీకటి", menu: "మెను", learn: "నేర్చు", close: "మూసివేయి", listenBar: "వినండి", settings: "సెట్టింగ్" },
+  fr: { greet: "Le chemin de l'appel, en lumière.", diagrams: "Schémas", flows: "Flux", charts: "Graphiques", codes: "Antisèches", play: "Jouer", eco: "Écosystème", downloads: "Téléchargements", careers: "Carrières", regions: "Régions", codesShort: "Fiches", enlarge: "Agrandir", listen: "Brief architectes", light: "Clair", dark: "Sombre", menu: "Menu", learn: "Apprendre", close: "Fermer", listenBar: "Écouter", settings: "Réglages" },
+  de: { greet: "Der Anrufweg, in Licht.", diagrams: "Diagramme", flows: "Flüsse", charts: "Charts", codes: "Spickzettel", play: "Spielen", eco: "Ökosystem", downloads: "Downloads", careers: "Karriere", regions: "Regionen", codesShort: "Zettel", enlarge: "Vergrößern", listen: "Architektenbriefing", light: "Hell", dark: "Dunkel", menu: "Menü", learn: "Lernen", close: "Schließen", listenBar: "Hören", settings: "Einstellungen" },
+  ja: { greet: "通話経路を、光で。", diagrams: "図", flows: "フロー", charts: "チャート", codes: "チートシート", play: "練習", eco: "エコシステム", downloads: "ダウンロード", careers: "キャリア", regions: "地域", codesShort: "シート", enlarge: "拡大", listen: "設計者の対話", light: "ライト", dark: "ダーク", menu: "メニュー", learn: "学ぶ", close: "閉じる", listenBar: "聞く", settings: "設定" },
+  ar: { greet: "مسار المكالمة، في الضوء.", diagrams: "مخططات", flows: "تدفقات", charts: "رسوم", codes: "أوراق الغش", play: "تدريب", eco: "المنظومة", downloads: "تنزيلات", careers: "مسارات", regions: "مناطق", codesShort: "أوراق", enlarge: "تكبير", listen: "حوار المعماريين", light: "فاتح", dark: "داكن", menu: "القائمة", learn: "تعلّم", close: "إغلاق", listenBar: "استماع", settings: "الإعدادات" },
 };
 
 function applyI18n() {
@@ -1090,8 +1090,10 @@ function applyI18n() {
     const key = node.getAttribute("data-i18n");
     if (pack[key]) node.textContent = pack[key];
   });
-  const sel = $("#lang");
-  if (sel && sel.value !== lang) sel.value = lang;
+  ["#lang", "#lang-menu", "#set-lang"].forEach((id) => {
+    const sel = $(id);
+    if (sel && sel.value !== lang) sel.value = lang;
+  });
   const flip = $("#theme-flip");
   if (flip) flip.textContent = activeTheme() === "light" ? pack.dark : pack.light;
 }
@@ -2072,7 +2074,7 @@ function paintChrome() {
   const rate = $("#rate");
   if (rate && document.activeElement !== rate) rate.value = String(state.rate || 1);
   const listen = $("#listen");
-  if (listen && state.narration === false && !speaking) listen.textContent = "Narration off";
+  if (listen && state.narration === false && !speaking) setListenText("Narration off");
   if (heroHandle && heroHandle.setPalette) {
     try { heroHandle.setPalette(activeTheme()); } catch (err) { /* palette is visual */ }
   }
@@ -3794,6 +3796,7 @@ function renderSettings() {
     '<p class="lede">Theme, sound, narration, motion, and type size stay in local storage on this device. Nothing is uploaded.</p>' +
     '<div class="settings-grid">' +
     '<fieldset class="setting"><legend>Theme</legend><div class="choice-row">' + themeButtons + "</div></fieldset>" +
+    '<fieldset class="setting"><legend>Language</legend><label class="field">Headings ' + langOptions("set-lang") + "</label></fieldset>" +
     '<fieldset class="setting"><legend>Sound effects</legend>' +
     '<label class="row"><input id="set-sound" type="checkbox"' + (state.sound === false ? "" : " checked") + "> Play a short tone when you finish a lesson</label>" +
     '<button class="ghost" id="set-sound-test" type="button">Play a tone</button></fieldset>' +
@@ -3857,8 +3860,7 @@ async function render() {
   disposeIcons();
   if (window.speechSynthesis) window.speechSynthesis.cancel();
   speaking = false;
-  const listen = $("#listen");
-  if (listen) listen.textContent = state.narration === false ? "Narration off" : "Listen";
+  setListenText(state.narration === false ? "Narration off" : "Listen");
   const route = readRoute();
   const root = route.root;
   const arg = route.arg;
@@ -4002,7 +4004,9 @@ function paintNav(root, arg) {
   });
   $$(".bottom-nav a").forEach((link) => {
     const tab = link.getAttribute("data-tab");
-    const on = tab === root || (tab === "downloads" && root === "downloads") || (tab === "play" && (root === "play" || root === "game" || root === "sandbox" || root === "daily"));
+    let on = tab === root;
+    if (tab === "learn") on = root === "labs" || root === "lab" || root === "lesson" || root === "track" || root === "quiz" || root === "cards";
+    if (tab === "play") on = root === "play" || root === "game" || root === "sandbox" || root === "daily" || root === "explorer";
     if (on) link.setAttribute("aria-current", "page");
     else link.removeAttribute("aria-current");
   });
@@ -4095,8 +4099,28 @@ function wire(root, arg) {
   }
 }
 
+function langOptions(id) {
+  const current = state.lang || "en";
+  const rows = [
+    ["en", "English"],
+    ["es", "Español"],
+    ["hi", "हिन्दी"],
+    ["te", "తెలుగు"],
+    ["fr", "Français"],
+    ["de", "Deutsch"],
+    ["ja", "日本語"],
+    ["ar", "العربية"],
+  ];
+  return '<select id="' + id + '" aria-label="Language">' + rows.map((row) => '<option value="' + row[0] + '"' + (row[0] === current ? " selected" : "") + ">" + esc(row[1]) + "</option>").join("") + "</select>";
+}
+
 function navHtml() {
   const tracks = DATA.tracks.map((track) => '<a class="item" href="#/track/' + track.id + '"><span class="idx">' + esc(track.num) + '</span><span>' + esc(track.title) + "</span></a>").join("");
+  const themes = THEMES.map((theme) => '<button type="button" class="swatch" data-home-theme="' + theme.id + '" aria-pressed="' + (activeTheme() === theme.id ? "true" : "false") + '">' + esc(theme.label) + "</button>").join("");
+  const sheet = '<div class="sheet-bar"><p class="kicker">Menu</p><button type="button" class="ghost" id="nav-close" data-i18n="close">Close</button></div>' +
+    '<div class="sheet-prefs"><label class="field">Language ' + langOptions("lang-menu") + "</label>" +
+    '<p class="kicker">Theme</p><div class="choice-row menu-themes">' + themes + "</div>" +
+    '<button type="button" class="item" id="nav-search">Search</button></div>';
   const views = [
     ["#/", "Home"],
     ["#/diagrams", "Diagrams"],
@@ -4129,8 +4153,10 @@ function navHtml() {
     ["#/settings", "Settings"],
     ["#/sources", "Sources"],
   ];
-  return '<h2>Campus</h2>' + views.map((view) => '<a class="item" href="' + view[0] + '">' + esc(view[1]) + "</a>").join("") +
-    "<h2>Tracks</h2>" + tracks;
+  return sheet + '<h2>Campus</h2>' + views.map((view) => {
+    const i18n = view[0] === "#/settings" ? ' data-i18n="settings"' : "";
+    return '<a class="item" href="' + view[0] + '"' + i18n + ">" + esc(view[1]) + "</a>";
+  }).join("") + "<h2>Tracks</h2>" + tracks;
 }
 
 function openPalette() {
@@ -4236,6 +4262,13 @@ function listenLabel() {
   return state.narration === false ? "Narration off" : "Listen";
 }
 
+function setListenText(text) {
+  const dock = $("#listen");
+  const bar = $("#bottom-listen");
+  if (dock) dock.textContent = text;
+  if (bar) bar.textContent = text === "Stop" ? "Stop" : "Listen";
+}
+
 async function toggleListen() {
   const text = $("#transcript").textContent || "";
   const synth = window.speechSynthesis;
@@ -4243,29 +4276,29 @@ async function toggleListen() {
   if (state.narration === false) {
     synth.cancel();
     speaking = false;
-    $("#listen").textContent = "Narration off";
+    setListenText("Narration off");
     return;
   }
   if (speaking) {
     synth.cancel();
     speaking = false;
-    $("#listen").textContent = "Listen";
+    setListenText("Listen");
     return;
   }
   const voices = await voicesReady();
   if (speaking) return;
   const voice = pickVoice(voices);
   if (!voice) {
-    $("#listen").textContent = "Pick a voice";
+    setListenText("Pick a voice");
     return;
   }
   const utterance = new SpeechSynthesisUtterance(text);
   utterance.rate = Number(state.rate || $("#rate").value || 1);
   utterance.voice = voice;
-  utterance.onend = function () { speaking = false; $("#listen").textContent = listenLabel(); };
-  utterance.onerror = function () { speaking = false; $("#listen").textContent = listenLabel(); };
+  utterance.onend = function () { speaking = false; setListenText(listenLabel()); };
+  utterance.onerror = function () { speaking = false; setListenText(listenLabel()); };
   speaking = true;
-  $("#listen").textContent = "Stop";
+  setListenText("Stop");
   synth.cancel();
   window.setTimeout(() => {
     if (!speaking) return;
@@ -4342,8 +4375,17 @@ function wireSettings() {
       state.narration = narration.checked;
       if (!state.narration && window.speechSynthesis) window.speechSynthesis.cancel();
       speaking = false;
-      $("#listen").textContent = listenLabel();
+      setListenText(listenLabel());
       save();
+    };
+  }
+  const setLang = $("#set-lang");
+  if (setLang) {
+    setLang.value = state.lang || "en";
+    setLang.onchange = function () {
+      state.lang = setLang.value;
+      save();
+      render();
     };
   }
   const motion = $("#set-motion");
@@ -4513,10 +4555,121 @@ async function openMesh(canvasId, fallbackId, prefix) {
   }
 }
 
-async function boot() {
-  $("#menu").onclick = function () { $("#nav").classList.toggle("open"); };
+let menuPushed = false;
+
+function menuOpen() {
+  const nav = $("#nav");
+  return !!(nav && nav.classList.contains("open"));
+}
+
+function hideMenu() {
+  const nav = $("#nav");
+  if (!nav) return;
+  nav.classList.remove("open");
+  nav.removeAttribute("role");
+  nav.removeAttribute("aria-modal");
+  document.body.classList.remove("menu-open");
+  [$("#menu"), $("#bottom-menu")].forEach((button) => {
+    if (!button) return;
+    button.setAttribute("aria-expanded", "false");
+    button.removeAttribute("aria-current");
+  });
+}
+
+function showMenu() {
+  const nav = $("#nav");
+  if (!nav) return;
+  nav.classList.add("open");
+  nav.setAttribute("role", "dialog");
+  nav.setAttribute("aria-modal", "true");
+  document.body.classList.add("menu-open");
+  [$("#menu"), $("#bottom-menu")].forEach((button) => {
+    if (!button) return;
+    button.setAttribute("aria-expanded", "true");
+  });
   const bottom = $("#bottom-menu");
-  if (bottom) bottom.onclick = function () { $("#nav").classList.toggle("open"); };
+  if (bottom) bottom.setAttribute("aria-current", "page");
+  const close = $("#nav-close");
+  if (close) close.focus();
+}
+
+function openMenu() {
+  if (menuOpen()) return;
+  if (!menuPushed) {
+    history.pushState({ phoneMenu: 1 }, "");
+    menuPushed = true;
+  }
+  showMenu();
+}
+
+function requestCloseMenu() {
+  if (!menuOpen()) return;
+  if (menuPushed) history.back();
+  else hideMenu();
+}
+
+function bindLangSelect(select) {
+  if (!select || select.dataset.bound === "1") return;
+  select.dataset.bound = "1";
+  select.value = state.lang || "en";
+  select.onchange = function () {
+    state.lang = select.value;
+    save();
+    render();
+  };
+}
+
+function bindMenuChrome() {
+  bindLangSelect($("#lang-menu"));
+  $$("#nav [data-home-theme]").forEach((button) => {
+    if (button.dataset.bound === "1") return;
+    button.dataset.bound = "1";
+    button.onclick = function () {
+      setTheme(button.getAttribute("data-home-theme"));
+    };
+  });
+  const close = $("#nav-close");
+  if (close) close.onclick = requestCloseMenu;
+  const search = $("#nav-search");
+  if (search) {
+    search.onclick = function () {
+      if (menuPushed) {
+        menuPushed = false;
+        history.replaceState({}, "");
+      }
+      hideMenu();
+      openPalette();
+    };
+  }
+  const nav = $("#nav");
+  if (nav && nav.dataset.navBound !== "1") {
+    nav.dataset.navBound = "1";
+    nav.addEventListener("click", function (event) {
+      const link = event.target.closest("a");
+      if (!link || !nav.contains(link)) return;
+      if (menuPushed) {
+        menuPushed = false;
+        history.replaceState({}, "");
+      }
+      hideMenu();
+    });
+  }
+}
+
+async function boot() {
+  const toggleMenu = function () {
+    if (menuOpen()) requestCloseMenu();
+    else openMenu();
+  };
+  $("#menu").onclick = toggleMenu;
+  const bottom = $("#bottom-menu");
+  if (bottom) bottom.onclick = toggleMenu;
+  const barListen = $("#bottom-listen");
+  if (barListen) barListen.onclick = toggleListen;
+  window.addEventListener("popstate", function () {
+    menuPushed = false;
+    hideMenu();
+  });
   try {
     await bootData();
   } catch (err) {
@@ -4524,6 +4677,7 @@ async function boot() {
     return;
   }
   $("#nav").innerHTML = navHtml();
+  bindMenuChrome();
   $("#search").onclick = openPalette;
   $("#palette").addEventListener("click", function (event) {
     if (event.target.id === "palette") closePalette();
@@ -4550,7 +4704,29 @@ async function boot() {
       event.preventDefault();
       openPalette();
     }
-    if (event.key === "Escape") closePalette();
+    if (event.key === "Escape") {
+      if (menuOpen()) {
+        event.preventDefault();
+        requestCloseMenu();
+        const opener = $("#menu");
+        if (opener) opener.focus();
+        return;
+      }
+      closePalette();
+    }
+    if (event.key === "Tab" && menuOpen()) {
+      const focusable = $$("a, button, select, input", $("#nav")).filter((el) => !el.disabled && el.getClientRects().length);
+      if (!focusable.length) return;
+      const first = focusable[0];
+      const last = focusable[focusable.length - 1];
+      if (event.shiftKey && document.activeElement === first) {
+        event.preventDefault();
+        last.focus();
+      } else if (!event.shiftKey && document.activeElement === last) {
+        event.preventDefault();
+        first.focus();
+      }
+    }
     if (event.key === "[" || event.key === "]") {
       const hash = location.hash;
       const match = hash.match(/^#\/lesson\/(.+)$/);
@@ -4566,8 +4742,9 @@ async function boot() {
   window.addEventListener("hashchange", function () {
     if (window.speechSynthesis) window.speechSynthesis.cancel();
     speaking = false;
-    $("#listen").textContent = "Listen";
-    $("#nav").classList.remove("open");
+    setListenText("Listen");
+    menuPushed = false;
+    hideMenu();
     render();
   });
   if (!state.theme) state.theme = initialTheme();

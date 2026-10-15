@@ -181,8 +181,33 @@ function bindParallax() {
   });
 }
 
+function revealOnScroll() {
+  const reduce = document.documentElement.dataset.motion === "reduce";
+  const nodes = document.querySelectorAll(".card, .atlas-card, .chart-panel, .track-tile");
+  nodes.forEach((node) => {
+    node.classList.add("reveal");
+    const rect = node.getBoundingClientRect();
+    if (reduce || rect.top < window.innerHeight * 0.96 && rect.bottom > 0) node.classList.add("is-in");
+  });
+  if (reduce || !("IntersectionObserver" in window)) {
+    nodes.forEach((node) => node.classList.add("is-in"));
+    return;
+  }
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      if (!entry.isIntersecting) return;
+      entry.target.classList.add("is-in");
+      observer.unobserve(entry.target);
+    });
+  }, { threshold: 0.12 });
+  nodes.forEach((node) => {
+    if (!node.classList.contains("is-in")) observer.observe(node);
+  });
+}
+
 function armVisuals(root) {
   const reduce = document.documentElement.dataset.motion === "reduce";
+  revealOnScroll();
   ensureConfetti().catch(function () { /* canvas-confetti stays optional */ });
   if (!reduce) {
     try { countUp(); } catch (err) { /* counters already show the final number until anime starts */ }

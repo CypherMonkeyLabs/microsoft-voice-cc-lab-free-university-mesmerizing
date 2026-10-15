@@ -101,7 +101,7 @@ export function mount(canvas, themeId) {
   const reduced = motionReduced();
   const narrow = (canvas.parentElement && canvas.parentElement.clientWidth < 800);
   const renderer = new THREE.WebGLRenderer({ canvas: canvas, antialias: true, alpha: false, powerPreference: "high-performance" });
-  renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, narrow ? 1 : 1.25));
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
   renderer.toneMapping = THREE.NoToneMapping;
   if (THREE.SRGBColorSpace) renderer.outputColorSpace = THREE.SRGBColorSpace;
   const scene = new THREE.Scene();
@@ -297,6 +297,8 @@ export function mount(canvas, themeId) {
   let mx = 0;
   let my = 0;
   let stopped = false;
+  let paused = false;
+  let onScreen = true;
   let raf = 0;
   const clock = new THREE.Clock();
   const voiceNames = ["Teams", "SIP proxy", "SBC", "Carrier"];
@@ -350,12 +352,38 @@ export function mount(canvas, themeId) {
     }
   }
 
+  function halt() {
+    paused = true;
+    if (raf) window.cancelAnimationFrame(raf);
+    raf = 0;
+  }
+
+  function resume() {
+    if (stopped || reduced || document.hidden || !onScreen) return;
+    if (raf) return;
+    paused = false;
+    loop();
+  }
+
   function loop() {
-    if (stopped) return;
+    if (stopped || paused) return;
     update();
     renderScene();
     raf = window.requestAnimationFrame(loop);
   }
+
+  function onVisibility() {
+    if (document.hidden) halt();
+    else resume();
+  }
+
+  const seen = new IntersectionObserver((entries) => {
+    onScreen = entries.some((entry) => entry.isIntersecting);
+    if (onScreen) resume();
+    else halt();
+  });
+  seen.observe(canvas);
+  document.addEventListener("visibilitychange", onVisibility);
 
   function onMove(event) {
     const width = window.innerWidth || 1;
@@ -383,16 +411,18 @@ export function mount(canvas, themeId) {
     update();
     renderScene();
   } else {
-    loop();
+    resume();
   }
 
   return {
     setPalette: applyPalette,
     dispose: function dispose() {
       stopped = true;
-      if (raf) window.cancelAnimationFrame(raf);
+      halt();
       window.removeEventListener("pointermove", onMove);
+      document.removeEventListener("visibilitychange", onVisibility);
       observer.disconnect();
+      seen.disconnect();
       scene.traverse((obj) => {
         if (obj.geometry && obj.geometry.dispose) obj.geometry.dispose();
         if (obj.material) {
