@@ -283,8 +283,9 @@ try {{
 <header class="top">
   <div class="link-rail">
   <div class="top-row">
-  <button class="icon-btn menu-btn" id="menu" type="button" aria-label="Open the track menu">
+  <button class="icon-btn menu-btn" id="menu" type="button" aria-label="Open the menu" aria-expanded="false" aria-controls="nav" aria-haspopup="dialog">
     <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"></path></svg>
+    <span class="menu-label" data-i18n="menu">Menu</span>
   </button>
   <a class="brand" href="#/">
     <svg class="monkey mini" data-look="0" viewBox="0 0 64 72" aria-hidden="true">
@@ -361,12 +362,12 @@ try {{
     <div id="view"><p class="loading">Opening the campus.</p></div>
   </main>
 </div>
-<nav class="bottom-nav" aria-label="Mobile">
+<nav class="bottom-nav" aria-label="Quick">
+  <a href="#/labs" data-tab="learn" data-i18n="learn">Learn</a>
   <a href="#/diagrams" data-tab="diagrams" data-i18n="diagrams">Diagrams</a>
-  <a href="#/flows" data-tab="flows" data-i18n="flows">Flows</a>
-  <a href="#/charts" data-tab="charts" data-i18n="charts">Charts</a>
-  <a href="#/downloads" data-tab="downloads" data-i18n="codesShort">Codes</a>
   <a href="#/play" data-tab="play" data-i18n="play">Play</a>
+  <button type="button" id="bottom-menu" data-tab="menu" aria-expanded="false" aria-controls="nav" data-i18n="menu">Menu</button>
+  <button type="button" id="bottom-listen" data-tab="listen" data-i18n="listenBar">Listen</button>
 </nav>
 <div class="dock" role="region" aria-label="Section audio">
   <button id="listen" type="button">Listen</button>
@@ -399,7 +400,7 @@ try {{
   </svg>
   <p class="sig">CypherMonkey · Microsoft Voice &amp; Contact Center Lab</p>
   <p>Independent educational project, not affiliated with or endorsed by any vendor. Trademarks belong to their owners. MIT code, CC BY-NC-SA content.</p>
-  <p><a href="https://cyphermonkeylabs.com/#contact">Report a concern</a> · <a href="https://cyphermonkeylabs.com/#contact">Work with us</a></p>
+  <p><a href="https://github.com/cipher0x9/microsoft-voice-cc-lab-free-university-mesmerizing/issues">Rate, comment, help</a> · <a href="https://cyphermonkeylabs.com/#contact">Report a concern</a> · <a href="https://cyphermonkeylabs.com/#contact">Work with us</a></p>
   <nav class="next-labs" aria-label="Other labs">
     <a href="https://cipher0x9.github.io/uc-lab-free-university-mesmerizing/">UC Lab</a>
     <a href="https://cipher0x9.github.io/webex-lab-free-university-mesmerizing/">Webex</a>

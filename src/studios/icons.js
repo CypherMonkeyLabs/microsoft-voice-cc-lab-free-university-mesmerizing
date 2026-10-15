@@ -121,6 +121,7 @@ export function mount(root) {
   gl.width = 160;
   gl.height = 150;
   const renderer = new THREE.WebGLRenderer({ canvas: gl, antialias: true, alpha: true, preserveDrawingBuffer: true });
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
   renderer.setSize(160, 150, false);
   renderer.setClearColor(0x000000, 0);
   const scene = new THREE.Scene();
@@ -140,6 +141,7 @@ export function mount(root) {
     jobs.push({ canvas: canvas, ctx: canvas.getContext("2d"), group: group, id: id });
   });
   let stopped = false;
+  let paused = false;
   let raf = 0;
   const clock = new THREE.Clock();
 
@@ -154,6 +156,33 @@ export function mount(root) {
     });
   }
 
+  function visibleJob(job) {
+    const rect = job.canvas.getBoundingClientRect();
+    return rect.width > 0 && rect.bottom > -20 && rect.top < window.innerHeight + 20;
+  }
+
+  function shouldRun() {
+    return !stopped && !reduced && !paused && !document.hidden && jobs.some(visibleJob);
+  }
+
+  function halt() {
+    paused = true;
+    if (raf) window.cancelAnimationFrame(raf);
+    raf = 0;
+  }
+
+  function poke() {
+    if (stopped || reduced || document.hidden || !jobs.some(visibleJob)) return;
+    if (raf) return;
+    paused = false;
+    frame();
+  }
+
+  function onVisibility() {
+    if (document.hidden) halt();
+    else poke();
+  }
+
   function frame() {
     if (stopped) return;
     const mark = document.documentElement.dataset.theme || "";
@@ -163,11 +192,11 @@ export function mount(root) {
       recolor(tint);
     }
     const t = clock.getElapsedTime();
-    const visible = [];
-    jobs.forEach((job) => {
-      const rect = job.canvas.getBoundingClientRect();
-      if (rect.width > 0 && rect.bottom > -20 && rect.top < window.innerHeight + 20) visible.push(job);
-    });
+    const visible = jobs.filter(visibleJob);
+    if (!reduced && (document.hidden || !visible.length)) {
+      halt();
+      return;
+    }
     const draw = reduced ? jobs : visible;
     draw.forEach((job) => {
       const spin = (job.id.charCodeAt(2) || 1) * 0.04;
@@ -181,14 +210,18 @@ export function mount(root) {
       }
       scene.remove(job.group);
     });
-    if (!reduced) raf = window.requestAnimationFrame(frame);
+    if (!reduced && shouldRun()) raf = window.requestAnimationFrame(frame);
   }
 
+  document.addEventListener("visibilitychange", onVisibility);
+  window.addEventListener("scroll", poke, { passive: true });
   frame();
   return {
     dispose: function dispose() {
       stopped = true;
-      if (raf) window.cancelAnimationFrame(raf);
+      halt();
+      document.removeEventListener("visibilitychange", onVisibility);
+      window.removeEventListener("scroll", poke);
       jobs.forEach((job) => {
         job.group.traverse((obj) => {
           if (obj.geometry && obj.geometry.dispose) obj.geometry.dispose();

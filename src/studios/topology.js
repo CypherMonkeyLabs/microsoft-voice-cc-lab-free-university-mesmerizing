@@ -62,7 +62,7 @@ function linkMesh(start, end, color) {
 export function mount(canvas) {
   const reduced = motionReduced();
   const renderer = new THREE.WebGLRenderer({ canvas: canvas, antialias: true, alpha: true });
-  renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 1.75));
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
   renderer.setClearColor(0x000000, 0);
   const scene = new THREE.Scene();
   scene.fog = new THREE.FogExp2(0x0b1120, 0.045);
@@ -203,6 +203,8 @@ export function mount(canvas) {
 
   let frame = 0;
   let running = true;
+  let paused = false;
+  let onScreen = true;
   const clock = new THREE.Clock();
 
   function renderFrame() {
@@ -231,18 +233,44 @@ export function mount(canvas) {
     renderer.render(scene, camera);
   }
 
+  function halt() {
+    paused = true;
+    if (frame) cancelAnimationFrame(frame);
+    frame = 0;
+  }
+
+  function resume() {
+    if (!running || reduced || document.hidden || !onScreen) return;
+    if (frame) return;
+    paused = false;
+    loop();
+  }
+
   function loop() {
-    if (!running) return;
+    if (!running || paused) return;
     frame = requestAnimationFrame(loop);
     renderFrame();
   }
+
+  function onVisibility() {
+    if (document.hidden) halt();
+    else resume();
+  }
+
+  const seen = new IntersectionObserver((entries) => {
+    onScreen = entries.some((entry) => entry.isIntersecting);
+    if (onScreen) resume();
+    else halt();
+  });
+  seen.observe(canvas);
+  document.addEventListener("visibilitychange", onVisibility);
 
   apply();
   if (reduced) {
     controls.addEventListener("change", renderFrame);
     renderFrame();
   } else {
-    loop();
+    resume();
   }
 
   return {
@@ -255,7 +283,9 @@ export function mount(canvas) {
     },
     dispose() {
       running = false;
-      cancelAnimationFrame(frame);
+      halt();
+      document.removeEventListener("visibilitychange", onVisibility);
+      seen.disconnect();
       observer.disconnect();
       controls.dispose();
       scene.traverse((obj) => {
