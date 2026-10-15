@@ -1,0 +1,66 @@
+%PDF-1.4
+1 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica >>
+endobj
+2 0 obj
+<< /Length 1456 >>
+stream
+BT
+/F1 11 Tf
+50 780 Td
+14 TL
+(13 Dynamics contact center) Tj
+T* () Tj
+T* (13 Dynamics contact center) Tj
+T* () Tj
+T* (Pro tips) Tj
+T* (? Dynamics 365 Contact Center is the CCaaS product. AB-250 is the exam that matches it.) Tj
+T* (? AB-210 is the sales successor to MB-280 and is in beta. It does not replace MS-700, and it) Tj
+T* (is not the contact-center exam.) Tj
+T* (? Unified routing uses workstreams, queues, and capacity. A Teams call queue is a different) Tj
+T* (product.) Tj
+T* () Tj
+T* (Interview traps) Tj
+T* (? Studying AB-210 because the title says AI when the job is the contact center.) Tj
+T* (? Describing a Teams call queue as unified routing.) Tj
+T* () Tj
+T* (Cheat sheet) Tj
+T* (AB-250 contact center, published ranges) Tj
+T* (  Deploy            15?20%) Tj
+T* (  Channels          30?35%) Tj
+T* (  Agents and AI     10?15%) Tj
+T* (  Work distribution 10?15%) Tj
+T* (  Rep experience    15?20%) Tj
+T* (  Analytics         10?15%) Tj
+T* (Workstream -> queue -> capacity -> representative) Tj
+T* () Tj
+T* (Facts in the long lessons were checked 14 October 2026. This sheet is a memory aid.) Tj
+T* () Tj
+T* (CypherMonkey ? cyphermonkeylabs.com ? linktr.ee/cyphermonkey ?) Tj
+T* (https://github.com/cipher0x9/microsoft-voice-cc-lab-free-university-mesmerizing ?) Tj
+T* (Independent educational project, not affiliated with or endorsed by any vendor. Trademarks) Tj
+T* (belong to their owners. MIT code, CC BY-NC-SA content. No email.) Tj
+ET
+endstream
+endobj
+3 0 obj
+<< /Type /Page /Parent 4 0 R /MediaBox [0 0 612 792] /Contents 2 0 R /Resources << /Font << /F1 1 0 R >> >> >>
+endobj
+4 0 obj
+<< /Type /Pages /Count 1 /Kids [3 0 R] >>
+endobj
+5 0 obj
+<< /Type /Catalog /Pages 4 0 R >>
+endobj
+xref
+0 6
+0000000000 65535 f 
+0000000009 00000 n 
+0000000079 00000 n 
+0000001587 00000 n 
+0000001713 00000 n 
+0000001770 00000 n 
+trailer << /Size 6 /Root 5 0 R >>
+startxref
+1819
+%%EOF

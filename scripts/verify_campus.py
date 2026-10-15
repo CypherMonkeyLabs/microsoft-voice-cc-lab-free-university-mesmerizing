@@ -99,9 +99,26 @@ def main() -> None:
         fail("speech voices are not waited on")
     if "isRoboticEdge" not in js:
         fail("narration still defaults without an Edge check")
-    for theme_name in ('data-theme="dark"', 'data-theme="hc"', 'data-theme="teams"'):
+    for theme_name in ('data-theme="dark"', 'data-theme="hc"', 'data-theme="teams"', 'data-theme="futuristic"', 'data-theme="gaming"', 'data-theme="neon"', 'data-theme="light"'):
         if theme_name not in css:
             fail(f"missing theme {theme_name}")
+    for needle in (
+        "https://cyphermonkeylabs.com",
+        "https://linktr.ee/cyphermonkey",
+        "https://dev.to/cyphermonkey",
+        "https://huggingface.co/Cypher0x9",
+        "https://x.com/Cypher0x9",
+        "downloads/microsoft-voice-contact-center-lab.zip",
+        "Report a concern",
+        "Work with us",
+    ):
+        if needle not in html:
+            fail(f"chrome missing {needle}")
+    if "linkedin" in html.lower() or "mailto:" in html.lower():
+        fail("shell contains a banned contact")
+    sheet = CAMPUS / "downloads" / "ports-protocols.html"
+    if not sheet.exists():
+        fail("ports cheat sheet missing")
     if "#/settings" not in js or "set-voice" not in js:
         fail("settings panel missing")
     if '#/track/t01' not in js or "redirectHash" not in js:

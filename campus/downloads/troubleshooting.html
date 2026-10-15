@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Troubleshooting tree</title>
+<style>
+  body { margin: 24px auto; max-width: 820px; font: 16px/1.45 Inter, Segoe UI, sans-serif; color: #142033; background: #f7f4ea; }
+  h1 { font-size: 28px; letter-spacing: -0.03em; }
+  p { margin: 0 0 6px; }
+  footer { margin-top: 28px; border-top: 2px solid #123; padding-top: 12px; font-size: 13px; }
+  a { color: #123; }
+  @media print { body { background: #fff; } }
+</style>
+</head>
+<body>
+<h1>Troubleshooting tree</h1>
+<p>Troubleshooting tree</p>
+<p>Sources: Call Analytics, Call Quality Dashboard, Direct Routing plan.</p>
+<p>Accessed 14 October 2026.</p>
+<p>&nbsp;</p>
+<p>No dial tone</p>
+<p>  License or voice routing policy missing, or the user is in the wrong tenant.</p>
+<p>SIP fails before OPTIONS</p>
+<p>  Certificate name, private CA, or TLS version. 5061 never opens.</p>
+<p>OPTIONS misses</p>
+<p>  Trunk out of service. Failover only if the route lists the next gateway.</p>
+<p>Connects, silence</p>
+<p>  Media ports or a bypass path that the network blocks.</p>
+<p>One user sounds bad</p>
+<p>  Call Analytics, not a CQD building case.</p>
+<p>Whole subnet looks bad</p>
+<p>  CQD. Check loss, jitter, RTT, and whether DSCP survived.</p>
+<p>VPN</p>
+<p>  Full tunnel hides the site and often strips the mark.</p>
+<p>Both sides transform numbers</p>
+<p>  Pick one normalization owner before the next cutover.</p>
+<footer><p><strong>CypherMonkey</strong> · <a href="https://cyphermonkeylabs.com">cyphermonkeylabs.com</a> · <a href="https://linktr.ee/cyphermonkey">linktr.ee/cyphermonkey</a> · <a href="https://github.com/cipher0x9/microsoft-voice-cc-lab-free-university-mesmerizing">Repo: rate, comment, help</a> · <a href="https://dev.to/cyphermonkey">DEV</a> · <a href="https://huggingface.co/Cypher0x9">Hugging Face</a> · <a href="https://x.com/Cypher0x9">X</a></p><p>Independent educational project, not affiliated with or endorsed by any vendor. Trademarks belong to their owners. MIT code, CC BY-NC-SA content.</p><p>Report a concern and work with us: <a href="https://cyphermonkeylabs.com/#contact">cyphermonkeylabs.com contact form</a>. No email on this sheet.</p></footer>
+</body>
+</html>

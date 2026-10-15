@@ -1,0 +1,62 @@
+%PDF-1.4
+1 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica >>
+endobj
+2 0 obj
+<< /Length 1323 >>
+stream
+BT
+/F1 11 Tf
+50 780 Td
+14 TL
+(Troubleshooting tree) Tj
+T* () Tj
+T* (Troubleshooting tree) Tj
+T* (Sources: Call Analytics, Call Quality Dashboard, Direct Routing plan.) Tj
+T* (Accessed 14 October 2026.) Tj
+T* () Tj
+T* (No dial tone) Tj
+T* (  License or voice routing policy missing, or the user is in the wrong tenant.) Tj
+T* (SIP fails before OPTIONS) Tj
+T* (  Certificate name, private CA, or TLS version. 5061 never opens.) Tj
+T* (OPTIONS misses) Tj
+T* (  Trunk out of service. Failover only if the route lists the next gateway.) Tj
+T* (Connects, silence) Tj
+T* (  Media ports or a bypass path that the network blocks.) Tj
+T* (One user sounds bad) Tj
+T* (  Call Analytics, not a CQD building case.) Tj
+T* (Whole subnet looks bad) Tj
+T* (  CQD. Check loss, jitter, RTT, and whether DSCP survived.) Tj
+T* (VPN) Tj
+T* (  Full tunnel hides the site and often strips the mark.) Tj
+T* (Both sides transform numbers) Tj
+T* (  Pick one normalization owner before the next cutover.) Tj
+T* () Tj
+T* (CypherMonkey ? cyphermonkeylabs.com ? linktr.ee/cyphermonkey ?) Tj
+T* (https://github.com/cipher0x9/microsoft-voice-cc-lab-free-university-mesmerizing ?) Tj
+T* (Independent educational project, not affiliated with or endorsed by any vendor. Trademarks) Tj
+T* (belong to their owners. MIT code, CC BY-NC-SA content. No email.) Tj
+ET
+endstream
+endobj
+3 0 obj
+<< /Type /Page /Parent 4 0 R /MediaBox [0 0 612 792] /Contents 2 0 R /Resources << /Font << /F1 1 0 R >> >> >>
+endobj
+4 0 obj
+<< /Type /Pages /Count 1 /Kids [3 0 R] >>
+endobj
+5 0 obj
+<< /Type /Catalog /Pages 4 0 R >>
+endobj
+xref
+0 6
+0000000000 65535 f 
+0000000009 00000 n 
+0000000079 00000 n 
+0000001454 00000 n 
+0000001580 00000 n 
+0000001637 00000 n 
+trailer << /Size 6 /Root 5 0 R >>
+startxref
+1686
+%%EOF

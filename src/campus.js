@@ -130,6 +130,12 @@ function freshState() {
     sbcChecks: {},
     hooks: {},
     boss: {},
+    cutover: {},
+    portsBest: 0,
+    dailyDate: "",
+    dailyOk: false,
+    konami: false,
+    sandboxOk: false,
   };
 }
 
@@ -220,6 +226,10 @@ function computeAchievements() {
     ["record", state.labs.indexOf("record-policy") !== -1],
     ["map", state.labs.indexOf("integrate-map") !== -1],
     ["boss", Object.keys(state.boss || {}).some((key) => state.boss[key] >= 80)],
+    ["ports", (state.portsBest || 0) >= 8],
+    ["daily", !!state.dailyOk],
+    ["sandbox", !!state.sandboxOk],
+    ["konami", !!state.konami],
   ];
   return flags.filter((item) => item[1]).map((item) => item[0]);
 }
@@ -239,10 +249,17 @@ const ACH_COPY = {
   record: "Recorder — the compliance-recording builder has been run.",
   map: "Integration map — the ecosystem map lab has been run.",
   boss: "Boss exam — a certification sitting scored 80 percent or better.",
+  ports: "Firewall — the ports game was a perfect eight.",
+  daily: "Daily — today’s challenge matched.",
+  sandbox: "Ladder — the call-flow sandbox has been played.",
+  konami: "Operator — the hidden keypad sequence was entered.",
 };
 
 const THEMES = [
-  { id: "light", label: "Light mica" },
+  { id: "light", label: "Light" },
+  { id: "futuristic", label: "Futuristic" },
+  { id: "gaming", label: "Gaming" },
+  { id: "neon", label: "Neon" },
   { id: "dark", label: "Dark acrylic" },
   { id: "hc", label: "High contrast" },
   { id: "teams", label: "Teams purple" },
@@ -400,6 +417,8 @@ function renderHome() {
     '<a class="ghost" href="#/powershell">Open the Teams shell</a>' +
     '<a class="ghost" href="#/topology">Open the SBC mesh</a>' +
     '<a class="ghost" href="#/tips">Tips and traps</a>' +
+    '<a class="ghost" href="#/field">Field desk</a>' +
+    '<a class="ghost" href="#/downloads">Cheat codes</a>' +
     "</div>" +
     '<div class="grid stats">' + stats.map((item) => '<div class="stat"><b>' + item[0] + "</b><span>" + item[1] + "</span></div>").join("") + "</div>" +
     '<div class="hero-frame">' +
@@ -1875,7 +1894,7 @@ async function render() {
     redirectHash(needsArg[root]);
     return;
   }
-  const known = ["home", "track", "lesson", "labs", "lab", "quiz", "cards", "scenarios", "scenario", "glossary", "map", "charts", "faults", "audio", "boss", "exam", "sources", "powershell", "topology", "settings", "tips"];
+  const known = ["home", "track", "lesson", "labs", "lab", "quiz", "cards", "scenarios", "scenario", "glossary", "map", "charts", "faults", "audio", "boss", "exam", "sources", "powershell", "topology", "settings", "tips", "field", "migrate", "ports", "career", "news", "downloads", "game", "sandbox", "daily", "explorer"];
   if (known.indexOf(root) === -1) {
     redirectHash("#/");
     return;
@@ -1943,10 +1962,21 @@ async function render() {
   else if (root === "topology") html = renderTopology();
   else if (root === "settings") html = renderSettings();
   else if (root === "tips") html = renderTips(arg);
+  else if (root === "field") html = renderField();
+  else if (root === "migrate") html = renderMigrate();
+  else if (root === "ports") html = renderPorts();
+  else if (root === "career") html = renderCareer();
+  else if (root === "news") html = renderNews();
+  else if (root === "downloads") html = await renderDownloads();
+  else if (root === "game") html = renderGame();
+  else if (root === "sandbox") html = renderSandbox();
+  else if (root === "daily") html = renderDaily();
+  else if (root === "explorer") html = renderExplorer();
   else html = missing();
   paintView(html);
   $("#main").focus();
   wire(root, arg);
+  bindReadbar();
   paintNav(root, arg);
   const transcript = window.__listen || "Pick a lesson or a lab. Listen reads the short script for that page.";
   $("#transcript").textContent = transcript;
@@ -2039,6 +2069,7 @@ function wire(root, arg) {
   }
   if (root === "boss" && arg) wireBoss(arg);
   if (root === "settings") wireSettings();
+  wireExtras(root);
   if (root === "home") {
     const orbit = $("#home-orbit");
     if (orbit) {
@@ -2075,6 +2106,11 @@ function navHtml() {
     ["#/boss", "Boss exams"],
     ["#/exam", "Exam map"],
     ["#/tips", "Tips and traps"],
+    ["#/field", "Field desk"],
+    ["#/downloads", "Cheat codes"],
+    ["#/game", "Ports game"],
+    ["#/daily", "Daily challenge"],
+    ["#/sandbox", "Call-flow sandbox"],
     ["#/settings", "Settings"],
     ["#/sources", "Sources"],
   ];
@@ -2098,6 +2134,7 @@ function paintHits(query) {
   const q = query.toLowerCase();
   const hits = [];
   const lessonHits = (DATA.lessonIndex && DATA.lessonIndex.length) ? DATA.lessonIndex : DATA.lessons;
+  extraHits().forEach((hit) => hits.push(hit));
   lessonHits.forEach((lesson) => hits.push({ href: "#/lesson/" + lesson.id, title: lesson.title, kind: "Lesson" }));
   DATA.labs.forEach((lab) => hits.push({ href: "#/lab/" + lab.id, title: lab.title, kind: "Lab" }));
   const termHits = (DATA.glossary && DATA.glossary.length) ? DATA.glossary : (DATA.termIndex || []);
@@ -2467,6 +2504,16 @@ async function boot() {
     render();
   });
   if (!state.theme) state.theme = initialTheme();
+  const cycle = $("#theme-cycle");
+  if (cycle) {
+    cycle.onclick = function () {
+      const ids = THEMES.map((theme) => theme.id);
+      const index = ids.indexOf(activeTheme());
+      setTheme(ids[(index + 1) % ids.length]);
+    };
+  }
+  cycleMascot();
+  armKonami();
   paintChrome();
   render();
   if ("serviceWorker" in navigator && location.protocol.indexOf("http") === 0) {

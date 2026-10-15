@@ -1,6 +1,6 @@
-/* Offline cache for the Voice Lab. Generated. Cache f96f2d2b4040. */
+/* Offline cache for the Voice Lab. Generated. Cache 398450489594. */
 "use strict";
-const CACHE = "mvcc-lab-f96f2d2b4040";
+const CACHE = "mvcc-lab-398450489594";
 const PRECACHE = [
   "./",
   "./index.html",
@@ -64,7 +64,36 @@ const PRECACHE = [
   "./audio/tone-busy.wav",
   "./audio/tone-dial.wav",
   "./audio/tone-reorder.wav",
-  "./audio/tone-ringback.wav"
+  "./audio/tone-ringback.wav",
+  "./downloads/call-flows.html",
+  "./downloads/career.html",
+  "./downloads/catalog.json",
+  "./downloads/config-checklist.html",
+  "./downloads/flashcards.html",
+  "./downloads/flashcards.json",
+  "./downloads/glossary-core.html",
+  "./downloads/glossary-full.html",
+  "./downloads/migration.html",
+  "./downloads/ports-protocols.html",
+  "./downloads/track-t01.html",
+  "./downloads/track-t02.html",
+  "./downloads/track-t03.html",
+  "./downloads/track-t04.html",
+  "./downloads/track-t05.html",
+  "./downloads/track-t06.html",
+  "./downloads/track-t07.html",
+  "./downloads/track-t08.html",
+  "./downloads/track-t09.html",
+  "./downloads/track-t10.html",
+  "./downloads/track-t11.html",
+  "./downloads/track-t12.html",
+  "./downloads/track-t13.html",
+  "./downloads/track-t14.html",
+  "./downloads/track-t15.html",
+  "./downloads/track-t16.html",
+  "./downloads/track-t17.html",
+  "./downloads/troubleshooting.html",
+  "./downloads/whats-new.html"
 ];
 self.addEventListener("install", function (event) {
   event.waitUntil(caches.open(CACHE).then(function (cache) { return cache.addAll(PRECACHE); }).then(function () { return self.skipWaiting(); }));

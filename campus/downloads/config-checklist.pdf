@@ -1,0 +1,58 @@
+%PDF-1.4
+1 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica >>
+endobj
+2 0 obj
+<< /Length 1324 >>
+stream
+BT
+/F1 11 Tf
+50 780 Td
+14 TL
+(Configuration checklist) Tj
+T* () Tj
+T* (Configuration checklist ? Teams Phone) Tj
+T* (Sources: setting up your phone system, dial plans, voice routing, Direct Routing plan.) Tj
+T* (Accessed 14 October 2026.) Tj
+T* () Tj
+T* ([ ] Tenant and verified domain confirmed) Tj
+T* ([ ] User homed online, not Islands, for Direct Routing) Tj
+T* ([ ] Teams Phone license, and a PSTN option named out loud) Tj
+T* ([ ] Resource accounts licensed as resource accounts) Tj
+T* ([ ] Dial plan: first matching normalization rule wins) Tj
+T* ([ ] Voice routing policy ordered, route lists a backup gateway) Tj
+T* ([ ] SBC FQDN paired, certificate name matches) Tj
+T* ([ ] TCP 5061 to all three commercial proxies) Tj
+T* ([ ] Media ranges open, or bypass documented) Tj
+T* ([ ] Emergency location is dispatchable for that network) Tj
+T* ([ ] Compliance recording policy granted if the business records) Tj
+T* ([ ] One owner for number transforms during coexistence) Tj
+T* () Tj
+T* (CypherMonkey ? cyphermonkeylabs.com ? linktr.ee/cyphermonkey ?) Tj
+T* (https://github.com/cipher0x9/microsoft-voice-cc-lab-free-university-mesmerizing ?) Tj
+T* (Independent educational project, not affiliated with or endorsed by any vendor. Trademarks) Tj
+T* (belong to their owners. MIT code, CC BY-NC-SA content. No email.) Tj
+ET
+endstream
+endobj
+3 0 obj
+<< /Type /Page /Parent 4 0 R /MediaBox [0 0 612 792] /Contents 2 0 R /Resources << /Font << /F1 1 0 R >> >> >>
+endobj
+4 0 obj
+<< /Type /Pages /Count 1 /Kids [3 0 R] >>
+endobj
+5 0 obj
+<< /Type /Catalog /Pages 4 0 R >>
+endobj
+xref
+0 6
+0000000000 65535 f 
+0000000009 00000 n 
+0000000079 00000 n 
+0000001455 00000 n 
+0000001581 00000 n 
+0000001638 00000 n 
+trailer << /Size 6 /Root 5 0 R >>
+startxref
+1687
+%%EOF

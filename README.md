@@ -18,7 +18,7 @@ GitHub Pages serves the `campus` folder. Locally:
 python3 -m http.server 8741
 ```
 
-Then open [http://127.0.0.1:8741/campus/](http://127.0.0.1:8741/campus/). Search is Ctrl+K or `/`. `[` and `]` move between lessons in a track. Theme cycles light mica, dark acrylic, and high contrast. Listen waits for a voice already installed in the browser and does not upload anything. Partial hashes such as `#/track/` and `#/lesson/` redirect to a real track or home.
+Then open [http://127.0.0.1:8741/campus/](http://127.0.0.1:8741/campus/). Search is Ctrl+K or `/`. `[` and `]` move between lessons in a track. Theme cycles light, futuristic, gaming, neon, dark acrylic, high contrast, and Teams purple. The header links CypherMonkey Labs, Linktree, this repo, DEV, Hugging Face, and X. Cheat codes, a ports game, a call-flow sandbox, and a daily challenge live under the field desk. Listen waits for a voice already installed in the browser and does not upload anything. Partial hashes such as `#/track/` and `#/lesson/` redirect to a real track or home.
 
 A zip of the campus folder is in `releases/microsoft-voice-contact-center-lab.zip`. Unzip it and serve that folder with the same Python command. Fetching the track files needs HTTP, which is also how GitHub Pages hosts it.
 
@@ -81,6 +81,10 @@ Checked 14 October 2026 against a local server.
 5. The exam status board, then the ecosystem track.
 
 If you have one hour: the tenant boundary, Direct Routing, the normalization tester, the voice-routing matcher, and the ecosystem mind map.
+
+## Field desk and cheat codes
+
+`#/field` is the gap map: migration cutover, ports and protocols, career paths, the 14 October 2026 status radar, and links into the tracks that already teach WFM, recording, E911, CRM, and agents. `#/downloads` lists one-page HTML, PDF, and PNG sheets plus the flashcard deck and the offline zip. Rebuild the sheets with `python3 tools/make_downloads.py --sheets-only` before `python3 tools/build_campus.py`, then `python3 tools/make_downloads.py --zip-only`.
 
 ## Ecosystem track
 
@@ -149,6 +153,14 @@ Ecosystem mind map:
 
 ![Mind map](docs/assets/ecosystem-map.png)
 
+Field desk, cheat-code downloads, and the call-flow sandbox:
+
+![Field desk](docs/assets/field-desk.png)
+
+![Cheat codes](docs/assets/downloads.png)
+
+![Call-flow sandbox](docs/assets/sandbox.png)
+
 The same home page in each theme:
 
 ![Light mica](docs/assets/theme-light.png)
@@ -158,3 +170,9 @@ The same home page in each theme:
 ![High contrast](docs/assets/theme-hc.png)
 
 ![Teams purple](docs/assets/theme-teams.png)
+
+![Futuristic](docs/assets/theme-futuristic.png)
+
+![Gaming](docs/assets/theme-gaming.png)
+
+![Neon](docs/assets/theme-neon.png)

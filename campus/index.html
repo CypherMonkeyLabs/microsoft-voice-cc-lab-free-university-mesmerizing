@@ -36,16 +36,35 @@ try {
 </head>
 <body>
 <a class="skip" href="#main">Skip to content</a>
+<div class="readbar" id="readbar" aria-hidden="true"></div>
 <header class="top">
+  <nav class="skybar" aria-label="CypherMonkey">
+    <a href="https://cyphermonkeylabs.com">CypherMonkey Labs</a>
+    <a href="https://linktr.ee/cyphermonkey">Linktree</a>
+    <a href="https://github.com/cipher0x9/microsoft-voice-cc-lab-free-university-mesmerizing/issues">Rate, comment, help</a>
+    <a href="https://dev.to/cyphermonkey">DEV</a>
+    <a href="https://huggingface.co/Cypher0x9">Hugging Face</a>
+    <a href="https://x.com/Cypher0x9">X</a>
+    <a id="offline-dl" href="downloads/microsoft-voice-contact-center-lab.zip" download>Download offline</a>
+  </nav>
+  <div class="top-row">
   <button class="icon-btn menu-btn" id="menu" type="button" aria-label="Open the track menu">
     <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"></path></svg>
   </button>
   <a class="brand" href="#/">
-    <svg class="mark" viewBox="0 0 36 36" aria-hidden="true">
-      <rect width="36" height="36" rx="8" fill="#5b5fc7"></rect>
-      <rect x="8" y="9" width="20" height="14" rx="3" fill="none" stroke="#fff" stroke-width="1.7"></rect>
-      <path d="M14 23v3h8v-3" fill="none" stroke="#fff" stroke-width="1.7" stroke-linecap="round"></path>
-      <circle cx="18" cy="16" r="2" fill="#9be7ff"></circle>
+    <svg class="monkey mini" viewBox="0 0 64 72" aria-hidden="true">
+      <path class="tail" d="M46 54c10 2 14 12 8 16" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"></path>
+      <circle cx="32" cy="28" r="14" fill="var(--cc-accent-3)"></circle>
+      <circle cx="18" cy="26" r="5" fill="var(--cc-accent-4)"></circle>
+      <circle cx="46" cy="26" r="5" fill="var(--cc-accent-4)"></circle>
+      <circle cx="27" cy="27" r="1.6" fill="#1a1208"></circle>
+      <circle cx="37" cy="27" r="1.6" fill="#1a1208"></circle>
+      <path class="smile" d="M27 33c2.2 2 7.8 2 10 0" fill="none" stroke="#1a1208" stroke-width="1.4" stroke-linecap="round"></path>
+      <path class="headset" d="M20 24c0-8 24-8 24 0v6" fill="none" stroke="var(--cc-accent-1)" stroke-width="2"></path>
+      <rect x="16" y="28" width="6" height="8" rx="2" fill="var(--cc-accent-1)"></rect>
+      <rect x="42" y="28" width="6" height="8" rx="2" fill="var(--cc-accent-1)"></rect>
+      <ellipse cx="32" cy="54" rx="14" ry="10" fill="var(--cc-accent-2)"></ellipse>
+      <g class="arm"><path d="M20 50c-8 2-12 10-8 14" fill="none" stroke="var(--cc-accent-3)" stroke-width="3" stroke-linecap="round"></path></g>
     </svg>
     <span><b>Voice Lab</b><small>Teams phone campus</small></span>
   </a>
@@ -54,9 +73,11 @@ try {
     <span class="pill" id="streak">Streak 0</span>
     <span class="pill" id="done">0%</span>
     <span class="pill" id="ach-count">0 badges</span>
+    <button class="ghost theme-cycle" id="theme-cycle" type="button">Theme</button>
     <a class="icon-btn" id="settings" href="#/settings" aria-label="Settings">
       <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="3" fill="none" stroke="currentColor" stroke-width="1.8"></circle><path d="M12 3.5v2.2M12 18.3v2.2M3.5 12h2.2M18.3 12h2.2M6 6l1.6 1.6M16.4 16.4 18 18M18 6l-1.6 1.6M7.6 16.4 6 18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"></path></svg>
     </a>
+  </div>
   </div>
 </header>
 <div class="shell">
@@ -83,6 +104,39 @@ try {
     <input id="q" type="search" placeholder="Search lessons, labs, terms, scenarios" aria-label="Search">
     <div id="hits" class="hits"></div>
   </div>
+</div>
+<footer class="site-foot">
+  <svg class="monkey" id="monkey" data-pose="idle" viewBox="0 0 64 72" aria-hidden="true">
+    <path class="tail" d="M46 54c10 2 14 12 8 16" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"></path>
+    <circle cx="32" cy="28" r="14" fill="var(--cc-accent-3)"></circle>
+    <circle cx="18" cy="26" r="5" fill="var(--cc-accent-4)"></circle>
+    <circle cx="46" cy="26" r="5" fill="var(--cc-accent-4)"></circle>
+    <circle cx="27" cy="27" r="1.6" fill="#1a1208"></circle>
+    <circle cx="37" cy="27" r="1.6" fill="#1a1208"></circle>
+    <path class="smile" d="M27 33c2.2 2 7.8 2 10 0" fill="none" stroke="#1a1208" stroke-width="1.4" stroke-linecap="round"></path>
+    <path class="headset" d="M20 24c0-8 24-8 24 0v6" fill="none" stroke="var(--cc-accent-1)" stroke-width="2"></path>
+    <rect x="16" y="28" width="6" height="8" rx="2" fill="var(--cc-accent-1)"></rect>
+    <rect x="42" y="28" width="6" height="8" rx="2" fill="var(--cc-accent-1)"></rect>
+    <ellipse cx="32" cy="54" rx="14" ry="10" fill="var(--cc-accent-2)"></ellipse>
+    <g class="arm"><path d="M20 50c-8 2-12 10-8 14" fill="none" stroke="var(--cc-accent-3)" stroke-width="3" stroke-linecap="round"></path></g>
+  </svg>
+  <p class="sig">CypherMonkey · Microsoft Voice &amp; Contact Center Lab</p>
+  <p>Independent educational project, not affiliated with or endorsed by any vendor. Trademarks belong to their owners. MIT code, CC BY-NC-SA content.</p>
+  <p><a href="https://cyphermonkeylabs.com/#contact">Report a concern</a> · <a href="https://cyphermonkeylabs.com/#contact">Work with us</a></p>
+  <nav class="next-labs" aria-label="Other labs">
+    <a href="https://github.com/cipher0x9/uc-lab-free-university-mesmerizing">UC Lab</a>
+    <a href="https://github.com/cipher0x9/webex-lab-free-university-mesmerizing">Webex</a>
+    <a href="https://github.com/cipher0x9/genesys-cloud-lab-free-university-mesmerizing">Genesys</a>
+    <a href="https://github.com/cipher0x9/amazon-connect-lab-free-university-mesmerizing">Amazon Connect</a>
+    <a href="https://github.com/cipher0x9/five9-lab-free-university-mesmerizing">Five9</a>
+    <a href="https://github.com/cipher0x9/nice-cxone-lab-free-university-mesmerizing">NiCE CXone</a>
+    <a href="https://github.com/cipher0x9/sip-universe-lab-free-university-mesmerizing">SIP Universe</a>
+    <a href="https://github.com/cipher0x9/ai-lab-free-university-mesmerizing">AI Lab</a>
+    <a href="https://cipher0x9.github.io/gemini-gems-free-gallery/site/">Gemini Gems</a>
+  </nav>
+</footer>
+<div id="egg" class="egg" hidden>
+  <p>Operator mode. The monkey found the hidden keypad. This does not change a tenant.</p>
 </div>
 <noscript><p>This campus needs JavaScript. It does not load a CDN. Enable JavaScript in this browser and open the file again.</p></noscript>
 <script src="app.js" defer></script>

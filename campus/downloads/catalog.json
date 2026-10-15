@@ -1,0 +1,178 @@
+{
+  "items": [
+    {
+      "href": "downloads/microsoft-voice-contact-center-lab.zip",
+      "title": "Offline bundle",
+      "kind": "Zip",
+      "blurb": "The campus folder, including these sheets. Serve it with any static file server."
+    },
+    {
+      "href": "downloads/flashcards.json",
+      "title": "Flashcard deck JSON",
+      "kind": "JSON",
+      "blurb": "Every card in the campus deck, with the standard footer in the file header."
+    },
+    {
+      "href": "downloads/flashcards.html",
+      "title": "Printable flashcards",
+      "kind": "HTML",
+      "blurb": "Two-up cards for the printer. A PDF of the same deck sits beside it."
+    },
+    {
+      "href": "downloads/ports-protocols.html",
+      "title": "Ports and protocols",
+      "kind": "Sheet",
+      "blurb": "HTML, PDF, and PNG. Print from the browser. Footer included."
+    },
+    {
+      "href": "downloads/call-flows.html",
+      "title": "Call flows",
+      "kind": "Sheet",
+      "blurb": "HTML, PDF, and PNG. Print from the browser. Footer included."
+    },
+    {
+      "href": "downloads/config-checklist.html",
+      "title": "Configuration checklist",
+      "kind": "Sheet",
+      "blurb": "HTML, PDF, and PNG. Print from the browser. Footer included."
+    },
+    {
+      "href": "downloads/troubleshooting.html",
+      "title": "Troubleshooting tree",
+      "kind": "Sheet",
+      "blurb": "HTML, PDF, and PNG. Print from the browser. Footer included."
+    },
+    {
+      "href": "downloads/glossary-core.html",
+      "title": "Glossary core",
+      "kind": "Sheet",
+      "blurb": "HTML, PDF, and PNG. Print from the browser. Footer included."
+    },
+    {
+      "href": "downloads/migration.html",
+      "title": "Migration and cutover",
+      "kind": "Sheet",
+      "blurb": "HTML, PDF, and PNG. Print from the browser. Footer included."
+    },
+    {
+      "href": "downloads/career.html",
+      "title": "Career paths",
+      "kind": "Sheet",
+      "blurb": "HTML, PDF, and PNG. Print from the browser. Footer included."
+    },
+    {
+      "href": "downloads/whats-new.html",
+      "title": "What is new",
+      "kind": "Sheet",
+      "blurb": "HTML, PDF, and PNG. Print from the browser. Footer included."
+    },
+    {
+      "href": "downloads/track-t01.html",
+      "title": "01 Foundations",
+      "kind": "Track sheet",
+      "blurb": "HTML, PDF, and PNG. Print from the browser. Footer included."
+    },
+    {
+      "href": "downloads/track-t02.html",
+      "title": "02 Licensing",
+      "kind": "Track sheet",
+      "blurb": "HTML, PDF, and PNG. Print from the browser. Footer included."
+    },
+    {
+      "href": "downloads/track-t03.html",
+      "title": "03 PowerShell and admin",
+      "kind": "Track sheet",
+      "blurb": "HTML, PDF, and PNG. Print from the browser. Footer included."
+    },
+    {
+      "href": "downloads/track-t04.html",
+      "title": "04 Network and QoS",
+      "kind": "Track sheet",
+      "blurb": "HTML, PDF, and PNG. Print from the browser. Footer included."
+    },
+    {
+      "href": "downloads/track-t05.html",
+      "title": "05 PSTN connectivity",
+      "kind": "Track sheet",
+      "blurb": "HTML, PDF, and PNG. Print from the browser. Footer included."
+    },
+    {
+      "href": "downloads/track-t06.html",
+      "title": "06 Routing and dial plans",
+      "kind": "Track sheet",
+      "blurb": "HTML, PDF, and PNG. Print from the browser. Footer included."
+    },
+    {
+      "href": "downloads/track-t07.html",
+      "title": "07 Attendants and queues",
+      "kind": "Track sheet",
+      "blurb": "HTML, PDF, and PNG. Print from the browser. Footer included."
+    },
+    {
+      "href": "downloads/track-t08.html",
+      "title": "08 Emergency, LBR, survivability",
+      "kind": "Track sheet",
+      "blurb": "HTML, PDF, and PNG. Print from the browser. Footer included."
+    },
+    {
+      "href": "downloads/track-t09.html",
+      "title": "09 Devices and media",
+      "kind": "Track sheet",
+      "blurb": "HTML, PDF, and PNG. Print from the browser. Footer included."
+    },
+    {
+      "href": "downloads/track-t10.html",
+      "title": "10 Session border controllers",
+      "kind": "Track sheet",
+      "blurb": "HTML, PDF, and PNG. Print from the browser. Footer included."
+    },
+    {
+      "href": "downloads/track-t11.html",
+      "title": "11 TLS, certificates, SIP",
+      "kind": "Track sheet",
+      "blurb": "HTML, PDF, and PNG. Print from the browser. Footer included."
+    },
+    {
+      "href": "downloads/track-t12.html",
+      "title": "12 Troubleshooting",
+      "kind": "Track sheet",
+      "blurb": "HTML, PDF, and PNG. Print from the browser. Footer included."
+    },
+    {
+      "href": "downloads/track-t13.html",
+      "title": "13 Dynamics contact center",
+      "kind": "Track sheet",
+      "blurb": "HTML, PDF, and PNG. Print from the browser. Footer included."
+    },
+    {
+      "href": "downloads/track-t14.html",
+      "title": "14 Coexistence and CCaaS",
+      "kind": "Track sheet",
+      "blurb": "HTML, PDF, and PNG. Print from the browser. Footer included."
+    },
+    {
+      "href": "downloads/track-t15.html",
+      "title": "15 ACS, Speech, Copilot",
+      "kind": "Track sheet",
+      "blurb": "HTML, PDF, and PNG. Print from the browser. Footer included."
+    },
+    {
+      "href": "downloads/track-t16.html",
+      "title": "16 Certifications and status",
+      "kind": "Track sheet",
+      "blurb": "HTML, PDF, and PNG. Print from the browser. Footer included."
+    },
+    {
+      "href": "downloads/track-t17.html",
+      "title": "17 Ecosystem",
+      "kind": "Track sheet",
+      "blurb": "HTML, PDF, and PNG. Print from the browser. Footer included."
+    },
+    {
+      "href": "downloads/glossary-full.html",
+      "title": "Full core glossary",
+      "kind": "HTML",
+      "blurb": "Every core glossary row on one printable page set."
+    }
+  ]
+}

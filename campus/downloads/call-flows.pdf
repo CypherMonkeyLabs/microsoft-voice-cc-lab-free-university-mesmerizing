@@ -1,0 +1,56 @@
+%PDF-1.4
+1 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica >>
+endobj
+2 0 obj
+<< /Length 1179 >>
+stream
+BT
+/F1 11 Tf
+50 780 Td
+14 TL
+(Call flows) Tj
+T* () Tj
+T* (Call flow ? Teams client, SIP proxy, SBC, carrier) Tj
+T* (Source: Plan Direct Routing, accessed 14 October 2026.) Tj
+T* () Tj
+T* (1. Client marks audio when QoS is enabled.) Tj
+T* (2. Teams sends SIP/TLS to the PSTN hubs on TCP 5061.) Tj
+T* (3. SBC presents a public certificate. The paired FQDN is in the name.) Tj
+T* (4. OPTIONS. Repeated misses pull the trunk out of the route.) Tj
+T* (5. INVITE carries the normalized E.164 number.) Tj
+T* (6. 100 Trying, 180 Ringing, 200 OK, ACK.) Tj
+T* (7. Media uses the UDP ranges, or a bypass path you designed.) Tj
+T* (8. BYE tears the dialog down. Recording needs its own policy grant.) Tj
+T* () Tj
+T* (Emergency: resolve a dispatchable location before queue music.) Tj
+T* (Do not place a real emergency call to test this sheet.) Tj
+T* () Tj
+T* (CypherMonkey ? cyphermonkeylabs.com ? linktr.ee/cyphermonkey ?) Tj
+T* (https://github.com/cipher0x9/microsoft-voice-cc-lab-free-university-mesmerizing ?) Tj
+T* (Independent educational project, not affiliated with or endorsed by any vendor. Trademarks) Tj
+T* (belong to their owners. MIT code, CC BY-NC-SA content. No email.) Tj
+ET
+endstream
+endobj
+3 0 obj
+<< /Type /Page /Parent 4 0 R /MediaBox [0 0 612 792] /Contents 2 0 R /Resources << /Font << /F1 1 0 R >> >> >>
+endobj
+4 0 obj
+<< /Type /Pages /Count 1 /Kids [3 0 R] >>
+endobj
+5 0 obj
+<< /Type /Catalog /Pages 4 0 R >>
+endobj
+xref
+0 6
+0000000000 65535 f 
+0000000009 00000 n 
+0000000079 00000 n 
+0000001310 00000 n 
+0000001436 00000 n 
+0000001493 00000 n 
+trailer << /Size 6 /Root 5 0 R >>
+startxref
+1542
+%%EOF
