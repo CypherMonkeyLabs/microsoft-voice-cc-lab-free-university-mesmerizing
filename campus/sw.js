@@ -1,6 +1,6 @@
-/* Offline cache for the Voice Lab. Generated. Cache 852194ee96fb. */
+/* Offline cache for the Voice Lab. Generated. Cache dad9aa365664. */
 "use strict";
-const CACHE = "mvcc-lab-852194ee96fb";
+const CACHE = "mvcc-lab-dad9aa365664";
 const PRECACHE = [
   "./",
   "./index.html",
@@ -8,6 +8,16 @@ const PRECACHE = [
   "./app.js",
   "./studios/topology.js",
   "./studios/hero.js",
+  "./studios/icons.js",
+  "./data/headings.json",
+  "./vendor/postprocessing/EffectComposer.js",
+  "./vendor/postprocessing/RenderPass.js",
+  "./vendor/postprocessing/ShaderPass.js",
+  "./vendor/postprocessing/MaskPass.js",
+  "./vendor/postprocessing/Pass.js",
+  "./vendor/postprocessing/UnrealBloomPass.js",
+  "./vendor/shaders/CopyShader.js",
+  "./vendor/shaders/LuminosityHighPassShader.js",
   "./vendor/three.module.min.js",
   "./vendor/OrbitControls.js",
   "./og-card.png",

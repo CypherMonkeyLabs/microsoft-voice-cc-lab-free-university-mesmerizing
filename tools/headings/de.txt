@@ -1,0 +1,110 @@
+Die Mandantengrenze
+Entra-ID-Konten, die Sprache nutzen wird
+Rollen, die Sprache ändern dürfen
+Die Karte des Admin Centers
+Exchange und Cloud Voicemail
+Was online beheimatet bedeutet
+Der Lizenzstapel
+Calling-Plan-Varianten
+Teams Premium ist kein PSTN
+Lizenzen für Ressourcenkonten
+Räume, Gemeinschaftsbereich und geteiltes Telefonieren
+Ein Lizenzsatz, den du verteidigen kannst
+Das Modul und die Sitzung
+Objekte, die du wirklich bekommst
+Grant, set und new
+Einen Benutzer lesen, bevor du ihn änderst
+Wenn Portal und Shell widersprechen
+Sicherheit auf einem Labormandanten
+Kürzester Weg, kein Medienproxy
+Die Port- und DSCP-Tabelle
+VPN und der Split-Tunnel
+Bandbreite, die du rechnen kannst
+Beweisen, dass die Markierung überlebt hat
+ExpressRoute ist nicht die Anforderung
+Vier Wege zum PSTN
+Calling Plans in der Praxis
+Operator Connect
+Teams Phone Mobile
+Direct Routing
+Sie in einem Mandanten mischen
+Normalisieren, dann routen
+Wählpläne und der erste Treffer
+PSTN-Verwendungen sind die Berechtigung
+Sprachrouten und Gateways
+Ein durchgerechnetes London-Beispiel
+Islands-Modus und andere harte Stopps
+Ressourcenkonten für Sprach-Apps
+Entwurf der automatischen Telefonzentrale
+Warteschlangen-Routingmethoden
+Timeout, Überlauf und ausgehende Finanzierung
+Verschachtelte Sprach-Apps
+Nummern auf Sprach-Apps
+Notruf ist ein Entwurfstor
+Dynamischer Standort
+Notruf: Calling Plans gegen Direct Routing
+Standortbasiertes Routing
+Survivable Branch Appliance
+Benachrichtigung und der Testanruf
+Zertifizierte Telefone
+Teams Rooms
+SIP Gateway und Analog
+Media Bypass
+Lokale Medienoptimierung
+Gemeinschaftstelefone, noch einmal, als Geräte
+Was dir die Zertifizierung kauft
+AudioCodes-Muster
+Ribbon-Muster
+Oracle Communications SBC
+Cisco CUBE für Teams
+Die Supportgrenze
+Das Zertifikatsprofil
+Namen, Wildcards und der gepaarte FQDN
+Drei SIP-Proxys und Failover
+SIP OPTIONS
+Codecs und SRTP
+Ein Failover, das du proben kannst
+Eine Hypothese
+Eine Leiter lesen
+Call Analytics
+Call Quality Dashboard
+Trunk-Gesundheit
+Ein Fehlerkatalog
+Customer Service und Contact Center
+Kanäle
+Einheitliches Routing
+Vertretererlebnis und Copilot
+Sprache auf ACS
+Die AB-250-Karte
+Connect, Extend und Unify
+Erweiterbarkeit von Teams Phone
+CUCM und CUBE
+Webex-Calling-Interop
+UCCE während eines Umzugs
+Genesys und Amazon Connect
+Calling SDK gegen Call Automation
+Teams-Interop aus ACS
+Ein IVR als Ereignisse
+Azure AI Speech
+Copilot Studio Sprache
+Foundry, und was man nicht erfinden darf
+MS-700 am 14. Oktober 2026
+MB-280, AB-210 und AB-250
+AZ-900 und SC-900
+Lernpfade, die zur Stelle passen
+Die Statustafel
+So nutzt du die Bereitschaftskarte
+Sprache ist keine geschlossene Kiste
+So nutzt du das Glossar
+Die Mindmap
+Compliance-Aufzeichnung und Qualitätsmanagement
+Workforce Management
+E911 als System of Record
+Analytik und Power BI
+CRM und Screen Pop
+KI-Agenten neben der Warteschlange
+Integrationskarten
+Plattformübergreifende Brücken
+Haken für künftige Integration
+Eine Ökosystemänderung konfigurieren
+Fehler über eine Herstellergrenze hinweg

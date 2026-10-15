@@ -18,6 +18,29 @@ CAMPUS = ROOT / "campus"
 CHECKED = "2026-10-14"
 
 
+def write_headings(payload: dict, data_dir: Path) -> None:
+    from heading_packs import translations
+
+    ids = [lesson["id"] for lesson in payload["lessons"]]
+    pack = translations()
+    missing = [item for item in ids if item not in pack]
+    extra = [item for item in pack if item not in set(ids)]
+    if missing or extra:
+        raise SystemExit("headings mismatch missing=%s extra=%s" % (",".join(missing), ",".join(extra)))
+    langs = ("es", "hi", "te", "fr", "de", "ja", "ar")
+    out = {}
+    for item in ids:
+        row = pack[item]
+        if tuple(row.keys()) != langs and set(row) != set(langs):
+            raise SystemExit("heading langs " + item)
+        for lang in langs:
+            text = row.get(lang) or ""
+            if not text.strip():
+                raise SystemExit("empty heading %s %s" % (item, lang))
+        out[item] = {lang: row[lang] for lang in langs}
+    write_json(data_dir / "headings.json", out)
+
+
 def dump(obj: object) -> str:
     return json.dumps(obj, ensure_ascii=True, separators=(",", ":")).replace("<", "\\u003c")
 
@@ -139,6 +162,8 @@ def main() -> None:
     studios.mkdir(parents=True, exist_ok=True)
     shutil.copyfile(SRC / "studios" / "topology.js", studios / "topology.js")
     shutil.copyfile(SRC / "studios" / "hero.js", studios / "hero.js")
+    shutil.copyfile(SRC / "studios" / "icons.js", studios / "icons.js")
+    write_headings(payload, data_dir)
     shutil.copyfile(SRC / "effects.js", CAMPUS / "effects.js")
     build_atlas()
 
@@ -150,6 +175,16 @@ def main() -> None:
         "./app.js",
         "./studios/topology.js",
         "./studios/hero.js",
+        "./studios/icons.js",
+        "./data/headings.json",
+        "./vendor/postprocessing/EffectComposer.js",
+        "./vendor/postprocessing/RenderPass.js",
+        "./vendor/postprocessing/ShaderPass.js",
+        "./vendor/postprocessing/MaskPass.js",
+        "./vendor/postprocessing/Pass.js",
+        "./vendor/postprocessing/UnrealBloomPass.js",
+        "./vendor/shaders/CopyShader.js",
+        "./vendor/shaders/LuminosityHighPassShader.js",
         "./vendor/three.module.min.js",
         "./vendor/OrbitControls.js",
         "./og-card.png",
@@ -260,11 +295,14 @@ try {{
     <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"></path></svg>
   </button>
   <a class="brand" href="#/">
-    <svg class="monkey mini" viewBox="0 0 64 72" aria-hidden="true">
+    <svg class="monkey mini" data-look="0" viewBox="0 0 64 72" aria-hidden="true">
       <path class="tail" d="M46 54c10 2 14 12 8 16" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"></path>
       <circle cx="32" cy="28" r="14" fill="var(--cc-accent-3)"></circle>
-      <circle cx="18" cy="26" r="5" fill="var(--cc-accent-4)"></circle>
-      <circle cx="46" cy="26" r="5" fill="var(--cc-accent-4)"></circle>
+      <circle class="ear" cx="18" cy="26" r="5" fill="var(--cc-accent-4)"></circle>
+      <circle class="ear" cx="46" cy="26" r="5" fill="var(--cc-accent-4)"></circle>
+      <g class="look look-1"><path d="M18 18h28v6H18z" fill="var(--cc-accent-1)"></path></g>
+      <g class="look look-2"><polygon points="32,6 36,15 32,13 28,15" fill="var(--cc-accent-2)"></polygon></g>
+      <g class="look look-3"><path d="M16 46h32v5H16z" fill="var(--cc-accent-4)"></path></g>
       <circle class="eye" cx="27" cy="27" r="1.6" fill="#1a1208"></circle>
       <circle class="eye" cx="37" cy="27" r="1.6" fill="#1a1208"></circle>
       <path class="smile" d="M27 33c2.2 2 7.8 2 10 0" fill="none" stroke="#1a1208" stroke-width="1.4" stroke-linecap="round"></path>
@@ -294,7 +332,7 @@ try {{
       </select>
     </label>
     <button class="ghost theme-flip" id="theme-flip" type="button" data-i18n="light">Light</button>
-    <button class="ghost theme-cycle" id="theme-cycle" type="button">Theme</button>
+    <button class="ghost theme-cycle" id="theme-cycle" type="button" aria-haspopup="dialog" aria-expanded="false" aria-controls="theme-pop">Theme</button>
     <a class="icon-btn" id="settings" href="#/settings" aria-label="Settings">
       <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="3" fill="none" stroke="currentColor" stroke-width="1.8"></circle><path d="M12 3.5v2.2M12 18.3v2.2M3.5 12h2.2M18.3 12h2.2M6 6l1.6 1.6M16.4 16.4 18 18M18 6l-1.6 1.6M7.6 16.4 6 18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"></path></svg>
     </a>
@@ -311,6 +349,7 @@ try {{
     <a href="#/career" data-i18n="careers">Careers</a>
   </nav>
 </header>
+<div id="theme-pop" class="theme-pop" hidden role="dialog" aria-label="Theme"></div>
 <div class="shell">
   <nav id="nav" class="nav" aria-label="Campus"></nav>
   <main id="main" tabindex="-1">
@@ -337,11 +376,14 @@ try {{
   </div>
 </div>
 <footer class="site-foot">
-  <svg class="monkey" id="monkey" data-pose="idle" viewBox="0 0 64 72" aria-hidden="true">
+  <svg class="monkey" id="monkey" data-pose="idle" data-look="2" viewBox="0 0 64 72" aria-hidden="true">
     <path class="tail" d="M46 54c10 2 14 12 8 16" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"></path>
     <circle cx="32" cy="28" r="14" fill="var(--cc-accent-3)"></circle>
-    <circle cx="18" cy="26" r="5" fill="var(--cc-accent-4)"></circle>
-    <circle cx="46" cy="26" r="5" fill="var(--cc-accent-4)"></circle>
+    <circle class="ear" cx="18" cy="26" r="5" fill="var(--cc-accent-4)"></circle>
+    <circle class="ear" cx="46" cy="26" r="5" fill="var(--cc-accent-4)"></circle>
+    <g class="look look-1"><path d="M18 18h28v6H18z" fill="var(--cc-accent-1)"></path></g>
+    <g class="look look-2"><polygon points="32,6 36,15 32,13 28,15" fill="var(--cc-accent-2)"></polygon></g>
+    <g class="look look-3"><path d="M16 46h32v5H16z" fill="var(--cc-accent-4)"></path></g>
     <circle class="eye" cx="27" cy="27" r="1.6" fill="#1a1208"></circle>
     <circle class="eye" cx="37" cy="27" r="1.6" fill="#1a1208"></circle>
     <path class="smile" d="M27 33c2.2 2 7.8 2 10 0" fill="none" stroke="#1a1208" stroke-width="1.4" stroke-linecap="round"></path>

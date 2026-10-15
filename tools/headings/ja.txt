@@ -1,0 +1,110 @@
+テナントの境界
+音声が使う Entra ID アカウント
+音声を変えられるロール
+管理センターの地図
+Exchange と Cloud Voicemail
+オンライン所属とは何か
+ライセンスの積み重ね
+Calling Plan の種類
+Teams Premium は PSTN ではない
+リソースアカウントのライセンス
+会議室、共用エリア、共有通話
+説明できるライセンスセット
+モジュールとセッション
+実際に返るオブジェクト
+Grant、set、new
+変える前にユーザーを読む
+ポータルとシェルが食い違うとき
+ラボテナントでの安全
+最短経路、メディアプロキシなし
+ポートと DSCP の表
+VPN とスプリットトンネル
+計算できる帯域
+マークが残ったことを証明する
+ExpressRoute は要件ではない
+PSTN へ届く四つの道
+現場の Calling Plans
+Operator Connect
+Teams Phone Mobile
+Direct Routing
+一つのテナントで混ぜる
+正規化してから経路
+ダイヤルプランと最初の一致
+PSTN 使用法が権限
+音声ルートとゲートウェイ
+ロンドンの実例
+Islands モードとその他の停止
+音声アプリのリソースアカウント
+自動応答の設計
+キューの振り分け方法
+タイムアウト、あふれ、発信の課金
+入れ子の音声アプリ
+音声アプリの番号
+緊急通話は設計の門
+動的な位置情報
+緊急通話: Calling Plans と Direct Routing
+位置情報に基づくルーティング
+Survivable Branch Appliance
+通知と試験通話
+認定電話機
+Teams Rooms
+SIP Gateway とアナログ
+メディアバイパス
+ローカルメディア最適化
+共用エリア電話を、もう一度、端末として
+認定が買うもの
+AudioCodes の型
+Ribbon の型
+Oracle Communications SBC
+Teams 向け Cisco CUBE
+サポートの境界
+証明書プロファイル
+名前、ワイルドカード、対になる FQDN
+三つの SIP プロキシとフェイルオーバー
+SIP OPTIONS
+コーデックと SRTP
+予行できるフェイルオーバー
+一つの仮説
+ラダーを読む
+Call Analytics
+Call Quality Dashboard
+トランクの健全性
+障害カタログ
+Customer Service と Contact Center
+チャネル
+統合ルーティング
+担当者体験と Copilot
+ACS 上の音声
+AB-250 の地図
+Connect、Extend、Unify
+Teams Phone の拡張
+CUCM と CUBE
+Webex calling の相互接続
+移行中の UCCE
+Genesys と Amazon Connect
+Calling SDK と Call Automation
+ACS からの Teams 相互接続
+イベントとしての IVR
+Azure AI Speech
+Copilot Studio の音声
+Foundry と、発明してはいけないこと
+2026年10月14日の MS-700
+MB-280、AB-210、AB-250
+AZ-900 と SC-900
+仕事に合う学習パス
+ステータスボード
+準備マップの使い方
+音声は閉じた箱ではない
+用語集の使い方
+マインドマップ
+コンプライアンス録音と品質管理
+ワークフォース管理
+記録システムとしての E911
+分析と Power BI
+CRM とスクリーンポップ
+キューのそばの AI エージェント
+統合マップ
+プラットフォーム間の橋
+将来の統合フック
+エコシステムの変更を構成する
+ベンダー境界をまたぐ障害切り分け

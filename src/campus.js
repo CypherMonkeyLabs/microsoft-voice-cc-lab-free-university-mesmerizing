@@ -28,6 +28,8 @@ const trackPacks = {};
 const moduleFlags = {};
 let topoHandle = null;
 let heroHandle = null;
+let iconHandle = null;
+let headingPack = null;
 
 function disposeTopology() {
   if (topoHandle && topoHandle.dispose) topoHandle.dispose();
@@ -37,6 +39,11 @@ function disposeTopology() {
 function disposeHero() {
   if (heroHandle && heroHandle.dispose) heroHandle.dispose();
   heroHandle = null;
+}
+
+function disposeIcons() {
+  if (iconHandle && iconHandle.dispose) iconHandle.dispose();
+  iconHandle = null;
 }
 
 async function fetchJson(url) {
@@ -204,6 +211,32 @@ function lessonsIn(trackId) {
   return indexed.length ? indexed : full;
 }
 
+async function ensureHeadings() {
+  const lang = state.lang || "en";
+  if (lang === "en" || headingPack) return;
+  try {
+    headingPack = await fetchJson("data/headings.json");
+  } catch (err) {
+    headingPack = {};
+  }
+}
+
+function lessonHeading(lesson) {
+  const lang = state.lang || "en";
+  const title = lesson && lesson.title ? lesson.title : "";
+  if (!lesson || lang === "en" || !headingPack) return { text: title, en: "" };
+  const row = headingPack[lesson.id];
+  const text = row && row[lang] ? row[lang] : "";
+  if (!text || text === title) return { text: title, en: "" };
+  return { text: text, en: title };
+}
+
+function headingHtml(lesson) {
+  const head = lessonHeading(lesson);
+  if (!head.en) return "<h1>" + esc(head.text) + "</h1>";
+  return "<h1>" + esc(head.text) + "</h1>" + '<p class="tiny en-title">' + esc(head.en) + "</p>";
+}
+
 function lessonTotal() {
   return (DATA.counts && DATA.counts.lessons) || (DATA.lessonIndex || []).length || DATA.lessons.length;
 }
@@ -328,6 +361,31 @@ function setTheme(next) {
   save();
 }
 
+function fillThemePop() {
+  const pop = $("#theme-pop");
+  if (!pop || pop.dataset.filled === "1") return;
+  pop.dataset.filled = "1";
+  pop.innerHTML = THEMES.map((theme) => '<button type="button" class="swatch" data-home-theme="' + theme.id + '" aria-pressed="' + (activeTheme() === theme.id ? "true" : "false") + '">' + esc(theme.label) + "</button>").join("");
+  $$("[data-home-theme]", pop).forEach((button) => {
+    button.onclick = function () {
+      setTheme(button.getAttribute("data-home-theme"));
+    };
+  });
+}
+
+function placeThemePop() {
+  const cycle = $("#theme-cycle");
+  const pop = $("#theme-pop");
+  if (!cycle || !pop || pop.hidden) return;
+  const rect = cycle.getBoundingClientRect();
+  pop.style.top = (rect.bottom + 8) + "px";
+  const width = pop.offsetWidth || 280;
+  let left = rect.right - width;
+  if (left < 8) left = 8;
+  if (left + width > window.innerWidth - 8) left = Math.max(8, window.innerWidth - width - 8);
+  pop.style.left = left + "px";
+}
+
 function flowSvg(steps, title) {
   const width = 920;
   const height = 168;
@@ -403,13 +461,22 @@ function sourceList(sources) {
   );
 }
 
+function monkeyLooks() {
+  return (
+    '<g class="look look-1"><path d="M18 18h28v6H18z" fill="var(--cc-accent-1)"></path></g>' +
+    '<g class="look look-2"><polygon points="32,6 36,15 32,13 28,15" fill="var(--cc-accent-2)"></polygon></g>' +
+    '<g class="look look-3"><path d="M16 46h32v5H16z" fill="var(--cc-accent-4)"></path></g>'
+  );
+}
+
 function monkeyMarkup(pose, look) {
   return (
     '<svg class="monkey" data-pose="' + pose + '" data-look="' + (look == null ? 0 : look) + '" data-fixed="1" viewBox="0 0 64 72" aria-hidden="true">' +
     '<path class="tail" d="M46 54c10 2 14 12 8 16" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"></path>' +
     '<circle cx="32" cy="28" r="14" fill="var(--cc-accent-3)"></circle>' +
-    '<circle cx="18" cy="26" r="5" fill="var(--cc-accent-4)"></circle>' +
-    '<circle cx="46" cy="26" r="5" fill="var(--cc-accent-4)"></circle>' +
+    '<circle class="ear" cx="18" cy="26" r="5" fill="var(--cc-accent-4)"></circle>' +
+    '<circle class="ear" cx="46" cy="26" r="5" fill="var(--cc-accent-4)"></circle>' +
+    monkeyLooks() +
     '<circle class="eye" cx="27" cy="27" r="1.6" fill="#1a1208"></circle>' +
     '<circle class="eye" cx="37" cy="27" r="1.6" fill="#1a1208"></circle>' +
     '<path class="smile" d="M27 33c2.2 2 7.8 2 10 0" fill="none" stroke="#1a1208" stroke-width="1.4" stroke-linecap="round"></path>' +
@@ -495,35 +562,9 @@ function heroFlow() {
 }
 
 function isoIcon(track) {
-  const n = Number(String(track.num).replace(/\D/g, "")) || 1;
-  const id = String(track.id || "t").replace(/[^a-z0-9]/gi, "");
-  const hue = (n * 37) % 360;
-  const hue2 = (hue + 46) % 360;
-  const glyphs = [
-    "M74 40 H86 V52 H74 Z",
-    "M80 36 L90 52 H70 Z",
-    "M72 44 H88 M80 36 V52",
-    "M70 40 H90 M70 48 H90",
-    "M74 38 C80 34 86 38 86 44 C86 52 74 52 74 44 C74 38 74 38 74 38",
-    "M72 50 L80 36 L88 50",
-    "M70 42 H90 V52 H70 Z M75 42 V38 H85 V42",
-    "M80 36 A8 8 0 1 1 79.8 36",
-  ];
-  const glyph = glyphs[(n - 1) % glyphs.length];
+  const id = String(track.id || "t01");
   return (
-    '<span class="iso-wrap"><svg class="iso-icon" viewBox="0 0 160 150" role="img" aria-label="' + esc(track.title) + ' icon">' +
-    "<defs>" +
-    '<linearGradient id="fa' + id + '" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="hsl(' + hue + ',95%,68%)"/><stop offset="100%" stop-color="hsl(' + hue2 + ',90%,50%)"/></linearGradient>' +
-    '<linearGradient id="fl' + id + '" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="hsl(' + hue + ',70%,36%)"/><stop offset="100%" stop-color="hsl(' + hue + ',80%,16%)"/></linearGradient>' +
-    '<linearGradient id="fr' + id + '" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="hsl(' + hue2 + ',85%,46%)"/><stop offset="100%" stop-color="hsl(' + hue2 + ',70%,22%)"/></linearGradient>' +
-    '<filter id="fs' + id + '" x="-40%" y="-40%" width="180%" height="180%"><feDropShadow dx="0" dy="12" stdDeviation="6" flood-color="hsl(' + hue + ',100%,58%)" flood-opacity="0.7"/></filter>' +
-    "</defs>" +
-    '<polygon points="80,18 132,46 80,74 28,46" fill="url(#fa' + id + ')" filter="url(#fs' + id + ')"/>' +
-    '<polygon points="28,46 80,74 80,122 28,94" fill="url(#fl' + id + ')"/>' +
-    '<polygon points="80,74 132,46 132,94 80,122" fill="url(#fr' + id + ')"/>' +
-    '<path d="' + glyph + '" fill="none" stroke="#fff" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"/>' +
-    '<text x="80" y="142" text-anchor="middle" fill="currentColor" font-size="12" font-family="sans-serif">' + esc(track.num) + "</text>" +
-    "</svg></span>"
+    '<span class="iso-wrap"><canvas class="track-gl iso-icon" data-track="' + esc(id) + '" width="160" height="150" aria-label="' + esc(track.title) + ' icon"></canvas></span>'
   );
 }
 
@@ -553,7 +594,6 @@ function renderHome() {
   ];
   const maxStat = Math.max.apply(null, stats.map((item) => Number(item[0]) || 1));
   const poses = ["idle", "wave", "think", "listen", "celebrate"];
-  const swatches = THEMES.map((theme) => '<button type="button" class="swatch" data-home-theme="' + theme.id + '" aria-pressed="' + (activeTheme() === theme.id ? "true" : "false") + '">' + esc(theme.label) + "</button>").join("");
   const spots = [
     ["#/diagrams", "Diagrams", "diagrams"],
     ["#/flows", "Flows", "flows"],
@@ -577,7 +617,7 @@ function renderHome() {
   return (
     "<h1>Microsoft Voice &amp; Contact Center Lab</h1>" +
     '<section class="neon-hero" id="neon-hero">' +
-    '<canvas id="hero-gl" aria-label="Three.js call path. Teams, SIP proxy, SBC, and carrier orbit a neon grid."></canvas>' +
+    '<canvas id="hero-gl" aria-label="Three.js call path. Teams, SIP proxy, SBC, carrier, Copilot, and Dynamics 365 orbit a neon globe."></canvas>' +
     '<div class="hero-fallback" id="hero-fallback" hidden>' + heroFlow() + "</div>" +
     '<div class="hero-overlay">' +
     '<div class="hero-copy">' +
@@ -586,9 +626,8 @@ function renderHome() {
     '<p class="hero-sub">Teams, the SIP proxy, the SBC, and the carrier. Signaling stays on TLS 5061. Media may bypass. <a href="#/regions" data-i18n="regions">Regions</a></p>' +
     "</div>" +
     '<div class="grid stats live-counters hero-stats">' + stats.map((item) => ringStat(item[0], item[1], (Number(item[0]) / maxStat) * 100)).join("") + "</div>" +
-    '<div class="swatches" role="group" aria-label="Theme switcher">' + swatches + "</div>" +
-    '<nav class="spot-nav" aria-label="Home sections">' + spots.map((spot) => '<a class="spot" href="' + spot[0] + '" data-i18n="' + spot[2] + '">' + esc(spot[1]) + "</a>").join("") + "</nav>" +
     "</div></section>" +
+    '<nav class="spot-nav" aria-label="Home sections">' + spots.map((spot) => '<a class="spot" href="' + spot[0] + '" data-i18n="' + spot[2] + '">' + esc(spot[1]) + "</a>").join("") + "</nav>" +
     signalDeck("t01") +
     '<p class="kicker">Free offline campus · firewall prefixes checked 15 October 2026</p>' +
     '<p class="lede">A study bench for the engineer who has to explain a Teams call, a queue, a recorder, and a contact-center route without guessing. No account. No key. No network after this file is open.</p>' +
@@ -672,7 +711,7 @@ function renderTrack(id) {
     lessons.map((lesson, index) => {
       const on = state.lessons.indexOf(lesson.id) !== -1;
       return (
-        '<a class="lesson-card" href="#/lesson/' + lesson.id + '"><span class="num">' + String(index + 1).padStart(2, "0") + '</span><span><strong>' + esc(lesson.title) + "</strong><br><span class=\"tiny\">" + lesson.minutes + " min · " + esc(lesson.say).slice(0, 110) + '</span></span><span class="check ' + (on ? "on" : "") + '" aria-label="' + (on ? "complete" : "not complete") + '"></span></a>'
+        '<a class="lesson-card" href="#/lesson/' + lesson.id + '"><span class="num">' + String(index + 1).padStart(2, "0") + '</span><span><strong>' + esc(lessonHeading(lesson).text) + "</strong>" + (lessonHeading(lesson).en ? '<br><span class="tiny">' + esc(lessonHeading(lesson).en) + "</span>" : "") + '<br><span class="tiny">' + lesson.minutes + " min · " + esc(lesson.say).slice(0, 110) + '</span></span><span class="check ' + (on ? "on" : "") + '" aria-label="' + (on ? "complete" : "not complete") + '"></span></a>'
       );
     }).join("") +
     "</div>" +
@@ -822,7 +861,7 @@ function renderLesson(id) {
   window.__listen = lesson.listen;
   return (
     '<p class="kicker"><a href="#/track/' + track.id + '">' + esc(track.title) + "</a> · Lesson " + (index + 1) + " of " + siblings.length + "</p>" +
-    "<h1>" + esc(lesson.title) + "</h1>" +
+    headingHtml(lesson) +
     '<div class="callout"><strong>Why it matters. </strong>' + esc(lesson.why) + "</div>" +
     '<div class="deps">' + lesson.depends.map((item) => '<span class="tag">Depends on ' + esc(item) + "</span>").join("") + "</div>" +
     '<div class="prose">' + lesson.body.map((paragraph) => "<p>" + esc(paragraph) + "</p>").join("") + "</div>" +
@@ -2071,6 +2110,7 @@ async function render() {
   clearLadders();
   disposeTopology();
   disposeHero();
+  disposeIcons();
   if (window.speechSynthesis) window.speechSynthesis.cancel();
   speaking = false;
   const listen = $("#listen");
@@ -2117,6 +2157,7 @@ async function render() {
   }
   paintView('<p class="loading">Loading this page.</p>');
   try {
+    if ((state.lang || "en") !== "en") await ensureHeadings();
     if (root === "lesson") {
       const stub = lessonStub(arg);
       await ensureTrack(stub.track);
@@ -2365,7 +2406,10 @@ function paintHits(query) {
   const hits = [];
   const lessonHits = (DATA.lessonIndex && DATA.lessonIndex.length) ? DATA.lessonIndex : DATA.lessons;
   extraHits().forEach((hit) => hits.push(hit));
-  lessonHits.forEach((lesson) => hits.push({ href: "#/lesson/" + lesson.id, title: lesson.title, kind: "Lesson" }));
+  lessonHits.forEach((lesson) => {
+    const head = lessonHeading(lesson);
+    hits.push({ href: "#/lesson/" + lesson.id, title: head.en ? head.text + " " + head.en : head.text, kind: "Lesson" });
+  });
   DATA.labs.forEach((lab) => hits.push({ href: "#/lab/" + lab.id, title: lab.title, kind: "Lab" }));
   const termHits = (DATA.glossary && DATA.glossary.length) ? DATA.glossary : (DATA.termIndex || []);
   termHits.forEach((item) => hits.push({ href: "#/glossary", title: item.term, kind: "Term" }));
@@ -2649,6 +2693,37 @@ function bindScenario(prefix) {
   });
 }
 
+function paintIconFallback(root) {
+  $$("canvas.track-gl", root).forEach((canvas) => {
+    const ctx = canvas.getContext("2d");
+    if (!ctx) return;
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.strokeStyle = "#22e6ff";
+    ctx.lineWidth = 4;
+    ctx.beginPath();
+    ctx.moveTo(80, 24);
+    ctx.lineTo(132, 58);
+    ctx.lineTo(80, 126);
+    ctx.lineTo(28, 58);
+    ctx.closePath();
+    ctx.stroke();
+  });
+}
+
+async function mountIcons() {
+  const gen = renderGen;
+  const root = $("#view");
+  if (!root || !root.querySelector("canvas.track-gl")) return;
+  try {
+    const mod = await import("./studios/icons.js");
+    if (gen !== renderGen) return;
+    disposeIcons();
+    iconHandle = mod.mount($("#view"));
+  } catch (err) {
+    if (gen === renderGen) paintIconFallback($("#view"));
+  }
+}
+
 async function mountHero() {
   const canvas = document.getElementById("hero-gl");
   const fallback = document.getElementById("hero-fallback");
@@ -2759,8 +2834,10 @@ async function boot() {
     lang.onchange = function () {
       state.lang = lang.value;
       save();
+      render();
     };
   }
+  fillThemePop();
   const flip = $("#theme-flip");
   if (flip) {
     flip.onclick = function () {
@@ -2788,12 +2865,33 @@ async function boot() {
   });
   const cycle = $("#theme-cycle");
   if (cycle) {
-    cycle.onclick = function () {
-      const ids = THEMES.map((theme) => theme.id);
-      const index = ids.indexOf(activeTheme());
-      setTheme(ids[(index + 1) % ids.length]);
+    cycle.onclick = function (event) {
+      event.stopPropagation();
+      const pop = $("#theme-pop");
+      if (!pop) return;
+      const open = pop.hidden;
+      pop.hidden = !open;
+      cycle.setAttribute("aria-expanded", open ? "true" : "false");
+      if (open) placeThemePop();
     };
   }
+  document.addEventListener("click", function (event) {
+    const pop = $("#theme-pop");
+    const button = $("#theme-cycle");
+    if (!pop || pop.hidden) return;
+    if (pop.contains(event.target) || (button && button.contains(event.target))) return;
+    pop.hidden = true;
+    if (button) button.setAttribute("aria-expanded", "false");
+  });
+  document.addEventListener("keydown", function (event) {
+    if (event.key !== "Escape") return;
+    const pop = $("#theme-pop");
+    if (!pop || pop.hidden) return;
+    pop.hidden = true;
+    const button = $("#theme-cycle");
+    if (button) button.setAttribute("aria-expanded", "false");
+  });
+  window.addEventListener("resize", placeThemePop);
   cycleMascot();
   armKonami();
   paintChrome();

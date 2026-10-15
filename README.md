@@ -69,8 +69,8 @@ Checked 14 October 2026 against a local server.
 
 | | Before | After |
 |---|---|---|
-| First load | 4.91 MB in one HTML file | 472 KB: HTML 5 KB, CSS 26 KB, app script 151 KB, manifest 290 KB |
-| Three.js | none | 671 KB, loaded only when the mesh opens |
+| First load | 4.91 MB in one HTML file | 579 KB: HTML 12 KB, CSS 50 KB, app script 227 KB, manifest 290 KB |
+| Three.js | none | 671 KB plus a vendored bloom pass, loaded with the home scene |
 | DOM | one lesson stays on screen | Home 303 nodes, Direct Routing lesson 567 nodes |
 | Lighthouse mobile | not scored on the monolith | Performance 92, accessibility 100 |
 

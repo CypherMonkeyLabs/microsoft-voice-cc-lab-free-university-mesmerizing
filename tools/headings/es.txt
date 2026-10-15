@@ -1,0 +1,110 @@
+El límite del inquilino
+Cuentas de Entra ID que usará la voz
+Roles que pueden cambiar la voz
+El mapa del centro de administración
+Exchange y Cloud Voicemail
+Qué significa hospedado en línea
+La pila de licencias
+Variantes de Calling Plan
+Teams Premium no es PSTN
+Licencias de cuentas de recursos
+Salas, área común y llamadas compartidas
+Un conjunto de licencias que puedes defender
+El módulo y la sesión
+Objetos que sí vas a obtener
+Grant, set y new
+Leer un usuario antes de cambiarlo
+Cuando el portal y la consola no coinciden
+Seguridad en un inquilino de laboratorio
+El camino más corto, sin proxy de medios
+La tabla de puertos y DSCP
+VPN y el túnel dividido
+Ancho de banda que puedes calcular
+Demostrar que la marca sobrevivió
+ExpressRoute no es el requisito
+Cuatro formas de llegar a la PSTN
+Calling Plans en la práctica
+Operator Connect
+Teams Phone Mobile
+Direct Routing
+Mezclarlos en un inquilino
+Normalizar y luego enrutar
+Planes de marcado y la primera coincidencia
+Los usos PSTN son el permiso
+Rutas de voz y puertas de enlace
+Un ejemplo trabajado de Londres
+Modo Islands y otros frenos
+Cuentas de recursos para apps de voz
+Diseño del operador automático
+Métodos de enrutamiento de cola
+Tiempo de espera, desbordamiento y financiación saliente
+Apps de voz anidadas
+Números en apps de voz
+La llamada de emergencia es una puerta de diseño
+Ubicación dinámica
+Emergencia: Calling Plans frente a Direct Routing
+Enrutamiento basado en ubicación
+Survivable Branch Appliance
+Notificación y la llamada de prueba
+Teléfonos certificados
+Teams Rooms
+SIP Gateway y analógico
+Media bypass
+Optimización de medios local
+Teléfonos de área común, otra vez, como dispositivos
+Lo que te compra la certificación
+Patrón AudioCodes
+Patrón Ribbon
+Oracle Communications SBC
+Cisco CUBE para Teams
+El límite de soporte
+El perfil del certificado
+Nombres, comodines y el FQDN emparejado
+Tres proxies SIP y la conmutación
+SIP OPTIONS
+Códecs y SRTP
+Una conmutación que puedes ensayar
+Una hipótesis
+Leer una escalera
+Call Analytics
+Call Quality Dashboard
+Salud del tronco
+Un catálogo de fallos
+Customer Service y Contact Center
+Canales
+Enrutamiento unificado
+Experiencia del representante y Copilot
+Voz en ACS
+El mapa de AB-250
+Connect, Extend y Unify
+Extensibilidad de Teams Phone
+CUCM y CUBE
+Interoperación de Webex calling
+UCCE durante un traslado
+Genesys y Amazon Connect
+Calling SDK frente a Call Automation
+Interoperación de Teams desde ACS
+Un IVR como eventos
+Azure AI Speech
+Voz de Copilot Studio
+Foundry, y lo que no hay que inventar
+MS-700 el 14 de octubre de 2026
+MB-280, AB-210 y AB-250
+AZ-900 y SC-900
+Rutas de aprendizaje que coinciden con el puesto
+El tablero de estado
+Cómo usar el mapa de preparación
+La voz no es una caja cerrada
+Cómo usar el glosario
+El mapa mental
+Grabación de cumplimiento y gestión de calidad
+Gestión de la fuerza de trabajo
+E911 como sistema de registro
+Analítica y Power BI
+CRM y screen pop
+Agentes de IA junto a la cola
+Mapas de integración
+Puentes entre plataformas
+Ganchos de integración futura
+Configurar un cambio del ecosistema
+Diagnosticar a través de un límite de proveedor

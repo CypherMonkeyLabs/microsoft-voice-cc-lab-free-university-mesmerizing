@@ -280,9 +280,10 @@ function architectAudio() {
   return (
     '<section class="panel holo architect">' +
     '<h2 data-i18n="listen">Architect briefing</h2>' +
-    '<p>Two short clips. Maya and Jon walk the campus: how to view the scene, open the menu, practise, and share. Spoken on this machine with espeak-ng. Nothing is uploaded.</p>' +
+    '<p>Two short clips. Maya and Jon walk the campus: how to view the scene, open the menu, practise, and share. Better recordings can replace the same files later: <code>audio/architect-use.mp3</code> and <code>audio/architect-share.mp3</code>. The player, rate and comment, and Share stay.</p>' +
     '<figure><figcaption>Use and view</figcaption><audio controls preload="none" src="audio/architect-use.mp3"></audio></figure>' +
     '<figure><figcaption>Practise and share</figcaption><audio controls preload="none" src="audio/architect-share.mp3"></audio></figure>' +
+    '<p class="tiny" id="audio-miss" hidden></p>' +
     '<p class="audio-actions"><a href="https://github.com/cipher0x9/microsoft-voice-cc-lab-free-university-mesmerizing/issues">Rate and comment</a> · <button type="button" class="ghost" id="share-lab">Share</button> · <a href="https://cyphermonkeylabs.com">CypherMonkey Labs</a></p>' +
     '<p class="tiny" id="share-note">Share copies the public campus address. Report a concern from the footer. No email is shown.</p></section>'
   );
@@ -306,6 +307,17 @@ function wireArchitect() {
     }
     done(url);
   };
+  $$(".architect audio").forEach((node) => {
+    if (node.dataset.bound === "1") return;
+    node.dataset.bound = "1";
+    node.addEventListener("error", function () {
+      const miss = $("#audio-miss");
+      const path = node.getAttribute("src") || "audio/";
+      if (!miss) return;
+      miss.hidden = false;
+      miss.textContent = "The clip is not in the folder yet: " + path + ". The player stays ready for that file.";
+    });
+  });
 }
 
 function bindChartTips() {
@@ -366,9 +378,11 @@ function renderRegions() {
   return (
     crumbs([["Home", "#/"], ["Regions", ""]]) +
     '<p class="kicker">Places · checked 15 October 2026</p><h1>Regions</h1>' +
-    '<p class="lede">Two lists are facts from Microsoft’s pages. The country grid below is an example study map, not a live PSTN catalog and not a data-residency table.</p>' +
+    '<p class="lede">The table below cites Microsoft Learn. The cards are example study pins. They are not Microsoft’s Calling Plan country list, not a data-residency table, and not carrier coverage.</p>' +
+    '<div class="callout warn"><strong>Example study pins. </strong>Each card is a teaching pin with a made-up prompt. The vendor page wins.</div>' +
+    "<h2>Example study pins</h2>" +
     '<div class="region-grid">' + examples.map((row) => (
-      '<article class="panel holo region-card"><p class="flag" aria-hidden="true">' + esc(row[0]) + '</p><h2>' + esc(row[1]) + '</h2><p class="kicker">' + esc(row[2]) + '</p><p><span class="tag warn">Example</span> ' + esc(row[3]) + "</p></article>"
+      '<article class="panel holo region-card"><p class="flag" aria-hidden="true">' + esc(row[0]) + '</p><h2>Example: ' + esc(row[1]) + '</h2><p class="kicker">' + esc(row[2]) + '</p><p><span class="tag warn">Example</span> ' + esc(row[3]) + "</p></article>"
     )).join("") + "</div>" +
     "<h2>Cited network facts</h2>" +
     fieldTable(["What", "Fact", "Source"], cited.map((row) => [
@@ -830,6 +844,7 @@ function wireExtras(root) {
   if (root === "lesson" || root === "field" || root === "migrate" || root === "ports") mountOnThisPage();
   bindChartTips();
   wireArchitect();
+  if (typeof mountIcons === "function") mountIcons();
 }
 
 function bindReadbar() {
@@ -863,7 +878,7 @@ function cycleMascot() {
       const next = ((Number(node.dataset.look) || 0) + 1) % 4;
       node.dataset.look = String(next);
     });
-  }, 180000);
+  }, 9000);
 }
 
 function armKonami() {
