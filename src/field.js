@@ -84,48 +84,105 @@ async function loadAtlas() {
   return payload;
 }
 
-function atlasCard(item, feature) {
-  const kind = item.animated ? "Animated flow" : "Diagram";
+function hopCallouts(caption, labels) {
+  const bits = String(caption || "").split(/(?<=\.)\s+/).map((part) => part.trim()).filter(Boolean).slice(0, 3);
+  if (!bits.length) bits.push("Teaching figure. Not a copy of a vendor diagram.");
+  const names = labels || ["Path", "Watch", "Check"];
   return (
-    '<article class="panel atlas-card holo' + (feature ? " atlas-feature" : "") + '" id="atlas-' + esc(item.id) + '" data-kind="' + (item.animated ? "flow" : "diagram") + '" data-topic="' + esc(item.topic) + '" data-title="' + esc(item.title) + '" data-caption="' + esc(item.caption) + '">' +
-    '<p class="kicker">' + kind + " · " + esc(item.topic) + "</p>" +
-    "<h2>" + esc(item.title) + "</h2>" +
-    '<div class="figure-canvas">' + item.svg + "</div>" +
-    "<p>" + esc(item.caption) + "</p>" +
-    '<p class="tiny"><a href="' + esc(item.source) + '">Source</a> · accessed ' + esc(item.accessed) + "</p>" +
-    '<button type="button" class="primary enlarge" data-enlarge="1" data-i18n="enlarge">Enlarge</button></article>'
+    '<ol class="callouts">' +
+    bits.map((bit, index) => '<li><span class="pin">' + names[index % names.length] + "</span><span>" + esc(bit) + "</span></li>").join("") +
+    "</ol>"
   );
 }
 
-function atlasPage(flowsOnly) {
-  const items = ((atlasCache && atlasCache.items) || []).filter((item) => !flowsOnly || item.animated);
-  const title = flowsOnly ? "Flows" : "Diagrams";
-  window.__listen = title + ". " + items.length + " figures in the atlas. Animated packets follow the signal path.";
+function rideSvg(kind) {
+  const paths = {
+    diagram: "M 12 46 H 88 V 14 H 176 V 46 H 268 V 14 H 388",
+    flow: "M 16 42 C 90 6, 150 62, 220 24 S 330 6, 392 34",
+    chart: "M 12 50 L 78 16 L 146 40 L 214 10 L 282 36 L 360 18 L 392 28",
+  };
+  const d = paths[kind] || paths.diagram;
+  const seconds = kind === "flow" ? "2.8s" : (kind === "chart" ? "4.2s" : "3.4s");
+  return (
+    '<svg class="page-ride ride-' + kind + '" viewBox="0 0 400 64" role="img" aria-label="Animated packet">' +
+    '<path class="flow-line" d="' + d + '" fill="none" stroke="var(--cc-accent-2)" stroke-width="2"></path>' +
+    '<circle class="atlas-packet" r="6" fill="var(--cc-accent-3)" style="offset-path: path(\'' + d + '\'); animation: ride ' + seconds + ' linear infinite"><title>Packet</title></circle></svg>'
+  );
+}
+
+function atlasMeta(item) {
+  return (
+    ' id="atlas-' + esc(item.id) + '" data-kind="' + (item.animated ? "flow" : "diagram") + '" data-topic="' + esc(item.topic) + '" data-title="' + esc(item.title) + '" data-caption="' + esc(item.caption) + '"'
+  );
+}
+
+function atlasFilters(items) {
   const topics = [];
   items.forEach((item) => {
     if (topics.indexOf(item.topic) === -1) topics.push(item.topic);
   });
-  const filters = '<div class="choice-row" role="tablist" aria-label="Filter">' +
+  return (
+    '<div class="choice-row" role="tablist" aria-label="Filter">' +
     '<button type="button" class="choice" data-atlas="all" aria-pressed="true">All</button>' +
     topics.map((topic) => '<button type="button" class="choice" data-atlas="' + esc(topic) + '" aria-pressed="false">' + esc(topic) + "</button>").join("") +
-    "</div>";
-  return (
-    crumbs([["Home", "#/"], [title, ""]]) +
-    '<p class="kicker">Diagram atlas · checked ' + esc((atlasCache && atlasCache.checked) || "2026-10-15") + "</p>" +
-    "<h1>" + title + "</h1>" +
-    '<p class="lede">' + items.length + (flowsOnly ? " animated call, signal, and data flows." : " custom diagrams, including the animated flows.") + " Hand-built for this campus. Not a copy of a vendor document.</p>" +
-    filters +
-    '<p class="tiny" id="atlas-count">' + items.length + " showing</p>" +
-    '<div id="atlas-list">' + items.map((item, index) => atlasCard(item, index === 0)).join("") + "</div>"
+    "</div>"
   );
 }
 
+function diagramCard(item, feature) {
+  return (
+    '<article class="blueprint atlas-card' + (feature ? " atlas-feature" : "") + '"' + atlasMeta(item) + ">" +
+    '<div class="plate"><p class="kicker">Sheet · ' + esc(item.topic) + "</p><h2>" + esc(item.title) + "</h2>" +
+    '<div class="figure-canvas">' + item.svg + "</div>" + rideSvg("diagram") + "</div>" +
+    '<div class="sheet-notes">' + hopCallouts(item.caption, ["Trace", "Boundary", "Check"]) +
+    '<p class="tiny"><a href="' + esc(item.source) + '">Source</a> · accessed ' + esc(item.accessed) + "</p>" +
+    '<button type="button" class="primary enlarge" data-enlarge="1" data-i18n="enlarge">Enlarge</button></div></article>'
+  );
+}
+
+function flowCard(item, feature) {
+  return (
+    '<article class="film atlas-card' + (feature ? " atlas-feature" : "") + '"' + atlasMeta(item) + ">" +
+    '<div class="figure-canvas">' + item.svg + "</div>" +
+    '<div class="film-notes"><p class="kicker">Signal · ' + esc(item.topic) + "</p><h2>" + esc(item.title) + "</h2>" +
+    rideSvg("flow") + hopCallouts(item.caption, ["Signal", "Media", "Fail"]) +
+    '<p class="tiny"><a href="' + esc(item.source) + '">Source</a> · accessed ' + esc(item.accessed) + "</p>" +
+    '<button type="button" class="ghost enlarge" data-enlarge="1" data-i18n="enlarge">Enlarge</button></div></article>'
+  );
+}
+
+function stageStops(labels) {
+  return '<ol class="stage-stops">' + labels.map((label, index) => '<li><b>' + (index + 1) + "</b><span>" + esc(label) + "</span></li>").join("") + "</ol>";
+}
+
 function renderDiagrams() {
-  return atlasPage(false);
+  const items = (atlasCache && atlasCache.items) || [];
+  window.__listen = "Diagrams. " + items.length + " blueprint sheets. A packet walks the sheet edge. Callouts name the trace, the boundary, and the check.";
+  return (
+    '<div class="layout-diagrams">' +
+    crumbs([["Home", "#/"], ["Diagrams", ""]]) +
+    '<p class="kicker">Blueprint · checked ' + esc((atlasCache && atlasCache.checked) || "2026-10-15") + "</p><h1>Diagrams</h1>" +
+    '<p class="lede">' + items.length + " sheets on a drawing grid. The packet walks the registration marks. Callouts sit beside the sheet, not on top of it.</p>" +
+    '<section class="page-stage diagram-stage">' + rideSvg("diagram") + stageStops(["Tenant", "Dial plan", "SBC", "Carrier"]) + "</section>" +
+    atlasFilters(items) +
+    '<p class="tiny" id="atlas-count">' + items.length + " showing</p>" +
+    '<div id="atlas-list">' + items.map((item, index) => diagramCard(item, index === 0)).join("") + "</div></div>"
+  );
 }
 
 function renderFlows() {
-  return atlasPage(true);
+  const items = ((atlasCache && atlasCache.items) || []).filter((item) => item.animated);
+  window.__listen = "Flows. " + items.length + " animated signal paths. The packet rides the hop. Callouts name signal, media, and the failure.";
+  return (
+    '<div class="layout-flows">' +
+    crumbs([["Home", "#/"], ["Flows", ""]]) +
+    '<p class="kicker">Filmstrip · checked ' + esc((atlasCache && atlasCache.checked) || "2026-10-15") + "</p><h1>Flows</h1>" +
+    '<p class="lede">' + items.length + " animated hops. Each row is a film frame: the path on the left, the callouts on the right.</p>" +
+    '<section class="page-stage flow-stage">' + rideSvg("flow") + stageStops(["INVITE", "180 Ringing", "200 OK", "RTP"]) + "</section>" +
+    atlasFilters(items) +
+    '<p class="tiny" id="atlas-count">' + items.length + " showing</p>" +
+    '<div id="atlas-list">' + items.map((item, index) => flowCard(item, index === 0)).join("") + "</div></div>"
+  );
 }
 
 function renderPlay() {

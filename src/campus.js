@@ -1904,9 +1904,26 @@ function missing() {
 }
 
 function renderCharts() {
-  window.__listen = "Charts. Licensing, call quality, Erlang C, and the certification timeline. Teaching samples are labeled.";
-  return '<p class="kicker">Figures</p><h1>Charts</h1><p class="lede">Licensing, quality, staffing, and the dates that were true on 14 October 2026. Hover a bar to read its label.</p>' +
-    (DATA.charts || []).map((chart) => '<article class="panel holo chart-panel"><h2>' + esc(chart.title) + "</h2>" + chart.svg + '<p class="tiny">' + esc(chart.note) + "</p></article>").join("");
+  window.__listen = "Charts. A dashboard, not a stack of cards. A packet climbs the sample, and each chart keeps a labelled callout.";
+  const charts = DATA.charts || [];
+  const boards = charts.map((chart, index) => {
+    const lead = index === 0 ? " chart-board" : " chart-tile";
+    return (
+      '<article class="chart-panel' + lead + '"><header><p class="kicker">Sample ' + (index + 1) + "</p><h2>" + esc(chart.title) + "</h2></header>" +
+      '<div class="chart-plot">' + chart.svg + "</div>" +
+      (typeof rideSvg === "function" ? rideSvg("chart") : "") +
+      (typeof hopCallouts === "function" ? hopCallouts(chart.note, ["Sample", "Peak", "Limit"]) : '<p class="tiny">' + esc(chart.note) + "</p>") +
+      "</article>"
+    );
+  }).join("");
+  return (
+    '<div class="layout-charts">' +
+    '<p class="kicker">Dashboard</p><h1>Charts</h1>' +
+    '<p class="lede">The first chart spans the bench. The rest sit in a two-column grid. Hover a bar for its label. The packet is a reading guide, not a live tenant extract.</p>' +
+    '<section class="page-stage chart-stage">' + (typeof rideSvg === "function" ? rideSvg("chart") : "") +
+    (typeof stageStops === "function" ? stageStops(["Sample", "Peak", "Note", "Date"]) : "") + "</section>" +
+    '<div class="chart-bento">' + boards + "</div></div>"
+  );
 }
 
 function renderFaults() {

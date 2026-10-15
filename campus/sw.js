@@ -1,6 +1,6 @@
-/* Offline cache for the Voice Lab. Generated. Cache dad9aa365664. */
+/* Offline cache for the Voice Lab. Generated. Cache 45c9dcfd19d4. */
 "use strict";
-const CACHE = "mvcc-lab-dad9aa365664";
+const CACHE = "mvcc-lab-45c9dcfd19d4";
 const PRECACHE = [
   "./",
   "./index.html",
