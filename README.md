@@ -8,7 +8,9 @@ A free, offline campus for a voice engineer preparing for Teams Phone and Micros
 
 **Topics.** `microsoft-teams` `teams-phone` `direct-routing` `contact-center` `dynamics-365` `microsoft-365` `voice` `offline` `education` `study-guide`
 
-Checked **14 October 2026**. This is not a Microsoft, Cisco, AudioCodes, Ribbon, Oracle, Genesys, or Amazon publication. When a vendor page and this file disagree, the vendor page wins. Certification seats move. Read the exam page again before you book.
+Checked **14 October 2026** for the lesson set. Firewall prefixes were re-checked **15 October 2026** against Plan Direct Routing and the Office 365 URLs and IP address ranges article. Direct Routing SBC signaling and media use 52.112.0.0/14 and 52.120.0.0/14. Teams client optimize uses 52.112.0.0/14 and 52.122.0.0/15. Those lists are not the same. This is not a Microsoft, Cisco, AudioCodes, Ribbon, Oracle, Genesys, or Amazon publication. When a vendor page and this file disagree, the vendor page wins. Certification seats move. Read the exam page again before you book.
+
+The header menu is Diagrams, Flows, Charts, Cheat Codes, Play, Ecosystem, Downloads, and Careers. Home opens on an animated call path, live counters, five mascot poses, and a theme switcher, then a signal deck of charts.
 
 ## Open it
 
@@ -30,8 +32,8 @@ Progress, theme, lab runs, and exam self-ratings stay in `localStorage` under `m
 |---|---|
 | Tracks | 17, each with why it matters and what it depends on |
 | Lessons | 110, each with three animated flows, at least three diagrams, and a Try it link |
-| Illustrations | 1,540 distinct inline SVGs |
-| Animated flows | 330 |
+| Illustrations | 1,540 distinct inline SVGs, plus a Diagram Atlas of 29 figures |
+| Animated flows | 330 in lessons, plus 14 animated atlas flows |
 | Charts | 22, including licensing, CQD, Erlang C, and the certification and feature timelines |
 | Labs | 25, all runnable with no key |
 | Quiz | 644 questions, each with an explanation and a source |
@@ -111,13 +113,14 @@ AB-250 is the Dynamics 365 Contact Center exam; confirm the live seat. AZ-900 an
 
 ## Sister projects
 
-- [UC Lab](https://github.com/cipher0x9/uc-lab-free-university-mesmerizing)
-- [AI Lab](https://github.com/cipher0x9/ai-lab-free-university-mesmerizing)
-- Design reference: [Gemini Gems gallery](https://cipher0x9.github.io/gemini-gems-free-gallery/site/)
+- [UC Lab](https://cipher0x9.github.io/uc-lab-free-university-mesmerizing/)
+- [AI Lab](https://cipher0x9.github.io/ai-lab-free-university-mesmerizing/)
+- [Webex](https://cipher0x9.github.io/webex-lab-free-university-mesmerizing/)
+- Design reference: [Gemini Gems gallery](https://cipher0x9.github.io/gemini-gems-free-gallery/)
 
 ## License
 
-MIT. Copyright (c) 2026 Microsoft Voice & Contact Center Lab. See `LICENSE`.
+MIT for the code. CC BY-NC-SA 4.0 for the curriculum text, diagrams, and sheets. Copyright (c) 2026 Microsoft Voice & Contact Center Lab. See `LICENSE`. The footer uses the same split.
 
 ## Screenshots
 

@@ -788,7 +788,10 @@ const PORT_ROWS = [
   ["Client video", "UDP/TCP", "50020–50039", "DSCP 34 AF41", "https://learn.microsoft.com/en-us/microsoftteams/qos-in-teams"],
   ["Client app sharing", "UDP/TCP", "50040–50059", "DSCP 18 AF21", "https://learn.microsoft.com/en-us/microsoftteams/qos-in-teams"],
   ["Client signaling", "UDP/TCP", "50070–50089", "DSCP 40 CS5. The article says these ports are not configurable", "https://learn.microsoft.com/en-us/microsoftteams/qos-in-teams"],
-  ["Published service ranges", "IP", "52.112.0.0/14 and 52.120.0.0/14", "Teaching summary from this lab. Re-check the plan page before a firewall change", "https://learn.microsoft.com/en-us/microsoftteams/direct-routing-plan"],
+  ["Direct Routing SBC IPv4", "IP", "52.112.0.0/14 and 52.120.0.0/14", "Commercial signaling and media on the plan page checked 15 October 2026. This is not the Teams client optimize list.", "https://learn.microsoft.com/en-us/microsoftteams/direct-routing-plan"],
+  ["Direct Routing SBC IPv6", "IP", "2603:1063:400::/40 and 2603:1063:100::/40", "Signaling uses 2603:1063:400::/40. Media uses that prefix and 2603:1063:100::/40.", "https://learn.microsoft.com/en-us/microsoftteams/direct-routing-plan"],
+  ["Teams client optimize", "IP", "52.112.0.0/14 and 52.122.0.0/15", "Office 365 URLs article ID 11 and the worldwide endpoints feed, checked 15 October 2026. IPv6 optimize includes 2603:1063::/38. 52.120.0.0/14 is not on this client list, and 52.122.0.0/15 is not the SBC pair.", "https://learn.microsoft.com/en-us/microsoft-365/enterprise/urls-and-ip-address-ranges"],
+  ["GCC High / DoD media", "IP", "52.127.88.0/21 and 52.127.64.0/21", "GCC High media 52.127.88.0/21. DoD media 52.127.64.0/21. Proxy names are not the commercial trio.", "https://learn.microsoft.com/en-us/microsoftteams/direct-routing-plan"],
 ];
 
 const GAME_ROUNDS = [
@@ -835,6 +838,96 @@ let sandboxSeq = [];
 let gameCursor = 0;
 let gameScore = 0;
 let gameLocked = false;
+let atlasCache = null;
+
+async function loadAtlas() {
+  if (atlasCache) return atlasCache;
+  const payload = await fetchJson("data/atlas.json");
+  atlasCache = payload;
+  return payload;
+}
+
+function atlasCard(item) {
+  const kind = item.animated ? "Animated flow" : "Diagram";
+  return (
+    '<article class="panel atlas-card" id="atlas-' + esc(item.id) + '" data-kind="' + (item.animated ? "flow" : "diagram") + '" data-topic="' + esc(item.topic) + '">' +
+    '<p class="kicker">' + kind + " · " + esc(item.topic) + "</p>" +
+    "<h2>" + esc(item.title) + "</h2>" +
+    '<div class="figure-canvas">' + item.svg + "</div>" +
+    "<p>" + esc(item.caption) + "</p>" +
+    '<p class="tiny"><a href="' + esc(item.source) + '">Source</a> · accessed ' + esc(item.accessed) + "</p></article>"
+  );
+}
+
+function atlasPage(flowsOnly) {
+  const items = ((atlasCache && atlasCache.items) || []).filter((item) => !flowsOnly || item.animated);
+  const title = flowsOnly ? "Flows" : "Diagrams";
+  window.__listen = title + ". " + items.length + " figures in the atlas. Animated packets follow the signal path.";
+  const topics = [];
+  items.forEach((item) => {
+    if (topics.indexOf(item.topic) === -1) topics.push(item.topic);
+  });
+  const filters = '<div class="choice-row" role="tablist" aria-label="Filter">' +
+    '<button type="button" class="choice" data-atlas="all" aria-pressed="true">All</button>' +
+    topics.map((topic) => '<button type="button" class="choice" data-atlas="' + esc(topic) + '" aria-pressed="false">' + esc(topic) + "</button>").join("") +
+    "</div>";
+  return (
+    crumbs([["Home", "#/"], [title, ""]]) +
+    '<p class="kicker">Diagram atlas · checked ' + esc((atlasCache && atlasCache.checked) || "2026-10-15") + "</p>" +
+    "<h1>" + title + "</h1>" +
+    '<p class="lede">' + items.length + (flowsOnly ? " animated call, signal, and data flows." : " custom diagrams, including the animated flows.") + " Hand-built for this campus. Not a copy of a vendor document.</p>" +
+    filters +
+    '<p class="tiny" id="atlas-count">' + items.length + " showing</p>" +
+    '<div id="atlas-list">' + items.map(atlasCard).join("") + "</div>"
+  );
+}
+
+function renderDiagrams() {
+  return atlasPage(false);
+}
+
+function renderFlows() {
+  return atlasPage(true);
+}
+
+function renderPlay() {
+  window.__listen = "Play. Ports game, call-flow sandbox, daily challenge, and the SBC mesh.";
+  const tiles = [
+    ["#/game", "Ports game", "Eight questions. A perfect score is a badge."],
+    ["#/sandbox", "Call-flow sandbox", "Stack INVITE, 200 OK, and RTP and read the note."],
+    ["#/daily", "Daily challenge", "One question for this date, saved in this browser."],
+    ["#/explorer", "Flow explorer", "Hop by hop from the client to the recorder."],
+    ["#/topology", "SBC mesh", "Orbit the geo-redundant pair."],
+    ["#/diagrams", "Diagrams", "The full atlas, including the troubleshooting tree."],
+  ];
+  return (
+    crumbs([["Home", "#/"], ["Play", ""]]) +
+    '<p class="kicker">Practice</p><h1>Play</h1>' +
+    '<p class="lede">Games and sandboxes already in this campus. Scores stay in this browser.</p>' +
+    '<div class="lab-grid">' + tiles.map((tile) => '<a class="card spot" href="' + tile[0] + '"><h3>' + esc(tile[1]) + "</h3><p>" + esc(tile[2]) + "</p></a>").join("") + "</div>"
+  );
+}
+
+function wireAtlas() {
+  const buttons = $$("[data-atlas]");
+  if (!buttons.length) return;
+  const apply = function (topic) {
+    let shown = 0;
+    $$(".atlas-card").forEach((card) => {
+      const on = topic === "all" || card.getAttribute("data-topic") === topic;
+      card.hidden = !on;
+      if (on) shown += 1;
+    });
+    const count = $("#atlas-count");
+    if (count) count.textContent = shown + " showing";
+    buttons.forEach((button) => {
+      button.setAttribute("aria-pressed", button.getAttribute("data-atlas") === topic ? "true" : "false");
+    });
+  };
+  buttons.forEach((button) => {
+    button.onclick = function () { apply(button.getAttribute("data-atlas")); };
+  });
+}
 
 function extraHits() {
   return [
@@ -845,7 +938,10 @@ function extraHits() {
     { href: "#/explorer", title: "Flow map explorer", kind: "Guide" },
     { href: "#/sandbox", title: "Call-flow sandbox", kind: "Lab" },
     { href: "#/daily", title: "Daily challenge", kind: "Game" },
-    { href: "#/downloads", title: "Cheat codes and downloads", kind: "Guide" },
+    { href: "#/diagrams", title: "Diagram atlas", kind: "Guide" },
+    { href: "#/flows", title: "Animated flows", kind: "Guide" },
+    { href: "#/play", title: "Play", kind: "Game" },
+    { href: "#/downloads", title: "Cheat Codes and downloads", kind: "Guide" },
     { href: "#/career", title: "Career and certification paths", kind: "Guide" },
     { href: "#/news", title: "What is new", kind: "Guide" },
   ];
@@ -911,7 +1007,7 @@ function renderPorts() {
   ]);
   return (
     '<p class="kicker"><a href="#/field">Field desk</a></p><h1>Ports and protocols</h1>' +
-    '<p class="lede">A firewall matrix for commercial Microsoft 365 voice as taught in this campus. Government clouds use different proxy names. IP prefixes move. The plan page wins over this table.</p>' +
+    '<p class="lede">Two firewall lists, checked 15 October 2026. Direct Routing SBC signaling and media are not the Teams client optimize ranges. Government clouds use different proxy names. The Microsoft pages win over this table.</p>' +
     fieldTable(["Flow", "Proto", "Port", "What it is for", "Source"], rows) +
     "<h2>Ladder</h2>" +
     flowSvg([
@@ -922,7 +1018,7 @@ function renderPorts() {
       { label: "Carrier", detail: "PSTN" },
     ], "Commercial Direct Routing") +
     '<p class="row"><a class="primary" href="#/game">Play the ports game</a><a class="ghost" href="#/explorer">Open the flow explorer</a><a class="ghost" href="downloads/ports-protocols.html">Printable sheet</a></p>' +
-    '<p class="tiny">QoS source: <a href="https://learn.microsoft.com/en-us/microsoftteams/qos-in-teams">QoS in Microsoft Teams</a>. Direct Routing source: <a href="https://learn.microsoft.com/en-us/microsoftteams/direct-routing-plan">Plan Direct Routing</a>. Accessed 14 October 2026.</p>'
+    '<p class="tiny">QoS source: <a href="https://learn.microsoft.com/en-us/microsoftteams/qos-in-teams">QoS in Microsoft Teams</a>. Direct Routing source: <a href="https://learn.microsoft.com/en-us/microsoftteams/direct-routing-plan">Plan Direct Routing</a>. Client ranges: <a href="https://learn.microsoft.com/en-us/microsoft-365/enterprise/urls-and-ip-address-ranges">Office 365 URLs and IP address ranges</a> and the worldwide endpoints feed. Accessed 15 October 2026.</p>'
   );
 }
 
@@ -1180,7 +1276,8 @@ async function renderDownloads() {
   const cards = items.map((item) => '<a class="card" href="' + esc(item.href) + '"><p class="kicker">' + esc(item.kind) + "</p><h3>" + esc(item.title) + "</h3><p>" + esc(item.blurb) + "</p></a>").join("");
   const fallback = items.length ? "" : '<p class="callout">The download catalog did not load. Open the campus from a local server so <code>downloads/catalog.json</code> can be fetched.</p>';
   return (
-    '<p class="kicker">Offline</p><h1>Cheat codes</h1>' +
+    crumbs([["Home", "#/"], ["Cheat Codes", ""]]) +
+    '<p class="kicker">Offline</p><h1>Cheat Codes</h1>' +
     '<p class="lede">One-page sheets for ports, call flows, configuration, troubleshooting, and the glossary, plus a track sheet for every track. Each file carries the lab footer. Nothing is hosted on a CDN.</p>' +
     '<div class="hero-actions row">' +
     '<a class="primary" href="downloads/microsoft-voice-contact-center-lab.zip" download>Download the offline bundle</a>' +
@@ -1277,6 +1374,7 @@ function wireExtras(root) {
       };
     });
   }
+  if (root === "diagrams" || root === "flows") wireAtlas();
   if (root === "lesson" || root === "field" || root === "migrate" || root === "ports") mountOnThisPage();
 }
 
@@ -1300,7 +1398,10 @@ function cycleMascot() {
   window.setInterval(function () {
     if (document.documentElement.dataset.motion === "reduce") return;
     index = (index + 1) % poses.length;
-    $$(".monkey").forEach((node) => { node.dataset.pose = poses[index]; });
+    $$(".monkey").forEach((node) => {
+      if (node.getAttribute("data-fixed") === "1") return;
+      node.dataset.pose = poses[index];
+    });
   }, 7000);
 }
 
@@ -1715,17 +1816,120 @@ function sourceList(sources) {
   );
 }
 
+function monkeyMarkup(pose) {
+  return (
+    '<svg class="monkey" data-pose="' + pose + '" data-fixed="1" viewBox="0 0 64 72" aria-hidden="true">' +
+    '<path class="tail" d="M46 54c10 2 14 12 8 16" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"></path>' +
+    '<circle cx="32" cy="28" r="14" fill="var(--cc-accent-3)"></circle>' +
+    '<circle cx="18" cy="26" r="5" fill="var(--cc-accent-4)"></circle>' +
+    '<circle cx="46" cy="26" r="5" fill="var(--cc-accent-4)"></circle>' +
+    '<circle cx="27" cy="27" r="1.6" fill="#1a1208"></circle>' +
+    '<circle cx="37" cy="27" r="1.6" fill="#1a1208"></circle>' +
+    '<path class="smile" d="M27 33c2.2 2 7.8 2 10 0" fill="none" stroke="#1a1208" stroke-width="1.4" stroke-linecap="round"></path>' +
+    '<path class="headset" d="M20 24c0-8 24-8 24 0v6" fill="none" stroke="var(--cc-accent-1)" stroke-width="2"></path>' +
+    '<rect x="16" y="28" width="6" height="8" rx="2" fill="var(--cc-accent-1)"></rect>' +
+    '<rect x="42" y="28" width="6" height="8" rx="2" fill="var(--cc-accent-1)"></rect>' +
+    '<ellipse cx="32" cy="54" rx="14" ry="10" fill="var(--cc-accent-2)"></ellipse>' +
+    '<g class="arm"><path d="M20 50c-8 2-12 10-8 14" fill="none" stroke="var(--cc-accent-3)" stroke-width="3" stroke-linecap="round"></path></g>' +
+    "</svg>"
+  );
+}
+
+function crumbs(items) {
+  return (
+    '<nav class="crumbs" aria-label="Breadcrumb">' +
+    items.map((item, index) => {
+      if (index === items.length - 1) return '<span aria-current="page">' + esc(item[0]) + "</span>";
+      return '<a href="' + item[1] + '">' + esc(item[0]) + "</a>";
+    }).join('<span aria-hidden="true"> / </span>') +
+    "</nav>"
+  );
+}
+
+function parallaxRow() {
+  const icons = [
+    ["5061", "SIP/TLS", "22"],
+    ["52.112", "Two lists", "14"],
+    ["46", "EF audio", "26"],
+    ["E911", "Location", "16"],
+    ["SRTP", "Media", "20"],
+    ["AB-250", "Exam", "12"],
+  ];
+  return (
+    '<div class="parallax" aria-label="Symbols">' +
+    icons.map((icon) => '<span class="px" data-depth="' + icon[2] + '"><b>' + icon[0] + "</b><small>" + icon[1] + "</small></span>").join("") +
+    "</div>"
+  );
+}
+
+function signalDeck(anchorId) {
+  const tracks = DATA.tracks || [];
+  if (!tracks.length) return "";
+  let start = tracks.findIndex((track) => track.id === anchorId);
+  if (start < 0) start = 0;
+  const picks = [];
+  for (let i = 0; i < 6; i += 1) picks.push(tracks[(start + i) % tracks.length]);
+  const cards = picks.map((track) => (
+    '<article class="signal-card"><h3>' + esc((track.chart && track.chart.title) || track.title) + "</h3>" +
+    chartSvg(track.chart || { bars: [], title: track.title }) +
+    '<p class="tiny">Track ' + esc(track.num) + ". " + esc((track.chart && track.chart.note) || "") + "</p></article>"
+  )).join("");
+  return (
+    '<section class="signal-deck" aria-label="Charts and symbols">' +
+    '<p class="kicker">Signal deck</p>' +
+    parallaxRow() +
+    '<div class="signal-grid">' + cards + "</div>" +
+    '<div class="signal-extra">' +
+    '<canvas id="signal-canvas" width="640" height="180" aria-label="Lessons per track in this campus"></canvas>' +
+    '<div id="d3-host" class="d3-host" aria-label="Lesson counts drawn with D3"></div>' +
+    '<svg id="rough-host" class="rough-host" viewBox="0 0 320 90" role="img" aria-label="Rough sketch of the SBC trust boundary"></svg>' +
+    "</div></section>"
+  );
+}
+
+function heroFlow() {
+  return (
+    '<svg class="hero-flow" viewBox="0 0 880 150" role="img" aria-label="Animated path from Teams through the SIP proxy and SBC to the carrier">' +
+    "<title>Animated call path</title>" +
+    '<text x="440" y="22" text-anchor="middle" fill="var(--muted)" font-size="13" font-family="sans-serif">TLS 5061 stays with Teams. Media may bypass.</text>' +
+    '<rect x="36" y="48" width="120" height="52" rx="14" fill="var(--bg-3)" stroke="var(--teal)"></rect>' +
+    '<text x="96" y="78" text-anchor="middle" fill="var(--ink)" font-size="14" font-family="sans-serif">Teams</text>' +
+    '<rect x="250" y="48" width="120" height="52" rx="14" fill="var(--bg-3)" stroke="var(--violet)"></rect>' +
+    '<text x="310" y="78" text-anchor="middle" fill="var(--ink)" font-size="14" font-family="sans-serif">SIP proxy</text>' +
+    '<rect x="464" y="48" width="120" height="52" rx="14" fill="var(--bg-3)" stroke="var(--amber)"></rect>' +
+    '<text x="524" y="78" text-anchor="middle" fill="var(--ink)" font-size="14" font-family="sans-serif">SBC</text>' +
+    '<rect x="678" y="48" width="120" height="52" rx="14" fill="var(--bg-3)" stroke="var(--teal)"></rect>' +
+    '<text x="738" y="78" text-anchor="middle" fill="var(--ink)" font-size="14" font-family="sans-serif">Carrier</text>' +
+    '<path class="flow-line" d="M156 74 H250 M370 74 H464 M584 74 H678" fill="none" stroke="var(--violet)" stroke-width="3"></path>' +
+    '<circle class="atlas-packet hero-packet" r="7" fill="var(--cc-accent-3)" style="offset-path: path(\'M156 74 H678\'); animation: ride 3.2s linear infinite"><title>Packet</title></circle>' +
+    '<text x="440" y="132" text-anchor="middle" fill="var(--muted)" font-size="12" font-family="sans-serif">SBC ranges 52.112/14 + 52.120/14. Client optimize 52.112/14 + 52.122/15. Checked 15 October 2026.</text>' +
+    "</svg>"
+  );
+}
+
 function renderHome() {
   const counts = DATA.counts || {};
   const stats = [
     [counts.tracks || DATA.tracks.length, "Tracks"],
     [lessonTotal(), "Lessons"],
-    [counts.labs || DATA.labs.length, "Zero-key labs"],
-    [counts.quiz || 0, "Quiz questions"],
-    [(DATA.flows || []).length, "Animated flows"],
-    [(DATA.illustrations || []).length, "Illustrations"],
-    [counts.cards || 0, "Flashcards"],
-    [counts.scenarios || DATA.scenarios.length, "Scenarios"],
+    [counts.labs || DATA.labs.length, "Labs"],
+    [counts.quiz || 0, "Quiz"],
+    [(DATA.flows || []).length, "Flows"],
+    [(DATA.illustrations || []).length, "Figures"],
+    [counts.cards || 0, "Cards"],
+    [counts.scenarios || DATA.scenarios.length, "Scenes"],
+  ];
+  const poses = ["idle", "wave", "think", "listen", "celebrate"];
+  const swatches = THEMES.map((theme) => '<button type="button" class="swatch" data-home-theme="' + theme.id + '" aria-pressed="' + (activeTheme() === theme.id ? "true" : "false") + '">' + esc(theme.label) + "</button>").join("");
+  const spots = [
+    ["#/diagrams", "Diagrams"],
+    ["#/flows", "Flows"],
+    ["#/charts", "Charts"],
+    ["#/downloads", "Cheat Codes"],
+    ["#/play", "Play"],
+    ["#/map", "Ecosystem"],
+    ["#/downloads", "Downloads"],
+    ["#/career", "Careers"],
   ];
   const tiles = DATA.tracks.map((track) => {
     return (
@@ -1737,20 +1941,28 @@ function renderHome() {
     );
   }).join("");
   return (
-    '<p class="kicker">Free offline campus · checked 14 October 2026</p>' +
+    '<section class="billboard">' +
+    '<div class="billboard-top">' +
+    '<div class="mascot-row" aria-label="Mascot variations">' + poses.map(monkeyMarkup).join("") + "</div>" +
+    '<div class="swatches" role="group" aria-label="Theme switcher">' + swatches + "</div>" +
+    "</div>" +
+    '<div class="grid stats live-counters">' + stats.map((item) => '<div class="stat"><b data-count="' + item[0] + '">' + item[0] + "</b><span>" + item[1] + "</span></div>").join("") + "</div>" +
+    heroFlow() +
+    '<nav class="spot-nav" aria-label="Home sections">' + spots.map((spot) => '<a class="spot" href="' + spot[0] + '">' + esc(spot[1]) + "</a>").join("") + "</nav>" +
+    signalDeck("t01") +
+    "</section>" +
+    '<p class="kicker">Free offline campus · firewall prefixes checked 15 October 2026</p>' +
     "<h1>Microsoft Voice &amp; Contact Center Lab</h1>" +
     '<p class="lede">A study bench for the engineer who has to explain a Teams call, a queue, a recorder, and a contact-center route without guessing. No account. No key. No network after this file is open.</p>' +
     '<p class="callout">' + esc(DATA.examFact || "") + "</p>" +
     '<div class="hero-actions row">' +
-    '<a class="primary" href="#/track/t01">Start with the tenant</a>' +
-    '<a class="ghost" href="#/lab/dr-path">Trace a Direct Routing call</a>' +
-    '<a class="ghost" href="#/powershell">Open the Teams shell</a>' +
-    '<a class="ghost" href="#/topology">Open the SBC mesh</a>' +
-    '<a class="ghost" href="#/tips">Tips and traps</a>' +
-    '<a class="ghost" href="#/field">Field desk</a>' +
-    '<a class="ghost" href="#/downloads">Cheat codes</a>' +
+    '<a class="primary" href="#/diagrams">Open the diagram atlas</a>' +
+    '<a class="ghost" href="#/flows">Play the flows</a>' +
+    '<a class="ghost" href="#/charts">Open the charts</a>' +
+    '<a class="ghost" href="#/downloads">Cheat Codes</a>' +
+    '<a class="ghost" href="#/play">Play</a>' +
+    '<a class="ghost" href="#/track/t01">Start with the tenant</a>' +
     "</div>" +
-    '<div class="grid stats">' + stats.map((item) => '<div class="stat"><b>' + item[0] + "</b><span>" + item[1] + "</span></div>").join("") + "</div>" +
     '<div class="hero-frame">' +
     '<div class="topology-stage" id="home-stage">' +
     '<div class="gl-fallback" id="home-fallback">' + callRibbon() + "</div>" +
@@ -1805,9 +2017,12 @@ function renderTrack(id) {
   const done = lessons.filter((lesson) => state.lessons.indexOf(lesson.id) !== -1).length;
   const labs = DATA.labs.filter((lab) => lab.track === id);
   return (
+    crumbs([["Home", "#/"], ["Tracks", "#/"], [track.title, ""]]) +
     '<p class="kicker">Track ' + esc(track.num) + " · " + esc(track.emoji) + "</p>" +
     "<h1>" + esc(track.title) + "</h1>" +
     '<div class="callout"><strong>Why it matters. </strong>' + esc(track.why) + "</div>" +
+    parallaxRow() +
+    signalDeck(id) +
     depsHtml(track) +
     '<div class="progress" aria-label="Track progress"><span style="width:' + (lessons.length ? (done / lessons.length) * 100 : 0) + '%"></span></div>' +
     '<p class="tiny">' + done + " of " + lessons.length + " lessons marked in this browser. " + esc(track.outcome) + "</p>" +
@@ -1937,6 +2152,9 @@ function blip(kind) {
 function confetti() {
   blip("done");
   if (motionMode() === "reduce") return;
+  if (typeof window.confetti === "function") {
+    window.confetti({ particleCount: 90, spread: 70, origin: { y: 0.62 }, disableForReducedMotion: true });
+  }
   const layer = document.createElement("div");
   layer.className = "confetti";
   layer.setAttribute("aria-hidden", "true");
@@ -3224,7 +3442,7 @@ async function render() {
     redirectHash(needsArg[root]);
     return;
   }
-  const known = ["home", "track", "lesson", "labs", "lab", "quiz", "cards", "scenarios", "scenario", "glossary", "map", "charts", "faults", "audio", "boss", "exam", "sources", "powershell", "topology", "settings", "tips", "field", "migrate", "ports", "career", "news", "downloads", "game", "sandbox", "daily", "explorer"];
+  const known = ["home", "track", "lesson", "labs", "lab", "quiz", "cards", "scenarios", "scenario", "glossary", "map", "charts", "faults", "audio", "boss", "exam", "sources", "powershell", "topology", "settings", "tips", "field", "migrate", "ports", "career", "news", "downloads", "game", "sandbox", "daily", "explorer", "diagrams", "flows", "play"];
   if (known.indexOf(root) === -1) {
     redirectHash("#/");
     return;
@@ -3259,6 +3477,7 @@ async function render() {
     if (root === "cards") await ensureModule("cards");
     if (root === "glossary") await ensureModule("glossary");
     if (root === "charts") await ensureModule("charts");
+    if (root === "diagrams" || root === "flows") await loadAtlas();
     if (root === "boss") await ensureModule("bosses");
     if (root === "boss" && arg && !(DATA.bosses || []).some((boss) => boss.id === arg)) {
       redirectHash("#/boss");
@@ -3302,9 +3521,14 @@ async function render() {
   else if (root === "sandbox") html = renderSandbox();
   else if (root === "daily") html = renderDaily();
   else if (root === "explorer") html = renderExplorer();
+  else if (root === "diagrams") html = renderDiagrams();
+  else if (root === "flows") html = renderFlows();
+  else if (root === "play") html = renderPlay();
   else html = missing();
   paintView(html);
-  $("#main").focus();
+  const main = $("#main");
+  if (main && main.focus) main.focus({ preventScroll: true });
+  window.scrollTo(0, 0);
   wire(root, arg);
   bindReadbar();
   paintNav(root, arg);
@@ -3344,7 +3568,18 @@ function paintNav(root, arg) {
   });
   $$(".bottom-nav a").forEach((link) => {
     const tab = link.getAttribute("data-tab");
-    const on = tab === root || (tab === "home" && root === "home");
+    const on = tab === root || (tab === "downloads" && root === "downloads") || (tab === "play" && (root === "play" || root === "game" || root === "sandbox" || root === "daily"));
+    if (on) link.setAttribute("aria-current", "page");
+    else link.removeAttribute("aria-current");
+  });
+  $$(".primary-nav a, .spot-nav a").forEach((link) => {
+    const href = link.getAttribute("href") || "";
+    const tab = href.replace("#/", "");
+    let on = tab === root;
+    if (tab === "downloads" && root === "downloads") on = true;
+    if (tab === "map" && root === "map") on = true;
+    if (tab === "career" && root === "career") on = true;
+    if (tab === "play" && (root === "play" || root === "game" || root === "sandbox" || root === "daily" || root === "explorer")) on = true;
     if (on) link.setAttribute("aria-current", "page");
     else link.removeAttribute("aria-current");
   });
@@ -3406,7 +3641,14 @@ function wire(root, arg) {
       orbit.onclick = function () { openMesh("home-gl", "home-fallback", "home"); };
     }
     bindScenario("home");
+    $$("[data-home-theme]").forEach((button) => {
+      button.onclick = function () {
+        setTheme(button.getAttribute("data-home-theme"));
+        render();
+      };
+    });
   }
+  if (window.armVisuals) window.armVisuals(root);
   if (root === "powershell") mountPowerShell($("#ps-host"));
   if (root === "topology") openMesh("topo-gl", "topo-fallback", "topo");
   if (root === "map") {
@@ -3422,6 +3664,14 @@ function navHtml() {
   const tracks = DATA.tracks.map((track) => '<a class="item" href="#/track/' + track.id + '"><span class="idx">' + esc(track.num) + '</span><span>' + esc(track.title) + "</span></a>").join("");
   const views = [
     ["#/", "Home"],
+    ["#/diagrams", "Diagrams"],
+    ["#/flows", "Flows"],
+    ["#/charts", "Charts"],
+    ["#/downloads", "Cheat Codes"],
+    ["#/play", "Play"],
+    ["#/map", "Ecosystem"],
+    ["#/downloads", "Downloads"],
+    ["#/career", "Careers"],
     ["#/labs", "Labs"],
     ["#/powershell", "PowerShell"],
     ["#/topology", "SBC mesh"],
@@ -3437,7 +3687,6 @@ function navHtml() {
     ["#/exam", "Exam map"],
     ["#/tips", "Tips and traps"],
     ["#/field", "Field desk"],
-    ["#/downloads", "Cheat codes"],
     ["#/game", "Ports game"],
     ["#/daily", "Daily challenge"],
     ["#/sandbox", "Call-flow sandbox"],
@@ -3834,6 +4083,23 @@ async function boot() {
     render();
   });
   if (!state.theme) state.theme = initialTheme();
+  const syncHeader = function () {
+    const bar = document.querySelector(".top");
+    if (bar) document.documentElement.style.setProperty("--header-h", bar.offsetHeight + "px");
+  };
+  syncHeader();
+  window.addEventListener("resize", syncHeader);
+  document.addEventListener("keydown", function (event) {
+    const nav = document.querySelector(".primary-nav");
+    if (!nav || !nav.contains(document.activeElement)) return;
+    if (event.key !== "ArrowRight" && event.key !== "ArrowLeft") return;
+    const links = Array.prototype.slice.call(nav.querySelectorAll("a"));
+    const index = links.indexOf(document.activeElement);
+    if (index < 0) return;
+    event.preventDefault();
+    const next = event.key === "ArrowRight" ? links[index + 1] : links[index - 1];
+    if (next) next.focus();
+  });
   const cycle = $("#theme-cycle");
   if (cycle) {
     cycle.onclick = function () {
@@ -3851,4 +4117,6 @@ async function boot() {
   }
 }
 
+window.DATA = DATA;
+window.lessonsIn = lessonsIn;
 document.addEventListener("DOMContentLoaded", boot);

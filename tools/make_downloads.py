@@ -50,8 +50,9 @@ TRACKS = {
 
 PORT_LINES = [
     "Ports and protocols — commercial Microsoft 365 voice",
-    "Checked against this campus on 14 October 2026. Re-read the plan page before a firewall change.",
+    "Firewall prefixes re-checked 15 October 2026. Two lists. Do not merge them.",
     "Source: https://learn.microsoft.com/en-us/microsoftteams/direct-routing-plan",
+    "Source: https://learn.microsoft.com/en-us/microsoft-365/enterprise/urls-and-ip-address-ranges",
     "Source: https://learn.microsoft.com/en-us/microsoftteams/qos-in-teams",
     "",
     "Direct Routing signaling   TCP 5061   TLS to sip, sip2, and sip3",
@@ -61,7 +62,11 @@ PORT_LINES = [
     "Client video              UDP/TCP 50020-50039   DSCP 34 AF41",
     "Client sharing            UDP/TCP 50040-50059   DSCP 18 AF21",
     "Client signaling          UDP/TCP 50070-50089   DSCP 40 CS5, not configurable",
-    "Service ranges taught here  52.112.0.0/14 and 52.120.0.0/14 — re-check",
+    "SBC signaling and media     52.112.0.0/14 and 52.120.0.0/14",
+    "SBC IPv6                   2603:1063:400::/40, media also 2603:1063:100::/40",
+    "Teams client optimize      52.112.0.0/14 and 52.122.0.0/15, IPv6 2603:1063::/38",
+    "GCC High media             52.127.88.0/21    DoD media 52.127.64.0/21",
+    "52.120.0.0/14 is not the client optimize list. 52.122.0.0/15 is not the SBC pair.",
     "",
     "GCC High and DoD use different proxy names. Do not copy a commercial ACL.",
     "Browser joins do not use the fixed 50000 desktop ranges.",

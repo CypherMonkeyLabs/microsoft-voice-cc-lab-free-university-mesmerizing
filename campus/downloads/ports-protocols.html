@@ -16,8 +16,9 @@
 <body>
 <h1>Ports and protocols</h1>
 <p>Ports and protocols — commercial Microsoft 365 voice</p>
-<p>Checked against this campus on 14 October 2026. Re-read the plan page before a firewall change.</p>
+<p>Firewall prefixes re-checked 15 October 2026. Two lists. Do not merge them.</p>
 <p>Source: https://learn.microsoft.com/en-us/microsoftteams/direct-routing-plan</p>
+<p>Source: https://learn.microsoft.com/en-us/microsoft-365/enterprise/urls-and-ip-address-ranges</p>
 <p>Source: https://learn.microsoft.com/en-us/microsoftteams/qos-in-teams</p>
 <p>&nbsp;</p>
 <p>Direct Routing signaling   TCP 5061   TLS to sip, sip2, and sip3</p>
@@ -27,7 +28,11 @@
 <p>Client video              UDP/TCP 50020-50039   DSCP 34 AF41</p>
 <p>Client sharing            UDP/TCP 50040-50059   DSCP 18 AF21</p>
 <p>Client signaling          UDP/TCP 50070-50089   DSCP 40 CS5, not configurable</p>
-<p>Service ranges taught here  52.112.0.0/14 and 52.120.0.0/14 — re-check</p>
+<p>SBC signaling and media     52.112.0.0/14 and 52.120.0.0/14</p>
+<p>SBC IPv6                   2603:1063:400::/40, media also 2603:1063:100::/40</p>
+<p>Teams client optimize      52.112.0.0/14 and 52.122.0.0/15, IPv6 2603:1063::/38</p>
+<p>GCC High media             52.127.88.0/21    DoD media 52.127.64.0/21</p>
+<p>52.120.0.0/14 is not the client optimize list. 52.122.0.0/15 is not the SBC pair.</p>
 <p>&nbsp;</p>
 <p>GCC High and DoD use different proxy names. Do not copy a commercial ACL.</p>
 <p>Browser joins do not use the fixed 50000 desktop ranges.</p>

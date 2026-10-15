@@ -83,8 +83,9 @@ def main() -> None:
     css = (CAMPUS / "app.css").read_text(encoding="utf-8")
     js = (CAMPUS / "app.js").read_text(encoding="utf-8")
     sw = (CAMPUS / "sw.js").read_text(encoding="utf-8")
+    effects = (CAMPUS / "effects.js").read_text(encoding="utf-8")
     manifest_text = (CAMPUS / "data" / "manifest.json").read_text(encoding="utf-8")
-    text = "\n".join([html, css, js, sw, manifest_text])
+    text = "\n".join([html, css, js, sw, manifest_text, effects])
     lowered = text.lower()
     for needle in BANNED:
         if needle in lowered:
@@ -309,9 +310,78 @@ def main() -> None:
     with Image.open(CARD) as image:
         if image.size != (1200, 630):
             fail(f"og card size {image.size}")
+    atlas = json.loads((CAMPUS / "data" / "atlas.json").read_text(encoding="utf-8"))
+    atlas_items = atlas.get("items") or []
+    atlas_flows = [item for item in atlas_items if item.get("animated")]
+    if len(atlas_items) < 25:
+        fail(f"atlas diagrams {len(atlas_items)}")
+    if len(atlas_flows) < 12:
+        fail(f"atlas flows {len(atlas_flows)}")
+    seen_topics = {item.get("topic") for item in atlas_items}
+    for topic in ("ladder", "routing", "architecture", "deployment", "migration", "troubleshooting"):
+        if topic not in seen_topics:
+            fail(f"atlas topic {topic}")
+    for item in atlas_items:
+        svg = item.get("svg") or ""
+        if "<svg" not in svg:
+            fail(f"atlas svg {item.get('id')}")
+        if item.get("animated") and ("offset-path" not in svg or "atlas-packet" not in svg):
+            fail(f"atlas motion {item.get('id')}")
+    primary = re.search(r'<nav class="primary-nav".*?</nav>', html, re.S)
+    if not primary:
+        fail("primary nav missing")
+    for label in ("Diagrams", "Flows", "Charts", "Cheat Codes", "Play", "Ecosystem", "Downloads", "Careers"):
+        if label not in primary.group(0):
+            fail(f"menu missing {label}")
+    for needle in ("mascot-row", "data-home-theme", "data-count", "signal-deck", "hero-flow", "spot-nav", "signalDeck"):
+        if needle not in js:
+            fail(f"home surface {needle}")
+    if "parallax" not in js or "signalDeck(id)" not in js:
+        fail("track signal deck missing")
+    license_text = (ROOT / "LICENSE").read_text(encoding="utf-8")
+    if "CC BY-NC-SA" not in license_text or "MIT License" not in license_text:
+        fail("LICENSE does not state MIT code and CC BY-NC-SA content")
+    for repo in (
+        "uc-lab-free-university-mesmerizing",
+        "webex-lab-free-university-mesmerizing",
+        "ai-lab-free-university-mesmerizing",
+        "gemini-gems-free-gallery",
+    ):
+        if f"https://cipher0x9.github.io/{repo}/" not in html:
+            fail(f"sibling url {repo}")
+    sheets = []
+    for sheet in (CAMPUS / "downloads").glob("*.html"):
+        body = sheet.read_text(encoding="utf-8", errors="ignore")
+        lowered_sheet = body.lower()
+        if "linkedin" in lowered_sheet or "mailto:" in lowered_sheet:
+            fail(f"sheet contact {sheet.name}")
+        if all(bit in body for bit in (
+            "https://cyphermonkeylabs.com",
+            "https://linktr.ee/cyphermonkey",
+            "https://github.com/cipher0x9/microsoft-voice-cc-lab-free-university-mesmerizing",
+            "MIT code, CC BY-NC-SA content",
+        )):
+            sheets.append(sheet.name)
+    if len(sheets) < 10:
+        fail(f"cheat sheets {len(sheets)}")
+    ports_sheet = (CAMPUS / "downloads" / "ports-protocols.html").read_text(encoding="utf-8")
+    if "52.122.0.0/15" not in ports_sheet or "52.120.0.0/14" not in ports_sheet:
+        fail("ports sheet firewall lists")
+    if "52.122.0.0/15" not in js or "52.120.0.0/14" not in js:
+        fail("app firewall lists")
+    for vendor_name in ("anime.esm.min.js", "rough.esm.js", "d3.min.js", "confetti.browser.js", "three.module.min.js"):
+        if not (CAMPUS / "vendor" / vendor_name).exists():
+            fail(f"vendor {vendor_name}")
+    if "anime.esm.min.js" not in effects or "rough.esm.js" not in effects or "armVisuals" not in effects:
+        fail("effects module is not wired")
+    if 'type="module" src="effects.js"' not in html:
+        fail("effects module tag")
     print(
         "ok",
         "tracks", len(tracks),
+        "atlas", len(atlas_items),
+        "atlas_flows", len(atlas_flows),
+        "sheets", len(sheets),
         "lessons", len(lessons),
         "labs", len(labs),
         "quiz", len(quiz),

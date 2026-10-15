@@ -8,6 +8,7 @@ import json
 import shutil
 from pathlib import Path
 
+from build_atlas import main as build_atlas
 from curriculum import build_payload
 from tips import TIPS
 
@@ -137,6 +138,8 @@ def main() -> None:
     studios = CAMPUS / "studios"
     studios.mkdir(parents=True, exist_ok=True)
     shutil.copyfile(SRC / "studios" / "topology.js", studios / "topology.js")
+    shutil.copyfile(SRC / "effects.js", CAMPUS / "effects.js")
+    build_atlas()
 
     version = hashlib.sha256(app.encode("utf-8")).hexdigest()[:12]
     precache = [
@@ -154,6 +157,12 @@ def main() -> None:
         "./data/glossary.json",
         "./data/charts.json",
         "./data/bosses.json",
+        "./data/atlas.json",
+        "./effects.js",
+        "./vendor/anime.esm.min.js",
+        "./vendor/rough.esm.js",
+        "./vendor/d3.min.js",
+        "./vendor/confetti.browser.js",
     ]
     for track in payload["tracks"]:
         precache.append(f"./data/tracks/{track['id']}.json")
@@ -274,6 +283,16 @@ try {{
     </a>
   </div>
   </div>
+  <nav class="primary-nav" id="primary-nav" aria-label="Sections">
+    <a href="#/diagrams">Diagrams</a>
+    <a href="#/flows">Flows</a>
+    <a href="#/charts">Charts</a>
+    <a href="#/downloads">Cheat Codes</a>
+    <a href="#/play">Play</a>
+    <a href="#/map">Ecosystem</a>
+    <a href="#/downloads">Downloads</a>
+    <a href="#/career">Careers</a>
+  </nav>
 </header>
 <div class="shell">
   <nav id="nav" class="nav" aria-label="Campus"></nav>
@@ -283,11 +302,11 @@ try {{
   </main>
 </div>
 <nav class="bottom-nav" aria-label="Mobile">
-  <a href="#/" data-tab="home">Home</a>
-  <a href="#/labs" data-tab="labs">Labs</a>
-  <button type="button" id="bottom-menu" data-tab="tracks">Tracks</button>
-  <a href="#/powershell" data-tab="powershell">Shell</a>
-  <a href="#/topology" data-tab="topology">Mesh</a>
+  <a href="#/diagrams" data-tab="diagrams">Diagrams</a>
+  <a href="#/flows" data-tab="flows">Flows</a>
+  <a href="#/charts" data-tab="charts">Charts</a>
+  <a href="#/downloads" data-tab="downloads">Codes</a>
+  <a href="#/play" data-tab="play">Play</a>
 </nav>
 <div class="dock" role="region" aria-label="Section audio">
   <button id="listen" type="button">Listen</button>
@@ -319,21 +338,22 @@ try {{
   <p>Independent educational project, not affiliated with or endorsed by any vendor. Trademarks belong to their owners. MIT code, CC BY-NC-SA content.</p>
   <p><a href="https://cyphermonkeylabs.com/#contact">Report a concern</a> · <a href="https://cyphermonkeylabs.com/#contact">Work with us</a></p>
   <nav class="next-labs" aria-label="Other labs">
-    <a href="https://github.com/cipher0x9/uc-lab-free-university-mesmerizing">UC Lab</a>
-    <a href="https://github.com/cipher0x9/webex-lab-free-university-mesmerizing">Webex</a>
-    <a href="https://github.com/cipher0x9/genesys-cloud-lab-free-university-mesmerizing">Genesys</a>
-    <a href="https://github.com/cipher0x9/amazon-connect-lab-free-university-mesmerizing">Amazon Connect</a>
-    <a href="https://github.com/cipher0x9/five9-lab-free-university-mesmerizing">Five9</a>
-    <a href="https://github.com/cipher0x9/nice-cxone-lab-free-university-mesmerizing">NiCE CXone</a>
-    <a href="https://github.com/cipher0x9/sip-universe-lab-free-university-mesmerizing">SIP Universe</a>
-    <a href="https://github.com/cipher0x9/ai-lab-free-university-mesmerizing">AI Lab</a>
-    <a href="https://cipher0x9.github.io/gemini-gems-free-gallery/site/">Gemini Gems</a>
+    <a href="https://cipher0x9.github.io/uc-lab-free-university-mesmerizing/">UC Lab</a>
+    <a href="https://cipher0x9.github.io/webex-lab-free-university-mesmerizing/">Webex</a>
+    <a href="https://cipher0x9.github.io/genesys-cloud-lab-free-university-mesmerizing/">Genesys</a>
+    <a href="https://cipher0x9.github.io/amazon-connect-lab-free-university-mesmerizing/">Amazon Connect</a>
+    <a href="https://cipher0x9.github.io/five9-lab-free-university-mesmerizing/">Five9</a>
+    <a href="https://cipher0x9.github.io/nice-cxone-lab-free-university-mesmerizing/">NiCE CXone</a>
+    <a href="https://cipher0x9.github.io/sip-universe-lab-free-university-mesmerizing/">SIP Universe</a>
+    <a href="https://cipher0x9.github.io/ai-lab-free-university-mesmerizing/">AI Lab</a>
+    <a href="https://cipher0x9.github.io/gemini-gems-free-gallery/">Gemini Gems</a>
   </nav>
 </footer>
 <div id="egg" class="egg" hidden>
   <p>Operator mode. The monkey found the hidden keypad. This does not change a tenant.</p>
 </div>
 <noscript><p>This campus needs JavaScript. It does not load a CDN. Enable JavaScript in this browser and open the file again.</p></noscript>
+<script type="module" src="effects.js"></script>
 <script src="app.js" defer></script>
 </body>
 </html>

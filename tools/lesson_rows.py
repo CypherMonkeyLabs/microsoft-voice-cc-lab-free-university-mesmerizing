@@ -2231,7 +2231,7 @@ TLS
 @p1
 Commercial clouds use sip.pstnhub.microsoft.com, sip2, and sip3, on TCP 5061. IPv6 names exist on the plan page. GCC High uses sip.pstnhub.gov.teams.microsoft.us. DoD uses sip.pstnhub.dod.teams.microsoft.us. Those government clouds do not use the commercial trio.
 @p2
-The names resolve into published ranges, including 52.112.0.0/14 and 52.120.0.0/14 for commercial media and signaling as listed on the plan page checked 14 October 2026. Allow the ranges. Re-read the page when you change the firewall. Microsoft moves addresses.
+Checked 15 October 2026. The Direct Routing plan page lists commercial SBC signaling and media in 52.112.0.0/14 and 52.120.0.0/14. IPv6 signaling is 2603:1063:400::/40, and IPv6 media adds 2603:1063:100::/40. The Teams client optimize ranges on the Office 365 URLs article and the worldwide endpoints feed are 52.112.0.0/14 and 52.122.0.0/15, plus 2603:1063::/38. 52.120.0.0/14 does not appear on that client list, and 52.122.0.0/15 does not appear on the commercial SBC list. Allow the list that matches the traffic. Re-read both pages when you change the firewall.
 @flow
 Primary|sip;Secondary|sip2;Tertiary|sip3;Firewall|Ranges, not one DNS answer
 @chart

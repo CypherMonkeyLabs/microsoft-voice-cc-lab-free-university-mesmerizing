@@ -25,7 +25,10 @@ const PORT_ROWS = [
   ["Client video", "UDP/TCP", "50020–50039", "DSCP 34 AF41", "https://learn.microsoft.com/en-us/microsoftteams/qos-in-teams"],
   ["Client app sharing", "UDP/TCP", "50040–50059", "DSCP 18 AF21", "https://learn.microsoft.com/en-us/microsoftteams/qos-in-teams"],
   ["Client signaling", "UDP/TCP", "50070–50089", "DSCP 40 CS5. The article says these ports are not configurable", "https://learn.microsoft.com/en-us/microsoftteams/qos-in-teams"],
-  ["Published service ranges", "IP", "52.112.0.0/14 and 52.120.0.0/14", "Teaching summary from this lab. Re-check the plan page before a firewall change", "https://learn.microsoft.com/en-us/microsoftteams/direct-routing-plan"],
+  ["Direct Routing SBC IPv4", "IP", "52.112.0.0/14 and 52.120.0.0/14", "Commercial signaling and media on the plan page checked 15 October 2026. This is not the Teams client optimize list.", "https://learn.microsoft.com/en-us/microsoftteams/direct-routing-plan"],
+  ["Direct Routing SBC IPv6", "IP", "2603:1063:400::/40 and 2603:1063:100::/40", "Signaling uses 2603:1063:400::/40. Media uses that prefix and 2603:1063:100::/40.", "https://learn.microsoft.com/en-us/microsoftteams/direct-routing-plan"],
+  ["Teams client optimize", "IP", "52.112.0.0/14 and 52.122.0.0/15", "Office 365 URLs article ID 11 and the worldwide endpoints feed, checked 15 October 2026. IPv6 optimize includes 2603:1063::/38. 52.120.0.0/14 is not on this client list, and 52.122.0.0/15 is not the SBC pair.", "https://learn.microsoft.com/en-us/microsoft-365/enterprise/urls-and-ip-address-ranges"],
+  ["GCC High / DoD media", "IP", "52.127.88.0/21 and 52.127.64.0/21", "GCC High media 52.127.88.0/21. DoD media 52.127.64.0/21. Proxy names are not the commercial trio.", "https://learn.microsoft.com/en-us/microsoftteams/direct-routing-plan"],
 ];
 
 const GAME_ROUNDS = [
@@ -72,6 +75,96 @@ let sandboxSeq = [];
 let gameCursor = 0;
 let gameScore = 0;
 let gameLocked = false;
+let atlasCache = null;
+
+async function loadAtlas() {
+  if (atlasCache) return atlasCache;
+  const payload = await fetchJson("data/atlas.json");
+  atlasCache = payload;
+  return payload;
+}
+
+function atlasCard(item) {
+  const kind = item.animated ? "Animated flow" : "Diagram";
+  return (
+    '<article class="panel atlas-card" id="atlas-' + esc(item.id) + '" data-kind="' + (item.animated ? "flow" : "diagram") + '" data-topic="' + esc(item.topic) + '">' +
+    '<p class="kicker">' + kind + " · " + esc(item.topic) + "</p>" +
+    "<h2>" + esc(item.title) + "</h2>" +
+    '<div class="figure-canvas">' + item.svg + "</div>" +
+    "<p>" + esc(item.caption) + "</p>" +
+    '<p class="tiny"><a href="' + esc(item.source) + '">Source</a> · accessed ' + esc(item.accessed) + "</p></article>"
+  );
+}
+
+function atlasPage(flowsOnly) {
+  const items = ((atlasCache && atlasCache.items) || []).filter((item) => !flowsOnly || item.animated);
+  const title = flowsOnly ? "Flows" : "Diagrams";
+  window.__listen = title + ". " + items.length + " figures in the atlas. Animated packets follow the signal path.";
+  const topics = [];
+  items.forEach((item) => {
+    if (topics.indexOf(item.topic) === -1) topics.push(item.topic);
+  });
+  const filters = '<div class="choice-row" role="tablist" aria-label="Filter">' +
+    '<button type="button" class="choice" data-atlas="all" aria-pressed="true">All</button>' +
+    topics.map((topic) => '<button type="button" class="choice" data-atlas="' + esc(topic) + '" aria-pressed="false">' + esc(topic) + "</button>").join("") +
+    "</div>";
+  return (
+    crumbs([["Home", "#/"], [title, ""]]) +
+    '<p class="kicker">Diagram atlas · checked ' + esc((atlasCache && atlasCache.checked) || "2026-10-15") + "</p>" +
+    "<h1>" + title + "</h1>" +
+    '<p class="lede">' + items.length + (flowsOnly ? " animated call, signal, and data flows." : " custom diagrams, including the animated flows.") + " Hand-built for this campus. Not a copy of a vendor document.</p>" +
+    filters +
+    '<p class="tiny" id="atlas-count">' + items.length + " showing</p>" +
+    '<div id="atlas-list">' + items.map(atlasCard).join("") + "</div>"
+  );
+}
+
+function renderDiagrams() {
+  return atlasPage(false);
+}
+
+function renderFlows() {
+  return atlasPage(true);
+}
+
+function renderPlay() {
+  window.__listen = "Play. Ports game, call-flow sandbox, daily challenge, and the SBC mesh.";
+  const tiles = [
+    ["#/game", "Ports game", "Eight questions. A perfect score is a badge."],
+    ["#/sandbox", "Call-flow sandbox", "Stack INVITE, 200 OK, and RTP and read the note."],
+    ["#/daily", "Daily challenge", "One question for this date, saved in this browser."],
+    ["#/explorer", "Flow explorer", "Hop by hop from the client to the recorder."],
+    ["#/topology", "SBC mesh", "Orbit the geo-redundant pair."],
+    ["#/diagrams", "Diagrams", "The full atlas, including the troubleshooting tree."],
+  ];
+  return (
+    crumbs([["Home", "#/"], ["Play", ""]]) +
+    '<p class="kicker">Practice</p><h1>Play</h1>' +
+    '<p class="lede">Games and sandboxes already in this campus. Scores stay in this browser.</p>' +
+    '<div class="lab-grid">' + tiles.map((tile) => '<a class="card spot" href="' + tile[0] + '"><h3>' + esc(tile[1]) + "</h3><p>" + esc(tile[2]) + "</p></a>").join("") + "</div>"
+  );
+}
+
+function wireAtlas() {
+  const buttons = $$("[data-atlas]");
+  if (!buttons.length) return;
+  const apply = function (topic) {
+    let shown = 0;
+    $$(".atlas-card").forEach((card) => {
+      const on = topic === "all" || card.getAttribute("data-topic") === topic;
+      card.hidden = !on;
+      if (on) shown += 1;
+    });
+    const count = $("#atlas-count");
+    if (count) count.textContent = shown + " showing";
+    buttons.forEach((button) => {
+      button.setAttribute("aria-pressed", button.getAttribute("data-atlas") === topic ? "true" : "false");
+    });
+  };
+  buttons.forEach((button) => {
+    button.onclick = function () { apply(button.getAttribute("data-atlas")); };
+  });
+}
 
 function extraHits() {
   return [
@@ -82,7 +175,10 @@ function extraHits() {
     { href: "#/explorer", title: "Flow map explorer", kind: "Guide" },
     { href: "#/sandbox", title: "Call-flow sandbox", kind: "Lab" },
     { href: "#/daily", title: "Daily challenge", kind: "Game" },
-    { href: "#/downloads", title: "Cheat codes and downloads", kind: "Guide" },
+    { href: "#/diagrams", title: "Diagram atlas", kind: "Guide" },
+    { href: "#/flows", title: "Animated flows", kind: "Guide" },
+    { href: "#/play", title: "Play", kind: "Game" },
+    { href: "#/downloads", title: "Cheat Codes and downloads", kind: "Guide" },
     { href: "#/career", title: "Career and certification paths", kind: "Guide" },
     { href: "#/news", title: "What is new", kind: "Guide" },
   ];
@@ -148,7 +244,7 @@ function renderPorts() {
   ]);
   return (
     '<p class="kicker"><a href="#/field">Field desk</a></p><h1>Ports and protocols</h1>' +
-    '<p class="lede">A firewall matrix for commercial Microsoft 365 voice as taught in this campus. Government clouds use different proxy names. IP prefixes move. The plan page wins over this table.</p>' +
+    '<p class="lede">Two firewall lists, checked 15 October 2026. Direct Routing SBC signaling and media are not the Teams client optimize ranges. Government clouds use different proxy names. The Microsoft pages win over this table.</p>' +
     fieldTable(["Flow", "Proto", "Port", "What it is for", "Source"], rows) +
     "<h2>Ladder</h2>" +
     flowSvg([
@@ -159,7 +255,7 @@ function renderPorts() {
       { label: "Carrier", detail: "PSTN" },
     ], "Commercial Direct Routing") +
     '<p class="row"><a class="primary" href="#/game">Play the ports game</a><a class="ghost" href="#/explorer">Open the flow explorer</a><a class="ghost" href="downloads/ports-protocols.html">Printable sheet</a></p>' +
-    '<p class="tiny">QoS source: <a href="https://learn.microsoft.com/en-us/microsoftteams/qos-in-teams">QoS in Microsoft Teams</a>. Direct Routing source: <a href="https://learn.microsoft.com/en-us/microsoftteams/direct-routing-plan">Plan Direct Routing</a>. Accessed 14 October 2026.</p>'
+    '<p class="tiny">QoS source: <a href="https://learn.microsoft.com/en-us/microsoftteams/qos-in-teams">QoS in Microsoft Teams</a>. Direct Routing source: <a href="https://learn.microsoft.com/en-us/microsoftteams/direct-routing-plan">Plan Direct Routing</a>. Client ranges: <a href="https://learn.microsoft.com/en-us/microsoft-365/enterprise/urls-and-ip-address-ranges">Office 365 URLs and IP address ranges</a> and the worldwide endpoints feed. Accessed 15 October 2026.</p>'
   );
 }
 
@@ -417,7 +513,8 @@ async function renderDownloads() {
   const cards = items.map((item) => '<a class="card" href="' + esc(item.href) + '"><p class="kicker">' + esc(item.kind) + "</p><h3>" + esc(item.title) + "</h3><p>" + esc(item.blurb) + "</p></a>").join("");
   const fallback = items.length ? "" : '<p class="callout">The download catalog did not load. Open the campus from a local server so <code>downloads/catalog.json</code> can be fetched.</p>';
   return (
-    '<p class="kicker">Offline</p><h1>Cheat codes</h1>' +
+    crumbs([["Home", "#/"], ["Cheat Codes", ""]]) +
+    '<p class="kicker">Offline</p><h1>Cheat Codes</h1>' +
     '<p class="lede">One-page sheets for ports, call flows, configuration, troubleshooting, and the glossary, plus a track sheet for every track. Each file carries the lab footer. Nothing is hosted on a CDN.</p>' +
     '<div class="hero-actions row">' +
     '<a class="primary" href="downloads/microsoft-voice-contact-center-lab.zip" download>Download the offline bundle</a>' +
@@ -514,6 +611,7 @@ function wireExtras(root) {
       };
     });
   }
+  if (root === "diagrams" || root === "flows") wireAtlas();
   if (root === "lesson" || root === "field" || root === "migrate" || root === "ports") mountOnThisPage();
 }
 
@@ -537,7 +635,10 @@ function cycleMascot() {
   window.setInterval(function () {
     if (document.documentElement.dataset.motion === "reduce") return;
     index = (index + 1) % poses.length;
-    $$(".monkey").forEach((node) => { node.dataset.pose = poses[index]; });
+    $$(".monkey").forEach((node) => {
+      if (node.getAttribute("data-fixed") === "1") return;
+      node.dataset.pose = poses[index];
+    });
   }, 7000);
 }
 
