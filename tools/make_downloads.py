@@ -20,7 +20,7 @@ CAMPUS = ROOT / "campus"
 OUT = CAMPUS / "downloads"
 FONT = Path("/usr/share/fonts/truetype/macos/Inter-Regular.ttf")
 FONT_B = Path("/usr/share/fonts/truetype/macos/Inter-Bold.ttf")
-REPO = "https://github.com/cipher0x9/microsoft-voice-cc-lab-free-university-mesmerizing"
+REPO = "https://github.com/CypherMonkeyLabs/microsoft-voice-cc-lab-free-university-mesmerizing"
 FOOT = (
     "CypherMonkey · cyphermonkeylabs.com · linktr.ee/cyphermonkey · "
     + REPO

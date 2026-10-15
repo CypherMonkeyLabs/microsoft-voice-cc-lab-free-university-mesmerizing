@@ -335,7 +335,7 @@ try {{
   <nav class="skybar" aria-label="CypherMonkey">
     <a href="https://cyphermonkeylabs.com">CypherMonkey Labs</a>
     <a href="https://linktr.ee/cyphermonkey">Linktree</a>
-    <a href="https://github.com/cipher0x9/microsoft-voice-cc-lab-free-university-mesmerizing/issues">Rate, comment, help</a>
+    <a href="https://github.com/CypherMonkeyLabs/microsoft-voice-cc-lab-free-university-mesmerizing/issues">Rate, comment, help</a>
     <a href="https://dev.to/cyphermonkey">DEV</a>
     <a href="https://huggingface.co/Cypher0x9">Hugging Face</a>
     <a href="https://x.com/Cypher0x9">X</a>
@@ -400,16 +400,16 @@ try {{
   </svg>
   <p class="sig">CypherMonkey · Microsoft Voice &amp; Contact Center Lab</p>
   <p>Independent educational project, not affiliated with or endorsed by any vendor. Trademarks belong to their owners. MIT code, CC BY-NC-SA content.</p>
-  <p><a href="https://github.com/cipher0x9/microsoft-voice-cc-lab-free-university-mesmerizing/issues">Rate, comment, help</a> · <a href="https://cyphermonkeylabs.com/#contact">Report a concern</a> · <a href="https://cyphermonkeylabs.com/#contact">Work with us</a></p>
+  <p><a href="https://github.com/CypherMonkeyLabs/microsoft-voice-cc-lab-free-university-mesmerizing/issues">Rate, comment, help</a> · <a href="https://cyphermonkeylabs.com/#contact">Report a concern</a> · <a href="https://cyphermonkeylabs.com/#contact">Work with us</a></p>
   <nav class="next-labs" aria-label="Other labs">
-    <a href="https://cipher0x9.github.io/uc-lab-free-university-mesmerizing/">UC Lab</a>
-    <a href="https://cipher0x9.github.io/webex-lab-free-university-mesmerizing/">Webex</a>
-    <a href="https://cipher0x9.github.io/genesys-cloud-lab-free-university-mesmerizing/">Genesys</a>
-    <a href="https://cipher0x9.github.io/amazon-connect-lab-free-university-mesmerizing/">Amazon Connect</a>
-    <a href="https://cipher0x9.github.io/five9-lab-free-university-mesmerizing/">Five9</a>
-    <a href="https://cipher0x9.github.io/nice-cxone-lab-free-university-mesmerizing/">NiCE CXone</a>
-    <a href="https://cipher0x9.github.io/sip-universe-lab-free-university-mesmerizing/">SIP Universe</a>
-    <a href="https://cipher0x9.github.io/ai-lab-free-university-mesmerizing/">AI Lab</a>
+    <a href="https://cyphermonkeylabs.com/uc-lab-free-university-mesmerizing/">UC Lab</a>
+    <a href="https://cyphermonkeylabs.com/webex-lab-free-university-mesmerizing/">Webex</a>
+    <a href="https://cyphermonkeylabs.com/genesys-cloud-lab-free-university-mesmerizing/">Genesys</a>
+    <a href="https://cyphermonkeylabs.com/amazon-connect-lab-free-university-mesmerizing/">Amazon Connect</a>
+    <a href="https://cyphermonkeylabs.com/five9-lab-free-university-mesmerizing/">Five9</a>
+    <a href="https://cyphermonkeylabs.com/nice-cxone-lab-free-university-mesmerizing/">NiCE CXone</a>
+    <a href="https://cyphermonkeylabs.com/sip-universe-lab-free-university-mesmerizing/">SIP Universe</a>
+    <a href="https://cyphermonkeylabs.com/ai-lab-free-university-mesmerizing/">AI Lab</a>
     <a href="https://cipher0x9.github.io/gemini-gems-free-gallery/">Gemini Gems</a>
   </nav>
 </footer>

@@ -345,10 +345,11 @@ def main() -> None:
         "uc-lab-free-university-mesmerizing",
         "webex-lab-free-university-mesmerizing",
         "ai-lab-free-university-mesmerizing",
-        "gemini-gems-free-gallery",
     ):
-        if f"https://cipher0x9.github.io/{repo}/" not in html:
+        if f"https://cyphermonkeylabs.com/{repo}/" not in html:
             fail(f"sibling url {repo}")
+    if "https://cipher0x9.github.io/gemini-gems-free-gallery/" not in html:
+        fail("sibling url gemini-gems-free-gallery")
     sheets = []
     for sheet in (CAMPUS / "downloads").glob("*.html"):
         body = sheet.read_text(encoding="utf-8", errors="ignore")
@@ -358,7 +359,7 @@ def main() -> None:
         if all(bit in body for bit in (
             "https://cyphermonkeylabs.com",
             "https://linktr.ee/cyphermonkey",
-            "https://github.com/cipher0x9/microsoft-voice-cc-lab-free-university-mesmerizing",
+            "https://github.com/CypherMonkeyLabs/microsoft-voice-cc-lab-free-university-mesmerizing",
             "MIT code, CC BY-NC-SA content",
         )):
             sheets.append(sheet.name)
