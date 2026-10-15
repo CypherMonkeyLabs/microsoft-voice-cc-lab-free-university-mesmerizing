@@ -8,7 +8,9 @@ A free, offline campus for a voice engineer preparing for Teams Phone and Micros
 
 **Topics.** `microsoft-teams` `teams-phone` `direct-routing` `contact-center` `dynamics-365` `microsoft-365` `voice` `offline` `education` `study-guide`
 
-Checked **14 October 2026**. This is not a Microsoft, Cisco, AudioCodes, Ribbon, Oracle, Genesys, or Amazon publication. When a vendor page and this file disagree, the vendor page wins. Certification seats move. Read the exam page again before you book.
+Checked **14 October 2026** for the lesson set. Firewall prefixes were re-checked **15 October 2026** against Plan Direct Routing and the Office 365 URLs and IP address ranges article. Direct Routing SBC signaling and media use 52.112.0.0/14 and 52.120.0.0/14. Teams client optimize uses 52.112.0.0/14 and 52.122.0.0/15. Those lists are not the same. This is not a Microsoft, Cisco, AudioCodes, Ribbon, Oracle, Genesys, or Amazon publication. When a vendor page and this file disagree, the vendor page wins. Certification seats move. Read the exam page again before you book.
+
+The header menu is Diagrams, Flows, Charts, Cheat Codes, Play, Ecosystem, Downloads, and Careers. Home opens on an animated call path, live counters, five mascot poses, and a theme switcher, then a signal deck of charts.
 
 ## Open it
 
@@ -18,7 +20,7 @@ GitHub Pages serves the `campus` folder. Locally:
 python3 -m http.server 8741
 ```
 
-Then open [http://127.0.0.1:8741/campus/](http://127.0.0.1:8741/campus/). Search is Ctrl+K or `/`. `[` and `]` move between lessons in a track. Theme cycles light mica, dark acrylic, and high contrast. Listen waits for a voice already installed in the browser and does not upload anything. Partial hashes such as `#/track/` and `#/lesson/` redirect to a real track or home.
+Then open [http://127.0.0.1:8741/campus/](http://127.0.0.1:8741/campus/). Search is Ctrl+K or `/`. `[` and `]` move between lessons in a track. Theme cycles light, futuristic, gaming, neon, dark acrylic, high contrast, and Teams purple. The header links CypherMonkey Labs, Linktree, this repo, DEV, Hugging Face, and X. Cheat codes, a ports game, a call-flow sandbox, and a daily challenge live under the field desk. Listen waits for a voice already installed in the browser and does not upload anything. Partial hashes such as `#/track/` and `#/lesson/` redirect to a real track or home.
 
 A zip of the campus folder is in `releases/microsoft-voice-contact-center-lab.zip`. Unzip it and serve that folder with the same Python command. Fetching the track files needs HTTP, which is also how GitHub Pages hosts it.
 
@@ -30,8 +32,8 @@ Progress, theme, lab runs, and exam self-ratings stay in `localStorage` under `m
 |---|---|
 | Tracks | 17, each with why it matters and what it depends on |
 | Lessons | 110, each with three animated flows, at least three diagrams, and a Try it link |
-| Illustrations | 1,540 distinct inline SVGs |
-| Animated flows | 330 |
+| Illustrations | 1,540 distinct inline SVGs, plus a Diagram Atlas of 29 figures |
+| Animated flows | 330 in lessons, plus 14 animated atlas flows |
 | Charts | 22, including licensing, CQD, Erlang C, and the certification and feature timelines |
 | Labs | 25, all runnable with no key |
 | Quiz | 644 questions, each with an explanation and a source |
@@ -67,8 +69,8 @@ Checked 14 October 2026 against a local server.
 
 | | Before | After |
 |---|---|---|
-| First load | 4.91 MB in one HTML file | 472 KB: HTML 5 KB, CSS 26 KB, app script 151 KB, manifest 290 KB |
-| Three.js | none | 671 KB, loaded only when the mesh opens |
+| First load | 4.91 MB in one HTML file | 587 KB: HTML 12 KB, CSS 54 KB, app script 231 KB, manifest 290 KB |
+| Three.js | none | 671 KB plus a vendored bloom pass, loaded with the home scene |
 | DOM | one lesson stays on screen | Home 303 nodes, Direct Routing lesson 567 nodes |
 | Lighthouse mobile | not scored on the monolith | Performance 92, accessibility 100 |
 
@@ -81,6 +83,10 @@ Checked 14 October 2026 against a local server.
 5. The exam status board, then the ecosystem track.
 
 If you have one hour: the tenant boundary, Direct Routing, the normalization tester, the voice-routing matcher, and the ecosystem mind map.
+
+## Field desk and cheat codes
+
+`#/field` is the gap map: migration cutover, ports and protocols, career paths, the 14 October 2026 status radar, and links into the tracks that already teach WFM, recording, E911, CRM, and agents. `#/downloads` lists one-page HTML, PDF, and PNG sheets plus the flashcard deck and the offline zip. Rebuild the sheets with `python3 tools/make_downloads.py --sheets-only` before `python3 tools/build_campus.py`, then `python3 tools/make_downloads.py --zip-only`.
 
 ## Ecosystem track
 
@@ -107,13 +113,14 @@ AB-250 is the Dynamics 365 Contact Center exam; confirm the live seat. AZ-900 an
 
 ## Sister projects
 
-- [UC Lab](https://github.com/cipher0x9/uc-lab-free-university-mesmerizing)
-- [AI Lab](https://github.com/cipher0x9/ai-lab-free-university-mesmerizing)
-- Design reference: [Gemini Gems gallery](https://cipher0x9.github.io/gemini-gems-free-gallery/site/)
+- [UC Lab](https://cipher0x9.github.io/uc-lab-free-university-mesmerizing/)
+- [AI Lab](https://cipher0x9.github.io/ai-lab-free-university-mesmerizing/)
+- [Webex](https://cipher0x9.github.io/webex-lab-free-university-mesmerizing/)
+- Design reference: [Gemini Gems gallery](https://cipher0x9.github.io/gemini-gems-free-gallery/)
 
 ## License
 
-MIT. Copyright (c) 2026 Microsoft Voice & Contact Center Lab. See `LICENSE`.
+MIT for the code. CC BY-NC-SA 4.0 for the curriculum text, diagrams, and sheets. Copyright (c) 2026 Microsoft Voice & Contact Center Lab. See `LICENSE`. The footer uses the same split.
 
 ## Screenshots
 
@@ -149,6 +156,14 @@ Ecosystem mind map:
 
 ![Mind map](docs/assets/ecosystem-map.png)
 
+Field desk, cheat-code downloads, and the call-flow sandbox:
+
+![Field desk](docs/assets/field-desk.png)
+
+![Cheat codes](docs/assets/downloads.png)
+
+![Call-flow sandbox](docs/assets/sandbox.png)
+
 The same home page in each theme:
 
 ![Light mica](docs/assets/theme-light.png)
@@ -158,3 +173,9 @@ The same home page in each theme:
 ![High contrast](docs/assets/theme-hc.png)
 
 ![Teams purple](docs/assets/theme-teams.png)
+
+![Futuristic](docs/assets/theme-futuristic.png)
+
+![Gaming](docs/assets/theme-gaming.png)
+
+![Neon](docs/assets/theme-neon.png)

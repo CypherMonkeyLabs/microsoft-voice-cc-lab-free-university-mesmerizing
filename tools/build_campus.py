@@ -8,6 +8,7 @@ import json
 import shutil
 from pathlib import Path
 
+from build_atlas import main as build_atlas
 from curriculum import build_payload
 from tips import TIPS
 
@@ -15,6 +16,29 @@ ROOT = Path(__file__).resolve().parents[1]
 SRC = ROOT / "src"
 CAMPUS = ROOT / "campus"
 CHECKED = "2026-10-14"
+
+
+def write_headings(payload: dict, data_dir: Path) -> None:
+    from heading_packs import translations
+
+    ids = [lesson["id"] for lesson in payload["lessons"]]
+    pack = translations()
+    missing = [item for item in ids if item not in pack]
+    extra = [item for item in pack if item not in set(ids)]
+    if missing or extra:
+        raise SystemExit("headings mismatch missing=%s extra=%s" % (",".join(missing), ",".join(extra)))
+    langs = ("es", "hi", "te", "fr", "de", "ja", "ar")
+    out = {}
+    for item in ids:
+        row = pack[item]
+        if tuple(row.keys()) != langs and set(row) != set(langs):
+            raise SystemExit("heading langs " + item)
+        for lang in langs:
+            text = row.get(lang) or ""
+            if not text.strip():
+                raise SystemExit("empty heading %s %s" % (item, lang))
+        out[item] = {lang: row[lang] for lang in langs}
+    write_json(data_dir / "headings.json", out)
 
 
 def dump(obj: object) -> str:
@@ -129,6 +153,7 @@ def main() -> None:
         [
             (SRC / "teaching.js").read_text(encoding="utf-8"),
             (SRC / "studios.js").read_text(encoding="utf-8"),
+            (SRC / "field.js").read_text(encoding="utf-8"),
             (SRC / "campus.js").read_text(encoding="utf-8"),
         ]
     )
@@ -136,6 +161,11 @@ def main() -> None:
     studios = CAMPUS / "studios"
     studios.mkdir(parents=True, exist_ok=True)
     shutil.copyfile(SRC / "studios" / "topology.js", studios / "topology.js")
+    shutil.copyfile(SRC / "studios" / "hero.js", studios / "hero.js")
+    shutil.copyfile(SRC / "studios" / "icons.js", studios / "icons.js")
+    write_headings(payload, data_dir)
+    shutil.copyfile(SRC / "effects.js", CAMPUS / "effects.js")
+    build_atlas()
 
     version = hashlib.sha256(app.encode("utf-8")).hexdigest()[:12]
     precache = [
@@ -144,6 +174,17 @@ def main() -> None:
         "./app.css",
         "./app.js",
         "./studios/topology.js",
+        "./studios/hero.js",
+        "./studios/icons.js",
+        "./data/headings.json",
+        "./vendor/postprocessing/EffectComposer.js",
+        "./vendor/postprocessing/RenderPass.js",
+        "./vendor/postprocessing/ShaderPass.js",
+        "./vendor/postprocessing/MaskPass.js",
+        "./vendor/postprocessing/Pass.js",
+        "./vendor/postprocessing/UnrealBloomPass.js",
+        "./vendor/shaders/CopyShader.js",
+        "./vendor/shaders/LuminosityHighPassShader.js",
         "./vendor/three.module.min.js",
         "./vendor/OrbitControls.js",
         "./og-card.png",
@@ -153,13 +194,25 @@ def main() -> None:
         "./data/glossary.json",
         "./data/charts.json",
         "./data/bosses.json",
+        "./data/atlas.json",
+        "./effects.js",
+        "./vendor/anime.esm.min.js",
+        "./vendor/rough.esm.js",
+        "./vendor/d3.min.js",
+        "./vendor/confetti.browser.js",
     ]
     for track in payload["tracks"]:
         precache.append(f"./data/tracks/{track['id']}.json")
     audio_dir = CAMPUS / "audio"
     if audio_dir.is_dir():
-        for clip in sorted(audio_dir.glob("*.wav")):
-            precache.append("./audio/" + clip.name)
+        for pattern in ("*.wav", "*.mp3"):
+            for clip in sorted(audio_dir.glob(pattern)):
+                precache.append("./audio/" + clip.name)
+    downloads = CAMPUS / "downloads"
+    if downloads.is_dir():
+        for item in sorted(downloads.iterdir()):
+            if item.suffix in {".html", ".json"} and item.stat().st_size < 1_500_000:
+                precache.append("./downloads/" + item.name)
     sw = SW_TEMPLATE.format(version=version, precache=json.dumps(precache, indent=2))
     (CAMPUS / "sw.js").write_text(sw, encoding="utf-8")
 
@@ -188,7 +241,7 @@ def main() -> None:
 
 
 HTML_TEMPLATE = """<!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="neon">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -213,9 +266,10 @@ HTML_TEMPLATE = """<!DOCTYPE html>
 <script>
 try {{
   var saved = JSON.parse(localStorage.getItem("mvcc-lab-v1") || "{{}}");
-  var theme = saved.theme;
-  if (!theme && window.matchMedia && matchMedia("(prefers-color-scheme: dark)").matches) theme = "dark";
-  if (theme) document.documentElement.dataset.theme = theme;
+  var theme = saved.theme || "neon";
+  document.documentElement.dataset.theme = theme;
+  if (saved.lang === "ar") document.documentElement.dir = "rtl";
+  if (saved.lang) document.documentElement.lang = saved.lang;
   document.documentElement.dataset.font = saved.font || "md";
   var motion = saved.reduceMotion || "system";
   var reduce = motion === "reduce" || (motion !== "full" && window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches);
@@ -225,16 +279,30 @@ try {{
 </head>
 <body>
 <a class="skip" href="#main">Skip to content</a>
+<div class="readbar" id="readbar" aria-hidden="true"></div>
 <header class="top">
+  <div class="link-rail">
+  <div class="top-row">
   <button class="icon-btn menu-btn" id="menu" type="button" aria-label="Open the track menu">
     <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"></path></svg>
   </button>
   <a class="brand" href="#/">
-    <svg class="mark" viewBox="0 0 36 36" aria-hidden="true">
-      <rect width="36" height="36" rx="8" fill="#5b5fc7"></rect>
-      <rect x="8" y="9" width="20" height="14" rx="3" fill="none" stroke="#fff" stroke-width="1.7"></rect>
-      <path d="M14 23v3h8v-3" fill="none" stroke="#fff" stroke-width="1.7" stroke-linecap="round"></path>
-      <circle cx="18" cy="16" r="2" fill="#9be7ff"></circle>
+    <svg class="monkey mini" data-look="0" viewBox="0 0 64 72" aria-hidden="true">
+      <path class="tail" d="M46 54c10 2 14 12 8 16" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"></path>
+      <circle cx="32" cy="28" r="14" fill="var(--cc-accent-3)"></circle>
+      <circle class="ear" cx="18" cy="26" r="5" fill="var(--cc-accent-4)"></circle>
+      <circle class="ear" cx="46" cy="26" r="5" fill="var(--cc-accent-4)"></circle>
+      <g class="look look-1"><path d="M18 18h28v6H18z" fill="var(--cc-accent-1)"></path></g>
+      <g class="look look-2"><polygon points="32,6 36,15 32,13 28,15" fill="var(--cc-accent-2)"></polygon></g>
+      <g class="look look-3"><path d="M16 46h32v5H16z" fill="var(--cc-accent-4)"></path></g>
+      <circle class="eye" cx="27" cy="27" r="1.6" fill="#1a1208"></circle>
+      <circle class="eye" cx="37" cy="27" r="1.6" fill="#1a1208"></circle>
+      <path class="smile" d="M27 33c2.2 2 7.8 2 10 0" fill="none" stroke="#1a1208" stroke-width="1.4" stroke-linecap="round"></path>
+      <path class="headset" d="M20 24c0-8 24-8 24 0v6" fill="none" stroke="var(--cc-accent-1)" stroke-width="2"></path>
+      <rect x="16" y="28" width="6" height="8" rx="2" fill="var(--cc-accent-1)"></rect>
+      <rect x="42" y="28" width="6" height="8" rx="2" fill="var(--cc-accent-1)"></rect>
+      <ellipse cx="32" cy="54" rx="14" ry="10" fill="var(--cc-accent-2)"></ellipse>
+      <g class="arm"><path d="M20 50c-8 2-12 10-8 14" fill="none" stroke="var(--cc-accent-3)" stroke-width="3" stroke-linecap="round"></path></g>
     </svg>
     <span><b>Voice Lab</b><small>Teams phone campus</small></span>
   </a>
@@ -243,11 +311,49 @@ try {{
     <span class="pill" id="streak">Streak 0</span>
     <span class="pill" id="done">0%</span>
     <span class="pill" id="ach-count">0 badges</span>
+    <label class="lang-pick"><span class="visually-hidden">Language</span>
+      <select id="lang" aria-label="Language">
+        <option value="en">EN</option>
+        <option value="es">ES</option>
+        <option value="hi">HI</option>
+        <option value="te">TE</option>
+        <option value="fr">FR</option>
+        <option value="de">DE</option>
+        <option value="ja">JA</option>
+        <option value="ar">AR</option>
+      </select>
+    </label>
+    <button class="ghost theme-flip" id="theme-flip" type="button" data-i18n="light">Light</button>
+    <button class="ghost theme-cycle" id="theme-cycle" type="button" aria-haspopup="dialog" aria-expanded="false" aria-controls="theme-pop">Theme</button>
     <a class="icon-btn" id="settings" href="#/settings" aria-label="Settings">
       <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="3" fill="none" stroke="currentColor" stroke-width="1.8"></circle><path d="M12 3.5v2.2M12 18.3v2.2M3.5 12h2.2M18.3 12h2.2M6 6l1.6 1.6M16.4 16.4 18 18M18 6l-1.6 1.6M7.6 16.4 6 18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"></path></svg>
     </a>
   </div>
+  </div>
+  <div class="rail-scroll">
+  <nav class="skybar" aria-label="CypherMonkey">
+    <a href="https://cyphermonkeylabs.com">CypherMonkey Labs</a>
+    <a href="https://linktr.ee/cyphermonkey">Linktree</a>
+    <a href="https://github.com/cipher0x9/microsoft-voice-cc-lab-free-university-mesmerizing/issues">Rate, comment, help</a>
+    <a href="https://dev.to/cyphermonkey">DEV</a>
+    <a href="https://huggingface.co/Cypher0x9">Hugging Face</a>
+    <a href="https://x.com/Cypher0x9">X</a>
+    <a id="offline-dl" href="downloads/microsoft-voice-contact-center-lab.zip" download>Download offline</a>
+  </nav>
+  <nav class="primary-nav" id="primary-nav" aria-label="Sections">
+    <a href="#/diagrams" data-i18n="diagrams">Diagrams</a>
+    <a href="#/flows" data-i18n="flows">Flows</a>
+    <a href="#/charts" data-i18n="charts">Charts</a>
+    <a href="#/downloads" data-i18n="codes">Cheat Codes</a>
+    <a href="#/play" data-i18n="play">Play</a>
+    <a href="#/map" data-i18n="eco">Ecosystem</a>
+    <a href="#/downloads" data-i18n="downloads">Downloads</a>
+    <a href="#/career" data-i18n="careers">Careers</a>
+  </nav>
+  </div>
+  </div>
 </header>
+<div id="theme-pop" class="theme-pop" hidden role="dialog" aria-label="Theme"></div>
 <div class="shell">
   <nav id="nav" class="nav" aria-label="Campus"></nav>
   <main id="main" tabindex="-1">
@@ -256,11 +362,11 @@ try {{
   </main>
 </div>
 <nav class="bottom-nav" aria-label="Mobile">
-  <a href="#/" data-tab="home">Home</a>
-  <a href="#/labs" data-tab="labs">Labs</a>
-  <button type="button" id="bottom-menu" data-tab="tracks">Tracks</button>
-  <a href="#/powershell" data-tab="powershell">Shell</a>
-  <a href="#/topology" data-tab="topology">Mesh</a>
+  <a href="#/diagrams" data-tab="diagrams" data-i18n="diagrams">Diagrams</a>
+  <a href="#/flows" data-tab="flows" data-i18n="flows">Flows</a>
+  <a href="#/charts" data-tab="charts" data-i18n="charts">Charts</a>
+  <a href="#/downloads" data-tab="downloads" data-i18n="codesShort">Codes</a>
+  <a href="#/play" data-tab="play" data-i18n="play">Play</a>
 </nav>
 <div class="dock" role="region" aria-label="Section audio">
   <button id="listen" type="button">Listen</button>
@@ -273,7 +379,59 @@ try {{
     <div id="hits" class="hits"></div>
   </div>
 </div>
+<footer class="site-foot">
+  <svg class="monkey" id="monkey" data-pose="idle" data-look="2" viewBox="0 0 64 72" aria-hidden="true">
+    <path class="tail" d="M46 54c10 2 14 12 8 16" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"></path>
+    <circle cx="32" cy="28" r="14" fill="var(--cc-accent-3)"></circle>
+    <circle class="ear" cx="18" cy="26" r="5" fill="var(--cc-accent-4)"></circle>
+    <circle class="ear" cx="46" cy="26" r="5" fill="var(--cc-accent-4)"></circle>
+    <g class="look look-1"><path d="M18 18h28v6H18z" fill="var(--cc-accent-1)"></path></g>
+    <g class="look look-2"><polygon points="32,6 36,15 32,13 28,15" fill="var(--cc-accent-2)"></polygon></g>
+    <g class="look look-3"><path d="M16 46h32v5H16z" fill="var(--cc-accent-4)"></path></g>
+    <circle class="eye" cx="27" cy="27" r="1.6" fill="#1a1208"></circle>
+    <circle class="eye" cx="37" cy="27" r="1.6" fill="#1a1208"></circle>
+    <path class="smile" d="M27 33c2.2 2 7.8 2 10 0" fill="none" stroke="#1a1208" stroke-width="1.4" stroke-linecap="round"></path>
+    <path class="headset" d="M20 24c0-8 24-8 24 0v6" fill="none" stroke="var(--cc-accent-1)" stroke-width="2"></path>
+    <rect x="16" y="28" width="6" height="8" rx="2" fill="var(--cc-accent-1)"></rect>
+    <rect x="42" y="28" width="6" height="8" rx="2" fill="var(--cc-accent-1)"></rect>
+    <ellipse cx="32" cy="54" rx="14" ry="10" fill="var(--cc-accent-2)"></ellipse>
+    <g class="arm"><path d="M20 50c-8 2-12 10-8 14" fill="none" stroke="var(--cc-accent-3)" stroke-width="3" stroke-linecap="round"></path></g>
+  </svg>
+  <p class="sig">CypherMonkey · Microsoft Voice &amp; Contact Center Lab</p>
+  <p>Independent educational project, not affiliated with or endorsed by any vendor. Trademarks belong to their owners. MIT code, CC BY-NC-SA content.</p>
+  <p><a href="https://cyphermonkeylabs.com/#contact">Report a concern</a> · <a href="https://cyphermonkeylabs.com/#contact">Work with us</a></p>
+  <nav class="next-labs" aria-label="Other labs">
+    <a href="https://cipher0x9.github.io/uc-lab-free-university-mesmerizing/">UC Lab</a>
+    <a href="https://cipher0x9.github.io/webex-lab-free-university-mesmerizing/">Webex</a>
+    <a href="https://cipher0x9.github.io/genesys-cloud-lab-free-university-mesmerizing/">Genesys</a>
+    <a href="https://cipher0x9.github.io/amazon-connect-lab-free-university-mesmerizing/">Amazon Connect</a>
+    <a href="https://cipher0x9.github.io/five9-lab-free-university-mesmerizing/">Five9</a>
+    <a href="https://cipher0x9.github.io/nice-cxone-lab-free-university-mesmerizing/">NiCE CXone</a>
+    <a href="https://cipher0x9.github.io/sip-universe-lab-free-university-mesmerizing/">SIP Universe</a>
+    <a href="https://cipher0x9.github.io/ai-lab-free-university-mesmerizing/">AI Lab</a>
+    <a href="https://cipher0x9.github.io/gemini-gems-free-gallery/">Gemini Gems</a>
+  </nav>
+</footer>
+<div id="lightbox" class="lightbox" hidden>
+  <div class="lb-frame" role="dialog" aria-modal="true" aria-labelledby="lb-title">
+    <div class="lb-bar">
+      <p id="lb-title">Diagram</p>
+      <button type="button" class="ghost" id="lb-close">Close</button>
+    </div>
+    <div id="lb-stage"></div>
+    <div class="lb-controls">
+      <button type="button" class="primary" id="lb-play">Pause</button>
+      <button type="button" class="ghost" id="lb-step">Step</button>
+    </div>
+    <p id="lb-legend" class="kicker"></p>
+    <p id="lb-why"></p>
+  </div>
+</div>
+<div id="egg" class="egg" hidden>
+  <p>Operator mode. The monkey found the hidden keypad. This does not change a tenant.</p>
+</div>
 <noscript><p>This campus needs JavaScript. It does not load a CDN. Enable JavaScript in this browser and open the file again.</p></noscript>
+<script type="module" src="effects.js"></script>
 <script src="app.js" defer></script>
 </body>
 </html>

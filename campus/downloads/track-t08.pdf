@@ -1,0 +1,65 @@
+%PDF-1.4
+1 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica >>
+endobj
+2 0 obj
+<< /Length 1577 >>
+stream
+BT
+/F1 11 Tf
+50 780 Td
+14 TL
+(08 Emergency, LBR, survivability) Tj
+T* () Tj
+T* (08 Emergency, LBR, survivability) Tj
+T* () Tj
+T* (Pro tips) Tj
+T* (? Dynamic emergency calling walks trusted IP, network site, subnet, and civic address. A VPN) Tj
+T* (pool is often not a dispatchable location.) Tj
+T* (? On Direct Routing you choose whether the SBC or Microsoft routes the emergency call. Say) Tj
+T* (which hop you configured.) Tj
+T* (? A Survivable Branch Appliance keeps a limited set of calls up when the path to Microsoft) Tj
+T* (365 fails. It does not replace the SBC.) Tj
+T* () Tj
+T* (Interview traps) Tj
+T* (? Placing a real emergency call to test a lab. Use the matcher and a test policy.) Tj
+T* (? Treating location-based routing and emergency location as the same feature. They share) Tj
+T* (sites and do different jobs.) Tj
+T* () Tj
+T* (Cheat sheet) Tj
+T* (Trusted IP -> site -> subnet -> civic address) Tj
+T* (Emergency route: Microsoft or your SBC, on purpose) Tj
+T* (LBR: selected PSTN stays on the local gateway) Tj
+T* (SBA: some branch calling during a WAN loss) Tj
+T* (SBA scope is smaller than normal Teams Phone) Tj
+T* () Tj
+T* (Facts in the long lessons were checked 14 October 2026. This sheet is a memory aid.) Tj
+T* () Tj
+T* (CypherMonkey ? cyphermonkeylabs.com ? linktr.ee/cyphermonkey ?) Tj
+T* (https://github.com/cipher0x9/microsoft-voice-cc-lab-free-university-mesmerizing ?) Tj
+T* (Independent educational project, not affiliated with or endorsed by any vendor. Trademarks) Tj
+T* (belong to their owners. MIT code, CC BY-NC-SA content. No email.) Tj
+ET
+endstream
+endobj
+3 0 obj
+<< /Type /Page /Parent 4 0 R /MediaBox [0 0 612 792] /Contents 2 0 R /Resources << /Font << /F1 1 0 R >> >> >>
+endobj
+4 0 obj
+<< /Type /Pages /Count 1 /Kids [3 0 R] >>
+endobj
+5 0 obj
+<< /Type /Catalog /Pages 4 0 R >>
+endobj
+xref
+0 6
+0000000000 65535 f 
+0000000009 00000 n 
+0000000079 00000 n 
+0000001708 00000 n 
+0000001834 00000 n 
+0000001891 00000 n 
+trailer << /Size 6 /Root 5 0 R >>
+startxref
+1940
+%%EOF

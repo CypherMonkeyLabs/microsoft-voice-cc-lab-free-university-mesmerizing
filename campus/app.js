@@ -763,6 +763,970 @@ function mountLisBoard(host, found) {
 
 "use strict";
 
+const FIELD_LINKS = [
+  ["#/track/t01", "Fundamentals", "Tenant, identity, and the order of work."],
+  ["#/track/t05", "Architecture and PSTN", "Calling Plans, Operator Connect, Phone Mobile, Direct Routing."],
+  ["#/track/t10", "Deployment", "Certified SBCs and the shared configuration gate."],
+  ["#/migrate", "Migration and cutover", "Checklist from inventory through hypercare."],
+  ["#/track/t03", "Configuration", "PowerShell simulator and the admin track."],
+  ["#/track/t12", "Troubleshooting", "Fault catalog, CQD cases, and SIP health."],
+  ["#/ports", "Ports and protocols", "Firewall matrix, ladder, and the mastery game."],
+  ["#/track/t17", "WFM, recording, CRM, agents", "Ecosystem track, including E911 and analytics."],
+  ["#/track/t08", "E911 and survivability", "Dynamic location, LBR, and the branch appliance."],
+  ["#/track/t13", "Contact center and AI", "Dynamics 365 Contact Center, ACS, Copilot Studio."],
+  ["#/track/t11", "Security", "TLS, certificates, and the trust boundary."],
+  ["#/career", "Licensing, exams, career", "Status board, paths, and interview traps."],
+  ["#/news", "Roadmap and what is new", "Dated to 14 October 2026. Unverified items are marked."],
+  ["#/downloads", "Cheat codes", "Printable sheets, flashcards, and the offline bundle."],
+];
+
+const PORT_ROWS = [
+  ["Direct Routing signaling", "TCP", "5061", "TLS to sip.pstnhub.microsoft.com, sip2, and sip3", "https://learn.microsoft.com/en-us/microsoftteams/direct-routing-plan"],
+  ["Direct Routing media", "UDP", "3478–3481", "Media processors, unless bypass keeps RTP local", "https://learn.microsoft.com/en-us/microsoftteams/direct-routing-plan"],
+  ["Direct Routing media high", "UDP", "49152–53247", "Second media range. Open it or calls connect with silence", "https://learn.microsoft.com/en-us/microsoftteams/direct-routing-plan"],
+  ["Client audio", "UDP/TCP", "50000–50019", "DSCP 46 EF when QoS marking is on", "https://learn.microsoft.com/en-us/microsoftteams/qos-in-teams"],
+  ["Client video", "UDP/TCP", "50020–50039", "DSCP 34 AF41", "https://learn.microsoft.com/en-us/microsoftteams/qos-in-teams"],
+  ["Client app sharing", "UDP/TCP", "50040–50059", "DSCP 18 AF21", "https://learn.microsoft.com/en-us/microsoftteams/qos-in-teams"],
+  ["Client signaling", "UDP/TCP", "50070–50089", "DSCP 40 CS5. The article says these ports are not configurable", "https://learn.microsoft.com/en-us/microsoftteams/qos-in-teams"],
+  ["Direct Routing SBC IPv4", "IP", "52.112.0.0/14 and 52.120.0.0/14", "Commercial signaling and media on the plan page checked 15 October 2026. This is not the Teams client optimize list.", "https://learn.microsoft.com/en-us/microsoftteams/direct-routing-plan"],
+  ["Direct Routing SBC IPv6", "IP", "2603:1063:400::/40 and 2603:1063:100::/40", "Signaling uses 2603:1063:400::/40. Media uses that prefix and 2603:1063:100::/40.", "https://learn.microsoft.com/en-us/microsoftteams/direct-routing-plan"],
+  ["Teams client optimize", "IP", "52.112.0.0/14 and 52.122.0.0/15", "Office 365 URLs article ID 11 and the worldwide endpoints feed, checked 15 October 2026. IPv6 optimize includes 2603:1063::/38. 52.120.0.0/14 is not on this client list, and 52.122.0.0/15 is not the SBC pair.", "https://learn.microsoft.com/en-us/microsoft-365/enterprise/urls-and-ip-address-ranges"],
+  ["GCC High / DoD media", "IP", "52.127.88.0/21 and 52.127.64.0/21", "GCC High media 52.127.88.0/21. DoD media 52.127.64.0/21. Proxy names are not the commercial trio.", "https://learn.microsoft.com/en-us/microsoftteams/direct-routing-plan"],
+];
+
+const GAME_ROUNDS = [
+  { q: "A certified SBC signals to the commercial PSTN hubs on which port?", choices: ["UDP 5060", "TCP 5061", "TCP 443 only", "UDP 50000"], answer: 1, why: "Direct Routing signaling is TLS to the three commercial proxies on TCP 5061." },
+  { q: "Calls connect and both sides hear silence. Which range was most often forgotten?", choices: ["TCP 5061", "UDP 3478–3481 and 49152–53247", "TCP 80", "UDP 53"], answer: 1, why: "5061 carries SIP. Media is the UDP ranges, unless media bypass keeps RTP off the processor path." },
+  { q: "The QoS article’s audio client ports and mark are:", choices: ["50020–50039 DSCP 34", "50000–50019 DSCP 46", "5061 DSCP 46", "3478 DSCP 0"], answer: 1, why: "Audio is 50000–50019 at EF 46. Video starts at 50020." },
+  { q: "Browser meeting joins and the fixed 50000-range ports.", choices: ["Browsers always use 50000–50019", "Browser joins do not use those fixed ranges", "Browsers open TCP 5061 to the SBC", "Browsers mark every packet EF"], answer: 1, why: "An ACL that only matches the desktop ranges misses a lot of browser traffic." },
+  { q: "Client signaling ports in the QoS article are:", choices: ["Configurable, any high port", "50070–50089 and not configurable", "5061 only", "3478–3481"], answer: 1, why: "Calling and meeting signaling is 50070–50089 at DSCP 40. The article says the ports are not configurable." },
+  { q: "Media bypass changes which path?", choices: ["Signaling moves to the SBC", "Media can run between the client and the SBC", "TLS moves to UDP 5060", "E911 stops using a location"], answer: 1, why: "Signaling stays with Teams. Bypass is a media decision, and a VPN or location-based routing can forbid it." },
+  { q: "SIP OPTIONS to the SBC returns no 200 OK, repeatedly. What should happen?", choices: ["Keep sending INVITEs", "Treat the trunk as out of service and use the next gateway", "Switch the user to Islands mode", "Open TCP 80"], answer: 1, why: "Missed OPTIONS are how Teams decides the trunk is unhealthy. The next gateway only helps if the route lists one." },
+  { q: "GCC High PSTN proxy names match the commercial trio.", choices: ["Yes, sip.pstnhub.microsoft.com", "No. GCC High and DoD use different names", "Only sip2 changes", "Unverified, so either is fine"], answer: 1, why: "Commercial clouds use the microsoft.com trio. GCC High and DoD use gov and dod names. Do not copy a commercial ACL into those clouds." },
+];
+
+const DAILY = [
+  { q: "Teams Phone and a Calling Plan are the same license.", choices: ["True", "False"], answer: 1, why: "Teams Phone is the enterprise-voice capability. A Calling Plan is Microsoft acting as the carrier, bought separately." },
+  { q: "Which exam is the Dynamics 365 Contact Center exam on this status board?", choices: ["MS-700", "AB-210", "AB-250", "MB-280"], answer: 2, why: "AB-250 is the contact-center exam. AB-210 is the sales successor to MB-280 and is in beta. MS-700 is Teams administration." },
+  { q: "MS-700 on 14 October 2026 is:", choices: ["Retired, replaced by AB-210", "Still live, with a skills update on 27 October 2026", "Replaced by MS-900", "Unverified"], answer: 1, why: "The status board says MS-700 is still live and has no replacement. The skills update date is 27 October 2026." },
+  { q: "A resource account for an auto attendant should be licensed like a human Calling Plan user.", choices: ["Always", "No. It needs the resource-account license the voice app requires", "Only in Islands mode", "Only for Operator Connect"], answer: 1, why: "The resource account is not an agent login. Outbound from the app is a separate funding question." },
+  { q: "First matching normalization rule wins.", choices: ["True", "False, all rules apply", "Only the last rule", "Only if the SBC agrees"], answer: 0, why: "Later rules do not get a vote. Put the specific pattern before the catch-all." },
+  { q: "Direct Routing users in Islands mode are supported.", choices: ["Yes", "No"], answer: 1, why: "Islands mode is a hard stop for Direct Routing, not a tuning problem." },
+  { q: "Erlang C in this lab is:", choices: ["A Microsoft SLA", "A teaching model", "The CQD formula", "A Calling Plan price"], answer: 1, why: "The calculator is labeled as a teaching model. It is not a vendor staffing guarantee." },
+  { q: "Compliance recording in Teams requires:", choices: ["Any third-party SIP recorder on TCP 5060", "A certified recorder, an application instance, an enabled policy, and a grant", "Teams Premium alone", "A Calling Plan"], answer: 1, why: "The recording builder in this lab walks the certified-recorder path. Teams Premium does not replace it." },
+  { q: "A full-tunnel VPN is a good media-bypass candidate.", choices: ["Yes", "No"], answer: 1, why: "Microsoft’s guidance, as taught here, is to keep real-time media off a full-tunnel VPN." },
+  { q: "Who owns number normalization during CUCM coexistence?", choices: ["Both systems, so nothing is missed", "One owner, written down", "The carrier only", "Whoever dials last"], answer: 1, why: "If both sides add the country code, the SBC sees a broken number." },
+  { q: "Call Quality Dashboard versus one bad call.", choices: ["CQD is for a single user", "One user is a Call Analytics case", "They are the same database view", "Neither looks at the network"], answer: 1, why: "A single user and a single call is Call Analytics. CQD is the building view." },
+  { q: "AB-210 replaces MS-700.", choices: ["Yes", "No"], answer: 1, why: "AB-210 is not a replacement for MS-700 and it is not the contact-center exam." },
+];
+
+const FLOW_BLOCKS = [
+  { id: "options", label: "OPTIONS", detail: "Trunk health" },
+  { id: "invite", label: "INVITE", detail: "Dialog offer" },
+  { id: "trying", label: "100 Trying", detail: "Transaction" },
+  { id: "ring", label: "180 Ringing", detail: "Alerting" },
+  { id: "ok", label: "200 OK", detail: "Answer" },
+  { id: "ack", label: "ACK", detail: "Dialog confirmed" },
+  { id: "media", label: "RTP / SRTP", detail: "Media" },
+  { id: "record", label: "Record", detail: "Policy grant" },
+  { id: "xfer", label: "REFER", detail: "Transfer" },
+  { id: "e911", label: "Emergency", detail: "Location first" },
+  { id: "bye", label: "BYE", detail: "Tear down" },
+];
+
+let sandboxSeq = [];
+let gameCursor = 0;
+let gameScore = 0;
+let gameLocked = false;
+let atlasCache = null;
+
+async function loadAtlas() {
+  if (atlasCache) return atlasCache;
+  const payload = await fetchJson("data/atlas.json");
+  atlasCache = payload;
+  return payload;
+}
+
+function hopCallouts(caption, labels) {
+  const bits = String(caption || "").split(/(?<=\.)\s+/).map((part) => part.trim()).filter(Boolean).slice(0, 3);
+  if (!bits.length) bits.push("Teaching figure. Not a copy of a vendor diagram.");
+  const names = labels || ["Path", "Watch", "Check"];
+  return (
+    '<ol class="callouts">' +
+    bits.map((bit, index) => '<li><span class="pin">' + names[index % names.length] + "</span><span>" + esc(bit) + "</span></li>").join("") +
+    "</ol>"
+  );
+}
+
+function rideSvg(kind) {
+  const paths = {
+    diagram: "M 12 46 H 88 V 14 H 176 V 46 H 268 V 14 H 388",
+    flow: "M 16 42 C 90 6, 150 62, 220 24 S 330 6, 392 34",
+    chart: "M 12 50 L 78 16 L 146 40 L 214 10 L 282 36 L 360 18 L 392 28",
+  };
+  const d = paths[kind] || paths.diagram;
+  const seconds = kind === "flow" ? "2.8s" : (kind === "chart" ? "4.2s" : "3.4s");
+  return (
+    '<svg class="page-ride ride-' + kind + '" viewBox="0 0 400 64" role="img" aria-label="Animated packet">' +
+    '<path class="flow-line" d="' + d + '" fill="none" stroke="var(--cc-accent-2)" stroke-width="2"></path>' +
+    '<circle class="atlas-packet" r="6" fill="var(--cc-accent-3)" style="offset-path: path(\'' + d + '\'); animation: ride ' + seconds + ' linear infinite"><title>Packet</title></circle></svg>'
+  );
+}
+
+function atlasMeta(item) {
+  return (
+    ' id="atlas-' + esc(item.id) + '" data-kind="' + (item.animated ? "flow" : "diagram") + '" data-topic="' + esc(item.topic) + '" data-title="' + esc(item.title) + '" data-caption="' + esc(item.caption) + '"'
+  );
+}
+
+function atlasFilters(items) {
+  const topics = [];
+  items.forEach((item) => {
+    if (topics.indexOf(item.topic) === -1) topics.push(item.topic);
+  });
+  return (
+    '<div class="choice-row" role="tablist" aria-label="Filter">' +
+    '<button type="button" class="choice" data-atlas="all" aria-pressed="true">All</button>' +
+    topics.map((topic) => '<button type="button" class="choice" data-atlas="' + esc(topic) + '" aria-pressed="false">' + esc(topic) + "</button>").join("") +
+    "</div>"
+  );
+}
+
+function diagramCard(item, feature) {
+  return (
+    '<article class="blueprint atlas-card' + (feature ? " atlas-feature" : "") + '"' + atlasMeta(item) + ">" +
+    '<div class="plate"><p class="kicker">Sheet · ' + esc(item.topic) + "</p><h2>" + esc(item.title) + "</h2>" +
+    '<div class="figure-canvas">' + item.svg + "</div>" + rideSvg("diagram") + "</div>" +
+    '<div class="sheet-notes">' + hopCallouts(item.caption, ["Trace", "Boundary", "Check"]) +
+    '<p class="tiny"><a href="' + esc(item.source) + '">Source</a> · accessed ' + esc(item.accessed) + "</p>" +
+    '<button type="button" class="primary enlarge" data-enlarge="1" data-i18n="enlarge">Enlarge</button></div></article>'
+  );
+}
+
+function flowCard(item, feature) {
+  return (
+    '<article class="film atlas-card' + (feature ? " atlas-feature" : "") + '"' + atlasMeta(item) + ">" +
+    '<div class="figure-canvas">' + item.svg + "</div>" +
+    '<div class="film-notes"><p class="kicker">Signal · ' + esc(item.topic) + "</p><h2>" + esc(item.title) + "</h2>" +
+    rideSvg("flow") + hopCallouts(item.caption, ["Signal", "Media", "Fail"]) +
+    '<p class="tiny"><a href="' + esc(item.source) + '">Source</a> · accessed ' + esc(item.accessed) + "</p>" +
+    '<button type="button" class="ghost enlarge" data-enlarge="1" data-i18n="enlarge">Enlarge</button></div></article>'
+  );
+}
+
+function stageStops(labels) {
+  return '<ol class="stage-stops">' + labels.map((label, index) => '<li><b>' + (index + 1) + "</b><span>" + esc(label) + "</span></li>").join("") + "</ol>";
+}
+
+function renderDiagrams() {
+  const items = (atlasCache && atlasCache.items) || [];
+  window.__listen = "Diagrams. " + items.length + " blueprint sheets. A packet walks the sheet edge. Callouts name the trace, the boundary, and the check.";
+  return (
+    '<div class="layout-diagrams">' +
+    crumbs([["Home", "#/"], ["Diagrams", ""]]) +
+    '<p class="kicker">Blueprint · checked ' + esc((atlasCache && atlasCache.checked) || "2026-10-15") + "</p><h1>Diagrams</h1>" +
+    '<p class="lede">' + items.length + " sheets on a drawing grid. The packet walks the registration marks. Callouts sit beside the sheet, not on top of it.</p>" +
+    '<section class="page-stage diagram-stage">' + rideSvg("diagram") + stageStops(["Tenant", "Dial plan", "SBC", "Carrier"]) + "</section>" +
+    atlasFilters(items) +
+    '<p class="tiny" id="atlas-count">' + items.length + " showing</p>" +
+    '<div id="atlas-list">' + items.map((item, index) => diagramCard(item, index === 0)).join("") + "</div></div>"
+  );
+}
+
+function renderFlows() {
+  const items = ((atlasCache && atlasCache.items) || []).filter((item) => item.animated);
+  window.__listen = "Flows. " + items.length + " animated signal paths. The packet rides the hop. Callouts name signal, media, and the failure.";
+  return (
+    '<div class="layout-flows">' +
+    crumbs([["Home", "#/"], ["Flows", ""]]) +
+    '<p class="kicker">Filmstrip · checked ' + esc((atlasCache && atlasCache.checked) || "2026-10-15") + "</p><h1>Flows</h1>" +
+    '<p class="lede">' + items.length + " animated hops. Each row is a film frame: the path on the left, the callouts on the right.</p>" +
+    '<section class="page-stage flow-stage">' + rideSvg("flow") + stageStops(["INVITE", "180 Ringing", "200 OK", "RTP"]) + "</section>" +
+    atlasFilters(items) +
+    '<p class="tiny" id="atlas-count">' + items.length + " showing</p>" +
+    '<div id="atlas-list">' + items.map((item, index) => flowCard(item, index === 0)).join("") + "</div></div>"
+  );
+}
+
+function renderPlay() {
+  window.__listen = "Play. Ports game, call-flow sandbox, daily challenge, and the SBC mesh.";
+  const tiles = [
+    ["#/game", "Ports game", "Eight questions. A perfect score is a badge."],
+    ["#/sandbox", "Call-flow sandbox", "Stack INVITE, 200 OK, and RTP and read the note."],
+    ["#/daily", "Daily challenge", "One question for this date, saved in this browser."],
+    ["#/explorer", "Flow explorer", "Hop by hop from the client to the recorder."],
+    ["#/topology", "SBC mesh", "Orbit the geo-redundant pair."],
+    ["#/diagrams", "Diagrams", "The full atlas, including the troubleshooting tree."],
+  ];
+  return (
+    crumbs([["Home", "#/"], ["Play", ""]]) +
+    '<p class="kicker">Practice</p><h1>Play</h1>' +
+    '<p class="lede">Games and sandboxes already in this campus. Scores stay in this browser.</p>' +
+    '<div class="lab-grid">' + tiles.map((tile) => '<a class="card spot holo" href="' + tile[0] + '"><h3>' + esc(tile[1]) + "</h3><p>" + esc(tile[2]) + "</p></a>").join("") + "</div>"
+  );
+}
+
+function wireAtlas() {
+  const buttons = $$("[data-atlas]");
+  if (!buttons.length) return;
+  const apply = function (topic) {
+    let shown = 0;
+    $$(".atlas-card").forEach((card) => {
+      const on = topic === "all" || card.getAttribute("data-topic") === topic;
+      card.hidden = !on;
+      if (on) shown += 1;
+    });
+    const count = $("#atlas-count");
+    if (count) count.textContent = shown + " showing";
+    buttons.forEach((button) => {
+      button.setAttribute("aria-pressed", button.getAttribute("data-atlas") === topic ? "true" : "false");
+    });
+  };
+  buttons.forEach((button) => {
+    button.onclick = function () { apply(button.getAttribute("data-atlas")); };
+  });
+  $$("[data-enlarge]").forEach((button) => {
+    button.onclick = function () {
+      const card = button.closest(".atlas-card");
+      if (card) openLightbox(card);
+    };
+  });
+  $$(".atlas-card .figure-canvas").forEach((canvas) => {
+    canvas.onclick = function () {
+      const card = canvas.closest(".atlas-card");
+      if (card) openLightbox(card);
+    };
+  });
+}
+
+function openLightbox(card) {
+  const box = $("#lightbox");
+  const stage = $("#lb-stage");
+  if (!box || !stage) return;
+  const figure = card.querySelector(".figure-canvas");
+  stage.innerHTML = figure ? figure.innerHTML : "";
+  stage.classList.remove("paused");
+  stage.dataset.step = "0";
+  const play = $("#lb-play");
+  if (play) play.textContent = "Pause";
+  const legend = $("#lb-legend");
+  if (legend) legend.textContent = (card.getAttribute("data-kind") === "flow" ? "Animated flow" : "Diagram") + " · " + (card.getAttribute("data-topic") || "");
+  const why = $("#lb-why");
+  if (why) why.textContent = card.getAttribute("data-caption") || "";
+  const title = $("#lb-title");
+  if (title) title.textContent = card.getAttribute("data-title") || "Diagram";
+  box.hidden = false;
+}
+
+function closeLightbox() {
+  const box = $("#lightbox");
+  if (box) box.hidden = true;
+}
+
+function armLightbox() {
+  const box = $("#lightbox");
+  if (!box || box.dataset.bound === "1") return;
+  box.dataset.bound = "1";
+  const close = $("#lb-close");
+  if (close) close.onclick = closeLightbox;
+  box.addEventListener("click", function (event) {
+    if (event.target === box) closeLightbox();
+  });
+  const play = $("#lb-play");
+  if (play) {
+    play.onclick = function () {
+      const stage = $("#lb-stage");
+      if (!stage) return;
+      const paused = stage.classList.toggle("paused");
+      play.textContent = paused ? "Play" : "Pause";
+      if (!paused) {
+        stage.querySelectorAll(".atlas-packet").forEach((node) => {
+          node.style.animation = "";
+          node.style.offsetDistance = "";
+        });
+      }
+    };
+  }
+  const step = $("#lb-step");
+  if (step) {
+    step.onclick = function () {
+      const stage = $("#lb-stage");
+      if (!stage) return;
+      stage.classList.add("paused");
+      const playBtn = $("#lb-play");
+      if (playBtn) playBtn.textContent = "Play";
+      const next = (Number(stage.dataset.step) || 0) + 1;
+      stage.dataset.step = String(next % 8);
+      const packets = stage.querySelectorAll(".atlas-packet");
+      if (!packets.length) return;
+      packets.forEach((node) => {
+        node.style.animation = "none";
+        node.style.offsetDistance = ((next % 8) * 12.5) + "%";
+      });
+    };
+  }
+  document.addEventListener("keydown", function (event) {
+    if (event.key === "Escape") closeLightbox();
+  });
+}
+
+const I18N = {
+  en: { greet: "The call path, in light.", diagrams: "Diagrams", flows: "Flows", charts: "Charts", codes: "Cheat Codes", play: "Play", eco: "Ecosystem", downloads: "Downloads", careers: "Careers", regions: "Regions", codesShort: "Codes", enlarge: "Enlarge", listen: "Architect briefing", light: "Light", dark: "Dark" },
+  es: { greet: "La ruta de la llamada, en luz.", diagrams: "Diagramas", flows: "Flujos", charts: "Gráficos", codes: "Chuletas", play: "Jugar", eco: "Ecosistema", downloads: "Descargas", careers: "Carreras", regions: "Regiones", codesShort: "Chuletas", enlarge: "Ampliar", listen: "Charla de arquitectura", light: "Claro", dark: "Oscuro" },
+  hi: { greet: "कॉल का रास्ता, रोशनी में।", diagrams: "आरेख", flows: "प्रवाह", charts: "चार्ट", codes: "चीट कोड", play: "खेल", eco: "इकोसिस्टम", downloads: "डाउनलोड", careers: "करियर", regions: "क्षेत्र", codesShort: "कोड", enlarge: "बड़ा करें", listen: "आर्किटेक्ट वार्ता", light: "हल्का", dark: "गहरा" },
+  te: { greet: "కాల్ మార్గం, వెలుగులో.", diagrams: "రేఖాచిత్రాలు", flows: "ప్రవాహాలు", charts: "పటాలు", codes: "చీట్ కోడ్", play: "ఆట", eco: "వ్యవస్థ", downloads: "డౌన్‌లోడ్", careers: "వృత్తులు", regions: "ప్రాంతాలు", codesShort: "కోడ్", enlarge: "పెద్దది", listen: "వాస్తు సంభాషణ", light: "వెలుతురు", dark: "చీకటి" },
+  fr: { greet: "Le chemin de l'appel, en lumière.", diagrams: "Schémas", flows: "Flux", charts: "Graphiques", codes: "Antisèches", play: "Jouer", eco: "Écosystème", downloads: "Téléchargements", careers: "Carrières", regions: "Régions", codesShort: "Fiches", enlarge: "Agrandir", listen: "Brief architectes", light: "Clair", dark: "Sombre" },
+  de: { greet: "Der Anrufweg, in Licht.", diagrams: "Diagramme", flows: "Flüsse", charts: "Charts", codes: "Spickzettel", play: "Spielen", eco: "Ökosystem", downloads: "Downloads", careers: "Karriere", regions: "Regionen", codesShort: "Zettel", enlarge: "Vergrößern", listen: "Architektenbriefing", light: "Hell", dark: "Dunkel" },
+  ja: { greet: "通話経路を、光で。", diagrams: "図", flows: "フロー", charts: "チャート", codes: "チートシート", play: "練習", eco: "エコシステム", downloads: "ダウンロード", careers: "キャリア", regions: "地域", codesShort: "シート", enlarge: "拡大", listen: "設計者の対話", light: "ライト", dark: "ダーク" },
+  ar: { greet: "مسار المكالمة، في الضوء.", diagrams: "مخططات", flows: "تدفقات", charts: "رسوم", codes: "أوراق الغش", play: "تدريب", eco: "المنظومة", downloads: "تنزيلات", careers: "مسارات", regions: "مناطق", codesShort: "أوراق", enlarge: "تكبير", listen: "حوار المعماريين", light: "فاتح", dark: "داكن" },
+};
+
+function applyI18n() {
+  const lang = state.lang || "en";
+  const pack = I18N[lang] || I18N.en;
+  document.documentElement.lang = lang;
+  document.documentElement.dir = lang === "ar" ? "rtl" : "ltr";
+  $$("[data-i18n]").forEach((node) => {
+    const key = node.getAttribute("data-i18n");
+    if (pack[key]) node.textContent = pack[key];
+  });
+  const sel = $("#lang");
+  if (sel && sel.value !== lang) sel.value = lang;
+  const flip = $("#theme-flip");
+  if (flip) flip.textContent = activeTheme() === "light" ? pack.dark : pack.light;
+}
+
+function architectAudio() {
+  return (
+    '<section class="panel holo architect">' +
+    '<h2 data-i18n="listen">Architect briefing</h2>' +
+    '<p>Two short clips. Maya and Jon walk the campus: how to view the scene, open the menu, practise, and share. Better recordings can replace the same files later: <code>audio/architect-use.mp3</code> and <code>audio/architect-share.mp3</code>. The player, rate and comment, and Share stay.</p>' +
+    '<figure><figcaption>Use and view</figcaption><audio controls preload="none" src="audio/architect-use.mp3"></audio></figure>' +
+    '<figure><figcaption>Practise and share</figcaption><audio controls preload="none" src="audio/architect-share.mp3"></audio></figure>' +
+    '<p class="tiny" id="audio-miss" hidden></p>' +
+    '<p class="audio-actions"><a href="https://github.com/cipher0x9/microsoft-voice-cc-lab-free-university-mesmerizing/issues">Rate and comment</a> · <button type="button" class="ghost" id="share-lab">Share</button> · <a href="https://cyphermonkeylabs.com">CypherMonkey Labs</a></p>' +
+    '<p class="tiny" id="share-note">Share copies the public campus address. Report a concern from the footer. No email is shown.</p></section>'
+  );
+}
+
+function wireArchitect() {
+  const button = $("#share-lab");
+  if (!button || button.dataset.bound === "1") return;
+  button.dataset.bound = "1";
+  button.onclick = function () {
+    const url = "https://cipher0x9.github.io/microsoft-voice-cc-lab-free-university-mesmerizing/campus/";
+    const note = $("#share-note");
+    const done = function (text) { if (note) note.textContent = text; };
+    if (navigator.share) {
+      navigator.share({ title: "Microsoft Voice & Contact Center Lab", url: url }).then(function () { done("Shared."); }).catch(function () { done(url); });
+      return;
+    }
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(url).then(function () { done("Copied " + url); }).catch(function () { done(url); });
+      return;
+    }
+    done(url);
+  };
+  $$(".architect audio").forEach((node) => {
+    if (node.dataset.bound === "1") return;
+    node.dataset.bound = "1";
+    node.addEventListener("error", function () {
+      const miss = $("#audio-miss");
+      const path = node.getAttribute("src") || "audio/";
+      if (!miss) return;
+      miss.hidden = false;
+      miss.textContent = "The clip is not in the folder yet: " + path + ". The player stays ready for that file.";
+    });
+  });
+}
+
+function bindChartTips() {
+  const host = $("#view");
+  if (!host || host.dataset.tips === "1") return;
+  host.dataset.tips = "1";
+  let tip = $("#chart-tip");
+  if (!tip) {
+    tip = document.createElement("div");
+    tip.id = "chart-tip";
+    tip.className = "chart-tip";
+    tip.hidden = true;
+    document.body.appendChild(tip);
+  }
+  host.addEventListener("pointerover", function (event) {
+    const node = event.target && event.target.closest ? event.target.closest("rect, path") : null;
+    if (!node || !node.closest("svg")) return;
+    const own = node.querySelector("title");
+    const svg = node.closest("svg");
+    const svgTitle = svg ? svg.querySelector("title") : null;
+    const label = (own && own.textContent) || (svgTitle && svgTitle.textContent) || "";
+    if (!label) {
+      tip.hidden = true;
+      return;
+    }
+    tip.hidden = false;
+    tip.textContent = label;
+  });
+  host.addEventListener("pointermove", function (event) {
+    if (tip.hidden) return;
+    tip.style.left = (event.clientX + 14) + "px";
+    tip.style.top = (event.clientY + 16) + "px";
+  });
+  host.addEventListener("pointerout", function (event) {
+    const node = event.target && event.target.closest ? event.target.closest("rect, path") : null;
+    if (node) tip.hidden = true;
+  });
+}
+
+function renderRegions() {
+  window.__listen = "Regions. Cited firewall lists, then an example country map that is not a live catalog.";
+  const cited = [
+    ["Commercial SBC signaling and media", "52.112.0.0/14 and 52.120.0.0/14. IPv6 signaling 2603:1063:400::/40. IPv6 media adds 2603:1063:100::/40. SIP/TLS TCP 5061.", "https://learn.microsoft.com/en-us/microsoftteams/direct-routing-plan"],
+    ["Teams client optimize", "52.112.0.0/14 and 52.122.0.0/15, plus IPv6 2603:1063::/38. This is not the SBC pair. 52.120.0.0/14 is not on the client optimize list.", "https://learn.microsoft.com/en-us/microsoft-365/enterprise/urls-and-ip-address-ranges"],
+    ["GCC High and DoD", "Different proxy names and media prefixes. GCC High media 52.127.88.0/21. DoD media 52.127.64.0/21. Do not copy a commercial ACL into those clouds.", "https://learn.microsoft.com/en-us/microsoftteams/direct-routing-plan"],
+    ["Client QoS marks", "Audio UDP/TCP 50000–50019 DSCP 46. Browser joins do not use that range.", "https://learn.microsoft.com/en-us/microsoftteams/qos-in-teams"],
+  ];
+  const examples = [
+    ["US", "United States", "+1", "Example: Calling Plans are a country catalog. Confirm the current list before you assign a SKU."],
+    ["GB", "United Kingdom", "+44", "Example: emergency 999 and 112 must not be eaten by a catch-all dial-plan rule."],
+    ["IN", "India", "+91", "Example: this campus teaches that Operator Connect for India is its own plan. Re-read the vendor page."],
+    ["DE", "Germany", "+49", "Example: location-based routing is the tool when PSTN must stay with the local gateway."],
+    ["JP", "Japan", "+81", "Example: media processors prefer a nearby region. You do not pick a street address for one."],
+    ["AE", "United Arab Emirates", "+971", "Example: a traveler laptop should not egress through another country’s SBC."],
+    ["BR", "Brazil", "+55", "Example study pin only. Not a claim about carrier coverage."],
+    ["AU", "Australia", "+61", "Example study pin only. Not a data-residency promise."],
+  ];
+  return (
+    crumbs([["Home", "#/"], ["Regions", ""]]) +
+    '<p class="kicker">Places · checked 15 October 2026</p><h1>Regions</h1>' +
+    '<p class="lede">The table below cites Microsoft Learn. The cards are example study pins. They are not Microsoft’s Calling Plan country list, not a data-residency table, and not carrier coverage.</p>' +
+    '<div class="callout warn"><strong>Example study pins. </strong>Each card is a teaching pin with a made-up prompt. The vendor page wins.</div>' +
+    "<h2>Example study pins</h2>" +
+    '<div class="region-grid">' + examples.map((row) => (
+      '<article class="panel holo region-card"><p class="flag" aria-hidden="true">' + esc(row[0]) + '</p><h2>Example: ' + esc(row[1]) + '</h2><p class="kicker">' + esc(row[2]) + '</p><p><span class="tag warn">Example</span> ' + esc(row[3]) + "</p></article>"
+    )).join("") + "</div>" +
+    "<h2>Cited network facts</h2>" +
+    fieldTable(["What", "Fact", "Source"], cited.map((row) => [
+      esc(row[0]),
+      esc(row[1]),
+      '<a href="' + esc(row[2]) + '">Microsoft Learn</a>',
+    ])) +
+    '<p class="tiny">Accessed 15 October 2026 for the firewall rows. The country cards stay labeled Example. The vendor page wins when they disagree.</p>'
+  );
+}
+
+function extraHits() {
+  return [
+    { href: "#/field", title: "Field desk", kind: "Guide" },
+    { href: "#/migrate", title: "Migration and cutover", kind: "Guide" },
+    { href: "#/ports", title: "Ports and protocols", kind: "Guide" },
+    { href: "#/game", title: "Ports mastery game", kind: "Game" },
+    { href: "#/explorer", title: "Flow map explorer", kind: "Guide" },
+    { href: "#/sandbox", title: "Call-flow sandbox", kind: "Lab" },
+    { href: "#/daily", title: "Daily challenge", kind: "Game" },
+    { href: "#/diagrams", title: "Diagram atlas", kind: "Guide" },
+    { href: "#/flows", title: "Animated flows", kind: "Guide" },
+    { href: "#/play", title: "Play", kind: "Game" },
+    { href: "#/downloads", title: "Cheat Codes and downloads", kind: "Guide" },
+    { href: "#/career", title: "Career and certification paths", kind: "Guide" },
+    { href: "#/regions", title: "Regions and residency notes", kind: "Guide" },
+    { href: "#/news", title: "What is new", kind: "Guide" },
+  ];
+}
+
+function fieldTable(headers, rows) {
+  const head = "<tr>" + headers.map((cell) => "<th>" + esc(cell) + "</th>").join("") + "</tr>";
+  const body = rows.map((row) => "<tr>" + row.map((cell) => "<td>" + cell + "</td>").join("") + "</tr>").join("");
+  return '<div class="table-wrap"><table class="ports">' + head + body + "</table></div>";
+}
+
+function renderField() {
+  window.__listen = "Field desk. Fundamentals through career, with migration, ports, and the cheat-code downloads.";
+  const cards = FIELD_LINKS.map((item) => '<a class="card" href="' + item[0] + '"><h3>' + esc(item[1]) + "</h3><p>" + esc(item[2]) + "</p></a>").join("");
+  return (
+    '<p class="kicker">Gap audit · 15 October 2026</p><h1>Field desk</h1>' +
+    '<p class="lede">Every section below is a real page in this campus. The seventeen tracks still hold the long lessons. This desk is the map when you need a checklist, a port, or a printable sheet.</p>' +
+    '<div class="lab-grid">' + cards + "</div>" +
+    '<article class="panel"><h2>Named customers</h2><p>This lab does not claim a named deployment. Integration patterns for CUCM, Webex, UCCE, Genesys, and Amazon Connect are teaching bridges on the coexistence and ecosystem tracks. <span class="tag warn">Unverified</span> as a story about any real company.</p>' +
+    '<p class="tiny">Older Origin rooms from cypher-microsoft-voice-cc-lab were not readable from this build environment, so they are not pasted in here. The facts on this desk come from the lessons already cited in this repo.</p></article>'
+  );
+}
+
+function renderMigrate() {
+  window.__listen = "Migration checklist. Inventory, identity, numbers, the SBC, a pilot, cutover, and hypercare. One owner for normalization.";
+  const steps = [
+    ["inv", "Inventory", "Export users, devices, numbers, call flows, analog endpoints, hunt groups, and the hours the business actually answers. Keep the export. Do not start with a firewall ticket."],
+    ["id", "Identity", "Users who will take Direct Routing must be homed online and out of Islands mode. Resource accounts exist in Entra ID before they get a voice app."],
+    ["num", "Numbers", "Pick one owner for normalization. Write the E.164 plan, the ranges that stay on CUCM, and the ranges that move. Porting dates belong to the carrier, not to this page."],
+    ["sbc", "SBC", "Certified controller, verified domain, public certificate whose name matches the paired FQDN, TCP 5061 to all three commercial proxies, and both media ranges unless bypass is a deliberate design."],
+    ["pilot", "Pilot", "Ten users, one site, one route, OPTIONS healthy, a test emergency location that is not a real 911 call. Record the Call-ID."],
+    ["cut", "Cutover", "Move a site when the pilot’s route, location, and recording policy are boring. Dual-running trombones through the SBC. That is expected, and it is not the steady state."],
+    ["hyper", "Hypercare", "Watch OPTIONS, CQD for the new subnet, Call Analytics for the loud one user, and the resource-account licenses. Roll back is the voice route, not a hope."],
+  ];
+  const saved = state.cutover || {};
+  const list = steps.map((step) => {
+    const on = saved[step[0]] ? " checked" : "";
+    return '<label class="row cut-row"><input type="checkbox" data-cut="' + step[0] + '"' + on + "><span><strong>" + esc(step[1]) + ".</strong> " + esc(step[2]) + "</span></label>";
+  }).join("");
+  return (
+    '<p class="kicker"><a href="#/field">Field desk</a> · coexistence</p><h1>Migration and cutover</h1>' +
+    '<p class="lede">A teaching checklist for a move onto Teams Phone. It is not a carrier porting agreement and it is not a Microsoft runbook. Check the boxes in this browser only.</p>' +
+    '<div class="panel">' + list + "</div>" +
+    '<p id="cut-out" class="tiny"></p>' +
+    '<article class="panel"><h2>Where the long version lives</h2><ul>' +
+    '<li><a href="#/lesson/t14-cucm">CUCM and CUBE</a></li>' +
+    '<li><a href="#/lesson/t14-webex">Webex calling interop</a></li>' +
+    '<li><a href="#/lesson/t14-ucce">UCCE during a move</a></li>' +
+    '<li><a href="#/lesson/t14-others">Genesys and Amazon Connect</a></li>' +
+    '<li><a href="#/lab/coexist">Coexistence bridge lab</a> and <a href="#/lab/cucm-map">CUCM translator</a></li>' +
+    "</ul><p class=\"tiny\">Sources: <a href=\"https://learn.microsoft.com/en-us/microsoftteams/direct-routing-plan\">Plan Direct Routing</a>, <a href=\"https://learn.microsoft.com/en-us/microsoftteams/pstn-connectivity\">PSTN connectivity options</a>, <a href=\"https://learn.microsoft.com/en-us/microsoftteams/teams-contact-center\">Teams contact center integration models</a>. Accessed 14 October 2026. Carrier SLAs and a named customer’s freeze window are <span class=\"tag warn\">Unverified</span> here.</p></article>"
+  );
+}
+
+function renderPorts() {
+  window.__listen = "Ports and protocols. 5061 for signaling. Media on the UDP ranges. Client QoS ports from the QoS article.";
+  const rows = PORT_ROWS.map((row) => [
+    esc(row[0]),
+    esc(row[1]),
+    "<strong>" + esc(row[2]) + "</strong>",
+    esc(row[3]),
+    '<a href="' + esc(row[4]) + '">Source</a>',
+  ]);
+  return (
+    '<p class="kicker"><a href="#/field">Field desk</a></p><h1>Ports and protocols</h1>' +
+    '<p class="lede">Two firewall lists, checked 15 October 2026. Direct Routing SBC signaling and media are not the Teams client optimize ranges. Government clouds use different proxy names. The Microsoft pages win over this table.</p>' +
+    fieldTable(["Flow", "Proto", "Port", "What it is for", "Source"], rows) +
+    "<h2>Ladder</h2>" +
+    flowSvg([
+      { label: "Client", detail: "50000 audio" },
+      { label: "Teams", detail: "TLS 5061" },
+      { label: "SBC", detail: "OPTIONS" },
+      { label: "Media", detail: "UDP ranges" },
+      { label: "Carrier", detail: "PSTN" },
+    ], "Commercial Direct Routing") +
+    '<p class="row"><a class="primary" href="#/game">Play the ports game</a><a class="ghost" href="#/explorer">Open the flow explorer</a><a class="ghost" href="downloads/ports-protocols.html">Printable sheet</a></p>' +
+    '<p class="tiny">QoS source: <a href="https://learn.microsoft.com/en-us/microsoftteams/qos-in-teams">QoS in Microsoft Teams</a>. Direct Routing source: <a href="https://learn.microsoft.com/en-us/microsoftteams/direct-routing-plan">Plan Direct Routing</a>. Client ranges: <a href="https://learn.microsoft.com/en-us/microsoft-365/enterprise/urls-and-ip-address-ranges">Office 365 URLs and IP address ranges</a> and the worldwide endpoints feed. Accessed 15 October 2026.</p>'
+  );
+}
+
+function renderExplorer() {
+  window.__listen = "Flow map explorer. Select a hop and read the port, the failure, and the lesson.";
+  const hops = [
+    ["client", "Teams client", "Audio 50000–50019 when the desktop client can bind it. Browsers do not use that range.", "#/lesson/t04-qos"],
+    ["proxy", "SIP proxy", "TCP 5061 to sip, sip2, and sip3. A firewall that allows only today’s DNS answer fails later.", "#/lesson/t05-dr"],
+    ["sbc", "Certified SBC", "Certificate name matches the paired FQDN. OPTIONS must return 200 OK.", "#/lesson/t10-sbc"],
+    ["media", "Media", "UDP 3478–3481 and 49152–53247, or a bypass path you meant to allow.", "#/lab/bypass"],
+    ["e911", "Emergency location", "A subnet or BSSID needs a civic address. A VPN pool is not automatically the HQ.", "#/lab/e911-match"],
+    ["record", "Recorder", "Certified application instance and a policy grant. The SBC is not the compliance recorder by default.", "#/lesson/t17-rec"],
+  ];
+  const buttons = hops.map((hop, index) => '<button type="button" class="choice" data-hop="' + index + '">' + esc(hop[1]) + "</button>").join("");
+  return (
+    '<p class="kicker"><a href="#/map">Mind map</a></p><h1>Flow map explorer</h1>' +
+    '<p class="lede">The ecosystem mind map is the wide picture. This explorer is one commercial call, hop by hop.</p>' +
+    flowSvg(hops.map((hop) => ({ label: hop[1], detail: "Select" })), "Explorer") +
+    '<div class="choice-row">' + buttons + "</div>" +
+    '<article class="panel" id="hop-out"><p>Select a hop.</p></article>'
+  );
+}
+
+function renderCareer() {
+  window.__listen = "Career paths. Teams administration, contact center, SBC specialty, and the fundamentals that support them.";
+  return (
+    '<p class="kicker"><a href="#/exam">Exam status</a></p><h1>Career and certification paths</h1>' +
+    '<p class="lede">Roles people actually hire for, next to the exams this campus will name. Seats move. Read the exam page again before you book. Checked 14 October 2026.</p>' +
+    fieldTable(
+      ["Path", "You spend the day on", "Exam this lab will name", "Start here"],
+      [
+        ["Teams voice engineer", "Tenant, licenses, dial plans, Direct Routing", "MS-700, still live", '<a href="#/lesson/t16-ms700">MS-700</a>'],
+        ["Contact-center builder", "Queues, routing, Copilot, channels", "AB-250", '<a href="#/lesson/t13-exam">AB-250 map</a>'],
+        ["SBC specialist", "Certificates, OPTIONS, media, failover", "No separate Microsoft SBC exam on this board", '<a href="#/track/t10">SBC track</a>'],
+        ["Recording and compliance", "Certified recorder, policy, notification", "SC-900 for the trust language, not as a voice exam", '<a href="#/lesson/t17-rec">Recording</a>'],
+        ["Cloud fundamentals", "Identity, Azure context for ACS and Speech", "AZ-900 and SC-900, both live on this board", '<a href="#/lesson/t16-fund">Fundamentals</a>'],
+      ]
+    ) +
+    '<article class="panel"><h2>Interview loop</h2><ol>' +
+    "<li>Draw the call before you name a cmdlet.</li>" +
+    "<li>Say which license is missing, in one sentence.</li>" +
+    "<li>Separate a CQD building from a Call Analytics user.</li>" +
+    "<li>Refuse Islands mode for Direct Routing without a speech.</li>" +
+    "</ol><p><a href=\"#/tips\">Tips and traps</a> · <a href=\"#/boss\">Boss exams</a> · <a href=\"#/lesson/t16-paths\">Learning paths that match the job</a></p></article>" +
+    '<p class="tiny">MB-280 retired 31 July 2026. AB-210 is its successor and is in beta. AB-210 is not the contact-center exam and it does not replace MS-700. <span class="tag warn">Unverified</span>: salary bands, visa rules, and which employer requires which exam.</p>'
+  );
+}
+
+function renderNews() {
+  window.__listen = "What is new, as checked on 14 October 2026. Anything past the status board is marked unverified.";
+  const rows = [
+    ["14 Oct 2026", "MS-700 still live", "Skills update scheduled 27 October 2026. No replacement exam.", "Cited on the status board", "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/ms-700"],
+    ["31 Jul 2026", "MB-280 retired", "Successor on this board is AB-210, which is in beta.", "Cited", "https://learn.microsoft.com/en-us/credentials/support/retired-certification-exams"],
+    ["2026", "AB-250", "Dynamics 365 Contact Center exam. Confirm the live seat before you book.", "Cited, seat can move", "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/ab-250"],
+    ["21 Oct 2026", "SC-900 English update", "Scheduled on the certification page this lab read.", "Cited as a schedule", "https://learn.microsoft.com/en-us/credentials/certifications/security-compliance-and-identity-fundamentals/"],
+    ["31 Mar 2026", "MS-900 retired", "Do not book it.", "Cited", "https://learn.microsoft.com/en-us/credentials/support/retired-certification-exams"],
+    ["30 Jun 2026", "AI-900 retired", "Use Speech and Copilot Studio docs instead.", "Cited", "https://learn.microsoft.com/en-us/credentials/support/retired-certification-exams"],
+    ["2026", "Feature rumors", "New SBC firmware, a specific Copilot button, or a price change.", "Unverified", ""],
+  ];
+  const body = rows.map((row) => {
+    const mark = row[3] === "Unverified" ? '<span class="tag warn">Unverified</span>' : esc(row[3]);
+    const link = row[4] ? '<a href="' + esc(row[4]) + '">Learn</a>' : "—";
+    return [esc(row[0]), esc(row[1]), esc(row[2]), mark, link];
+  });
+  return (
+    '<p class="kicker">Checked 14 October 2026</p><h1>What is new</h1>' +
+    '<p class="lede">Only rows this campus already stands behind. The last row is the bucket for everything else.</p>' +
+    '<div class="callout">' + esc(DATA.examFact || "") + "</div>" +
+    fieldTable(["When", "Item", "What this lab will say", "Standing", "Link"], body) +
+    '<p><a href="#/charts">Certification and feature charts</a> · <a href="#/sources">Source list</a></p>'
+  );
+}
+
+function renderGame() {
+  window.__listen = "Ports mastery game. Eight questions from the firewall matrix.";
+  gameCursor = 0;
+  gameScore = 0;
+  gameLocked = false;
+  return (
+    '<p class="kicker">Cheat codes</p><h1>Ports mastery</h1>' +
+    '<p class="lede">Eight questions. The best score in this browser is ' + (state.portsBest || 0) + " / " + GAME_ROUNDS.length + ".</p>" +
+    '<article class="panel" id="game-out"></article>' +
+    '<div id="share-slot"></div>'
+  );
+}
+
+function paintGame() {
+  const slot = $("#game-out");
+  if (!slot) return;
+  if (gameCursor >= GAME_ROUNDS.length) {
+    if ((state.portsBest || 0) < gameScore) state.portsBest = gameScore;
+    markStudy();
+    slot.innerHTML = "<h2>" + gameScore + " / " + GAME_ROUNDS.length + "</h2><p>Score saved in this browser.</p>";
+    $("#share-slot").innerHTML = shareCardHtml("Ports mastery", gameScore + " / " + GAME_ROUNDS.length, "Firewall matrix for Teams voice");
+    wireShare("Ports mastery", gameScore + "/" + GAME_ROUNDS.length, "Teams voice ports");
+    return;
+  }
+  const round = GAME_ROUNDS[gameCursor];
+  slot.innerHTML = "<h2>Round " + (gameCursor + 1) + "</h2><p>" + esc(round.q) + "</p>" +
+    round.choices.map((choice, index) => '<button type="button" class="choice" data-g="' + index + '">' + esc(choice) + "</button>").join("");
+  $$("[data-g]").forEach((button) => {
+    button.onclick = function () {
+      if (gameLocked) return;
+      gameLocked = true;
+      const pick = Number(button.getAttribute("data-g"));
+      if (pick === round.answer) gameScore += 1;
+      $$("[data-g]").forEach((peer, index) => {
+        if (index === round.answer) peer.classList.add("right");
+        if (index === pick && pick !== round.answer) peer.classList.add("wrong");
+      });
+      slot.insertAdjacentHTML("beforeend", "<p>" + esc(round.why) + '</p><button type="button" class="primary" id="game-next">Next</button>');
+      $("#game-next").onclick = function () {
+        gameCursor += 1;
+        gameLocked = false;
+        paintGame();
+      };
+    };
+  });
+}
+
+function dayOfYear() {
+  const now = new Date();
+  const start = new Date(now.getFullYear(), 0, 0);
+  return Math.floor((now - start) / 86400000);
+}
+
+function renderDaily() {
+  const index = dayOfYear() % DAILY.length;
+  const item = DAILY[index];
+  const done = state.dailyDate === todayKey();
+  window.__listen = "Daily challenge. One question, dated, saved in this browser.";
+  return (
+    '<p class="kicker">Day ' + dayOfYear() + "</p><h1>Daily challenge</h1>" +
+    '<p class="lede">' + esc(todayKey()) + ". One question from the status board and the voice tracks. It changes with the date, not with a server.</p>" +
+    '<article class="panel"><h2>' + esc(item.q) + "</h2>" +
+    item.choices.map((choice, i) => '<button type="button" class="choice" data-d="' + i + '"' + (done ? " disabled" : "") + ">" + esc(choice) + "</button>").join("") +
+    '<div id="daily-out">' + (done ? "<p>You already answered today. " + (state.dailyOk ? "It matched." : "The note is in the sheet you opened.") + "</p>" : "") + "</div></article>"
+  );
+}
+
+function renderSandbox() {
+  window.__listen = "Call-flow sandbox. Stack SIP pieces and play them. Emergency wants a location before a queue.";
+  sandboxSeq = [];
+  const tray = FLOW_BLOCKS.map((block) => '<button type="button" class="choice" data-block="' + block.id + '">' + esc(block.label) + "</button>").join("");
+  return (
+    '<p class="kicker">Build a call</p><h1>Call-flow sandbox</h1>' +
+    '<p class="lede">Add blocks, then play. This is a teaching ladder. It does not place a call. Do not test emergency calling against a live network.</p>' +
+    '<div class="choice-row">' + tray + "</div>" +
+    '<div class="row"><button type="button" class="ghost" id="sand-clear">Clear</button><button type="button" class="primary" id="sand-play">Play</button></div>' +
+    '<ol id="sand-seq"></ol><div id="sand-out"></div>'
+  );
+}
+
+function paintSandbox() {
+  const list = $("#sand-seq");
+  if (!list) return;
+  list.innerHTML = sandboxSeq.map((id) => {
+    const block = FLOW_BLOCKS.find((item) => item.id === id);
+    return "<li><strong>" + esc(block.label) + ".</strong> " + esc(block.detail) + "</li>";
+  }).join("") || "<li>Empty. OPTIONS or an emergency divert usually comes before a casual INVITE.</li>";
+}
+
+function playSandbox() {
+  const seq = sandboxSeq.slice();
+  const notes = [];
+  if (!seq.length) notes.push("Nothing to play.");
+  if (seq[0] === "e911") notes.push("Emergency is first. Resolve a dispatchable location before any queue music.");
+  else if (seq[0] !== "options" && seq[0] !== "invite") notes.push("The ladder usually starts with OPTIONS health or an INVITE.");
+  if (seq.indexOf("media") !== -1 && seq.indexOf("ok") === -1) notes.push("Media is on the ladder before 200 OK. Early media exists, but a two-way SRTP session still wants an answer.");
+  if (seq.indexOf("media") !== -1 && seq.indexOf("ok") !== -1 && seq.indexOf("media") < seq.indexOf("ok")) notes.push("RTP is drawn before the answer. Check whether you meant early media.");
+  if (seq.indexOf("record") !== -1) notes.push("Recording stays on the ladder only when a certified policy is granted. The block does not create that policy.");
+  if (seq.indexOf("bye") === -1 && seq.length) notes.push("No BYE. The dialog is still up in this sketch.");
+  if (seq.indexOf("invite") !== -1 && seq.indexOf("ack") === -1 && seq.indexOf("ok") !== -1) notes.push("200 OK without ACK leaves the INVITE transaction open.");
+  if (!notes.length) notes.push("The sketch is internally consistent. It is still not a packet capture.");
+  const steps = seq.map((id) => {
+    const block = FLOW_BLOCKS.find((item) => item.id === id);
+    return { label: block.label, detail: block.detail };
+  });
+  $("#sand-out").innerHTML = (steps.length ? flowSvg(steps, "Your ladder") : "") + "<ul>" + notes.map((line) => "<li>" + esc(line) + "</li>").join("") + "</ul>";
+  state.sandboxOk = true;
+  markStudy();
+}
+
+function shareCardHtml(title, score, detail) {
+  return (
+    '<article class="share-card" id="share-card">' +
+    "<p class=\"kicker\">CypherMonkey Labs</p><h2>" + esc(title) + "</h2><p class=\"share-score\">" + esc(score) + "</p><p>" + esc(detail) + "</p>" +
+    '<p class="tiny">cyphermonkeylabs.com · Independent study card. Not a vendor certificate.</p>' +
+    '<div class="row"><button type="button" class="primary" id="share-png">Download card</button><button type="button" class="ghost" id="share-copy">Copy text</button></div>' +
+    '<canvas id="share-canvas" width="1200" height="630" hidden></canvas></article>'
+  );
+}
+
+function paintShareCanvas(title, score, detail) {
+  const canvas = $("#share-canvas");
+  if (!canvas) return null;
+  const g = canvas.getContext("2d");
+  g.fillStyle = "#07111c";
+  g.fillRect(0, 0, 1200, 630);
+  g.fillStyle = "#123";
+  g.fillRect(36, 36, 1128, 558);
+  g.strokeStyle = "#3ee0ff";
+  g.lineWidth = 4;
+  g.strokeRect(36, 36, 1128, 558);
+  g.fillStyle = "#9be7ff";
+  g.font = "28px sans-serif";
+  g.fillText("CypherMonkey Labs", 72, 110);
+  g.fillStyle = "#f8fafc";
+  g.font = "64px sans-serif";
+  g.fillText(title, 72, 220);
+  g.fillStyle = "#f5d76e";
+  g.font = "92px sans-serif";
+  g.fillText(score, 72, 360);
+  g.fillStyle = "#dbe7f5";
+  g.font = "32px sans-serif";
+  g.fillText(detail, 72, 440);
+  g.font = "26px sans-serif";
+  g.fillStyle = "#8fb4c9";
+  g.fillText("https://cyphermonkeylabs.com", 72, 530);
+  return canvas;
+}
+
+function wireShare(title, score, detail) {
+  const png = $("#share-png");
+  const copy = $("#share-copy");
+  if (png) {
+    png.onclick = function () {
+      const canvas = paintShareCanvas(title, score, detail);
+      if (!canvas) return;
+      const link = document.createElement("a");
+      link.href = canvas.toDataURL("image/png");
+      link.download = "voice-lab-card.png";
+      link.click();
+    };
+  }
+  if (copy) {
+    copy.onclick = function () {
+      const text = title + " — " + score + ". " + detail + ". Study card from the Microsoft Voice Lab. https://cyphermonkeylabs.com";
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(text).catch(function () { /* clipboard can be denied */ });
+      }
+    };
+  }
+}
+
+async function renderDownloads() {
+  window.__listen = "Cheat codes. Printable sheets, a flashcard deck, and the offline zip.";
+  let items = [];
+  try {
+    const catalog = await fetchJson("downloads/catalog.json");
+    items = catalog.items || [];
+  } catch (err) {
+    items = [];
+  }
+  const cards = items.map((item) => '<a class="card" href="' + esc(item.href) + '"><p class="kicker">' + esc(item.kind) + "</p><h3>" + esc(item.title) + "</h3><p>" + esc(item.blurb) + "</p></a>").join("");
+  const fallback = items.length ? "" : '<p class="callout">The download catalog did not load. Open the campus from a local server so <code>downloads/catalog.json</code> can be fetched.</p>';
+  return (
+    crumbs([["Home", "#/"], ["Cheat Codes", ""]]) +
+    '<p class="kicker">Offline</p><h1>Cheat Codes</h1>' +
+    '<p class="lede">One-page sheets for ports, call flows, configuration, troubleshooting, and the glossary, plus a track sheet for every track. Each file carries the lab footer. Nothing is hosted on a CDN.</p>' +
+    '<div class="hero-actions row">' +
+    '<a class="primary" href="downloads/microsoft-voice-contact-center-lab.zip" download>Download the offline bundle</a>' +
+    '<a class="ghost" href="downloads/flashcards.json" download>Flashcards JSON</a>' +
+    '<a class="ghost" href="downloads/flashcards.html">Printable deck</a>' +
+    "</div>" +
+    fallback +
+    '<div class="lab-grid">' + cards + "</div>" +
+    '<p class="tiny">Sheets cite Microsoft Learn and the other sources already listed in this campus. They are not copies of vendor documents. Accessed 14 October 2026.</p>'
+  );
+}
+
+function mountOnThisPage() {
+  const heads = $$("#view h2");
+  if (heads.length < 2) return;
+  const nav = document.createElement("nav");
+  nav.className = "reading";
+  nav.setAttribute("aria-label", "On this page");
+  const title = document.createElement("p");
+  title.className = "kicker";
+  title.textContent = "On this page";
+  nav.appendChild(title);
+  heads.forEach((head, index) => {
+    if (!head.id) head.id = "sec-" + index;
+    const link = document.createElement("a");
+    link.href = "#" + head.id;
+    link.textContent = head.textContent;
+    nav.appendChild(link);
+  });
+  const view = $("#view");
+  if (view && view.firstChild) view.insertBefore(nav, view.firstChild);
+}
+
+function wireExtras(root) {
+  if (root === "migrate") {
+    const paint = function () {
+      const boxes = $$("[data-cut]");
+      let n = 0;
+      boxes.forEach((box) => {
+        state.cutover[box.getAttribute("data-cut")] = box.checked;
+        if (box.checked) n += 1;
+      });
+      save();
+      const out = $("#cut-out");
+      if (out) out.textContent = n + " of " + boxes.length + " cutover gates checked in this browser.";
+    };
+    $$("[data-cut]").forEach((box) => { box.onchange = paint; });
+    paint();
+  }
+  if (root === "game") paintGame();
+  if (root === "daily") {
+    const index = dayOfYear() % DAILY.length;
+    const item = DAILY[index];
+    $$("[data-d]").forEach((button) => {
+      button.onclick = function () {
+        const pick = Number(button.getAttribute("data-d"));
+        const ok = pick === item.answer;
+        state.dailyDate = todayKey();
+        state.dailyOk = ok;
+        markStudy();
+        $$("[data-d]").forEach((peer, i) => {
+          if (i === item.answer) peer.classList.add("right");
+          if (i === pick && !ok) peer.classList.add("wrong");
+        });
+        $("#daily-out").innerHTML = "<p>" + esc(item.why) + "</p>" + shareCardHtml("Daily challenge", ok ? "Matched" : "Review", todayKey());
+        wireShare("Daily challenge", ok ? "Matched" : "Review", todayKey());
+      };
+    });
+  }
+  if (root === "sandbox") {
+    $$("[data-block]").forEach((button) => {
+      button.onclick = function () {
+        sandboxSeq.push(button.getAttribute("data-block"));
+        paintSandbox();
+      };
+    });
+    $("#sand-clear").onclick = function () { sandboxSeq = []; paintSandbox(); $("#sand-out").innerHTML = ""; };
+    $("#sand-play").onclick = playSandbox;
+    paintSandbox();
+  }
+  if (root === "explorer") {
+    const hops = [
+      ["Teams client", "Audio 50000–50019 when the desktop client can bind it. Browsers do not use that range.", "#/track/t04"],
+      ["SIP proxy", "TCP 5061 to sip, sip2, and sip3. Allow the published ranges, not one DNS answer.", "#/lesson/t05-dr"],
+      ["Certified SBC", "The certificate name matches the paired FQDN. OPTIONS should return 200 OK.", "#/track/t10"],
+      ["Media", "UDP 3478–3481 and 49152–53247, unless bypass is an intentional path.", "#/lab/bypass"],
+      ["Emergency location", "Match a subnet or BSSID to a civic address. Do not borrow the HQ address for a VPN pool.", "#/lab/e911-match"],
+      ["Recorder", "A certified recorder needs an application instance, an enabled policy, and a grant.", "#/lesson/t17-rec"],
+    ];
+    $$("[data-hop]").forEach((button) => {
+      button.onclick = function () {
+        const hop = hops[Number(button.getAttribute("data-hop"))];
+        $("#hop-out").innerHTML = "<h2>" + esc(hop[0]) + "</h2><p>" + esc(hop[1]) + '</p><p><a href="' + hop[2] + '">Open the lesson or lab</a></p>';
+      };
+    });
+  }
+  if (root === "diagrams" || root === "flows") wireAtlas();
+  if (root === "lesson" || root === "field" || root === "migrate" || root === "ports") mountOnThisPage();
+  bindChartTips();
+  wireArchitect();
+  if (typeof mountIcons === "function") mountIcons();
+}
+
+function bindReadbar() {
+  const bar = $("#readbar");
+  if (!bar) return;
+  const onScroll = function () {
+    const node = document.documentElement;
+    const max = node.scrollHeight - node.clientHeight;
+    bar.style.width = (max > 0 ? (node.scrollTop / max) * 100 : 0) + "%";
+  };
+  if (window.__readbar) document.removeEventListener("scroll", window.__readbar);
+  window.__readbar = onScroll;
+  document.addEventListener("scroll", onScroll, { passive: true });
+  onScroll();
+}
+
+function cycleMascot() {
+  const poses = ["idle", "wave", "think", "listen"];
+  let index = 0;
+  window.setInterval(function () {
+    if (document.documentElement.dataset.motion === "reduce") return;
+    index = (index + 1) % poses.length;
+    $$(".monkey").forEach((node) => {
+      if (node.getAttribute("data-fixed") === "1") return;
+      node.dataset.pose = poses[index];
+    });
+  }, 7000);
+  window.setInterval(function () {
+    if (document.documentElement.dataset.motion === "reduce") return;
+    $$(".monkey").forEach((node) => {
+      const next = ((Number(node.dataset.look) || 0) + 1) % 4;
+      node.dataset.look = String(next);
+    });
+  }, 9000);
+}
+
+function armKonami() {
+  const code = ["ArrowUp", "ArrowUp", "ArrowDown", "ArrowDown", "ArrowLeft", "ArrowRight", "ArrowLeft", "ArrowRight", "b", "a"];
+  let cursor = 0;
+  document.addEventListener("keydown", function (event) {
+    const tag = event.target && event.target.tagName;
+    if (tag === "INPUT" || tag === "TEXTAREA" || tag === "SELECT") return;
+    const key = event.key.length === 1 ? event.key.toLowerCase() : event.key;
+    if (key === code[cursor]) {
+      cursor += 1;
+      if (cursor === code.length) {
+        cursor = 0;
+        state.konami = true;
+        save();
+        $$(".monkey").forEach((node) => { node.dataset.pose = "celebrate"; });
+        const egg = $("#egg");
+        if (egg) egg.hidden = false;
+        confetti();
+      }
+    } else {
+      cursor = key === code[0] ? 1 : 0;
+    }
+  });
+}
+
+"use strict";
+
 const DATA = {
   tracks: [],
   lessons: [],
@@ -790,10 +1754,23 @@ const STORE = "mvcc-lab-v1";
 const trackPacks = {};
 const moduleFlags = {};
 let topoHandle = null;
+let heroHandle = null;
+let iconHandle = null;
+let headingPack = null;
 
 function disposeTopology() {
   if (topoHandle && topoHandle.dispose) topoHandle.dispose();
   topoHandle = null;
+}
+
+function disposeHero() {
+  if (heroHandle && heroHandle.dispose) heroHandle.dispose();
+  heroHandle = null;
+}
+
+function disposeIcons() {
+  if (iconHandle && iconHandle.dispose) iconHandle.dispose();
+  iconHandle = null;
 }
 
 async function fetchJson(url) {
@@ -893,6 +1870,14 @@ function freshState() {
     sbcChecks: {},
     hooks: {},
     boss: {},
+    cutover: {},
+    portsBest: 0,
+    dailyDate: "",
+    dailyOk: false,
+    konami: false,
+    sandboxOk: false,
+    lang: "en",
+    vivid: "neon",
   };
 }
 
@@ -953,6 +1938,32 @@ function lessonsIn(trackId) {
   return indexed.length ? indexed : full;
 }
 
+async function ensureHeadings() {
+  const lang = state.lang || "en";
+  if (lang === "en" || headingPack) return;
+  try {
+    headingPack = await fetchJson("data/headings.json");
+  } catch (err) {
+    headingPack = {};
+  }
+}
+
+function lessonHeading(lesson) {
+  const lang = state.lang || "en";
+  const title = lesson && lesson.title ? lesson.title : "";
+  if (!lesson || lang === "en" || !headingPack) return { text: title, en: "" };
+  const row = headingPack[lesson.id];
+  const text = row && row[lang] ? row[lang] : "";
+  if (!text || text === title) return { text: title, en: "" };
+  return { text: text, en: title };
+}
+
+function headingHtml(lesson) {
+  const head = lessonHeading(lesson);
+  if (!head.en) return "<h1>" + esc(head.text) + "</h1>";
+  return "<h1>" + esc(head.text) + "</h1>" + '<p class="tiny en-title">' + esc(head.en) + "</p>";
+}
+
 function lessonTotal() {
   return (DATA.counts && DATA.counts.lessons) || (DATA.lessonIndex || []).length || DATA.lessons.length;
 }
@@ -983,6 +1994,10 @@ function computeAchievements() {
     ["record", state.labs.indexOf("record-policy") !== -1],
     ["map", state.labs.indexOf("integrate-map") !== -1],
     ["boss", Object.keys(state.boss || {}).some((key) => state.boss[key] >= 80)],
+    ["ports", (state.portsBest || 0) >= 8],
+    ["daily", !!state.dailyOk],
+    ["sandbox", !!state.sandboxOk],
+    ["konami", !!state.konami],
   ];
   return flags.filter((item) => item[1]).map((item) => item[0]);
 }
@@ -1002,13 +2017,23 @@ const ACH_COPY = {
   record: "Recorder — the compliance-recording builder has been run.",
   map: "Integration map — the ecosystem map lab has been run.",
   boss: "Boss exam — a certification sitting scored 80 percent or better.",
+  ports: "Firewall — the ports game was a perfect eight.",
+  daily: "Daily — today’s challenge matched.",
+  sandbox: "Ladder — the call-flow sandbox has been played.",
+  konami: "Operator — the hidden keypad sequence was entered.",
 };
 
 const THEMES = [
-  { id: "light", label: "Light mica" },
-  { id: "dark", label: "Dark acrylic" },
-  { id: "hc", label: "High contrast" },
-  { id: "teams", label: "Teams purple" },
+  { id: "neon", label: "Neon" },
+  { id: "holographic", label: "Holo" },
+  { id: "cyberpunk", label: "Cyber" },
+  { id: "sunset", label: "Sunset" },
+  { id: "light", label: "Light" },
+  { id: "dark", label: "Dark" },
+  { id: "futuristic", label: "Future" },
+  { id: "gaming", label: "Game" },
+  { id: "hc", label: "Contrast" },
+  { id: "teams", label: "Teams" },
 ];
 const FONTS = [
   { id: "sm", label: "Small" },
@@ -1018,8 +2043,7 @@ const FONTS = [
 ];
 
 function initialTheme() {
-  if (window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches) return "dark";
-  return "light";
+  return "neon";
 }
 
 function activeTheme() {
@@ -1049,11 +2073,44 @@ function paintChrome() {
   if (rate && document.activeElement !== rate) rate.value = String(state.rate || 1);
   const listen = $("#listen");
   if (listen && state.narration === false && !speaking) listen.textContent = "Narration off";
+  if (heroHandle && heroHandle.setPalette) {
+    try { heroHandle.setPalette(activeTheme()); } catch (err) { /* palette is visual */ }
+  }
+  if (typeof applyI18n === "function") applyI18n();
+  $$("[data-home-theme]").forEach((button) => {
+    button.setAttribute("aria-pressed", button.getAttribute("data-home-theme") === activeTheme() ? "true" : "false");
+  });
 }
 
 function setTheme(next) {
+  if (next && next !== "light") state.vivid = next;
   state.theme = next;
   save();
+}
+
+function fillThemePop() {
+  const pop = $("#theme-pop");
+  if (!pop || pop.dataset.filled === "1") return;
+  pop.dataset.filled = "1";
+  pop.innerHTML = THEMES.map((theme) => '<button type="button" class="swatch" data-home-theme="' + theme.id + '" aria-pressed="' + (activeTheme() === theme.id ? "true" : "false") + '">' + esc(theme.label) + "</button>").join("");
+  $$("[data-home-theme]", pop).forEach((button) => {
+    button.onclick = function () {
+      setTheme(button.getAttribute("data-home-theme"));
+    };
+  });
+}
+
+function placeThemePop() {
+  const cycle = $("#theme-cycle");
+  const pop = $("#theme-pop");
+  if (!cycle || !pop || pop.hidden) return;
+  const rect = cycle.getBoundingClientRect();
+  pop.style.top = (rect.bottom + 8) + "px";
+  const width = pop.offsetWidth || 280;
+  let left = rect.right - width;
+  if (left < 8) left = 8;
+  if (left + width > window.innerWidth - 8) left = Math.max(8, window.innerWidth - width - 8);
+  pop.style.left = left + "px";
 }
 
 function flowSvg(steps, title) {
@@ -1093,7 +2150,7 @@ function chartSvg(chart) {
     const y = 28 + i * 36;
     const w = Math.max(4, (bar.value / max) * 360);
     rows += '<text x="0" y="' + (y + 14) + '" fill="var(--ink)" font-size="13" font-family="var(--sans)">' + esc(bar.label) + "</text>";
-    rows += '<rect x="220" y="' + y + '" width="' + w + '" height="18" rx="6" fill="var(--teal)"></rect>';
+    rows += '<rect x="220" y="' + y + '" width="' + w + '" height="18" rx="6" fill="var(--teal)"><title>' + esc(bar.label) + ": " + esc(String(bar.display || bar.value)) + "</title></rect>";
     rows += '<text x="' + (228 + w) + '" y="' + (y + 14) + '" fill="var(--muted)" font-size="12" font-family="var(--sans)">' + esc(bar.display || bar.value) + "</text>";
   });
   const caption = (chart.title || "Chart") + ". " + (chart.note || "");
@@ -1131,40 +2188,186 @@ function sourceList(sources) {
   );
 }
 
+function monkeyLooks() {
+  return (
+    '<g class="look look-1"><path d="M18 18h28v6H18z" fill="var(--cc-accent-1)"></path></g>' +
+    '<g class="look look-2"><polygon points="32,6 36,15 32,13 28,15" fill="var(--cc-accent-2)"></polygon></g>' +
+    '<g class="look look-3"><path d="M16 46h32v5H16z" fill="var(--cc-accent-4)"></path></g>'
+  );
+}
+
+function monkeyMarkup(pose, look) {
+  return (
+    '<svg class="monkey" data-pose="' + pose + '" data-look="' + (look == null ? 0 : look) + '" data-fixed="1" viewBox="0 0 64 72" aria-hidden="true">' +
+    '<path class="tail" d="M46 54c10 2 14 12 8 16" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"></path>' +
+    '<circle cx="32" cy="28" r="14" fill="var(--cc-accent-3)"></circle>' +
+    '<circle class="ear" cx="18" cy="26" r="5" fill="var(--cc-accent-4)"></circle>' +
+    '<circle class="ear" cx="46" cy="26" r="5" fill="var(--cc-accent-4)"></circle>' +
+    monkeyLooks() +
+    '<circle class="eye" cx="27" cy="27" r="1.6" fill="#1a1208"></circle>' +
+    '<circle class="eye" cx="37" cy="27" r="1.6" fill="#1a1208"></circle>' +
+    '<path class="smile" d="M27 33c2.2 2 7.8 2 10 0" fill="none" stroke="#1a1208" stroke-width="1.4" stroke-linecap="round"></path>' +
+    '<path class="headset" d="M20 24c0-8 24-8 24 0v6" fill="none" stroke="var(--cc-accent-1)" stroke-width="2"></path>' +
+    '<rect x="16" y="28" width="6" height="8" rx="2" fill="var(--cc-accent-1)"></rect>' +
+    '<rect x="42" y="28" width="6" height="8" rx="2" fill="var(--cc-accent-1)"></rect>' +
+    '<ellipse cx="32" cy="54" rx="14" ry="10" fill="var(--cc-accent-2)"></ellipse>' +
+    '<g class="arm"><path d="M20 50c-8 2-12 10-8 14" fill="none" stroke="var(--cc-accent-3)" stroke-width="3" stroke-linecap="round"></path></g>' +
+    "</svg>"
+  );
+}
+
+function crumbs(items) {
+  return (
+    '<nav class="crumbs" aria-label="Breadcrumb">' +
+    items.map((item, index) => {
+      if (index === items.length - 1) return '<span aria-current="page">' + esc(item[0]) + "</span>";
+      return '<a href="' + item[1] + '">' + esc(item[0]) + "</a>";
+    }).join('<span aria-hidden="true"> / </span>') +
+    "</nav>"
+  );
+}
+
+function parallaxRow() {
+  const icons = [
+    ["5061", "SIP/TLS", "22"],
+    ["52.112", "Two lists", "14"],
+    ["46", "EF audio", "26"],
+    ["E911", "Location", "16"],
+    ["SRTP", "Media", "20"],
+    ["AB-250", "Exam", "12"],
+  ];
+  return (
+    '<div class="parallax" aria-label="Symbols">' +
+    icons.map((icon) => '<span class="px" data-depth="' + icon[2] + '"><b>' + icon[0] + "</b><small>" + icon[1] + "</small></span>").join("") +
+    "</div>"
+  );
+}
+
+function signalDeck(anchorId) {
+  const tracks = DATA.tracks || [];
+  if (!tracks.length) return "";
+  let start = tracks.findIndex((track) => track.id === anchorId);
+  if (start < 0) start = 0;
+  const picks = [];
+  for (let i = 0; i < 6; i += 1) picks.push(tracks[(start + i) % tracks.length]);
+  const cards = picks.map((track) => (
+    '<article class="signal-card holo"><h3>' + esc((track.chart && track.chart.title) || track.title) + "</h3>" +
+    chartSvg(track.chart || { bars: [], title: track.title }) +
+    '<p class="tiny">Track ' + esc(track.num) + ". " + esc((track.chart && track.chart.note) || "") + "</p></article>"
+  )).join("");
+  return (
+    '<section class="signal-deck" aria-label="Charts and symbols">' +
+    '<p class="kicker">Signal deck</p>' +
+    parallaxRow() +
+    '<div class="signal-grid">' + cards + "</div>" +
+    '<div class="signal-extra">' +
+    '<canvas id="signal-canvas" width="640" height="180" aria-label="Lessons per track in this campus"></canvas>' +
+    '<div id="d3-host" class="d3-host" aria-label="Lesson counts drawn with D3"></div>' +
+    '<svg id="rough-host" class="rough-host" viewBox="0 0 320 90" role="img" aria-label="Rough sketch of the SBC trust boundary"></svg>' +
+    "</div></section>"
+  );
+}
+
+function heroFlow() {
+  return (
+    '<svg class="hero-flow" viewBox="0 0 880 150" role="img" aria-label="Animated path from Teams through the SIP proxy and SBC to the carrier">' +
+    "<title>Animated call path</title>" +
+    '<text x="440" y="22" text-anchor="middle" fill="var(--muted)" font-size="13" font-family="sans-serif">TLS 5061 stays with Teams. Media may bypass.</text>' +
+    '<rect x="36" y="48" width="120" height="52" rx="14" fill="var(--bg-3)" stroke="var(--teal)"></rect>' +
+    '<text x="96" y="78" text-anchor="middle" fill="var(--ink)" font-size="14" font-family="sans-serif">Teams</text>' +
+    '<rect x="250" y="48" width="120" height="52" rx="14" fill="var(--bg-3)" stroke="var(--violet)"></rect>' +
+    '<text x="310" y="78" text-anchor="middle" fill="var(--ink)" font-size="14" font-family="sans-serif">SIP proxy</text>' +
+    '<rect x="464" y="48" width="120" height="52" rx="14" fill="var(--bg-3)" stroke="var(--amber)"></rect>' +
+    '<text x="524" y="78" text-anchor="middle" fill="var(--ink)" font-size="14" font-family="sans-serif">SBC</text>' +
+    '<rect x="678" y="48" width="120" height="52" rx="14" fill="var(--bg-3)" stroke="var(--teal)"></rect>' +
+    '<text x="738" y="78" text-anchor="middle" fill="var(--ink)" font-size="14" font-family="sans-serif">Carrier</text>' +
+    '<path class="flow-line" d="M156 74 H250 M370 74 H464 M584 74 H678" fill="none" stroke="var(--violet)" stroke-width="3"></path>' +
+    '<circle class="atlas-packet hero-packet" r="7" fill="var(--cc-accent-3)" style="offset-path: path(\'M156 74 H678\'); animation: ride 3.2s linear infinite"><title>Packet</title></circle>' +
+    '<text x="440" y="132" text-anchor="middle" fill="var(--muted)" font-size="12" font-family="sans-serif">SBC ranges 52.112/14 + 52.120/14. Client optimize 52.112/14 + 52.122/15. Checked 15 October 2026.</text>' +
+    "</svg>"
+  );
+}
+
+function isoIcon(track) {
+  const id = String(track.id || "t01");
+  return (
+    '<span class="iso-wrap"><canvas class="track-gl iso-icon" data-track="' + esc(id) + '" width="160" height="150" aria-label="' + esc(track.title) + ' icon"></canvas></span>'
+  );
+}
+
+function ringStat(value, label, pct) {
+  const radius = 16;
+  const circ = 2 * Math.PI * radius;
+  const dash = Math.max(4, (Math.max(8, Math.min(100, pct)) / 100) * circ);
+  return (
+    '<div class="stat holo"><svg class="ring" viewBox="0 0 44 44" aria-hidden="true">' +
+    '<circle class="ring-bg" cx="22" cy="22" r="16"></circle>' +
+    '<circle class="ring-fg" cx="22" cy="22" r="16" stroke-dasharray="' + dash.toFixed(1) + " " + circ.toFixed(1) + '"></circle></svg>' +
+    '<b data-count="' + value + '">' + value + "</b><span>" + label + "</span></div>"
+  );
+}
+
 function renderHome() {
   const counts = DATA.counts || {};
   const stats = [
     [counts.tracks || DATA.tracks.length, "Tracks"],
     [lessonTotal(), "Lessons"],
-    [counts.labs || DATA.labs.length, "Zero-key labs"],
-    [counts.quiz || 0, "Quiz questions"],
-    [(DATA.flows || []).length, "Animated flows"],
-    [(DATA.illustrations || []).length, "Illustrations"],
-    [counts.cards || 0, "Flashcards"],
-    [counts.scenarios || DATA.scenarios.length, "Scenarios"],
+    [counts.labs || DATA.labs.length, "Labs"],
+    [counts.quiz || 0, "Quiz"],
+    [(DATA.flows || []).length, "Flows"],
+    [(DATA.illustrations || []).length, "Figures"],
+    [counts.cards || 0, "Cards"],
+    [counts.scenarios || DATA.scenarios.length, "Scenes"],
+  ];
+  const maxStat = Math.max.apply(null, stats.map((item) => Number(item[0]) || 1));
+  const poses = ["idle", "wave", "think", "listen", "celebrate"];
+  const spots = [
+    ["#/diagrams", "Diagrams", "diagrams"],
+    ["#/flows", "Flows", "flows"],
+    ["#/charts", "Charts", "charts"],
+    ["#/downloads", "Cheat Codes", "codes"],
+    ["#/play", "Play", "play"],
+    ["#/map", "Ecosystem", "eco"],
+    ["#/downloads", "Downloads", "downloads"],
+    ["#/career", "Careers", "careers"],
   ];
   const tiles = DATA.tracks.map((track) => {
     return (
-      '<a class="track-tile" href="#/track/' + track.id + '">' +
-      '<span class="idx">' + track.emoji + " " + esc(track.num) + "</span>" +
+      '<a class="track-tile holo" href="#/track/' + track.id + '">' +
+      isoIcon(track) +
+      '<span class="idx">' + esc(track.num) + "</span>" +
       "<strong>" + esc(track.title) + "</strong>" +
       "<em>" + lessonsIn(track.id).length + " lessons</em>" +
       "<span>" + esc(track.why) + "</span></a>"
     );
   }).join("");
   return (
-    '<p class="kicker">Free offline campus · checked 14 October 2026</p>' +
     "<h1>Microsoft Voice &amp; Contact Center Lab</h1>" +
+    '<section class="neon-hero" id="neon-hero">' +
+    '<canvas id="hero-gl" aria-label="Three.js call path. Teams, SIP proxy, SBC, carrier, Copilot, and Dynamics 365 orbit a neon globe."></canvas>' +
+    '<div class="hero-fallback" id="hero-fallback" hidden>' + heroFlow() + "</div>" +
+    '<div class="hero-overlay">' +
+    '<div class="hero-copy">' +
+    '<div class="mascot-row" aria-label="Mascot variations">' + poses.map((pose, index) => monkeyMarkup(pose, index)).join("") + "</div>" +
+    '<p class="hero-title" data-i18n="greet">The call path, in light.</p>' +
+    '<p class="hero-sub">Teams, the SIP proxy, the SBC, and the carrier. Signaling stays on TLS 5061. Media may bypass. <a href="#/regions" data-i18n="regions">Regions</a></p>' +
+    "</div>" +
+    '<div class="grid stats live-counters hero-stats">' + stats.map((item) => ringStat(item[0], item[1], (Number(item[0]) / maxStat) * 100)).join("") + "</div>" +
+    "</div></section>" +
+    '<nav class="spot-nav" aria-label="Home sections">' + spots.map((spot) => '<a class="spot" href="' + spot[0] + '" data-i18n="' + spot[2] + '">' + esc(spot[1]) + "</a>").join("") + "</nav>" +
+    signalDeck("t01") +
+    '<p class="kicker">Free offline campus · firewall prefixes checked 15 October 2026</p>' +
     '<p class="lede">A study bench for the engineer who has to explain a Teams call, a queue, a recorder, and a contact-center route without guessing. No account. No key. No network after this file is open.</p>' +
     '<p class="callout">' + esc(DATA.examFact || "") + "</p>" +
     '<div class="hero-actions row">' +
-    '<a class="primary" href="#/track/t01">Start with the tenant</a>' +
-    '<a class="ghost" href="#/lab/dr-path">Trace a Direct Routing call</a>' +
-    '<a class="ghost" href="#/powershell">Open the Teams shell</a>' +
-    '<a class="ghost" href="#/topology">Open the SBC mesh</a>' +
-    '<a class="ghost" href="#/tips">Tips and traps</a>' +
+    '<a class="primary" href="#/diagrams">Open the diagram atlas</a>' +
+    '<a class="ghost" href="#/flows">Play the flows</a>' +
+    '<a class="ghost" href="#/charts">Open the charts</a>' +
+    '<a class="ghost" href="#/downloads">Cheat Codes</a>' +
+    '<a class="ghost" href="#/play">Play</a>' +
+    '<a class="ghost" href="#/track/t01">Start with the tenant</a>' +
     "</div>" +
-    '<div class="grid stats">' + stats.map((item) => '<div class="stat"><b>' + item[0] + "</b><span>" + item[1] + "</span></div>").join("") + "</div>" +
+    architectAudio() +
     '<div class="hero-frame">' +
     '<div class="topology-stage" id="home-stage">' +
     '<div class="gl-fallback" id="home-fallback">' + callRibbon() + "</div>" +
@@ -1219,9 +2422,12 @@ function renderTrack(id) {
   const done = lessons.filter((lesson) => state.lessons.indexOf(lesson.id) !== -1).length;
   const labs = DATA.labs.filter((lab) => lab.track === id);
   return (
-    '<p class="kicker">Track ' + esc(track.num) + " · " + esc(track.emoji) + "</p>" +
-    "<h1>" + esc(track.title) + "</h1>" +
+    crumbs([["Home", "#/"], ["Tracks", "#/"], [track.title, ""]]) +
+    '<div class="track-head">' + isoIcon(track) + '<div><p class="kicker">Track ' + esc(track.num) + "</p>" +
+    "<h1>" + esc(track.title) + "</h1></div></div>" +
     '<div class="callout"><strong>Why it matters. </strong>' + esc(track.why) + "</div>" +
+    parallaxRow() +
+    signalDeck(id) +
     depsHtml(track) +
     '<div class="progress" aria-label="Track progress"><span style="width:' + (lessons.length ? (done / lessons.length) * 100 : 0) + '%"></span></div>' +
     '<p class="tiny">' + done + " of " + lessons.length + " lessons marked in this browser. " + esc(track.outcome) + "</p>" +
@@ -1232,7 +2438,7 @@ function renderTrack(id) {
     lessons.map((lesson, index) => {
       const on = state.lessons.indexOf(lesson.id) !== -1;
       return (
-        '<a class="lesson-card" href="#/lesson/' + lesson.id + '"><span class="num">' + String(index + 1).padStart(2, "0") + '</span><span><strong>' + esc(lesson.title) + "</strong><br><span class=\"tiny\">" + lesson.minutes + " min · " + esc(lesson.say).slice(0, 110) + '</span></span><span class="check ' + (on ? "on" : "") + '" aria-label="' + (on ? "complete" : "not complete") + '"></span></a>'
+        '<a class="lesson-card" href="#/lesson/' + lesson.id + '"><span class="num">' + String(index + 1).padStart(2, "0") + '</span><span><strong>' + esc(lessonHeading(lesson).text) + "</strong>" + (lessonHeading(lesson).en ? '<br><span class="tiny">' + esc(lessonHeading(lesson).en) + "</span>" : "") + '<br><span class="tiny">' + lesson.minutes + " min · " + esc(lesson.say).slice(0, 110) + '</span></span><span class="check ' + (on ? "on" : "") + '" aria-label="' + (on ? "complete" : "not complete") + '"></span></a>'
       );
     }).join("") +
     "</div>" +
@@ -1351,6 +2557,9 @@ function blip(kind) {
 function confetti() {
   blip("done");
   if (motionMode() === "reduce") return;
+  if (typeof window.confetti === "function") {
+    window.confetti({ particleCount: 90, spread: 70, origin: { y: 0.62 }, disableForReducedMotion: true });
+  }
   const layer = document.createElement("div");
   layer.className = "confetti";
   layer.setAttribute("aria-hidden", "true");
@@ -1379,7 +2588,7 @@ function renderLesson(id) {
   window.__listen = lesson.listen;
   return (
     '<p class="kicker"><a href="#/track/' + track.id + '">' + esc(track.title) + "</a> · Lesson " + (index + 1) + " of " + siblings.length + "</p>" +
-    "<h1>" + esc(lesson.title) + "</h1>" +
+    headingHtml(lesson) +
     '<div class="callout"><strong>Why it matters. </strong>' + esc(lesson.why) + "</div>" +
     '<div class="deps">' + lesson.depends.map((item) => '<span class="tag">Depends on ' + esc(item) + "</span>").join("") + "</div>" +
     '<div class="prose">' + lesson.body.map((paragraph) => "<p>" + esc(paragraph) + "</p>").join("") + "</div>" +
@@ -2422,9 +3631,26 @@ function missing() {
 }
 
 function renderCharts() {
-  window.__listen = "Charts. Licensing, call quality, Erlang C, and the certification timeline. Teaching samples are labeled.";
-  return '<p class="kicker">Figures</p><h1>Charts</h1><p class="lede">Licensing, quality, staffing, and the dates that were true on 14 October 2026.</p>' +
-    (DATA.charts || []).map((chart) => '<article class="panel"><h2>' + esc(chart.title) + "</h2>" + chart.svg + '<p class="tiny">' + esc(chart.note) + "</p></article>").join("");
+  window.__listen = "Charts. A dashboard, not a stack of cards. A packet climbs the sample, and each chart keeps a labelled callout.";
+  const charts = DATA.charts || [];
+  const boards = charts.map((chart, index) => {
+    const lead = index === 0 ? " chart-board" : " chart-tile";
+    return (
+      '<article class="chart-panel' + lead + '"><header><p class="kicker">Sample ' + (index + 1) + "</p><h2>" + esc(chart.title) + "</h2></header>" +
+      '<div class="chart-plot">' + chart.svg + "</div>" +
+      (typeof rideSvg === "function" ? rideSvg("chart") : "") +
+      (typeof hopCallouts === "function" ? hopCallouts(chart.note, ["Sample", "Peak", "Limit"]) : '<p class="tiny">' + esc(chart.note) + "</p>") +
+      "</article>"
+    );
+  }).join("");
+  return (
+    '<div class="layout-charts">' +
+    '<p class="kicker">Dashboard</p><h1>Charts</h1>' +
+    '<p class="lede">The first chart spans the bench. The rest sit in a two-column grid. Hover a bar for its label. The packet is a reading guide, not a live tenant extract.</p>' +
+    '<section class="page-stage chart-stage">' + (typeof rideSvg === "function" ? rideSvg("chart") : "") +
+    (typeof stageStops === "function" ? stageStops(["Sample", "Peak", "Note", "Date"]) : "") + "</section>" +
+    '<div class="chart-bento">' + boards + "</div></div>"
+  );
 }
 
 function renderFaults() {
@@ -2453,6 +3679,7 @@ function renderAudio() {
   window.__listen = "Offline audio. Tones are generated. Spoken clips are synthesized on this machine, not recorded from a carrier.";
   const groups = ["dtmf", "progress", "prompt", "intro"];
   return '<p class="kicker">No network</p><h1>Audio</h1><p class="lede">DTMF, call-progress tones, attendant samples, and short intros. Nothing is uploaded. Production attendants use a recorded prompt, not these clips.</p>' +
+    architectAudio() +
     groups.map((kind) => {
       const rows = (DATA.audio || []).filter((clip) => clip.kind === kind);
       return "<h2>" + esc(kind) + "</h2>" + rows.map((clip) => '<article class="panel audio-card"><h3>' + esc(clip.title) + "</h3><p>" + esc(clip.blurb) + '</p><audio controls preload="none" src="' + esc(clip.file) + '"></audio></article>').join("");
@@ -2626,6 +3853,8 @@ async function render() {
   const gen = ++renderGen;
   clearLadders();
   disposeTopology();
+  disposeHero();
+  disposeIcons();
   if (window.speechSynthesis) window.speechSynthesis.cancel();
   speaking = false;
   const listen = $("#listen");
@@ -2638,7 +3867,7 @@ async function render() {
     redirectHash(needsArg[root]);
     return;
   }
-  const known = ["home", "track", "lesson", "labs", "lab", "quiz", "cards", "scenarios", "scenario", "glossary", "map", "charts", "faults", "audio", "boss", "exam", "sources", "powershell", "topology", "settings", "tips"];
+  const known = ["home", "track", "lesson", "labs", "lab", "quiz", "cards", "scenarios", "scenario", "glossary", "map", "charts", "faults", "audio", "boss", "exam", "sources", "powershell", "topology", "settings", "tips", "field", "migrate", "ports", "career", "news", "downloads", "game", "sandbox", "daily", "explorer", "diagrams", "flows", "play", "regions"];
   if (known.indexOf(root) === -1) {
     redirectHash("#/");
     return;
@@ -2663,8 +3892,16 @@ async function render() {
     redirectHash("#/tips");
     return;
   }
+  document.body.dataset.home = root === "home" ? "1" : "0";
+  const brand = document.querySelector(".brand .monkey");
+  if (brand) {
+    const order = ["home", "diagrams", "flows", "charts", "downloads", "play", "map", "career", "regions"];
+    const found = order.indexOf(root);
+    brand.dataset.look = String((found < 0 ? root.length : found) % 4);
+  }
   paintView('<p class="loading">Loading this page.</p>');
   try {
+    if ((state.lang || "en") !== "en") await ensureHeadings();
     if (root === "lesson") {
       const stub = lessonStub(arg);
       await ensureTrack(stub.track);
@@ -2673,6 +3910,7 @@ async function render() {
     if (root === "cards") await ensureModule("cards");
     if (root === "glossary") await ensureModule("glossary");
     if (root === "charts") await ensureModule("charts");
+    if (root === "diagrams" || root === "flows") await loadAtlas();
     if (root === "boss") await ensureModule("bosses");
     if (root === "boss" && arg && !(DATA.bosses || []).some((boss) => boss.id === arg)) {
       redirectHash("#/boss");
@@ -2706,10 +3944,27 @@ async function render() {
   else if (root === "topology") html = renderTopology();
   else if (root === "settings") html = renderSettings();
   else if (root === "tips") html = renderTips(arg);
+  else if (root === "field") html = renderField();
+  else if (root === "migrate") html = renderMigrate();
+  else if (root === "ports") html = renderPorts();
+  else if (root === "career") html = renderCareer();
+  else if (root === "news") html = renderNews();
+  else if (root === "downloads") html = await renderDownloads();
+  else if (root === "game") html = renderGame();
+  else if (root === "sandbox") html = renderSandbox();
+  else if (root === "daily") html = renderDaily();
+  else if (root === "explorer") html = renderExplorer();
+  else if (root === "diagrams") html = renderDiagrams();
+  else if (root === "flows") html = renderFlows();
+  else if (root === "play") html = renderPlay();
+  else if (root === "regions") html = renderRegions();
   else html = missing();
   paintView(html);
-  $("#main").focus();
+  const main = $("#main");
+  if (main && main.focus) main.focus({ preventScroll: true });
+  window.scrollTo(0, 0);
   wire(root, arg);
+  bindReadbar();
   paintNav(root, arg);
   const transcript = window.__listen || "Pick a lesson or a lab. Listen reads the short script for that page.";
   $("#transcript").textContent = transcript;
@@ -2747,7 +4002,18 @@ function paintNav(root, arg) {
   });
   $$(".bottom-nav a").forEach((link) => {
     const tab = link.getAttribute("data-tab");
-    const on = tab === root || (tab === "home" && root === "home");
+    const on = tab === root || (tab === "downloads" && root === "downloads") || (tab === "play" && (root === "play" || root === "game" || root === "sandbox" || root === "daily"));
+    if (on) link.setAttribute("aria-current", "page");
+    else link.removeAttribute("aria-current");
+  });
+  $$(".primary-nav a, .spot-nav a").forEach((link) => {
+    const href = link.getAttribute("href") || "";
+    const tab = href.replace("#/", "");
+    let on = tab === root;
+    if (tab === "downloads" && root === "downloads") on = true;
+    if (tab === "map" && root === "map") on = true;
+    if (tab === "career" && root === "career") on = true;
+    if (tab === "play" && (root === "play" || root === "game" || root === "sandbox" || root === "daily" || root === "explorer")) on = true;
     if (on) link.setAttribute("aria-current", "page");
     else link.removeAttribute("aria-current");
   });
@@ -2802,13 +4068,22 @@ function wire(root, arg) {
   }
   if (root === "boss" && arg) wireBoss(arg);
   if (root === "settings") wireSettings();
+  wireExtras(root);
   if (root === "home") {
     const orbit = $("#home-orbit");
     if (orbit) {
       orbit.onclick = function () { openMesh("home-gl", "home-fallback", "home"); };
     }
     bindScenario("home");
+    $$("[data-home-theme]").forEach((button) => {
+      button.onclick = function () {
+        setTheme(button.getAttribute("data-home-theme"));
+      };
+    });
+    mountHero();
   }
+  if (window.armVisuals) window.armVisuals(root);
+  if (typeof applyI18n === "function") applyI18n();
   if (root === "powershell") mountPowerShell($("#ps-host"));
   if (root === "topology") openMesh("topo-gl", "topo-fallback", "topo");
   if (root === "map") {
@@ -2824,6 +4099,15 @@ function navHtml() {
   const tracks = DATA.tracks.map((track) => '<a class="item" href="#/track/' + track.id + '"><span class="idx">' + esc(track.num) + '</span><span>' + esc(track.title) + "</span></a>").join("");
   const views = [
     ["#/", "Home"],
+    ["#/diagrams", "Diagrams"],
+    ["#/flows", "Flows"],
+    ["#/charts", "Charts"],
+    ["#/downloads", "Cheat Codes"],
+    ["#/play", "Play"],
+    ["#/map", "Ecosystem"],
+    ["#/downloads", "Downloads"],
+    ["#/career", "Careers"],
+    ["#/regions", "Regions"],
     ["#/labs", "Labs"],
     ["#/powershell", "PowerShell"],
     ["#/topology", "SBC mesh"],
@@ -2838,6 +4122,10 @@ function navHtml() {
     ["#/boss", "Boss exams"],
     ["#/exam", "Exam map"],
     ["#/tips", "Tips and traps"],
+    ["#/field", "Field desk"],
+    ["#/game", "Ports game"],
+    ["#/daily", "Daily challenge"],
+    ["#/sandbox", "Call-flow sandbox"],
     ["#/settings", "Settings"],
     ["#/sources", "Sources"],
   ];
@@ -2861,7 +4149,11 @@ function paintHits(query) {
   const q = query.toLowerCase();
   const hits = [];
   const lessonHits = (DATA.lessonIndex && DATA.lessonIndex.length) ? DATA.lessonIndex : DATA.lessons;
-  lessonHits.forEach((lesson) => hits.push({ href: "#/lesson/" + lesson.id, title: lesson.title, kind: "Lesson" }));
+  extraHits().forEach((hit) => hits.push(hit));
+  lessonHits.forEach((lesson) => {
+    const head = lessonHeading(lesson);
+    hits.push({ href: "#/lesson/" + lesson.id, title: head.en ? head.text + " " + head.en : head.text, kind: "Lesson" });
+  });
   DATA.labs.forEach((lab) => hits.push({ href: "#/lab/" + lab.id, title: lab.title, kind: "Lab" }));
   const termHits = (DATA.glossary && DATA.glossary.length) ? DATA.glossary : (DATA.termIndex || []);
   termHits.forEach((item) => hits.push({ href: "#/glossary", title: item.term, kind: "Term" }));
@@ -3145,6 +4437,55 @@ function bindScenario(prefix) {
   });
 }
 
+function paintIconFallback(root) {
+  $$("canvas.track-gl", root).forEach((canvas) => {
+    const ctx = canvas.getContext("2d");
+    if (!ctx) return;
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.strokeStyle = "#22e6ff";
+    ctx.lineWidth = 4;
+    ctx.beginPath();
+    ctx.moveTo(80, 24);
+    ctx.lineTo(132, 58);
+    ctx.lineTo(80, 126);
+    ctx.lineTo(28, 58);
+    ctx.closePath();
+    ctx.stroke();
+  });
+}
+
+async function mountIcons() {
+  const gen = renderGen;
+  const root = $("#view");
+  if (!root || !root.querySelector("canvas.track-gl")) return;
+  try {
+    const mod = await import("./studios/icons.js");
+    if (gen !== renderGen) return;
+    disposeIcons();
+    iconHandle = mod.mount($("#view"));
+  } catch (err) {
+    if (gen === renderGen) paintIconFallback($("#view"));
+  }
+}
+
+async function mountHero() {
+  const canvas = document.getElementById("hero-gl");
+  const fallback = document.getElementById("hero-fallback");
+  if (!canvas) return;
+  const gen = renderGen;
+  try {
+    const mod = await import("./studios/hero.js");
+    if (gen !== renderGen) return;
+    disposeHero();
+    heroHandle = mod.mount(canvas, activeTheme());
+    canvas.hidden = false;
+    if (fallback) fallback.hidden = true;
+  } catch (err) {
+    canvas.hidden = true;
+    if (fallback) fallback.hidden = false;
+  }
+}
+
 async function openMesh(canvasId, fallbackId, prefix) {
   const canvas = document.getElementById(canvasId);
   const fallback = document.getElementById(fallbackId);
@@ -3230,6 +4571,73 @@ async function boot() {
     render();
   });
   if (!state.theme) state.theme = initialTheme();
+  if (!state.lang) state.lang = "en";
+  const lang = $("#lang");
+  if (lang) {
+    lang.value = state.lang;
+    lang.onchange = function () {
+      state.lang = lang.value;
+      save();
+      render();
+    };
+  }
+  fillThemePop();
+  const flip = $("#theme-flip");
+  if (flip) {
+    flip.onclick = function () {
+      if (activeTheme() === "light") setTheme(state.vivid || "neon");
+      else setTheme("light");
+    };
+  }
+  if (typeof armLightbox === "function") armLightbox();
+  const syncHeader = function () {
+    const bar = document.querySelector(".top");
+    if (bar) document.documentElement.style.setProperty("--header-h", bar.offsetHeight + "px");
+  };
+  syncHeader();
+  window.addEventListener("resize", syncHeader);
+  document.addEventListener("keydown", function (event) {
+    const nav = document.querySelector(".primary-nav");
+    if (!nav || !nav.contains(document.activeElement)) return;
+    if (event.key !== "ArrowRight" && event.key !== "ArrowLeft") return;
+    const links = Array.prototype.slice.call(nav.querySelectorAll("a"));
+    const index = links.indexOf(document.activeElement);
+    if (index < 0) return;
+    event.preventDefault();
+    const next = event.key === "ArrowRight" ? links[index + 1] : links[index - 1];
+    if (next) next.focus();
+  });
+  const cycle = $("#theme-cycle");
+  if (cycle) {
+    cycle.onclick = function (event) {
+      event.stopPropagation();
+      const pop = $("#theme-pop");
+      if (!pop) return;
+      const open = pop.hidden;
+      pop.hidden = !open;
+      cycle.setAttribute("aria-expanded", open ? "true" : "false");
+      if (open) placeThemePop();
+    };
+  }
+  document.addEventListener("click", function (event) {
+    const pop = $("#theme-pop");
+    const button = $("#theme-cycle");
+    if (!pop || pop.hidden) return;
+    if (pop.contains(event.target) || (button && button.contains(event.target))) return;
+    pop.hidden = true;
+    if (button) button.setAttribute("aria-expanded", "false");
+  });
+  document.addEventListener("keydown", function (event) {
+    if (event.key !== "Escape") return;
+    const pop = $("#theme-pop");
+    if (!pop || pop.hidden) return;
+    pop.hidden = true;
+    const button = $("#theme-cycle");
+    if (button) button.setAttribute("aria-expanded", "false");
+  });
+  window.addEventListener("resize", placeThemePop);
+  cycleMascot();
+  armKonami();
   paintChrome();
   render();
   if ("serviceWorker" in navigator && location.protocol.indexOf("http") === 0) {
@@ -3237,4 +4645,6 @@ async function boot() {
   }
 }
 
+window.DATA = DATA;
+window.lessonsIn = lessonsIn;
 document.addEventListener("DOMContentLoaded", boot);

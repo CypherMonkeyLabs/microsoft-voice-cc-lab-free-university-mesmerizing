@@ -1,0 +1,80 @@
+%PDF-1.4
+1 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica >>
+endobj
+2 0 obj
+<< /Length 3031 >>
+stream
+BT
+/F1 11 Tf
+50 780 Td
+14 TL
+(Glossary core) Tj
+T* () Tj
+T* (Glossary sheet. Definitions are the campus teaching lines, not a vendor glossary copy.) Tj
+T* (Accessed 14 October 2026. Open the in-app glossary for the config note and the fault.) Tj
+T* () Tj
+T* (Microsoft 365 tenant ? The boundary that holds Entra ID, licenses, Teams policies, and) Tj
+T* (verified domains for one organization.) Tj
+T* (Verified domain ? A domain added and proven in the tenant. Direct Routing SBC FQDNs must) Tj
+T* (live on one of these domains.) Tj
+T* (onmicrosoft.com domain ? The default tenant domain. It is not a supported domain for a) Tj
+T* (Direct Routing SBC FQDN.) Tj
+T* (Homed online ? Direct Routing users must be homed in Microsoft 365, not left on a Skype for) Tj
+T* (Business on-premises registrar.) Tj
+T* (Islands mode ? A coexistence mode. Direct Routing is not supported for users in Islands) Tj
+T* (mode.) Tj
+T* (Entra ID ? The identity directory for the tenant. Teams users, resource accounts, and admin) Tj
+T* (roles are Entra objects.) Tj
+T* (Resource account ? A disabled-for-sign-in Entra account that represents an auto attendant or) Tj
+T* (a call queue. It is not a human login.) Tj
+T* (Cloud Voicemail ? The Teams voicemail service. It deposits messages in the user?s Exchange) Tj
+T* (mailbox.) Tj
+T* (Teams Phone ? The license capability that lets a user use Teams as a phone system. It is) Tj
+T* (not, by itself, a PSTN carrier.) Tj
+T* (Calling Plan ? A Microsoft-operated PSTN option. Domestic, international, and pay-as-you-go) Tj
+T* (are the usual flavors. It is an extra license on top of Teams Phone.) Tj
+T* (Audio Conferencing ? The license that provides dial-in numbers for meetings. It is not Teams) Tj
+T* (Phone.) Tj
+T* (Teams Premium ? An add-on for advanced meetings and related features. It does not replace) Tj
+T* (Teams Phone or a Calling Plan.) Tj
+T* (Teams Phone Resource Account license ? The license each auto attendant or call queue) Tj
+T* (resource account needs, even when the account has no phone number. Subscriptions with Teams) Tj
+T* (Phone include a zero-cost allotment you still have to acquire.) Tj
+T* (Pay-as-you-go Calling Plan ? A Calling Plan billed on use. Also the funding pattern, with) Tj
+T* (communications credits, for some voice-app outbound calls.) Tj
+T* (Communications credits ? A balance used when a call is not covered by a Calling Plan minute.) Tj
+T* (Voice apps use it for some outbound cases.) Tj
+T* (Shared Calling ? A pattern where users place outbound PSTN calls through a resource) Tj
+T* (account?s number instead of each having a number.) Tj
+T* () Tj
+T* (Showing 16 core terms. The full HTML sheet lists every core row.) Tj
+T* () Tj
+T* (CypherMonkey ? cyphermonkeylabs.com ? linktr.ee/cyphermonkey ?) Tj
+T* (https://github.com/cipher0x9/microsoft-voice-cc-lab-free-university-mesmerizing ?) Tj
+T* (Independent educational project, not affiliated with or endorsed by any vendor. Trademarks) Tj
+T* (belong to their owners. MIT code, CC BY-NC-SA content. No email.) Tj
+ET
+endstream
+endobj
+3 0 obj
+<< /Type /Page /Parent 4 0 R /MediaBox [0 0 612 792] /Contents 2 0 R /Resources << /Font << /F1 1 0 R >> >> >>
+endobj
+4 0 obj
+<< /Type /Pages /Count 1 /Kids [3 0 R] >>
+endobj
+5 0 obj
+<< /Type /Catalog /Pages 4 0 R >>
+endobj
+xref
+0 6
+0000000000 65535 f 
+0000000009 00000 n 
+0000000079 00000 n 
+0000003162 00000 n 
+0000003288 00000 n 
+0000003345 00000 n 
+trailer << /Size 6 /Root 5 0 R >>
+startxref
+3394
+%%EOF

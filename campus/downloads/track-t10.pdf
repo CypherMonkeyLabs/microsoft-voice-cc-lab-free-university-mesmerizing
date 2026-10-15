@@ -1,0 +1,65 @@
+%PDF-1.4
+1 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica >>
+endobj
+2 0 obj
+<< /Length 1545 >>
+stream
+BT
+/F1 11 Tf
+50 780 Td
+14 TL
+(10 Session border controllers) Tj
+T* () Tj
+T* (10 Session border controllers) Tj
+T* () Tj
+T* (Pro tips) Tj
+T* (? Certification means that SBC software is supported with Direct Routing. You still) Tj
+T* (configure the vendor release you run.) Tj
+T* (? AudioCodes, Ribbon, Oracle, and Cisco CUBE are families. The support path starts with that) Tj
+T* (vendor's guide.) Tj
+T* (? Failover is a second gateway on the voice route that you have rehearsed, not a hostname) Tj
+T* (you hope is warm.) Tj
+T* () Tj
+T* (Interview traps) Tj
+T* (? Opening a Microsoft case for a firmware or DSP fault the vendor owns.) Tj
+T* (? Cloning the London trunk to Manchester and leaving the certificate name or the OPTIONS) Tj
+T* (target unchanged.) Tj
+T* () Tj
+T* (Cheat sheet) Tj
+T* (Certified list -> the release you actually run) Tj
+T* (Pair           primary and secondary, both on the route) Tj
+T* (Firewall       current Teams ranges, both directions) Tj
+T* (Rehearse       fail the primary before the site depends on it) Tj
+T* (Vendor first   when the symptom is on the SBC itself) Tj
+T* () Tj
+T* (Facts in the long lessons were checked 14 October 2026. This sheet is a memory aid.) Tj
+T* () Tj
+T* (CypherMonkey ? cyphermonkeylabs.com ? linktr.ee/cyphermonkey ?) Tj
+T* (https://github.com/cipher0x9/microsoft-voice-cc-lab-free-university-mesmerizing ?) Tj
+T* (Independent educational project, not affiliated with or endorsed by any vendor. Trademarks) Tj
+T* (belong to their owners. MIT code, CC BY-NC-SA content. No email.) Tj
+ET
+endstream
+endobj
+3 0 obj
+<< /Type /Page /Parent 4 0 R /MediaBox [0 0 612 792] /Contents 2 0 R /Resources << /Font << /F1 1 0 R >> >> >>
+endobj
+4 0 obj
+<< /Type /Pages /Count 1 /Kids [3 0 R] >>
+endobj
+5 0 obj
+<< /Type /Catalog /Pages 4 0 R >>
+endobj
+xref
+0 6
+0000000000 65535 f 
+0000000009 00000 n 
+0000000079 00000 n 
+0000001676 00000 n 
+0000001802 00000 n 
+0000001859 00000 n 
+trailer << /Size 6 /Root 5 0 R >>
+startxref
+1908
+%%EOF

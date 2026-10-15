@@ -94,6 +94,13 @@ async def run() -> None:
         async with websockets.connect(target["webSocketDebuggerUrl"], max_size=20_000_000) as ws:
             await cdp(ws, "Page.enable")
             await cdp(ws, "Runtime.enable")
+            await cdp(
+                ws,
+                "Page.addScriptToEvaluateOnNewDocument",
+                {
+                    "source": "window.__errors=[];window.addEventListener('error',function(e){window.__errors.push(String(e.message));});window.addEventListener('unhandledrejection',function(e){window.__errors.push(String(e.reason));});"
+                },
+            )
             pages = [
                 (
                     "home.png",
@@ -152,6 +159,16 @@ async def run() -> None:
                     1100,
                     "new Promise((resolve)=>{ const start=Date.now(); const tick=()=>{ const canvas=document.querySelector('#topo-gl'); if(canvas && !canvas.hidden || Date.now()-start>2500) resolve(true); else setTimeout(tick, 50); }; tick(); })",
                 ),
+                ("field-desk.png", BASE + "#/field", 1440, 1200, None),
+                ("ports.png", BASE + "#/ports", 1440, 1200, None),
+                ("downloads.png", BASE + "#/downloads", 1440, 1400, None),
+                (
+                    "ports-game.png",
+                    BASE + "#/game",
+                    1440,
+                    1100,
+                    "document.querySelector('[data-g]') && document.querySelector('[data-g]').click()",
+                ),
             ]
             for name, url, width, height, action in pages:
                 await cdp(ws, "Page.navigate", {"url": url})
@@ -162,6 +179,10 @@ async def run() -> None:
                 await evaluate(ws, "new Promise((r) => setTimeout(r, 400))")
                 title = await evaluate(ws, "document.querySelector('h1') && document.querySelector('h1').textContent")
                 print(name, "h1:", title)
+                errors = await evaluate(ws, "window.__errors || []")
+                if errors:
+                    print("  ERRORS:", errors)
+                    raise SystemExit(f"{name} console errors: {errors}")
                 if action:
                     await evaluate(ws, action)
                     await evaluate(ws, "new Promise((r) => setTimeout(r, 250))")
@@ -173,6 +194,9 @@ async def run() -> None:
                 await shot(ws, OUT / name, width, height)
             for theme_name, theme_id in (
                 ("theme-light.png", "light"),
+                ("theme-futuristic.png", "futuristic"),
+                ("theme-gaming.png", "gaming"),
+                ("theme-neon.png", "neon"),
                 ("theme-dark.png", "dark"),
                 ("theme-hc.png", "hc"),
                 ("theme-teams.png", "teams"),

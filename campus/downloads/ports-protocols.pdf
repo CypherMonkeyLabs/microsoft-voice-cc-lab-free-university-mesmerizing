@@ -1,0 +1,65 @@
+%PDF-1.4
+1 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica >>
+endobj
+2 0 obj
+<< /Length 1939 >>
+stream
+BT
+/F1 11 Tf
+50 780 Td
+14 TL
+(Ports and protocols) Tj
+T* () Tj
+T* (Ports and protocols ? commercial Microsoft 365 voice) Tj
+T* (Firewall prefixes re-checked 15 October 2026. Two lists. Do not merge them.) Tj
+T* (Source: https://learn.microsoft.com/en-us/microsoftteams/direct-routing-plan) Tj
+T* (Source: https://learn.microsoft.com/en-us/microsoft-365/enterprise/urls-and-ip-address-) Tj
+T* (ranges) Tj
+T* (Source: https://learn.microsoft.com/en-us/microsoftteams/qos-in-teams) Tj
+T* () Tj
+T* (Direct Routing signaling   TCP 5061   TLS to sip, sip2, and sip3) Tj
+T* (Media low                 UDP 3478-3481) Tj
+T* (Media high                UDP 49152-53247) Tj
+T* (Client audio              UDP/TCP 50000-50019   DSCP 46 EF) Tj
+T* (Client video              UDP/TCP 50020-50039   DSCP 34 AF41) Tj
+T* (Client sharing            UDP/TCP 50040-50059   DSCP 18 AF21) Tj
+T* (Client signaling          UDP/TCP 50070-50089   DSCP 40 CS5, not configurable) Tj
+T* (SBC signaling and media     52.112.0.0/14 and 52.120.0.0/14) Tj
+T* (SBC IPv6                   2603:1063:400::/40, media also 2603:1063:100::/40) Tj
+T* (Teams client optimize      52.112.0.0/14 and 52.122.0.0/15, IPv6 2603:1063::/38) Tj
+T* (GCC High media             52.127.88.0/21    DoD media 52.127.64.0/21) Tj
+T* (52.120.0.0/14 is not the client optimize list. 52.122.0.0/15 is not the SBC pair.) Tj
+T* () Tj
+T* (GCC High and DoD use different proxy names. Do not copy a commercial ACL.) Tj
+T* (Browser joins do not use the fixed 50000 desktop ranges.) Tj
+T* (Signaling stays with Teams. Media bypass does not move SIP off 5061.) Tj
+T* () Tj
+T* (CypherMonkey ? cyphermonkeylabs.com ? linktr.ee/cyphermonkey ?) Tj
+T* (https://github.com/cipher0x9/microsoft-voice-cc-lab-free-university-mesmerizing ?) Tj
+T* (Independent educational project, not affiliated with or endorsed by any vendor. Trademarks) Tj
+T* (belong to their owners. MIT code, CC BY-NC-SA content. No email.) Tj
+ET
+endstream
+endobj
+3 0 obj
+<< /Type /Page /Parent 4 0 R /MediaBox [0 0 612 792] /Contents 2 0 R /Resources << /Font << /F1 1 0 R >> >> >>
+endobj
+4 0 obj
+<< /Type /Pages /Count 1 /Kids [3 0 R] >>
+endobj
+5 0 obj
+<< /Type /Catalog /Pages 4 0 R >>
+endobj
+xref
+0 6
+0000000000 65535 f 
+0000000009 00000 n 
+0000000079 00000 n 
+0000002070 00000 n 
+0000002196 00000 n 
+0000002253 00000 n 
+trailer << /Size 6 /Root 5 0 R >>
+startxref
+2302
+%%EOF

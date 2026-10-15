@@ -1,0 +1,2144 @@
+%PDF-1.4
+1 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica >>
+endobj
+2 0 obj
+<< /Length 3696 >>
+stream
+BT
+/F1 11 Tf
+50 780 Td
+14 TL
+(Flashcards) Tj
+T* () Tj
+T* (Microsoft 365 tenant ? The boundary that holds Entra ID, licenses, Teams policies, and) Tj
+T* (verified domains for one organization. Why it matters: An SBC paired in the wrong tenant is) Tj
+T* (a different phone system.) Tj
+T* (How do you approach Microsoft 365 tenant? ? Confirm the tenant before you run Connect-) Tj
+T* (MicrosoftTeams. If it fails: Two engineers edit two tenants and each thinks the other broke) Tj
+T* (the trunk.) Tj
+T* (Verified domain ? A domain added and proven in the tenant. Direct Routing SBC FQDNs must) Tj
+T* (live on one of these domains. Why it matters: onmicrosoft.com cannot carry the SBC name.) Tj
+T* (How do you approach Verified domain? ? Add the domain, including a sip subdomain, before you) Tj
+T* (pair the gateway. If it fails: Pairing fails because sbc.contoso.com was never verified.) Tj
+T* (onmicrosoft.com domain ? The default tenant domain. It is not a supported domain for a) Tj
+T* (Direct Routing SBC FQDN. Why it matters: People try it because it already resolves inside) Tj
+T* (Microsoft 365.) Tj
+T* (How do you approach onmicrosoft.com domain? ? Use a domain you verified, such as) Tj
+T* (contoso.com. If it fails: The gateway object is rejected or never becomes healthy.) Tj
+T* (Homed online ? Direct Routing users must be homed in Microsoft 365, not left on a Skype for) Tj
+T* (Business on-premises registrar. Why it matters: A user who looks licensed and still is not) Tj
+T* (online will not use the online voice route.) Tj
+T* (How do you approach Homed online? ? Check the user?s registrar before you assign a voice) Tj
+T* (routing policy. If it fails: The policy is assigned and the call never leaves the legacy) Tj
+T* (system.) Tj
+T* (Islands mode ? A coexistence mode. Direct Routing is not supported for users in Islands) Tj
+T* (mode. Why it matters: It is a hard stop, not a tuning problem.) Tj
+T* (How do you approach Islands mode? ? Move the user to a supported mode before you test PSTN.) Tj
+T* (If it fails: PSTN fails only for the Islands users and nowhere else.) Tj
+T* (Entra ID ? The identity directory for the tenant. Teams users, resource accounts, and admin) Tj
+T* (roles are Entra objects. Why it matters: Voice licenses attach to these objects.) Tj
+T* (How do you approach Entra ID? ? Create the user or resource account here, then license it,) Tj
+T* (then grant policies. If it fails: A resource account exists in Teams and has no license) Tj
+T* (because nobody looked in Entra.) Tj
+T* (Resource account ? A disabled-for-sign-in Entra account that represents an auto attendant or) Tj
+T* (a call queue. It is not a human login. Why it matters: The published number is often this) Tj
+T* (account, not a person.) Tj
+T* (How do you approach Resource account? ? Create it with a Teams admin role and the User) Tj
+T* (Administrator role. If it fails: Agents try to sign in as the queue and the sign-in is) Tj
+T* (correctly blocked.) Tj
+T* (Cloud Voicemail ? The Teams voicemail service. It deposits messages in the user?s Exchange) Tj
+T* (mailbox. Why it matters: No mailbox means no voicemail, even when the call routed.) Tj
+T* (How do you approach Cloud Voicemail? ? Confirm the mailbox and the voicemail policy before) Tj
+T* (you debug the SBC. If it fails: Callers hear a greeting failure and the SBC trace is clean.) Tj
+T* (Teams Phone ? The license capability that lets a user use Teams as a phone system. It is) Tj
+T* (not, by itself, a PSTN carrier. Why it matters: People say Phone System, Calling Plan, and) Tj
+T* (Teams Premium as if they were one SKU.) Tj
+T* (How do you approach Teams Phone? ? Assign Teams Phone, then add a connectivity option. If it) Tj
+ET
+endstream
+endobj
+3 0 obj
+<< /Length 3904 >>
+stream
+BT
+/F1 11 Tf
+50 780 Td
+14 TL
+(fails: Outbound PSTN fails because only Teams, not Teams Phone, is assigned.) Tj
+T* (Calling Plan ? A Microsoft-operated PSTN option. Domestic, international, and pay-as-you-go) Tj
+T* (are the usual flavors. It is an extra license on top of Teams Phone. Why it matters: E5 may) Tj
+T* (include the phone-system capability and still not include a Calling Plan.) Tj
+T* (How do you approach Calling Plan? ? Buy the plan only where Microsoft sells it, and assign) Tj
+T* (it to the user. If it fails: A user in an unsupported country is given a Calling Plan SKU) Tj
+T* (that cannot be used.) Tj
+T* (Audio Conferencing ? The license that provides dial-in numbers for meetings. It is not Teams) Tj
+T* (Phone. Why it matters: Without it, outbound conference calls can route through Direct) Tj
+T* (Routing.) Tj
+T* (How do you approach Audio Conferencing? ? Assign it to people who must publish a dial-in) Tj
+T* (number. If it fails: Conference dial-out hits the SBC and the carrier bill surprises) Tj
+T* (finance.) Tj
+T* (Teams Premium ? An add-on for advanced meetings and related features. It does not replace) Tj
+T* (Teams Phone or a Calling Plan. Why it matters: Interview traps treat it as the PSTN license.) Tj
+T* (How do you approach Teams Premium? ? Buy it only for the meeting features you actually need.) Tj
+T* (If it fails: A design removes Calling Plans because Premium was purchased.) Tj
+T* (Teams Phone Resource Account license ? The license each auto attendant or call queue) Tj
+T* (resource account needs, even when the account has no phone number. Subscriptions with Teams) Tj
+T* (Phone include a zero-cost allotment you still have to acquire. Why it matters: Do not put) Tj
+T* (Teams Phone Standard on a resource account.) Tj
+T* (How do you approach Teams Phone Resource Account license? ? Assign this license. If you swap) Tj
+T* (off Teams Phone Standard, remove and add in the same license change. If it fails: Queues die) Tj
+T* (after a two-step license swap.) Tj
+T* (Pay-as-you-go Calling Plan ? A Calling Plan billed on use. Also the funding pattern, with) Tj
+T* (communications credits, for some voice-app outbound calls. Why it matters: External) Tj
+T* (transfers from a queue are not free just because users have Direct Routing.) Tj
+T* (How do you approach Pay-as-you-go Calling Plan? ? Fund the resource account when the) Tj
+T* (attendant or queue sends calls to an external number, uses callback, or places on-behalf) Tj
+T* (calls. If it fails: Overflow to a mobile number fails and the user Calling Plan is blamed.) Tj
+T* (Communications credits ? A balance used when a call is not covered by a Calling Plan minute.) Tj
+T* (Voice apps use it for some outbound cases. Why it matters: An empty balance looks like a) Tj
+T* (routing failure.) Tj
+T* (How do you approach Communications credits? ? Fund the balance and assign it where the) Tj
+T* (prerequisite article requires it. If it fails: The queue worked in the pilot week and) Tj
+T* (stopped when the credit ran out.) Tj
+T* (Shared Calling ? A pattern where users place outbound PSTN calls through a resource) Tj
+T* (account?s number instead of each having a number. Why it matters: It is not a free) Tj
+T* (substitute for every Calling Plan scenario. The shared number has its own license rules.) Tj
+T* (How do you approach Shared Calling? ? Read the current shared-calling prerequisites before) Tj
+T* (you promise it to a site. If it fails: Every user was left numberless and the resource) Tj
+T* (account was never funded.) Tj
+T* (Common area phone ? A shared handset. On Direct Routing it does not need a Calling Plan) Tj
+T* (license. Why it matters: People copy a user bundle onto a hallway phone.) Tj
+T* (How do you approach Common area phone? ? License the device for Teams and the phone scenario) Tj
+T* (you chose, then assign the number. If it fails: A Calling Plan was purchased for every) Tj
+ET
+endstream
+endobj
+4 0 obj
+<< /Length 3880 >>
+stream
+BT
+/F1 11 Tf
+50 780 Td
+14 TL
+(corridor phone on a Direct Routing design.) Tj
+T* (Teams Rooms license ? Rooms use their own SKU family, not a borrowed user Calling Plan.) Tj
+T* (Names such as Basic and Pro change. Check the current name. Why it matters: A room that) Tj
+T* (cannot join is often a license or a resource account, not a codec.) Tj
+T* (How do you approach Teams Rooms license? ? Assign the current room license to the room) Tj
+T* (account and keep Conditional Access from blocking the device. If it fails: The room account) Tj
+T* (has a user E5 stack and still fails sign-in policy.) Tj
+T* (Conditional Access ? Entra policy that can block a phone or a room that is not in the) Tj
+T* (trusted device set. Why it matters: Voice engineers see a SIP 200 and a device that never) Tj
+T* (registers.) Tj
+T* (How do you approach Conditional Access? ? Exclude or scope device sign-in on purpose. Do not) Tj
+T* (turn Conditional Access off as a test you leave in place. If it fails: Rooms fail on Monday) Tj
+T* (after a security change nobody told voice about.) Tj
+T* (Shortest media path ? Microsoft?s network guidance prefers a short path to the Microsoft) Tj
+T* (network, without a proxy in the media path. Why it matters: A proxy that was fine for web) Tj
+T* (traffic adds jitter to RTP.) Tj
+T* (How do you approach Shortest media path? ? Egress Teams media locally. Do not hairpin a) Tj
+T* (branch through a distant data center unless you mean to. If it fails: One city?s CQD is poor) Tj
+T* (and the firewall team finds a proxy.) Tj
+T* (VPN and real-time media ? Microsoft recommends that you avoid sending real-time Teams media) Tj
+T* (through a VPN. QoS on the VPN does not fix the extra delay. Why it matters: Split-tunnel) Tj
+T* (designs exist so media can go direct while other traffic stays on the VPN.) Tj
+T* (How do you approach VPN and real-time media? ? Test a call on the VPN and off it before you) Tj
+T* (blame the carrier. If it fails: Every remote user shows high RTT and the office does not.) Tj
+T* (ExpressRoute is optional ? Teams does not require ExpressRoute. Local internet egress is the) Tj
+T* (usual design. If you do use ExpressRoute, follow the current network article rather than) Tj
+T* (assuming media is happier there. Why it matters: A contract for ExpressRoute is not a QoS) Tj
+T* (design.) Tj
+T* (How do you approach ExpressRoute is optional? ? Decide the path, then mark DSCP on the path) Tj
+T* (you actually use. If it fails: Media was forced onto a long private path and RTT jumped.) Tj
+T* (QoS markers enabled ? The Teams admin center setting that allows clients to insert DSCP.) Tj
+T* (Without it, a correct ACL still sees unmarked client traffic from managed endpoints that) Tj
+T* (honor the policy. Why it matters: Mac and mobile hard-code some marks. Windows follows) Tj
+T* (policy.) Tj
+T* (How do you approach QoS markers enabled? ? Turn the insert-markers setting on, then verify) Tj
+T* (at the WAN edge. If it fails: The network is marked and the clients were never told to mark.) Tj
+T* (Three to five hops ? Microsoft?s planning note: keep the client-to-network-edge path short,) Tj
+T* (on the order of three to five hops, and the ISP-to-Microsoft edge short as well. Why it) Tj
+T* (matters: Each extra hop is a place a mark can be stripped.) Tj
+T* (How do you approach Three to five hops? ? Draw the path before you buy bandwidth. If it) Tj
+T* (fails: A branch hairpins through HQ and then out, adding hops and delay.) Tj
+T* (Layer-3 G.711 ? G.711 at 20 ms is 160 bytes of payload plus 40 bytes of IP, UDP, and RTP.) Tj
+T* (That is 80 kbit/s per direction. Why it matters: People quote 64 kbit/s and under-size the) Tj
+T* (link.) Tj
+T* (How do you approach Layer-3 G.711? ? Multiply by concurrent calls and by two directions when) Tj
+T* (both ways are busy. If it fails: Thirty calls were planned at 64 kbit/s and the link) Tj
+ET
+endstream
+endobj
+5 0 obj
+<< /Length 3845 >>
+stream
+BT
+/F1 11 Tf
+50 780 Td
+14 TL
+(saturated.) Tj
+T* (Ethernet G.711 ? Add an 18-byte Ethernet header to the G.711 20 ms packet and the figure is) Tj
+T* (87.2 kbit/s per direction. Why it matters: WAN sizing that stops at layer 3 is already short) Tj
+T* (on a LAN you police.) Tj
+T* (How do you approach Ethernet G.711? ? Use 87.2 kbit/s when the policer sees Ethernet. If it) Tj
+T* (fails: The policer drops the header you forgot.) Tj
+T* (Operator Connect ? A certified carrier manages PSTN for you inside the tenant. You need) Tj
+T* (Teams Phone. You do not need a Microsoft Calling Plan or your own SBC. Why it matters: It is) Tj
+T* (the low-operations option when your carrier is in the program.) Tj
+T* (How do you approach Operator Connect? ? Enable the operator in the admin center and assign) Tj
+T* (the numbers they provide. If it fails: Someone also builds a Direct Routing SBC for the same) Tj
+T* (numbers and the routes fight.) Tj
+T* (Operator Connect for India ? The India-specific operator model. It exists because India PSTN) Tj
+T* (rules are not the same as a generic Operator Connect deployment. Why it matters: A global) Tj
+T* (design that ignores it will fail a regulatory review.) Tj
+T* (How do you approach Operator Connect for India? ? Use the current India plan article and the) Tj
+T* (licensed operator there. If it fails: A UK SBC was proposed as the egress for an India) Tj
+T* (office.) Tj
+T* (Teams Phone Mobile ? The user?s mobile SIM number is also their Teams number, through a) Tj
+T* (certified mobile operator. Teams Phone is required. Why it matters: It fits frontline and) Tj
+T* (mobile workers, not a reception queue.) Tj
+T* (How do you approach Teams Phone Mobile? ? Assign the operator number to the user. Do not) Tj
+T* (also treat it as a spare Calling Plan. If it fails: One human has two different caller IDs) Tj
+T* (and the CRM matches neither.) Tj
+T* (Direct Routing ? You connect a certified SBC to Teams and bring your own carrier. Users need) Tj
+T* (Teams and Teams Phone. They must be homed online. Islands mode is not supported. Why it) Tj
+T* (matters: This is the option when you still own trunks, a PBX, analog, or a contact-center) Tj
+T* (SBC.) Tj
+T* (How do you approach Direct Routing? ? Pair the FQDN, open 5061, allow media ranges, assign a) Tj
+T* (voice route. If it fails: The SBC is up and the user has no voice routing policy.) Tj
+T* (Mixing PSTN options ? One tenant may use Calling Plans, Operator Connect, Teams Phone) Tj
+T* (Mobile, and Direct Routing at the same time for different users. Why it matters: A global) Tj
+T* (voice policy that assumes one carrier will misroute someone.) Tj
+T* (How do you approach Mixing PSTN options? ? Give each population a policy that matches its) Tj
+T* (carrier. If it fails: A mobile user matches a Direct Routing route and hairpins.) Tj
+T* (SIP proxies ? For commercial Microsoft 365, signal to sip.pstnhub.microsoft.com, then sip2,) Tj
+T* (then sip3, on TCP 5061. GCC High and DoD use different names. Why it matters: DNS can return) Tj
+T* (one address. The firewall must allow the published ranges, not that one answer.) Tj
+T* (How do you approach SIP proxies? ? Allow 52.112.0.0/14 and 52.120.0.0/14 as published on the) Tj
+T* (plan page, and re-check the page when you change firewalls. If it fails: A lockdown allows) Tj
+T* (only today?s DNS answer and the trunk fails next week.) Tj
+T* (Media ports for Direct Routing ? UDP 3478?3481 and 49152?53247 between the SBC and the media) Tj
+T* (processors, unless media bypass keeps the media off that path. Why it matters: People open) Tj
+T* (5061 and forget media, so signaling works and audio does not.) Tj
+T* (How do you approach Media ports for Direct Routing? ? Budget at least two media ports per) Tj
+T* (concurrent call on the SBC. If it fails: Calls connect and both sides hear silence.) Tj
+ET
+endstream
+endobj
+6 0 obj
+<< /Length 3813 >>
+stream
+BT
+/F1 11 Tf
+50 780 Td
+14 TL
+(Media re-targeting ? Microsoft does not support changing the media target in the middle of) Tj
+T* (an active Direct Routing call. Why it matters: A clever SBC feature that moves media mid-) Tj
+T* (call will not be a supported troubleshooting step.) Tj
+T* (How do you approach Media re-targeting? ? Negotiate media at setup and leave it. If it) Tj
+T* (fails: Audio dies when a transfer tries to move the RTP peer.) Tj
+T* (Two media ports per call ? Microsoft?s planning tip: allocate at least two media ports on) Tj
+T* (the SBC for each concurrent call. Why it matters: Port exhaustion looks like random one-way) Tj
+T* (audio.) Tj
+T* (How do you approach Two media ports per call? ? Size the SBC media range from the busy-hour) Tj
+T* (call count. If it fails: The 51st call connects with no audio.) Tj
+T* (Normalization ? The dial plan rewrites what a person dialed into a number the routes can) Tj
+T* (match, usually E.164. The first matching rule wins. Why it matters: A route for +44 will) Tj
+T* (never see 020.) Tj
+T* (How do you approach Normalization? ? Put the specific rules above the general ones. If it) Tj
+T* (fails: A catch-all rule is first, so the emergency rule never runs.) Tj
+T* (Tenant dial plan ? A set of normalization rules you assign to users. A user can have a more) Tj
+T* (specific plan than the tenant default. Why it matters: Two sites that dial local numbers) Tj
+T* (differently need two plans, not one heroic route.) Tj
+T* (How do you approach Tenant dial plan? ? Grant the plan to the user and test from that user.) Tj
+T* (If it fails: You edit the global plan and a branch with its own plan does not change.) Tj
+T* (PSTN usage ? A name that links a voice routing policy to one or more voice routes. The) Tj
+T* (policy?s ordered list of usages is the permission to place those calls. Why it matters:) Tj
+T* (Usages are how you let one site call internationally and another not.) Tj
+T* (How do you approach PSTN usage? ? Create the usage, attach routes, then put the usage on the) Tj
+T* (policy in the right order. If it fails: International works because the international usage) Tj
+T* (was left on a branch policy.) Tj
+T* (Voice route ? A number pattern plus an ordered list of SBC gateways. It does nothing until a) Tj
+T* (PSTN usage on the user?s policy points at it. Why it matters: The pattern is a regular) Tj
+T* (expression, not a CUCM route-pattern wildcard.) Tj
+T* (How do you approach Voice route? ? Anchor the pattern. Test with the normalized number, not) Tj
+T* (the raw digits. If it fails: The route expects 10 digits and the dial plan already added +1.) Tj
+T* (Voice routing policy ? The per-user list of PSTN usages, in order. Teams walks that order) Tj
+T* (when it looks for a route. Why it matters: Granting the wrong policy is the most common ?the) Tj
+T* (SBC is broken? ticket.) Tj
+T* (How do you approach Voice routing policy? ? Grant it to a test user and read it back with) Tj
+T* (Get-CsOnlineUser. If it fails: The pilot user is still on the global policy, which has no) Tj
+T* (usages.) Tj
+T* (Gateway priority ? Each voice route lists SBCs with a priority. Lower priority number is) Tj
+T* (tried first in this campus?s teaching model. Confirm the current article before you depend) Tj
+T* (on a tie. Why it matters: Failover is a list, not a wish.) Tj
+T* (How do you approach Gateway priority? ? Put the local SBC first and a remote SBC second,) Tj
+T* (then pull the cable in a maintenance window. If it fails: Both gateways are priority 1 and) Tj
+T* (nobody knows which one took the call.) Tj
+T* (Emergency short code ? 999, 112, and 911 must be normalized on purpose. A general rule that) Tj
+T* (runs first can swallow them. Why it matters: An emergency call that matches an international) Tj
+T* (route is a design defect.) Tj
+ET
+endstream
+endobj
+7 0 obj
+<< /Length 3866 >>
+stream
+BT
+/F1 11 Tf
+50 780 Td
+14 TL
+(How do you approach Emergency short code? ? Put emergency rules above catch-alls, and give) Tj
+T* (them a route that is always present. If it fails: A user dials 999 and the dial plan turns) Tj
+T* (it into an extension.) Tj
+T* (Auto attendant ? A voice app that answers, plays a greeting, and routes by schedule, menu,) Tj
+T* (directory, or operator. Why it matters: It is the front door. A broken menu is a broken) Tj
+T* (company number.) Tj
+T* (How do you approach Auto attendant? ? Create the attendant, attach a licensed resource) Tj
+T* (account, then assign a number only if the PSTN must reach it. If it fails: The menu option) Tj
+T* (points at a queue that has no agents and no overflow.) Tj
+T* (Call queue ? A voice app that holds callers and offers them to agents by attendant, serial,) Tj
+T* (round robin, or longest idle routing. Why it matters: Presence can skip someone who is) Tj
+T* (already busy, which changes who ?should? have rung.) Tj
+T* (How do you approach Call queue? ? Set timeout and overflow before you publish the number. If) Tj
+T* (it fails: The timeout is 3 seconds and callers always overflow.) Tj
+T* (Conference mode ? A queue behavior where the caller stays in the conference while agents are) Tj
+T* (tried, so the transfer is faster and the greeting is not replayed the same way. Why it) Tj
+T* (matters: Turning it off changes the caller experience and the failure sound.) Tj
+T* (How do you approach Conference mode? ? Test both modes with a real agent client before you) Tj
+T* (argue about delay. If it fails: Callers hear silence while the queue hunts, and someone) Tj
+T* (disables the queue.) Tj
+T* (Overflow ? Where the call goes when the queue is full or the timeout expires. It can be a) Tj
+T* (person, another voice app, voicemail, or an external number. Why it matters: An external) Tj
+T* (overflow needs funding on the resource account.) Tj
+T* (How do you approach Overflow? ? Name the overflow in the design, then test it by making) Tj
+T* (every agent busy. If it fails: Overflow to a mobile fails and the queue itself is blamed.) Tj
+T* (Directory search ? An attendant feature that lets a caller reach a person by name or) Tj
+T* (extension. Why it matters: It exposes the directory you did not mean to publish.) Tj
+T* (How do you approach Directory search? ? Scope who can be found. Do not leave the default if) Tj
+T* (the tenant has privileged accounts. If it fails: A caller reaches an executive because) Tj
+T* (directory search was on.) Tj
+T* (Holiday schedule ? A calendar the attendant uses to play the closed greeting. It is not the) Tj
+T* (same object as business hours. Why it matters: A holiday that is only in someone?s memory is) Tj
+T* (an open company on that day.) Tj
+T* (How do you approach Holiday schedule? ? Load the next year?s holidays when you build the) Tj
+T* (attendant. If it fails: The office is closed and the attendant still hunts the queue.) Tj
+T* (Dynamic emergency calling ? Teams picks a civic address from the network location it can) Tj
+T* (see: trusted IP, site, and subnet in the usual design. Why it matters: A VPN address must) Tj
+T* (not inherit the headquarters address.) Tj
+T* (How do you approach Dynamic emergency calling? ? Build the topology, assign addresses, and) Tj
+T* (test from a known subnet. If it fails: A laptop on the VPN reports the HQ floor.) Tj
+T* (Civic address ? The street address you validate for emergency calling. A dispatchable) Tj
+T* (location is specific enough for responders. Why it matters: A campus with one address and) Tj
+T* (five buildings is not specific.) Tj
+T* (How do you approach Civic address? ? Validate the address and tie subnets to places inside) Tj
+T* (it. If it fails: The PSAP gets a city and no building.) Tj
+T* (Trusted IP ? An address that means ?this client is inside our network.? It is how Teams) Tj
+ET
+endstream
+endobj
+8 0 obj
+<< /Length 3803 >>
+stream
+BT
+/F1 11 Tf
+50 780 Td
+14 TL
+(decides the client is on a site you mapped. Why it matters: If the trusted IP is the VPN) Tj
+T* (concentrator, every remote user looks internal.) Tj
+T* (How do you approach Trusted IP? ? List the real internet egress addresses, not the VPN pool,) Tj
+T* (unless you mean to. If it fails: Remote users inherit a building.) Tj
+T* (Emergency calling policy ? Controls notification and how the client looks up location. It is) Tj
+T* (not the PSTN route. Why it matters: You can have a perfect policy and still send the call to) Tj
+T* (the wrong SBC.) Tj
+T* (How do you approach Emergency calling policy? ? Pair the policy with a routing policy and a) Tj
+T* (tested number from the carrier. If it fails: Security is notified for a test call and the) Tj
+T* (route still left the country.) Tj
+T* (Direct Routing emergency ? You, the SBC, and the carrier deliver the emergency call.) Tj
+T* (Microsoft does not become the emergency carrier because Teams is the client. Why it matters:) Tj
+T* (PIDF-LO may be present. The carrier still has to accept the call.) Tj
+T* (How do you approach Direct Routing emergency? ? Build an emergency voice route that prefers) Tj
+T* (the local SBC. If it fails: 999 matches an international route via another country.) Tj
+T* (Calling Plan emergency ? With Microsoft Calling Plans in supported countries, Microsoft?s) Tj
+T* (emergency calling service is part of the plan. You still configure locations. Why it) Tj
+T* (matters: Direct Routing habits do not apply unchanged.) Tj
+T* (How do you approach Calling Plan emergency? ? Assign the Calling Plan and the emergency) Tj
+T* (addresses for those users. If it fails: A Calling Plan user is sent to your SBC for 911 by a) Tj
+T* (copied route.) Tj
+T* (Location-based routing ? Stops a user in a regulated site from placing a PSTN call through a) Tj
+T* (gateway in another site. It is a toll-bypass control. Why it matters: Media bypass can fight) Tj
+T* (it if media would egress in the wrong place.) Tj
+T* (How do you approach Location-based routing? ? Enable it per site with the network topology) Tj
+T* (and the gateways that belong there. If it fails: A traveler?s laptop in one country egresses) Tj
+T* (through another country?s SBC.) Tj
+T* (Survivable Branch Appliance ? A Direct Routing appliance that can keep local PSTN calling) Tj
+T* (when the branch cannot reach Microsoft 365. Why it matters: It is not a full Teams cloud.) Tj
+T* (Meetings and presence are not the survivable feature set.) Tj
+T* (How do you approach Survivable Branch Appliance? ? Deploy a supported appliance, point the) Tj
+T* (local clients at it, and test a WAN cut. If it fails: The office loses the WAN and nobody) Tj
+T* (can call emergency services.) Tj
+T* (Media bypass ? Media can flow between the Teams client and the SBC, skipping Microsoft?s) Tj
+T* (media processors. Signaling still goes through Teams. Why it matters: People hear ?bypass?) Tj
+T* (and think the SBC talks to Teams with no SIP proxy.) Tj
+T* (How do you approach Media bypass? ? Enable it on the gateway only when the client can reach) Tj
+T* (the SBC and LBR does not forbid the path. If it fails: Bypass is on for a VPN user and audio) Tj
+T* (is worse than the processor path.) Tj
+T* (Local media optimization ? A Direct Routing pattern with internal and external SBC) Tj
+T* (interfaces so a branch user stays on the local media path. Why it matters: It is more) Tj
+T* (specific than a single bypass flag.) Tj
+T* (How do you approach Local media optimization? ? Use the current media optimization article) Tj
+T* (and the SBC vendor?s build. If it fails: Internal users hairpin out to the internet and back) Tj
+T* (to the SBC on the same LAN.) Tj
+T* (SIP Gateway ? Microsoft?s front end for certain compatible analog and SIP devices that are) Tj
+ET
+endstream
+endobj
+9 0 obj
+<< /Length 4126 >>
+stream
+BT
+/F1 11 Tf
+50 780 Td
+14 TL
+(not Teams phones. Why it matters: It is not a substitute for a certified Direct Routing SBC.) Tj
+T* (How do you approach SIP Gateway? ? Check the current supported device list before you buy) Tj
+T* (handsets. If it fails: A generic analog adapter is plugged in and never registers.) Tj
+T* (Teams-certified phone ? A handset in Microsoft?s certified device program, signing in as a) Tj
+T* (Teams user. Why it matters: An uncertified SIP phone will not behave like a Teams client.) Tj
+T* (How do you approach Teams-certified phone? ? Buy from the current certified list and assign) Tj
+T* (Teams Phone plus a number. If it fails: A bargain SIP phone is forced through SIP Gateway) Tj
+T* (and the feature list is wrong.) Tj
+T* (SRTP ? The media encryption Direct Routing uses. Signaling is TLS. A successful INVITE with) Tj
+T* (plaintext RTP is not the design. Why it matters: One-way audio is often a port problem, not) Tj
+T* (a missing SRTP checkbox you invent.) Tj
+T* (How do you approach SRTP? ? Allow the UDP media range. Do not strip SRTP on the SBC. If it) Tj
+T* (fails: The SBC offers RTP/AVP only and the call fails or is unsupported.) Tj
+T* (TLS 1.2 ? Direct Routing signaling expects modern TLS. TLS 1.0 is not a compatible offer.) Tj
+T* (Why it matters: Old SBC firmware is a certificate problem and a protocol problem at once.) Tj
+T* (How do you approach TLS 1.2? ? Upgrade firmware and offer TLS 1.2 or newer toward the) Tj
+T* (proxies. If it fails: The handshake dies before OPTIONS.) Tj
+T* (Certificate SAN ? The name on the SBC certificate must match the FQDN you paired. Wildcards) Tj
+T* (are allowed when they follow RFC 2818. Why it matters: A certificate that is valid for the) Tj
+T* (website and not for sbc1.contoso.com still fails.) Tj
+T* (How do you approach Certificate SAN? ? Issue the certificate for the paired name. Include) Tj
+T* (the chain. If it fails: TLS fails with a name mismatch and someone restarts the SBC.) Tj
+T* (Microsoft trusted root ? The SBC certificate must come from a CA in Microsoft?s trusted root) Tj
+T* (program. A private lab CA is not enough for production pairing. Why it matters: Lab trunks) Tj
+T* (that use a private CA teach the wrong lesson.) Tj
+T* (How do you approach Microsoft trusted root? ? Use a public CA for the production FQDN. If it) Tj
+T* (fails: The trunk works in the lab and fails the morning you point it at sip.pstnhub.) Tj
+T* (Server Authentication EKU ? The certificate should include the server authentication) Tj
+T* (extended key usage. Why it matters: A client-auth-only certificate is the wrong object.) Tj
+T* (How do you approach Server Authentication EKU? ? Request the certificate from the SBC?s CSR) Tj
+T* (so the name and the EKU are right. If it fails: The chain is trusted and the EKU is still) Tj
+T* (wrong.) Tj
+T* (Call Analytics ? The per-user, per-call quality view in the Teams admin center. Use it when) Tj
+T* (one person had one bad call. Why it matters: It will not explain a building. That is CQD.) Tj
+T* (How do you approach Call Analytics? ? Open the user?s call and read jitter, loss, and RTT on) Tj
+T* (each stream. If it fails: A site problem is hunted one user at a time.) Tj
+T* (Call Quality Dashboard ? The aggregate quality report. Use it for subnets, buildings, and) Tj
+T* (trends. Why it matters: A single angry caller is the wrong entry point.) Tj
+T* (How do you approach Call Quality Dashboard? ? Confirm the subnet-to-building map before you) Tj
+T* (trust a building chart. If it fails: HQ looks terrible because the VPN pool was labeled HQ.) Tj
+T* (Poor stream clues ? Teach yourself to look at jitter, packet loss, and round-trip time) Tj
+T* (separately. A mark of DSCP 0 plus high jitter is a different fault from 12% loss with EF) Tj
+T* (still set. Why it matters: One ?poor? label hides the cause.) Tj
+T* (How do you approach Poor stream clues? ? Capture at the egress and compare with CQD. If it) Tj
+T* (fails: The ticket says ?Teams is down? and loss is 0.2% with a 600 ms RTT.) Tj
+T* (SIP ladder ? A time-ordered picture of requests and responses between client, proxy, SBC,) Tj
+ET
+endstream
+endobj
+10 0 obj
+<< /Length 3845 >>
+stream
+BT
+/F1 11 Tf
+50 780 Td
+14 TL
+(and carrier, joined by Call-ID. Why it matters: Without the Call-ID you are looking at two) Tj
+T* (different calls.) Tj
+T* (How do you approach SIP ladder? ? Capture on the SBC, filter the Call-ID, and read the first) Tj
+T* (non-success code. If it fails: Two captures are compared and they are different calls.) Tj
+T* (One hypothesis ? Change one thing, then collect the same evidence again. A reboot plus a) Tj
+T* (dial-plan edit plus a firewall change teaches nothing. Why it matters: Voice bridges punish) Tj
+T* (bundled changes.) Tj
+T* (How do you approach One hypothesis? ? Write the hypothesis, the change, and the capture you) Tj
+T* (expect. If it fails: Three vendors change three boxes and the call starts working for an) Tj
+T* (unknown reason.) Tj
+T* (Dynamics 365 Contact Center ? Microsoft?s contact-center product. It can stand alone or sit) Tj
+T* (with Customer Service. Voice uses Azure Communication Services under the covers. Why it) Tj
+T* (matters: It is not an auto attendant with extra steps.) Tj
+T* (How do you approach Dynamics 365 Contact Center? ? Deploy the environment, the channels, and) Tj
+T* (unified routing before you demo Copilot. If it fails: A pilot turns on Copilot and never) Tj
+T* (defines a queue.) Tj
+T* (Customer Service workspace ? The representative experience in Dynamics. Contact Center can) Tj
+T* (embed there or run as its own product surface. Why it matters: Buying Customer Service does) Tj
+T* (not automatically give you the contact-center voice channel.) Tj
+T* (How do you approach Customer Service workspace? ? Confirm embedded versus standalone in the) Tj
+T* (current implementation guide. If it fails: Agents look for the queue in the wrong app.) Tj
+T* (Workstream ? The intake pipe in unified routing. It classifies work and sends it to a queue.) Tj
+T* (Why it matters: A channel with no workstream is a number that rings nowhere useful.) Tj
+T* (How do you approach Workstream? ? Create the workstream, then the rules, then the queues. If) Tj
+T* (it fails: Chat and voice land in the same queue with no skill rules.) Tj
+T* (Work classification ? Rules that set skills, intent, or priority on a work item before) Tj
+T* (assignment. Why it matters: Without classification, capacity and skills have nothing to) Tj
+T* (read.) Tj
+T* (How do you approach Work classification? ? Test with two items that should land in different) Tj
+T* (queues. If it fails: French callers reach the English queue.) Tj
+T* (Capacity profile ? How many items of each type a representative can hold. A voice call) Tj
+T* (usually consumes more than a chat message. Why it matters: Agents look idle in one channel) Tj
+T* (and overloaded in another.) Tj
+T* (How do you approach Capacity profile? ? Set capacity, then watch a test item get stuck when) Tj
+T* (the number is zero. If it fails: The queue has agents and every item overflows.) Tj
+T* (Representative ? The human on the contact-center side. AB-250 calls the console the) Tj
+T* (representative experience. Why it matters: Do not confuse this person with a Teams resource) Tj
+T* (account.) Tj
+T* (How do you approach Representative? ? Give them a security role, a capacity profile, and a) Tj
+T* (queue membership. If it fails: The user can open the app and is not a member of any queue.) Tj
+T* (Copilot in the contact center ? Assistive summaries, suggested replies, and knowledge inside) Tj
+T* (the representative experience. It is not the PSTN route. Why it matters: A summary of the) Tj
+T* (wrong case is worse than no summary.) Tj
+T* (How do you approach Copilot in the contact center? ? Connect knowledge sources and test on a) Tj
+T* (known case. If it fails: Copilot answers from a stale article and the agent sends it.) Tj
+T* (AB-250 channels weight ? The published AB-250 study guide weights channel implementation at) Tj
+ET
+endstream
+endobj
+11 0 obj
+<< /Length 3938 >>
+stream
+BT
+/F1 11 Tf
+50 780 Td
+14 TL
+(about 30?35 percent, the largest slice. Why it matters: People over-study Copilot and under-) Tj
+T* (study voice, chat, and the other channels.) Tj
+T* (How do you approach AB-250 channels weight? ? Spend the study time on channel setup and) Tj
+T* (routing. If it fails: An exam candidate can describe Copilot and cannot trace a voice) Tj
+T* (channel.) Tj
+T* (Connect model ? A certified contact center attaches to Teams through certified SBCs and) Tj
+T* (Direct Routing. Why it matters: Microsoft?s note: the contact-center agent does not need a) Tj
+T* (phone-system license for that solution; a Teams user who receives a transfer does.) Tj
+T* (How do you approach Connect model? ? Confirm the vendor?s current certification, then design) Tj
+T* (the SBC and the transfer target?s license. If it fails: Transfers to experts fail because) Tj
+T* (the expert has no Teams Phone number.) Tj
+T* (Extend model ? The contact center uses the Teams client, Graph, and Cloud Communications) Tj
+T* (APIs. Teams Phone is the calling system and the agent works in Teams. Why it matters: This) Tj
+T* (is not ?we also installed their desktop.?) Tj
+T* (How do you approach Extend model? ? Read the Extend section of the contact-center article) Tj
+T* (before you license agents. If it fails: The design buys a Connect SBC for an Extend product.) Tj
+T* (Unify model ? The model Microsoft Learn names, as of 14 October 2026, for a native) Tj
+T* (experience. Partner material describes it as ACS-based applications on Teams calling) Tj
+T* (infrastructure. Older decks say Power. Ask which current model a vendor holds. Why it) Tj
+T* (matters: Licensing and media follow the model, not the sales adjective.) Tj
+T* (How do you approach Unify model? ? Get the vendor?s certification letter and match it to) Tj
+T* (Connect, Extend, or Unify. If it fails: A proposal says Power and nobody can find the media) Tj
+T* (path.) Tj
+T* (Teams Phone extensibility ? A way for a contact center, including Dynamics 365 Contact) Tj
+T* (Center, to use a customer?s existing Teams Phone for the agent?s telephony. Why it matters:) Tj
+T* (It is not a second carrier hidden in the app.) Tj
+T* (How do you approach Teams Phone extensibility? ? Use a solution that has finished the) Tj
+T* (certification if you want the supported experience. The API existing is not the same as a) Tj
+T* (finished certification. If it fails: Two phone systems ring the same person.) Tj
+T* (CUBE as a bridge ? Cisco Unified Border Element can be the certified SBC between Teams and) Tj
+T* (CUCM or a carrier. The IOS-XE release you run has its own guide. Why it matters: This campus) Tj
+T* (does not paste a production dial-peer.) Tj
+T* (How do you approach CUBE as a bridge? ? TLS to the three proxies, a certificate whose name) Tj
+T* (matches the paired FQDN, and dial-peers toward CUCM. If it fails: Early offer and codec) Tj
+T* (preferences are left at a lab default and calls 488.) Tj
+T* (One normalization owner ? During coexistence, either Teams or CUCM should transform numbers,) Tj
+T* (not both. Why it matters: Double +44 is a classic dual-running fault.) Tj
+T* (How do you approach One normalization owner? ? Write the owner on the design and test a call) Tj
+T* (in each direction. If it fails: CUCM adds a prefix and the Teams dial plan adds it again.) Tj
+T* (Tromboning ? A call from a user who stayed on CUCM to a user who moved to Teams hairpins) Tj
+T* (through the SBC. It is normal during dual-running and expensive as a steady state. Why it) Tj
+T* (matters: Media and licenses both feel it.) Tj
+T* (How do you approach Tromboning? ? Move groups that call each other in the same wave. If it) Tj
+T* (fails: The carrier bill rises and nobody left the building.) Tj
+T* (Webex calling bridge ? A SIP trunk through a local gateway or CUBE can carry calls between) Tj
+T* (Webex Calling users and Teams users during a split estate. Why it matters: Chat) Tj
+ET
+endstream
+endobj
+12 0 obj
+<< /Length 3734 >>
+stream
+BT
+/F1 11 Tf
+50 780 Td
+14 TL
+(interoperability is a different project from voice.) Tj
+T* (How do you approach Webex calling bridge? ? Treat it as coexistence with one numbering plan,) Tj
+T* (not as a merger. If it fails: Two dial plans both own the same range.) Tj
+T* (UCCE coexistence ? Contact-center agents can stay on CVP and Finesse while knowledge workers) Tj
+T* (move to Teams. The SBC sends contact-center numbers one way and user numbers another. Why it) Tj
+T* (matters: Putting an agent on a Teams client does not keep the CVP script in control.) Tj
+T* (How do you approach UCCE coexistence? ? Split the dial plan by number range and test a) Tj
+T* (transfer to an expert on Teams. If it fails: Agents move first and the IVR script can no) Tj
+T* (longer see them.) Tj
+T* (Genesys and Teams ? Genesys sells contact-center integrations with Teams. The certification) Tj
+T* (model, Connect, Extend, or Unify, decides the media path and the licenses. Why it matters:) Tj
+T* (Do not assume last year?s diagram.) Tj
+T* (How do you approach Genesys and Teams? ? Ask for the current Microsoft certification and) Tj
+T* (design to that model. If it fails: The statement of work says certified and does not name) Tj
+T* (the model.) Tj
+T* (Amazon Connect and Teams ? A customer pattern uses an SBC between Teams Direct Routing and) Tj
+T* (Amazon Connect or a SIP voice connector. It is a bridge you design, not a Microsoft Calling) Tj
+T* (Plan feature. Why it matters: Confirm the current vendor docs before you promise agent) Tj
+T* (whisper or recording.) Tj
+T* (How do you approach Amazon Connect and Teams? ? Draw the SIP path and the identifier you) Tj
+T* (will store. If it fails: Both platforms record and neither capture has the Call-ID.) Tj
+T* (Call Automation ? The ACS server-side calling API. Your app answers, plays, recognizes DTMF) Tj
+T* (or speech, and transfers. You receive events. You do not drive a desktop click. Why it) Tj
+T* (matters: It is the IVR runtime, not the Teams client.) Tj
+T* (How do you approach Call Automation? ? Subscribe to the events and time out the recognize) Tj
+T* (step. If it fails: The app never answers, so the caller hears ringing until the platform) Tj
+T* (gives up.) Tj
+T* (Calling SDK ? The ACS client SDK for a human in a browser or a mobile app. Different from) Tj
+T* (Call Automation, which is the server. Why it matters: Teams interop has its own requirements) Tj
+T* (on top of either one.) Tj
+T* (How do you approach Calling SDK? ? Pick the SDK if a person is on the page. Pick automation) Tj
+T* (if a bot answers. If it fails: A web page uses the calling SDK and nobody handles the server) Tj
+T* (events.) Tj
+T* (Recognize step ? The Call Automation action that collects DTMF or speech. It needs a timeout) Tj
+T* (and a path for ?none of the above.? Why it matters: A recognize step without an escape traps) Tj
+T* (the caller.) Tj
+T* (How do you approach Recognize step? ? Map 0 to a human queue and test it. If it fails: The) Tj
+T* (bot repeats the prompt until the caller hangs up.) Tj
+T* (Azure AI Speech ? Microsoft?s speech-to-text and text-to-speech service. Copilot Studio and) Tj
+T* (custom IVRs can use it. It is not emergency calling. Why it matters: A custom neural voice) Tj
+T* (has its own approval rules. Do not assume you can clone a person.) Tj
+T* (How do you approach Azure AI Speech? ? Choose a voice you are allowed to use and log the) Tj
+T* (recognition result. If it fails: The prompt language does not match the caller and every) Tj
+T* (intent is unknown.) Tj
+T* (Copilot Studio voice agent ? A bot built in Copilot Studio that can front a voice channel,) Tj
+T* (including Dynamics contact-center voice, using topics or generative orchestration. Why it) Tj
+ET
+endstream
+endobj
+13 0 obj
+<< /Length 3658 >>
+stream
+BT
+/F1 11 Tf
+50 780 Td
+14 TL
+(matters: Generative answers still need an escape to a human and a knowledge source you) Tj
+T* (trust.) Tj
+T* (How do you approach Copilot Studio voice agent? ? Publish the agent, attach it to the) Tj
+T* (channel, and test the escape digit. If it fails: The agent is the only target of the public) Tj
+T* (number, including emergencies.) Tj
+T* (Azure AI Foundry ? The Azure portal family for models, agents, and evaluations. The earlier) Tj
+T* (name was Azure AI Studio. It does not route PSTN. Why it matters: A model demo is not a) Tj
+T* (contact-center design.) Tj
+T* (How do you approach Azure AI Foundry? ? Evaluate a prompt against a test set before you put) Tj
+T* (it on a phone number. If it fails: A model change ships to the IVR with no eval.) Tj
+T* (Teams interop with ACS ? ACS can be set up to call Teams users and to join Teams meetings) Tj
+T* (when the interop prerequisites are met. Why it matters: A raw ACS number does not) Tj
+T* (automatically become a Teams user.) Tj
+T* (How do you approach Teams interop with ACS? ? Follow the current interop article for the) Tj
+T* (resource you created. If it fails: The bot can call the PSTN and cannot transfer to a Teams) Tj
+T* (expert.) Tj
+T* (MS-700 ? MS-700 is still live, with a skills update on Oct 27 2026; it is NOT retired and) Tj
+T* (has no replacement. It is the exam for Microsoft 365 Certified: Teams Administrator) Tj
+T* (Associate. Why it matters: Rumors that it was replaced by an MS-220 collaboration exam are) Tj
+T* (not what Learn says.) Tj
+T* (How do you approach MS-700? ? Study the current guide, including network and call-quality) Tj
+T* (objectives. There is no replacement exam. If it fails: A candidate skips networking because) Tj
+T* (they think the exam is only meetings.) Tj
+T* (MB-280 retired ? MB-280 retired Jul 31 2026, with AB-210 as its successor; AB-210 is in) Tj
+T* (beta. It covered Sales and Customer Insights, not the contact-center product. Why it) Tj
+T* (matters: People still put it on a contact-center study plan.) Tj
+T* (How do you approach MB-280 retired? ? Do not book MB-280. AB-210 is its successor and is in) Tj
+T* (beta. AB-250 is the contact-center exam. If it fails: A job post requires MB-280 after the) Tj
+T* (retirement date.) Tj
+T* (AB-210 ? Dynamics 365 Sales AI Consultant Associate. AB-210 is the successor to MB-280 and) Tj
+T* (is in beta. It is not a replacement for MS-700. Why it matters: It is the wrong exam for a) Tj
+T* (contact-center engineer.) Tj
+T* (How do you approach AB-210? ? Use AB-250 when the job is Dynamics 365 Contact Center. Use) Tj
+T* (AB-210 only for a sales role, and remember it is in beta. If it fails: Study time goes to) Tj
+T* (sales Copilot for a queue-routing role.) Tj
+T* (AB-250 ? Transforming Contact Center Experiences with AI in Dynamics 365. It earns Dynamics) Tj
+T* (365 Contact Center AI Engineer Associate. Pass mark is 700. The public page allows 120) Tj
+T* (minutes. Why it matters: The beta discount ran through 18 June 2026. Confirm the seat you) Tj
+T* (can book now.) Tj
+T* (How do you approach AB-250? ? Study deploy, channels, agents, work distribution, the) Tj
+T* (representative experience, and analytics. If it fails: A candidate revises MB-280 practice) Tj
+T* (tests for this exam.) Tj
+T* (AZ-900 ? Azure Fundamentals. It was not on the retirement list reviewed on 14 October 2026.) Tj
+T* (Why it matters: Useful context for ACS and Speech. It will not teach you a dial plan.) Tj
+T* (How do you approach AZ-900? ? Take it if you need Azure vocabulary, not instead of MS-700.) Tj
+T* (If it fails: A voice design is approved because someone passed AZ-900.) Tj
+ET
+endstream
+endobj
+14 0 obj
+<< /Length 3721 >>
+stream
+BT
+/F1 11 Tf
+50 780 Td
+14 TL
+(SC-900 ? Security, Compliance, and Identity Fundamentals. The English certification is) Tj
+T* (scheduled to update on 21 October 2026. Why it matters: It frames Entra ID and compliance.) Tj
+T* (It does not configure an SBC.) Tj
+T* (How do you approach SC-900? ? Read the current study guide after the 21 October update if) Tj
+T* (you sit it later. If it fails: Conditional Access is treated as out of scope for a voice) Tj
+T* (project.) Tj
+T* (MS-900 retired ? Microsoft 365 Fundamentals retired on 31 March 2026. Why it matters: Do not) Tj
+T* (recommend it as the starting exam.) Tj
+T* (How do you approach MS-900 retired? ? Use role exams and the product docs. If it fails: A) Tj
+T* (learning path still tells a new hire to book MS-900.) Tj
+T* (AI-900 retired ? Azure AI Fundamentals retired on 30 June 2026. Why it matters: Speech and) Tj
+T* (Copilot Studio are learned from their own docs now.) Tj
+T* (How do you approach AI-900 retired? ? Do not use a retired fundamentals exam as the AI plan.) Tj
+T* (If it fails: The study plan lists AI-900 beside AB-250.) Tj
+T* (Passing score 700 ? Microsoft role-based exams, including MS-700 and AB-250, require 700 out) Tj
+T* (of 1000. Why it matters: A practice percentage is not the same scale unless the practice) Tj
+T* (says so.) Tj
+T* (How do you approach Passing score 700? ? Use the official practice assessment when one) Tj
+T* (exists. If it fails: Someone stops studying at a 70 percent practice score on a different) Tj
+T* (scale.) Tj
+T* (Convenience recording ? A user starts a recording of a call, meeting, or event. Policy can) Tj
+T* (allow it. The user can stop it. Storage follows meeting rules. Why it matters: It is not a) Tj
+T* (compliance program. Guests cannot start it.) Tj
+T* (How do you approach Convenience recording? ? Set the meeting, calling, and events policies) Tj
+T* (on purpose. If it fails: A regulated desk is told to ?just hit record.?) Tj
+T* (Compliance recording ? A third-party recorder is invited by policy into new calls, meetings,) Tj
+T* (and events. The user does not start it and participant consent is not the control.) Tj
+T* (Notification is enforced. Why it matters: The comparison table says audio-only is not the) Tj
+T* (compliance mode. Media listed is voice, video, and screen share.) Tj
+T* (How do you approach Compliance recording? ? Create the application instance, enable the) Tj
+T* (policy, grant it, and test a new call. If it fails: The policy is granted and nothing) Tj
+T* (records because the bot instance was never created.) Tj
+T* (Compliance recording application ? The bot instance of a certified recorder. The policy) Tj
+T* (references it. Without it, granting the policy does not record. Why it matters: Work with) Tj
+T* (the recorder vendor for the application ID. Do not invent one.) Tj
+T* (How do you approach Compliance recording application? ? New-) Tj
+T* (CsTeamsComplianceRecordingApplication attaches it to the policy. If it fails: Recording) Tj
+T* (works in the vendor?s cloud and never joins the Teams call.) Tj
+T* (Existing calls are unaffected ? When you grant a compliance recording policy, calls and) Tj
+T* (meetings already up are not swept in. Test with a new call. Why it matters: A pilot that) Tj
+T* (reuses an open meeting proves nothing.) Tj
+T* (How do you approach Existing calls are unaffected? ? Place a fresh call after the grant and) Tj
+T* (confirm the bot joined. If it fails: The pilot says recording failed because they watched an) Tj
+T* (old meeting.) Tj
+T* (Quality management ? Listening to and scoring recorded interactions. Often the same vendor) Tj
+T* (as compliance recording, sometimes a separate one. Why it matters: QM needs the recording) Tj
+ET
+endstream
+endobj
+15 0 obj
+<< /Length 3767 >>
+stream
+BT
+/F1 11 Tf
+50 780 Td
+14 TL
+(first. A score without audio is a rumor.) Tj
+T* (How do you approach Quality management? ? Define the form, the sample, and who may listen.) Tj
+T* (If it fails: Supervisors export recordings to a laptop share.) Tj
+T* (Workforce management ? Scheduling and adherence for a queue. It eats interval stats, handle) Tj
+T* (time, and shrinkage. It is not a feature of a Teams user policy. Why it matters: Teams Call) Tj
+T* (Analytics will not staff next Tuesday.) Tj
+T* (How do you approach Workforce management? ? Feed offered, answered, abandoned, and handle) Tj
+T* (time from the queue or the CCaaS. If it fails: WFM says you were overstaffed while the queue) Tj
+T* (overflowed, because overflow removed the calls from the count.) Tj
+T* (Shrinkage ? The fraction of paid time that is not available for contacts: leave, training,) Tj
+T* (meetings, breaks. Why it matters: Erlang C tells you how many people must be on the phone.) Tj
+T* (Shrinkage tells you how many to roster.) Tj
+T* (How do you approach Shrinkage? ? Publish the assumption. A 30 percent guess should be) Tj
+T* (labeled as a guess. If it fails: The schedule staffs the Erlang number and half the team is) Tj
+T* (in training.) Tj
+T* (Occupancy ? Handle time divided by handle time plus available time. High occupancy feels) Tj
+T* (efficient and burns people out. Why it matters: WFM and quality fight here.) Tj
+T* (How do you approach Occupancy? ? Watch it beside service level, not instead of service) Tj
+T* (level. If it fails: A site celebrates 95 percent occupancy and abandonment climbs.) Tj
+T* (Service level ? The fraction of contacts answered inside a target, for example 80 percent in) Tj
+T* (20 seconds. Erlang C is one teaching model of it. Why it matters: Averages hide the tail.) Tj
+T* (How do you approach Service level? ? Write the target, the interval, and the abandonment) Tj
+T* (rule. If it fails: Two vendors compute abandoned calls differently and both claim the) Tj
+T* (target.) Tj
+T* (Power BI and CQD ? Power BI can sit on top of Call Quality Dashboard data. It does not) Tj
+T* (replace Call Analytics for one call, and it inherits a bad subnet map. Why it matters: A) Tj
+T* (pretty report of the wrong building is still wrong.) Tj
+T* (How do you approach Power BI and CQD? ? Fix the building and subnet dimensions before you) Tj
+T* (publish a dashboard. If it fails: Leadership sees a red HQ that is actually the VPN pool.) Tj
+T* (Screen pop ? The CRM opens the contact that matches the caller. Teams does not do this by) Tj
+T* (itself for an ordinary PSTN call. Why it matters: The contact center or a middleware has to) Tj
+T* (pass an E.164 number or a case id.) Tj
+T* (How do you approach Screen pop? ? Normalize before the lookup. Store the Call-ID on the) Tj
+T* (timeline. If it fails: The pop shows the wrong person because the trunk prefix was still on) Tj
+T* (the number.) Tj
+T* (E.164 ? The international form of a number, starting with + and a country code. Routes and) Tj
+T* (CRM lookups should use it after normalization. Why it matters: Raw digits mean different) Tj
+T* (things in different countries.) Tj
+T* (How do you approach E.164? ? Normalize first, then route, then look up. If it fails: The CRM) Tj
+T* (stores 0207? and the SBC stores +44207? and they never join.) Tj
+T* (Call-ID ? The SIP header that identifies one dialog. It is the join key between an SBC) Tj
+T* (capture, a carrier ticket, and a CRM note. Why it matters: A timestamp is not an identifier.) Tj
+T* (Two calls start in the same second.) Tj
+T* (How do you approach Call-ID? ? Write the Call-ID into the system you will have open during) Tj
+T* (an incident. If it fails: Support has a CRM case and an SBC log and cannot prove they are) Tj
+T* (the same call.) Tj
+ET
+endstream
+endobj
+16 0 obj
+<< /Length 3877 >>
+stream
+BT
+/F1 11 Tf
+50 780 Td
+14 TL
+(Integration seam ? A named place where another system is allowed to attach: a policy, a) Tj
+T* (queue overflow, a subnet list, an event, an identifier. Why it matters: A seam you do not) Tj
+T* (name becomes a rewrite.) Tj
+T* (How do you approach Integration seam? ? Document the seam in the same change as the feature.) Tj
+T* (If it fails: Recording is added a year later and the number plan has to change.) Tj
+T* (Human escape ? A digit or intent that always reaches a person. Voice agents need one.) Tj
+T* (Emergency numbers need a real route, not a bot. Why it matters: A bot that cannot fail open) Tj
+T* (will trap callers.) Tj
+T* (How do you approach Human escape? ? Test the escape on every prompt change. If it fails: The) Tj
+T* (prompt says ?say agent? and the recognize step has no such intent.) Tj
+T* (Certificate expiry seam ? The date the SBC certificate stops being valid. It is an) Tj
+T* (integration hook because every carrier and every proxy will notice it on the same morning.) Tj
+T* (Why it matters: Calendar it like a license, not like a surprise.) Tj
+T* (How do you approach Certificate expiry seam? ? Monitor the date and renew before the TLS) Tj
+T* (handshake fails. If it fails: OPTIONS fail on a Saturday and the dial plan is blamed.) Tj
+T* (Subnet as a shared list ? The same subnet definitions should feed emergency location,) Tj
+T* (location-based routing, and the CQD building report. Why it matters: Three spreadsheets) Tj
+T* (drift.) Tj
+T* (How do you approach Subnet as a shared list? ? Give one team the edit right and publish the) Tj
+T* (list. If it fails: E911 says London, CQD says VPN, LBR says Manchester.) Tj
+T* (Queue interval ? A 15-minute or 30-minute bucket of offered, answered, and abandoned) Tj
+T* (contacts. WFM and Erlang C both assume you know the bucket. Why it matters: Mixing daily) Tj
+T* (totals into a 30-minute formula is a unit error.) Tj
+T* (How do you approach Queue interval? ? Export the same interval the schedule uses. If it) Tj
+T* (fails: The forecast is ten times too high because the interval was a day.) Tj
+T* (Abandon ? A caller who hangs up before an agent answers. Whether short abandons count is a) Tj
+T* (business rule. Why it matters: Two reports with different abandon rules cannot be compared.) Tj
+T* (How do you approach Abandon? ? Write the rule down and use it in WFM and in the service-) Tj
+T* (level report. If it fails: Service level is met only because abandons under five seconds) Tj
+T* (were deleted.) Tj
+T* (Average handle time ? Talk time plus after-call work, unless your definition says otherwise.) Tj
+T* (Erlang traffic is calls times handle time divided by the interval. Why it matters: A handle) Tj
+T* (time that forgets after-call work understaffs the queue.) Tj
+T* (How do you approach Average handle time? ? Measure it from the contact center, not from a) Tj
+T* (stopwatch on one call. If it fails: The Erlang sheet uses talk time only and the agents) Tj
+T* (never finish wrap-up.) Tj
+T* (PIDF-LO ? A location object that can be carried in a SIP INVITE for an emergency call so the) Tj
+T* (far end sees where the caller is. Why it matters: It does not replace a carrier who knows) Tj
+T* (how to route emergency calls in that country.) Tj
+T* (How do you approach PIDF-LO? ? Confirm the SBC passes it and the carrier reads it. If it) Tj
+T* (fails: The location is stripped at the SBC and the PSAP gets the trunk?s address only.) Tj
+T* (On-site notification ? An emergency calling policy can notify people on site when an) Tj
+T* (emergency call is placed. Why it matters: Security who are not notified will meet the) Tj
+T* (responders in the wrong lobby.) Tj
+T* (How do you approach On-site notification? ? Test the notification with the carrier?s test) Tj
+T* (process, not with a real emergency call. If it fails: The test notifies nobody because the) Tj
+ET
+endstream
+endobj
+17 0 obj
+<< /Length 3859 >>
+stream
+BT
+/F1 11 Tf
+50 780 Td
+14 TL
+(policy was never assigned.) Tj
+T* (GCC High SIP ? Office 365 GCC High uses sip.pstnhub.gov.teams.microsoft.us. Do not copy the) Tj
+T* (commercial three-proxy list into a government tenant. Why it matters: The commercial names) Tj
+T* (will not be the signaling peers.) Tj
+T* (How do you approach GCC High SIP? ? Read the plan page for the cloud you are actually in. If) Tj
+T* (it fails: A commercial runbook is pasted into GCC High.) Tj
+T* (DoD SIP ? Office 365 DoD uses sip.pstnhub.dod.teams.microsoft.us. Why it matters: Same) Tj
+T* (failure as using commercial names in the wrong cloud.) Tj
+T* (How do you approach DoD SIP? ? Use the DoD name from the current plan page. If it fails: The) Tj
+T* (SBC peers with sip.pstnhub.microsoft.com from a DoD tenant.) Tj
+T* (IPv6 SIP proxies ? The plan page also lists sip.ipv6.pstnhub.microsoft.com and the sip2 and) Tj
+T* (sip3 IPv6 names, resolving into 2603:1063:400::/40. Why it matters: An IPv6-only SBC that) Tj
+T* (was given the IPv4 names never peers.) Tj
+T* (How do you approach IPv6 SIP proxies? ? Match the address family you actually route. If it) Tj
+T* (fails: Firewall objects exist only for IPv4.) Tj
+T* (Early offer ? Teams Direct Routing presents media in the INVITE. An SBC or CUBE that waits) Tj
+T* (for a delayed offer will negotiate badly. Why it matters: 488 and one-way audio show up when) Tj
+T* (the offer model is wrong.) Tj
+T* (How do you approach Early offer? ? Set the vendor profile for early offer toward Teams. If) Tj
+T* (it fails: CUCM sends delayed offer all the way to Teams.) Tj
+T* (AudioCodes ? A certified SBC family. Mediant devices and their management tools are common) Tj
+T* (in Direct Routing designs. The Microsoft certified list is the support boundary, the vendor) Tj
+T* (guide is the config. Why it matters: Naming the brand is not a design.) Tj
+T* (How do you approach AudioCodes? ? Follow AudioCodes? current Teams document for the firmware) Tj
+T* (you run. If it fails: A forum config from 2019 is pasted onto new firmware.) Tj
+T* (Ribbon SBC ? Ribbon?s certified session border controllers are a Direct Routing option. Core) Tj
+T* (and software editions differ. Why it matters: The support path is Ribbon first, then) Tj
+T* (Microsoft if the vendor escalates.) Tj
+T* (How do you approach Ribbon SBC? ? Use Ribbon?s current Teams guide and a public certificate.) Tj
+T* (If it fails: OPTIONS are answered on the wrong interface.) Tj
+T* (Oracle SBC ? Oracle Communications Session Border Controller can be certified for Direct) Tj
+T* (Routing on specific releases. Check the Microsoft list for the release, not the logo. Why it) Tj
+T* (matters: An unlisted release is an unsupported trunk.) Tj
+T* (How do you approach Oracle SBC? ? Match the certified software version and the certificate) Tj
+T* (name. If it fails: The beautiful config is one release below the certified list.) Tj
+T* (Cisco CUBE ? Cisco Unified Border Element on IOS-XE, when the release is certified, is a) Tj
+T* (normal Direct Routing SBC and the usual bridge to CUCM. Why it matters: CUBE is still an) Tj
+T* (SBC. It does not make Teams ?speak SCCP.?) Tj
+T* (How do you approach Cisco CUBE? ? Use Cisco?s current CUBE for Teams guide. Trust the) Tj
+T* (signaling ranges. Present the paired name. If it fails: A voice engineer applies a SIP trunk) Tj
+T* (to CUCM and never peers with the pstnhub names.) Tj
+T* (Vendor-first support ? Microsoft?s Direct Routing support boundary: you call the SBC vendor,) Tj
+T* (they escalate to Microsoft if they must. Non-certified SBCs can be refused. Why it matters:) Tj
+T* (Opening a Microsoft case with a homemade SBC wastes the outage.) Tj
+T* (How do you approach Vendor-first support? ? Keep the certified-list screenshot with the) Tj
+T* (firmware version. If it fails: A ticket is opened with no SBC logs and no firmware.) Tj
+ET
+endstream
+endobj
+18 0 obj
+<< /Length 3738 >>
+stream
+BT
+/F1 11 Tf
+50 780 Td
+14 TL
+(Analog via Direct Routing ? Fax, door phones, and elevators usually stay on an SBC or SIP) Tj
+T* (Gateway, not on a Teams client. Why it matters: A Calling Plan user license does not give) Tj
+T* (you an elevator phone.) Tj
+T* (How do you approach Analog via Direct Routing? ? Put analog on the SBC design and test the) Tj
+T* (emergency path from that device. If it fails: The elevator is moved to Teams as a user and) Tj
+T* (cannot dial during a WAN cut.) Tj
+T* (Presence-based routing ? A queue can skip agents whose Teams presence says they are busy or) Tj
+T* (in a meeting. Why it matters: An agent who never sets presence will take every serial call) Tj
+T* (or none, depending on the rest of the design.) Tj
+T* (How do you approach Presence-based routing? ? Decide the presence rule and test with one) Tj
+T* (agent in a meeting. If it fails: Agents set themselves to Do Not Disturb to leave the queue,) Tj
+T* (and nobody notices for a week.) Tj
+T* (Opt out of a queue ? Agents can be allowed to leave a queue. If you forbid it, staffing math) Tj
+T* (must include breaks or they will dodge in other ways. Why it matters: WFM adherence and the) Tj
+T* (queue opt-out flag are the same argument.) Tj
+T* (How do you approach Opt out of a queue? ? Pick one policy and tell the supervisors. If it) Tj
+T* (fails: The schedule says five agents and three have opted out.) Tj
+T* (Callback ? A queue feature that calls the customer back. The prerequisite article treats) Tj
+T* (callback as a case that needs funding on the resource account. Why it matters: Callback is) Tj
+T* (an outbound PSTN call, not a setting with no carrier.) Tj
+T* (How do you approach Callback? ? Fund pay-as-you-go or credits, then test one callback. If it) Tj
+T* (fails: The option is on and every callback fails.) Tj
+T* (Graph communications ? Microsoft Graph APIs used by Extend and by recording and presence) Tj
+T* (integrations. They are not a SIP trunk. Why it matters: A design that says ?we will use) Tj
+T* (Graph instead of an SBC? still needs a PSTN path.) Tj
+T* (How do you approach Graph communications? ? Use Graph for the app, and Calling Plans,) Tj
+T* (Operator Connect, or Direct Routing for the telephone network. If it fails: Presence is) Tj
+T* (synced and audio is not connected.) Tj
+T* (Policy recording bot join ? The recorder joins as an application because the user?s policy) Tj
+T* (names it. If the bot fails to join, you have a policy, an ID, or a media problem, in that) Tj
+T* (order. Why it matters: Do not start with the carrier.) Tj
+T* (How do you approach Policy recording bot join? ? Check Enabled, the application instance,) Tj
+T* (and the grant, then the vendor?s join log. If it fails: The carrier is asked for a recording) Tj
+T* (they never made.) Tj
+T* (Retention of recordings ? Compliance recordings are retained by the partner?s system, not by) Tj
+T* (Teams meeting storage. Convenience recordings follow meeting storage. Why it matters: Legal) Tj
+T* (hold on a mailbox does not automatically hold the partner?s audio.) Tj
+T* (How do you approach Retention of recordings? ? Write the retention in the partner contract) Tj
+T* (and test a restore. If it fails: A regulator asks for a call and the partner?s bucket) Tj
+T* (expired.) Tj
+T* (Evaluation form ? The QM scorecard. It should cite behaviors you can hear, not vibes. Why it) Tj
+T* (matters: A form that scores ?professionalism? without a definition will not survive an) Tj
+T* (argument.) Tj
+T* (How do you approach Evaluation form? ? Publish the form before you score people. If it) Tj
+T* (fails: Agents are coached on a form they have never seen.) Tj
+T* (Screen recording ? Often a QM vendor feature on the agent desktop. Teams compliance) Tj
+ET
+endstream
+endobj
+19 0 obj
+<< /Length 3671 >>
+stream
+BT
+/F1 11 Tf
+50 780 Td
+14 TL
+(recording?s documented media list is voice, video, and screen share inside the Teams) Tj
+T* (session, which is not the same as a silent desktop recorder. Why it matters: Do not claim) Tj
+T* (Teams records the CRM screen unless the product you bought does.) Tj
+T* (How do you approach Screen recording? ? If you need the desktop, buy and disclose that) Tj
+T* (recorder. If it fails: A privacy review finds a desktop recorder nobody mentioned.) Tj
+T* (Building map ? The table that says which subnet is which building in CQD. It is only as good) Tj
+T* (as the subnets you typed. Why it matters: A wrong building makes a dashboard accuse the) Tj
+T* (wrong LAN.) Tj
+T* (How do you approach Building map? ? Reconcile it with the emergency subnet list. If it) Tj
+T* (fails: Facilities rebuilds a floor and both maps stay old.) Tj
+T* (Admin roles for CQD ? CQD is an admin report, not a personal call history. The people who) Tj
+T* (can open it are the roles you grant, not every user. Why it matters: A manager with no role) Tj
+T* (will ask for a screenshot instead of access.) Tj
+T* (How do you approach Admin roles for CQD? ? Grant the smallest role that can see the report.) Tj
+T* (If it fails: CQD credentials are shared.) Tj
+T* (After-call work ? Time the agent spends in the CRM after the caller hangs up. Include it in) Tj
+T* (handle time if your WFM definition says so. Why it matters: Leaving it out makes Erlang C) Tj
+T* (look generous.) Tj
+T* (How do you approach After-call work? ? Define it and measure it from the contact-center) Tj
+T* (state, not from memory. If it fails: Agents are ?available? in Teams while still writing the) Tj
+T* (case.) Tj
+T* (Skill-based routing ? Assignment that prefers a representative who has the skill the) Tj
+T* (classification step wrote on the work item. Why it matters: Skills that exist on a slide and) Tj
+T* (not on the user do nothing.) Tj
+T* (How do you approach Skill-based routing? ? Attach skills to people and to the classification) Tj
+T* (rules, then test a miss. If it fails: Every item requires a skill nobody has, so the queue) Tj
+T* (never assigns.) Tj
+T* (Intent-based routing ? Classification that uses an intent, often from a bot or a model, to) Tj
+T* (pick a queue. Why it matters: An intent of ?unknown? needs a default queue.) Tj
+T* (How do you approach Intent-based routing? ? Map unknown to a human, not to a retry loop. If) Tj
+T* (it fails: The model returns unknown and the caller is played the same prompt.) Tj
+T* (Proactive outbound ? Contact-center campaigns that place calls outward. They need a number,) Tj
+T* (a consent story, and a capacity plan. Why it matters: They are not a Teams user?s personal) Tj
+T* (redial.) Tj
+T* (How do you approach Proactive outbound? ? Follow the current channel article for outbound,) Tj
+T* (and fund the numbers. If it fails: A campaign uses a user?s caller ID and the CRM trust) Tj
+T* (collapses.) Tj
+T* (Real-time translation ? A channel feature that can translate a conversation. It is not a) Tj
+T* (substitute for a language queue when the policy says a human must speak the language. Why it) Tj
+T* (matters: Translation errors in a regulated script are your errors.) Tj
+T* (How do you approach Real-time translation? ? Decide where translation is allowed and where a) Tj
+T* (skilled human is required. If it fails: A billing dispute is translated badly and the case) Tj
+T* (notes disagree.) Tj
+T* (Knowledge source ? The documents a Copilot or a generative agent is allowed to quote. If the) Tj
+T* (source is wrong, the answer is wrong with confidence. Why it matters: Ground the agent or do) Tj
+T* (not put it on the phone.) Tj
+ET
+endstream
+endobj
+20 0 obj
+<< /Length 3777 >>
+stream
+BT
+/F1 11 Tf
+50 780 Td
+14 TL
+(How do you approach Knowledge source? ? Limit the sources and test questions whose answers) Tj
+T* (you already know. If it fails: The agent quotes a retired price list.) Tj
+T* (Generative orchestration ? The Copilot Studio mode that chooses topics and tools from the) Tj
+T* (conversation, as opposed to a rigid topic tree. Why it matters: It needs tighter safety) Tj
+T* (because the path is not a single menu.) Tj
+T* (How do you approach Generative orchestration? ? Keep the human escape outside the model?s) Tj
+T* (mood. If it fails: The agent talks a caller out of the escape phrase.) Tj
+T* (Classic topics ? The menu-like Copilot Studio design. Predictable and easier to test. Weaker) Tj
+T* (on paraphrase. Why it matters: Use it when the call must follow a script.) Tj
+T* (How do you approach Classic topics? ? Write the topics, the entities, and the fallback. If) Tj
+T* (it fails: Fallback is empty and the caller hears silence.) Tj
+T* (Event Grid ? One way ACS delivers call events to your app. If the subscription is wrong,) Tj
+T* (your IVR never sees RecognizeCompleted. Why it matters: The call can be up and your code) Tj
+T* (asleep.) Tj
+T* (How do you approach Event Grid? ? Log the event type and the call id. If it fails: The app) Tj
+T* (polls a database and the events expired.) Tj
+T* (DTMF relay ? Digits in the audio path or as telephone-events. IVRs fail when the SBC strips) Tj
+T* (them. Why it matters: A human can talk and the bot never hears 1.) Tj
+T* (How do you approach DTMF relay? ? Test digits through every SBC, not only Teams-to-Teams. If) Tj
+T* (it fails: The queue escape works in the lab and fails through the carrier.) Tj
+T* (Comfort noise and SID ? Silence suppression changes the average bitrate. Do not size a link) Tj
+T* (only from a G.711 average that assumed comfort noise you did not enable. Why it matters: The) Tj
+T* (peak is still the number that fills the queue.) Tj
+T* (How do you approach Comfort noise and SID? ? Size for the codec you offer, per direction, at) Tj
+T* (the packetization you set. If it fails: The link was sized for silence and the all-hands) Tj
+T* (call filled it.) Tj
+T* (Packetization 20 ms ? The usual voice packet interval in these bandwidth figures. A 10 ms) Tj
+T* (interval doubles the header tax. Why it matters: Changing ptime on the SBC changes the) Tj
+T* (bandwidth you planned.) Tj
+T* (How do you approach Packetization 20 ms? ? Lock ptime in the design. If it fails: One SBC) Tj
+T* (uses 10 ms and the policer drops packets.) Tj
+T* (Jitter buffer ? The client waits a little so late packets can still be played. Too small and) Tj
+T* (you hear gaps. Too large and you talk over each other. Why it matters: CQD jitter and the) Tj
+T* (buffer are related and not the same number.) Tj
+T* (How do you approach Jitter buffer? ? Fix the network before you hunt a hidden buffer) Tj
+T* (setting. If it fails: A WAN with 40 ms jitter is ?fixed? by a slide that says buffer.) Tj
+T* (Round-trip time ? How long a packet takes to go and come back. Long RTT with low loss means) Tj
+T* (distance or hairpin, not a dirty cable. Why it matters: People add bandwidth and the delay) Tj
+T* (stays.) Tj
+T* (How do you approach Round-trip time? ? Look at the path. Bypass or local egress may beat a) Tj
+T* (fatter pipe. If it fails: A branch backhauls media across a continent.) Tj
+T* (DSCP rewrite ? A router or VPN that sets the mark back to 0. The client did its job and the) Tj
+T* (path undid it. Why it matters: Verify at the egress, not only on the PC.) Tj
+T* (How do you approach DSCP rewrite? ? Capture outside the VPN. If it fails: The laptop shows) Tj
+T* (EF and the WAN sees 0.) Tj
+T* (Browser join ports ? People who join meetings in a browser do not use the fixed 50000-range) Tj
+ET
+endstream
+endobj
+21 0 obj
+<< /Length 3855 >>
+stream
+BT
+/F1 11 Tf
+50 780 Td
+14 TL
+(client ports. An ACL that only matches those ports misses them. Why it matters: QoS designs) Tj
+T* (that ignore browsers miss a real population.) Tj
+T* (How do you approach Browser join ports? ? Say so in the design if many people join from) Tj
+T* (browsers. If it fails: Guests sound worse and the ACL is declared complete.) Tj
+T* (Mac and mobile DSCP ? Mac, iOS, and Android use hard-coded audio EF and a hard-coded video) Tj
+T* (and sharing mark. They are not the Windows policy object. Why it matters: A Windows-only QoS) Tj
+T* (rollout looks done and is not.) Tj
+T* (How do you approach Mac and mobile DSCP? ? Still enable QoS in the admin center, and mark at) Tj
+T* (the network for devices that will not cooperate. If it fails: Mobile executives are the) Tj
+T* (poor-quality population.) Tj
+T* (ms-teams.exe ? The current Teams client process name used when you bind a Windows QoS) Tj
+T* (policy. An old policy aimed at the classic client marks nothing. Why it matters: Policy that) Tj
+T* (matches the wrong executable is a silent miss.) Tj
+T* (How do you approach ms-teams.exe? ? Update the policy object and verify with a capture. If) Tj
+T* (it fails: QoS policy still names the previous client.) Tj
+T* (Busy hour ? The hour you actually size. Average day divided by eight is not a busy hour. Why) Tj
+T* (it matters: Erlang inputs are busy-interval numbers.) Tj
+T* (How do you approach Busy hour? ? Take the busy interval from the contact center, not from a) Tj
+T* (yearly average. If it fails: The link is fine at 11:00 and dead at 09:15.) Tj
+T* (Dual running ? Both PBX and Teams carry live numbers during a move. Rollback needs the old) Tj
+T* (route left intact. Why it matters: A cut with no rollback is a career event.) Tj
+T* (How do you approach Dual running? ? Move a range, keep the old path, and write the backout.) Tj
+T* (If it fails: The old trunk is deleted on Friday.) Tj
+T* (Number porting ? Moving a public number from one carrier to another. It has a date and a) Tj
+T* (letter of authority. It is not a PowerShell metaphor. Why it matters: Direct Routing can use) Tj
+T* (numbers the carrier already holds, so a port might be unnecessary.) Tj
+T* (How do you approach Number porting? ? Confirm who owns the number before you promise a) Tj
+T* (weekend cut. If it fails: Two carriers route the same number on Monday.) Tj
+T* (Caller ID policy ? What outbound calls present. Resource-account outbound and user outbound) Tj
+T* (are different policies. Why it matters: A queue that presents a user?s mobile number breaks) Tj
+T* (trust.) Tj
+T* (How do you approach Caller ID policy? ? Set the calling identity on the voice app on) Tj
+T* (purpose. If it fails: Customers return a call and reach an employee?s personal desk.) Tj
+T* (Music on hold ? The audio a queue plays while a caller waits. Licensing and the file both) Tj
+T* (matter, and silence is a choice you should make on purpose. Why it matters: Callers who hear) Tj
+T* (nothing hang up, and abandon looks like a staffing crisis.) Tj
+T* (How do you approach Music on hold? ? Upload a file you have rights to, and test the timeout.) Tj
+T* (If it fails: A licensed song is uploaded.) Tj
+T* (Voicemail overflow ? A respectable overflow target when nobody is left to answer. It depends) Tj
+T* (on Cloud Voicemail and a mailbox for the account that owns it. Why it matters: Overflow to) Tj
+T* (voicemail without a mailbox is a dead end.) Tj
+T* (How do you approach Voicemail overflow? ? Test the overflow, then check that the message) Tj
+T* (arrived. If it fails: Callers are offered voicemail and the message is never deposited.) Tj
+T* (Pilot number ? The public number on the first voice app. Everything else can be an internal) Tj
+T* (target. Why it matters: People buy a number per menu option and then cannot afford to change) Tj
+T* (the menu.) Tj
+ET
+endstream
+endobj
+22 0 obj
+<< /Length 3693 >>
+stream
+BT
+/F1 11 Tf
+50 780 Td
+14 TL
+(How do you approach Pilot number? ? One number, many targets, overflow included. If it) Tj
+T* (fails: Each menu option is a ported number and the carrier lead time runs the project.) Tj
+T* (Security group policy assign ? Compliance recording and many Teams policies can be assigned) Tj
+T* (to a group. A user in the wrong group is recorded, or not, as a consequence. Why it matters:) Tj
+T* (Group sprawl is a voice defect.) Tj
+T* (How do you approach Security group policy assign? ? Use a group you can explain, and read) Tj
+T* (the effective policy. If it fails: A contractor group inherits recording and a privacy) Tj
+T* (review fails.) Tj
+T* (Effective policy ? The policy the user actually has after direct assignment and group) Tj
+T* (assignment are resolved. The one you edited may not be it. Why it matters: Get-CsOnlineUser) Tj
+T* (beats the portal memory.) Tj
+T* (How do you approach Effective policy? ? Read the effective value before and after the) Tj
+T* (change. If it fails: You update a policy that is not assigned.) Tj
+T* (Lab tenant ? A tenant that is not production. Pair a lab SBC there. Do not discover) Tj
+T* (certificate behavior on the company trunk. Why it matters: Production is where rollback) Tj
+T* (costs money.) Tj
+T* (How do you approach Lab tenant? ? Keep lab domains and lab certificates obvious. If it) Tj
+T* (fails: A lab FQDN is the production FQDN.) Tj
+T* (Get-Help before Set ? Cmdlet parameters move between MicrosoftTeams module versions. Read) Tj
+T* (help in the version you are about to run. Why it matters: A blog?s parameter list is not a) Tj
+T* (contract.) Tj
+T* (How do you approach Get-Help before Set? ? Get-Help cmdlet -Parameter * in the lab. If it) Tj
+T* (fails: A script from last year removes a number.) Tj
+T* (Least privilege ? Use the telephony or communications role that can do the task. Global) Tj
+T* (Administrator is not a voice habit. Why it matters: A shared global account makes every) Tj
+T* (later audit useless.) Tj
+T* (How do you approach Least privilege? ? Named admin accounts, voice roles, and Conditional) Tj
+T* (Access for admins. If it fails: The SBC password and the global admin password are the same) Tj
+T* (sticky note.) Tj
+T* (Service number ? A number assigned to a resource account or conferencing, as opposed to a) Tj
+T* (user?s personal number. The inventory and the license follow the connectivity option. Why it) Tj
+T* (matters: A user number on a queue is how you lose the queue when the human leaves.) Tj
+T* (How do you approach Service number? ? Take service numbers from the carrier or Calling Plan) Tj
+T* (inventory you actually have. If it fails: The receptionist leaves and the main number leaves) Tj
+T* (with them.) Tj
+T* (Unassigned number treatment ? What Teams does with a number you own that is not assigned.) Tj
+T* (Routing it to an attendant is a product choice you should make. Why it matters: Silence on a) Tj
+T* (published-but-unassigned number looks like an outage.) Tj
+T* (How do you approach Unassigned number treatment? ? Point unknown numbers at an attendant or) Tj
+T* (a message. If it fails: A ported block has fifty silent numbers.) Tj
+T* (SIP options timer teaching model ? This campus treats repeated missed OPTIONS as a reason to) Tj
+T* (pull a trunk. It does not publish Microsoft?s internal counter as if it were a documented) Tj
+T* (integer. Why it matters: A lab timer is not a contractual timer.) Tj
+T* (How do you approach SIP options timer teaching model? ? Watch the admin-center SBC status) Tj
+T* (and the SBC?s own OPTIONS log together. If it fails: Someone sets a script to fail over) Tj
+T* (after one missed packet and flaps the trunk.) Tj
+ET
+endstream
+endobj
+23 0 obj
+<< /Length 3788 >>
+stream
+BT
+/F1 11 Tf
+50 780 Td
+14 TL
+(Failover rehearsal ? Pull the primary proxy or the primary SBC in a window and prove the) Tj
+T* (next one takes calls. Why it matters: A second gateway that has never received a call is a) Tj
+T* (drawing.) Tj
+T* (How do you approach Failover rehearsal? ? Rehearse, then put the result in the runbook. If) Tj
+T* (it fails: The outage is the first test.) Tj
+T* (Codec intersection empty ? If the SBC and Teams offer no codec in common, the call fails,) Tj
+T* (often with 488. Why it matters: Adding AMR-WB on a bypass trunk does not fix a G.711) Tj
+T* (refusal.) Tj
+T* (How do you approach Codec intersection empty? ? Offer G.711 at minimum unless you have a) Tj
+T* (measured reason not to. If it fails: The SBC allows only G.729 and the far end does not.) Tj
+T* (G.711 law ? A-law and ?-law are both G.711. A trunk that offers the wrong one still often) Tj
+T* (interoperates, and sometimes does not. Offer both if the carrier is vague. Why it matters:) Tj
+T* (This is a one-line SBC change, after you have a capture.) Tj
+T* (How do you approach G.711 law? ? Capture SDP and compare. If it fails: A new country is) Tj
+T* (added and audio sounds like noise.) Tj
+T* (Comfort message ? The words the queue plays about position or wait. A lie \(?your call is) Tj
+T* (important?\) is still a design choice you can decline. Why it matters: Bad messages increase) Tj
+T* (abandon.) Tj
+T* (How do you approach Comfort message? ? Say something true: whether you record, and whether) Tj
+T* (you call back. If it fails: The message promises a callback the queue cannot place.) Tj
+T* (Recording disclosure ? Both convenience and compliance recording require participant) Tj
+T* (notification. Compliance does not ask the participant for consent in the comparison) Tj
+T* (Microsoft publishes. Why it matters: A silent compliance recorder is a legal problem, not a) Tj
+T* (clever config.) Tj
+T* (How do you approach Recording disclosure? ? Confirm the partner?s announcement and test it.) Tj
+T* (If it fails: Notification is off because it ?hurt the experience.?) Tj
+T* (Do not record emergency ? Know whether your recorder and your policy include emergency) Tj
+T* (calls, and follow the rule you were given. Do not route emergency calls into a bot so they) Tj
+T* (can be ?handled.? Why it matters: Emergency is a route, a location, and a carrier.) Tj
+T* (How do you approach Do not record emergency? ? Keep the emergency voice route boring and) Tj
+T* (local. If it fails: 999 matches the IVR workstream.) Tj
+T* (CRM timeline ? The case note should carry the Call-ID, the number in E.164, the queue, and) Tj
+T* (the agent. Then a later complaint can be found. Why it matters: A note that says ?called) Tj
+T* (customer? cannot be audited.) Tj
+T* (How do you approach CRM timeline? ? Make the screen pop write those fields. If it fails: The) Tj
+T* (case exists and the recording cannot be found.) Tj
+T* (Future hook ? A seam left on purpose for a system you might add later, using a product that) Tj
+T* (already exists. It is not a promise that Microsoft will ship a feature. Why it matters:) Tj
+T* (Invented roadmap items fail audits.) Tj
+T* (How do you approach Future hook? ? Name the hook, the identifier, and the failure if you) Tj
+T* (skip it. If it fails: A design depends on an unannounced SBC feature.) Tj
+T* (Power model wording ? Older conversation says Power for the third contact-center model. The) Tj
+T* (Learn article maintained on 14 October 2026 says Unify, Extend, and Connect. Why it matters:) Tj
+T* (Using the old word without a mapping hides the media path.) Tj
+T* (How do you approach Power model wording? ? Ask the vendor which of the three current models) Tj
+T* (they hold. If it fails: The contract says Power and the network team opens no ports.) Tj
+ET
+endstream
+endobj
+24 0 obj
+<< /Length 3833 >>
+stream
+BT
+/F1 11 Tf
+50 780 Td
+14 TL
+(Certified list changes ? The list of SBCs and contact-center solutions changes. A campus) Tj
+T* (page is not the list. Why it matters: Quote the list the week you buy.) Tj
+T* (How do you approach Certified list changes? ? Link the design to the current Microsoft page) Tj
+T* (and the firmware. If it fails: A purchase order cites a 2022 PDF.) Tj
+T* (User transfer license ? In the Connect model, Microsoft?s documentation says the contact-) Tj
+T* (center side does not need a phone-system license, and the Teams user who receives a) Tj
+T* (transferred call does need Teams Phone and a number. Why it matters: Experts who ?just) Tj
+T* (answer in Teams? still need a telephone.) Tj
+T* (How do you approach User transfer license? ? License the humans who receive transfers. If it) Tj
+T* (fails: The agent transfers and the expert?s client will not take the PSTN call.) Tj
+T* (Trial is not a design ? A Dynamics or Teams trial proves a click path. It does not prove) Tj
+T* (emergency calling, recording retention, or a busy hour. Why it matters: Pilots skip the) Tj
+T* (boring gates.) Tj
+T* (How do you approach Trial is not a design? ? Write the gates: 911, recording, overflow,) Tj
+T* (certificate, rollback. If it fails: The pilot is declared production on Friday.) Tj
+T* (Rollback ? The numbers go back to the old route if the new path fails. If you deleted the) Tj
+T* (old route, you do not have a rollback. Why it matters: Dual-running exists so rollback is a) Tj
+T* (script, not a rebuild.) Tj
+T* (How do you approach Rollback? ? Keep the old trunk until the new path has a quiet week. If) Tj
+T* (it fails: The maintenance window ends with no public numbers.) Tj
+T* (Evidence pack ? Call-ID, the policy you read, the ladder, and the CQD or Call Analytics row.) Tj
+T* (One pack per hypothesis. Why it matters: Verbal ?it failed? is not a pack.) Tj
+T* (How do you approach Evidence pack? ? Store the pack with the change ticket. If it fails: The) Tj
+T* (same outage is debugged from scratch next month.) Tj
+T* (Contoso sample ? A fictional tenant name used in Microsoft samples and in this campus. It is) Tj
+T* (not a customer. Why it matters: Examples use 555 numbers and example domains so nothing here) Tj
+T* (is someone?s directory.) Tj
+T* (How do you approach Contoso sample? ? Keep lab names obviously fake. If it fails: A lab) Tj
+T* (script is aimed at a real tenant by find-and-replace.) Tj
+T* (Exam sandbox ? Microsoft?s practice UI for what an exam looks like. It is not the product) Tj
+T* (lab. Why it matters: Use it so the tool is not a surprise. Still study the skills.) Tj
+T* (How do you approach Exam sandbox? ? Open the sandbox once before the appointment. If it) Tj
+T* (fails: The first time someone sees a lab item is during the exam.) Tj
+T* (Renewal assessment ? Role-based certifications expire unless you pass the free renewal on) Tj
+T* (Learn. Retirement is a different event from expiry. Why it matters: A certification you) Tj
+T* (earned and did not renew is not a retirement of the exam.) Tj
+T* (How do you approach Renewal assessment? ? Calendar the renewal. Re-read what changed. If it) Tj
+T* (fails: MS-700 lapses and the holder thinks the exam was retired.) Tj
+T* (Study guide wins ? When this campus and a study guide disagree, the study guide accessed the) Tj
+T* (week you sit the exam wins. Why it matters: Skills move. The 27 October 2026 MS-700 update) Tj
+T* (is an example.) Tj
+T* (How do you approach Study guide wins? ? Re-open the guide before you book. If it fails: A) Tj
+T* (candidate memorizes a third-party brain dump.) Tj
+T* (Session border controller ? The device that speaks SIP to Teams and SIP or another protocol) Tj
+T* (to the carrier or PBX, and enforces the edge. Why it matters: Without a certified one,) Tj
+T* (Direct Routing is unsupported.) Tj
+ET
+endstream
+endobj
+25 0 obj
+<< /Length 3882 >>
+stream
+BT
+/F1 11 Tf
+50 780 Td
+14 TL
+(How do you approach Session border controller? ? Pair the FQDN, not a nickname. If it fails:) Tj
+T* (A router with SIP ALG is described as the SBC.) Tj
+T* (SIP ALG ? A firewall feature that rewrites SIP. It breaks Direct Routing more often than it) Tj
+T* (helps. Why it matters: Microsoft?s network guidance does not want helpers in the media path.) Tj
+T* (How do you approach SIP ALG? ? Turn SIP ALG off on the path to the proxies. If it fails:) Tj
+T* (INVITEs are rewritten and the contact header points at a private address.) Tj
+T* (Public IP on the SBC ? Teams must be able to reach the SBC. A purely private address with no) Tj
+T* (public path will not pair. Why it matters: NAT without a stable signaling address is a) Tj
+T* (classic failure.) Tj
+T* (How do you approach Public IP on the SBC? ? Publish the signaling address you documented. If) Tj
+T* (it fails: The SBC is only reachable on a VPN Microsoft is not on.) Tj
+T* (DNS TTL and proxies ? Proxy addresses change inside the published ranges. A firewall object) Tj
+T* (built from one lookup goes stale. Why it matters: Allow the range, not the A record you saw) Tj
+T* (today.) Tj
+T* (How do you approach DNS TTL and proxies? ? Re-read the plan page when you edit the firewall.) Tj
+T* (If it fails: The trunk fails after a resolver change and the certificate is blamed.) Tj
+T* (Mutual TLS option ? The plan page says that if you enable mutual TLS, install the Microsoft) Tj
+T* (trusted roots on the SBC. Why it matters: MTLS is optional in many designs and mandatory in) Tj
+T* (the way you configured.) Tj
+T* (How do you approach Mutual TLS option? ? Match the SBC setting to what you intended. If it) Tj
+T* (fails: The SBC demands a client certificate Teams is not presenting in the mode you chose.) Tj
+T* (Media bypass flag ? The gateway setting that allows media to skip Microsoft?s processors. It) Tj
+T* (is not implied by a short ping. Why it matters: Leave it off until the path is drawn.) Tj
+T* (How do you approach Media bypass flag? ? Set it on the paired gateway, then test from the) Tj
+T* (real subnet. If it fails: It is enabled tenant-wide in someone?s notes and only one site can) Tj
+T* (route to the SBC.) Tj
+T* (Processor path ? The default media path through Microsoft media processors in the region) Tj
+T* (closest to the call. Why it matters: Use it when bypass is unsafe.) Tj
+T* (How do you approach Processor path? ? Allow the documented UDP ranges. If it fails: Bypass) Tj
+T* (is off and those ranges are still closed, so audio never starts.) Tj
+T* (Region of media ? Media processors exist in multiple regions. Calls prefer a close one. You) Tj
+T* (do not pick a street address for the processor. Why it matters: A hairpin to a distant) Tj
+T* (egress undoes that preference.) Tj
+T* (How do you approach Region of media? ? Keep egress local. If it fails: European users egress) Tj
+T* (in another continent and RTT follows.) Tj
+T* (Voice user disable ? A user can be licensed and still not be enabled for Enterprise Voice in) Tj
+T* (the way the tenant expects. Read the user before you test. Why it matters: The symptom is a) Tj
+T* (client that never offers a dial pad.) Tj
+T* (How do you approach Voice user disable? ? Read the voice attributes and the license) Tj
+T* (together. If it fails: The dial pad is missing and the SBC is rebooted.) Tj
+T* (Calling policy ? A Teams calling policy controls client calling features. It is not the) Tj
+T* (voice routing policy that selects an SBC. Why it matters: Two policies with similar names) Tj
+T* (get granted backwards.) Tj
+T* (How do you approach Calling policy? ? Grant the routing policy and the calling policy on) Tj
+T* (purpose. If it fails: Outbound PSTN is blocked by a calling policy and the route is blamed.) Tj
+T* (Caller ID substitution ? Presenting a service number instead of a personal mobile. It is a) Tj
+ET
+endstream
+endobj
+26 0 obj
+<< /Length 3905 >>
+stream
+BT
+/F1 11 Tf
+50 780 Td
+14 TL
+(policy, not a hope. Why it matters: Wrong caller ID breaks return calls and CRM trust.) Tj
+T* (How do you approach Caller ID substitution? ? Set it on the user or the resource account you) Tj
+T* (mean. If it fails: Customers call back a personal mobile that was never the company number.) Tj
+T* (Normalization translation tokens ? Teams translations use tokens such as $1 for a capture) Tj
+T* (group. The first matching rule applies the translation and stops. Why it matters: A $1 with) Tj
+T* (no group copies nothing useful.) Tj
+T* (How do you approach Normalization translation tokens? ? Test the rule with the raw digit) Tj
+T* (string. If it fails: The translation says +1$1 and the pattern never captured a group.) Tj
+T* (Extension dialing ? A short rule can turn a 4-digit extension into E.164. It must not run) Tj
+T* (before emergency codes. Why it matters: Extensions and short codes share a length problem.) Tj
+T* (How do you approach Extension dialing? ? Order the rules and test 112, 999, 911, and an) Tj
+T* (extension. If it fails: 112 becomes an extension and leaves via the wrong trunk.) Tj
+T* (Holiday call flow ? The attendant?s holiday set replaces business hours for those dates. Why) Tj
+T* (it matters: Next year?s holidays are a December project.) Tj
+T* (How do you approach Holiday call flow? ? Load them when you build the attendant. If it) Tj
+T* (fails: The office is closed and the queue still rings.) Tj
+T* (Operator zero ? The attendant?s operator is where zero, and many failures, should land. Why) Tj
+T* (it matters: An attendant with no operator drops people who do not match a menu.) Tj
+T* (How do you approach Operator zero? ? Name a person or a queue. If it fails: Callers who) Tj
+T* (press nothing are disconnected.) Tj
+T* (Dial by name scope ? Directory search should list only the people you intend callers to) Tj
+T* (reach. Why it matters: A wide directory publishes privileged accounts.) Tj
+T* (How do you approach Dial by name scope? ? Scope it. If it fails: A caller reaches an) Tj
+T* (executive because search was unrestricted.) Tj
+T* (Agent list order ? Serial routing uses the order of the agent list. Round robin does not.) Tj
+T* (Why it matters: The person on top of a serial list takes the punishment.) Tj
+T* (How do you approach Agent list order? ? Pick the method that matches the promise to the) Tj
+T* (team. If it fails: One agent receives every call and the others look idle.) Tj
+T* (Queue timeout seconds ? How long the caller waits before overflow. Too short and overflow is) Tj
+T* (the product. Too long and they abandon. Why it matters: Test with agents busy.) Tj
+T* (How do you approach Queue timeout seconds? ? Set it in the queue and call it. If it fails:) Tj
+T* (Timeout is a few seconds and nobody is ever answered.) Tj
+T* (Greeting rights ? The audio file must be one you have the right to play. A popular song is) Tj
+T* (not a free hold track. Why it matters: Licensing the song is a legal problem, not a Teams) Tj
+T* (setting.) Tj
+T* (How do you approach Greeting rights? ? Use a file you own or have licensed. If it fails: A) Tj
+T* (commercial track is uploaded as hold music.) Tj
+T* (After hours target ? Where calls go when the attendant is closed. Voicemail, another number,) Tj
+T* (or a message. Why it matters: Closed with no target is a hang-up.) Tj
+T* (How do you approach After hours target? ? Set it and call after hours, or fake the schedule) Tj
+T* (in a lab. If it fails: Night calls ring the daytime queue.) Tj
+T* (Network site object ? A named place in the Teams network topology. Subnets attach to it.) Tj
+T* (Emergency addresses and LBR attach to that story. Why it matters: A site with no subnets) Tj
+T* (does nothing.) Tj
+T* (How do you approach Network site object? ? Create the site, then the subnets, then the) Tj
+T* (address. If it fails: The address exists and no subnet points at it.) Tj
+ET
+endstream
+endobj
+27 0 obj
+<< /Length 3738 >>
+stream
+BT
+/F1 11 Tf
+50 780 Td
+14 TL
+(Emergency address validation ? Civic addresses are validated. An unvalidated string is not a) Tj
+T* (location you can trust. Why it matters: A typo in the street number sends responders next) Tj
+T* (door.) Tj
+T* (How do you approach Emergency address validation? ? Validate, then test from a known subnet.) Tj
+T* (If it fails: The address was typed and never validated.) Tj
+T* (Wireless location caution ? Wi-Fi clients can roam across subnets that do not match the) Tj
+T* (building you think. The subnet you mapped is the location you will send. Why it matters: A) Tj
+T* (caf? SSID bridged to HQ is a false floor.) Tj
+T* (How do you approach Wireless location caution? ? Map only networks you control. If it fails:) Tj
+T* (Guest Wi-Fi is inside the HQ subnet.) Tj
+T* (SBA registration ? Clients must be able to use the appliance when the cloud path is gone. An) Tj
+T* (appliance with no client configuration is a spare server. Why it matters: Read the current) Tj
+T* (SBA article for how clients select it.) Tj
+T* (How do you approach SBA registration? ? Test with the WAN blocked, from a phone on that) Tj
+T* (site. If it fails: The appliance is powered on and no client knows it.) Tj
+T* (Local SBC during survival ? The SBA still needs a PSTN path. That is the local SBC and) Tj
+T* (carrier, not a cloud media processor you cannot reach. Why it matters: Survival without a) Tj
+T* (local trunk is a slogan.) Tj
+T* (How do you approach Local SBC during survival? ? Prove a PSTN call with the WAN down. If it) Tj
+T* (fails: The WAN test blocks Microsoft 365 and the only carrier path was through that same) Tj
+T* (WAN.) Tj
+T* (Teams Rooms QoS ? Rooms need the same DSCP plan as PCs, using the rooms guidance for Windows) Tj
+T* (and Android. Why it matters: A room that sounds worse than a laptop is often unmarked.) Tj
+T* (How do you approach Teams Rooms QoS? ? Include the room subnet in the ACL. If it fails: Only) Tj
+T* (user PCs were marked.) Tj
+T* (Common area identity ? The phone signs in as its own account. Voicemail and caller ID follow) Tj
+T* (that account. Why it matters: A shared PIN on a former employee?s account is a privacy) Tj
+T* (incident.) Tj
+T* (How do you approach Common area identity? ? Create the device account and the number. If it) Tj
+T* (fails: The hallway phone opens a person?s mailbox.) Tj
+T* (Device conditional access ? A policy that requires a compliant interactive PC will block a) Tj
+T* (phone or a room. Why it matters: The failure looks like a bad password.) Tj
+T* (How do you approach Device conditional access? ? Scope a device path you can explain. If it) Tj
+T* (fails: Rooms fail on Monday after a security baseline.) Tj
+T* (Firmware on the list ? Certification is specific about software. ?We own AudioCodes? is not) Tj
+T* (a version. Why it matters: Upgrade without checking the list can move you off support.) Tj
+T* (How do you approach Firmware on the list? ? Record the version next to the list date. If it) Tj
+T* (fails: The SBC was upgraded on Friday off the certified train.) Tj
+T* (SRTP profile mismatch ? Both sides must agree the media is SRTP. A gateway forced to RTP/AVP) Tj
+T* (will not complete a normal Direct Routing call. Why it matters: Silence or a failed offer) Tj
+T* (follows.) Tj
+T* (How do you approach SRTP profile mismatch? ? Capture SDP and read the profile. If it fails:) Tj
+T* (The carrier leg is SRTP and the Teams leg was stripped.) Tj
+T* (Telephone-event ? The SDP way digits are carried so an IVR can see them even when the audio) Tj
+T* (codec would hide tones. Why it matters: In-band tones through a lossy codec disappear.) Tj
+T* (How do you approach Telephone-event? ? Offer telephone-event and test a digit. If it fails:) Tj
+ET
+endstream
+endobj
+28 0 obj
+<< /Length 3753 >>
+stream
+BT
+/F1 11 Tf
+50 780 Td
+14 TL
+(The bot never hears 1 and the talk path is fine.) Tj
+T* (Call-ID header ? The header that stays with a SIP dialog so two logs can be proved to be one) Tj
+T* (call. Why it matters: Timestamps collide.) Tj
+T* (How do you approach Call-ID header? ? Copy it into the ticket and the CRM. If it fails: Two) Tj
+T* (engineers compare two different INVITEs.) Tj
+T* (From and To headers ? Who the request claims to be, and who it is for. A normalization bug) Tj
+T* (shows up here as a duplicated country code. Why it matters: Read them before you read) Tj
+T* (codecs.) Tj
+T* (How do you approach From and To headers? ? Compare them to the dialed E.164. If it fails:) Tj
+T* (The To header contains +4444? and the carrier rejects it.) Tj
+T* (SDP offer ? The media description inside the INVITE when early offer is used. Codecs, ports,) Tj
+T* (and SRTP live here. Why it matters: A 488 is an SDP argument.) Tj
+T* (How do you approach SDP offer? ? Read the offer and the answer. If it fails: The offer lists) Tj
+T* (a codec the other side rejected.) Tj
+T* (Jitter over 30 ms teaching clue ? A commonly taught CQD clue is to treat sustained jitter) Tj
+T* (around 30 ms as painful. Confirm the current data dictionary before you quote a threshold as) Tj
+T* (policy. Why it matters: The clue is a starting point, not a statute.) Tj
+T* (How do you approach Jitter over 30 ms teaching clue? ? Pair the number with DSCP and the) Tj
+T* (path. If it fails: A ticket cites a threshold and nobody captured the packets.) Tj
+T* (Loss around 10 percent ? Packet loss near 10 percent is a widely used teaching line for a) Tj
+T* (poor stream. Verify the current CQD definition before you automate an alert on it. Why it) Tj
+T* (matters: Loss and jitter are different faults.) Tj
+T* (How do you approach Loss around 10 percent? ? Look at loss separately from RTT. If it fails:) Tj
+T* (Bandwidth is added for a path whose loss is near zero and whose RTT is 600 ms.) Tj
+T* (Subnet dimension ? CQD?s subnet field is only useful if you built the building map from real) Tj
+T* (subnets. Why it matters: A typo relocates a building.) Tj
+T* (How do you approach Subnet dimension? ? Reconcile with the emergency list. If it fails:) Tj
+T* (10.8.0.0/16 is named Headquarters.) Tj
+T* (Work item ? The unit unified routing assigns: a call, a chat, a case. It is not a Teams) Tj
+T* (message. Why it matters: Capacity is counted in work items.) Tj
+T* (How do you approach Work item? ? Watch one test item cross classification. If it fails:) Tj
+T* (Items vanish because no queue will accept them.) Tj
+T* (Queue membership ? Representatives receive work only from queues they belong to. Why it) Tj
+T* (matters: A license without membership is a spectator.) Tj
+T* (How do you approach Queue membership? ? Add the person to the queue and set capacity above) Tj
+T* (zero. If it fails: The queue has users and still overflows.) Tj
+T* (Security role in Dynamics ? The Dataverse role that lets a representative open the app and) Tj
+T* (touch the rows they should. Why it matters: Teams admin is not this role.) Tj
+T* (How do you approach Security role in Dynamics? ? Assign the contact-center role the current) Tj
+T* (guide names. If it fails: The user sees a blank console.) Tj
+T* (Embedded versus standalone ? Contact Center can sit inside Customer Service or stand as its) Tj
+T* (own app. Agents must be told which one they open. Why it matters: The pilot URL is not) Tj
+T* (tribal knowledge.) Tj
+T* (How do you approach Embedded versus standalone? ? Write the URL and the mode in the design.) Tj
+T* (If it fails: Agents look in the wrong app and report an outage.) Tj
+T* (Intent unknown bucket ? The classification result you get when the model or the rules do not) Tj
+ET
+endstream
+endobj
+29 0 obj
+<< /Length 3525 >>
+stream
+BT
+/F1 11 Tf
+50 780 Td
+14 TL
+(know. It needs a queue. Why it matters: A loop is not a bucket.) Tj
+T* (How do you approach Intent unknown bucket? ? Route unknown to humans. If it fails: Unknown) Tj
+T* (replays the same prompt.) Tj
+T* (Copilot summary ? A draft of the conversation for the representative. It can be wrong. The) Tj
+T* (representative still owns what is sent. Why it matters: A wrong summary in the case file) Tj
+T* (becomes the record.) Tj
+T* (How do you approach Copilot summary? ? Test on a known case. If it fails: The summary names) Tj
+T* (the wrong product and is saved.) Tj
+T* (Knowledge article freshness ? The date on the source the bot is allowed to quote. Retired) Tj
+T* (prices stay retired only if you remove them. Why it matters: Grounding in a stale library is) Tj
+T* (confident nonsense.) Tj
+T* (How do you approach Knowledge article freshness? ? Review sources on a schedule. If it) Tj
+T* (fails: The bot quotes last year?s fee.) Tj
+T* (Fallback topic ? The classic-topic path when nothing else matches. Empty fallback is) Tj
+T* (silence. Why it matters: Write a sentence and an escape.) Tj
+T* (How do you approach Fallback topic? ? Test an utterance you did not train. If it fails: The) Tj
+T* (caller hears nothing after a novel sentence.) Tj
+T* (DTMF zero ? The usual human escape. It has to be implemented, not merely printed on a slide.) Tj
+T* (Why it matters: Test it after every prompt edit.) Tj
+T* (How do you approach DTMF zero? ? Press 0 in the lab and in production pilot. If it fails:) Tj
+T* (The prompt mentions zero and the recognize step ignores it.) Tj
+T* (Transfer target license ? The Teams user who receives a PSTN transfer needs Teams Phone and) Tj
+T* (a number in the Connect model?s description. Why it matters: Chat-only experts cannot take) Tj
+T* (the call.) Tj
+T* (How do you approach Transfer target license? ? License the humans on the transfer list. If) Tj
+T* (it fails: Finance is chat-only and every transfer fails.) Tj
+T* (Multitenant SBC caution ? Some Connect providers share SBC infrastructure across customers.) Tj
+T* (Your routing must still isolate your numbers. Why it matters: A shared SBC is not a shared) Tj
+T* (dial plan.) Tj
+T* (How do you approach Multitenant SBC caution? ? Confirm the provider?s isolation story. If it) Tj
+T* (fails: A test number lands in another customer?s tenant.) Tj
+T* (Letter of authority ? The carrier document that allows a number to move. Porting without it) Tj
+T* (does not happen. Why it matters: A weekend cut that assumes the port is done will strand the) Tj
+T* (number.) Tj
+T* (How do you approach Letter of authority? ? Confirm the port date in writing. If it fails:) Tj
+T* (Both carriers route the number on Monday.) Tj
+T* (Rollback route ? The old path left in place so numbers can return. Deleting it is not a) Tj
+T* (cleanup. It is the removal of the safety. Why it matters: Keep it until the new path has a) Tj
+T* (quiet week.) Tj
+T* (How do you approach Rollback route? ? Write the backout steps. If it fails: The maintenance) Tj
+T* (window ends with no public route.) Tj
+T* (Group policy assignment ? Many Teams policies, including compliance recording, can target a) Tj
+T* (group. Membership changes the effective policy without a click on the user. Why it matters:) Tj
+T* (A contractor group can inherit recording.) Tj
+T* (How do you approach Group policy assignment? ? Read the effective policy after group) Tj
+T* (changes. If it fails: Recording starts for people who were only added to a mail group.) Tj
+ET
+endstream
+endobj
+30 0 obj
+<< /Length 3897 >>
+stream
+BT
+/F1 11 Tf
+50 780 Td
+14 TL
+(Zero-cost allotment ? Teams Phone subscriptions include a number of free resource-account) Tj
+T* (licenses you still have to acquire in the admin center. Why it matters: Free does not mean) Tj
+T* (already present.) Tj
+T* (How do you approach Zero-cost allotment? ? Buy the zero-price SKU and assign it. If it) Tj
+T* (fails: Queues are built before any resource-account license exists in the tenant.) Tj
+T* (At least one Teams Phone ? The prerequisite article says the tenant needs Teams Phone) Tj
+T* (licensing for the voice-app services to exist. Why it matters: A tenant with only resource) Tj
+T* (accounts and no phone-system license will not behave.) Tj
+T* (How do you approach At least one Teams Phone? ? Confirm a real Teams Phone license exists.) Tj
+T* (If it fails: The first queue is created in an empty tenant and never answers.) Tj
+T* (Do not share global admin ? A shared Global Administrator account erases the audit of who) Tj
+T* (changed a route. Why it matters: Named accounts, voice roles.) Tj
+T* (How do you approach Do not share global admin? ? Remove shared admin use from the voice) Tj
+T* (runbook. If it fails: The SBC password and the global admin password are the same note.) Tj
+T* (Sample 555 numbers ? Use 555 numbers and example domains in labs. They are not a customer) Tj
+T* (directory. Why it matters: Find-and-replace onto a real tenant is how labs become incidents.) Tj
+T* (How do you approach Sample 555 numbers? ? Keep lab names obvious. If it fails: A practice) Tj
+T* (script targets production.) Tj
+T* (Renewal versus retirement ? A certification you forget to renew expires for you. A) Tj
+T* (retirement means Microsoft withdrew the exam. They are different calendars. Why it matters:) Tj
+T* (MS-700 can lapse in your transcript and still be a live exam for others.) Tj
+T* (How do you approach Renewal versus retirement? ? Renew on Learn. Check the retirement list) Tj
+T* (separately. If it fails: Someone says MS-700 is retired because theirs expired.) Tj
+T* (Official practice assessment ? Microsoft?s practice questions, when published, match the) Tj
+T* (exam more honestly than a random PDF. Why it matters: AB-250?s page has warned that the) Tj
+T* (practice assessment may lag the live exam.) Tj
+T* (How do you approach Official practice assessment? ? Use it if it exists, and still read the) Tj
+T* (study guide. If it fails: A third-party dump is the only study tool.) Tj
+T* (Busy-hour interval ? The half hour you staff, not the daily average divided into imaginary) Tj
+T* (hours. Why it matters: Erlang inputs are interval math.) Tj
+T* (How do you approach Busy-hour interval? ? Export that interval. If it fails: The link is) Tj
+T* (fine at noon and dead at 09:15.) Tj
+T* (Adherence ? Whether the agent was in the state the schedule promised. It needs a real state) Tj
+T* (feed from the contact center. Why it matters: Teams presence is a weak substitute for) Tj
+T* (contact-center state.) Tj
+T* (How do you approach Adherence? ? Feed the contact-center state to WFM. If it fails: Agents) Tj
+T* (look available in Teams during after-call work.) Tj
+T* (Service level target ? A pair: a percent and a number of seconds, plus the abandon rule.) Tj
+T* (?Eighty twenty? means nothing until both are defined. Why it matters: Write it down.) Tj
+T* (How do you approach Service level target? ? Use the same definition in the report and in) Tj
+T* (Erlang. If it fails: Two dashboards disagree and both claim victory.) Tj
+T* (Hold music licensing ? The hold file is a copyrighted work unless you made it or licensed) Tj
+T* (it. Why it matters: Uploading a song is not a technical setting.) Tj
+T* (How do you approach Hold music licensing? ? Use a track you can defend. If it fails: A) Tj
+T* (famous song plays to every caller.) Tj
+T* (Notification group ? The people the emergency policy emails or messages when an emergency) Tj
+ET
+endstream
+endobj
+31 0 obj
+<< /Length 3824 >>
+stream
+BT
+/F1 11 Tf
+50 780 Td
+14 TL
+(call starts. Why it matters: An empty group is a silent policy.) Tj
+T* (How do you approach Notification group? ? Put facilities or security in it and test. If it) Tj
+T* (fails: Responders arrive and nobody inside knows which floor.) Tj
+T* (Dispatchable location ? A location specific enough for a responder to find the caller. A) Tj
+T* (city name is not enough for a campus. Why it matters: Floors and suites matter.) Tj
+T* (Carrier test number ? The number or process the carrier gave you for emergency tests. It is) Tj
+T* (not the public emergency number. Why it matters: Curiosity calls to the real service are how) Tj
+T* (you meet the police and a fine.) Tj
+T* (Split tunnel ? VPN configuration that sends only corporate apps through the tunnel and lets) Tj
+T* (Teams media go direct. Why it matters: Full tunnel is the opposite.) Tj
+T* (Port mirroring ? A switch copy of packets so you can see DSCP at the egress without standing) Tj
+T* (on the user?s keyboard. Why it matters: The proof of QoS lives there.) Tj
+T* (ACL mark ? A router rule that sets DSCP based on the port range, useful for devices that) Tj
+T* (will not mark for themselves. Why it matters: Combine it with client marks where you can.) Tj
+T* (Two directions ? A call has media each way. Sizing one direction and forgetting the other) Tj
+T* (undersizes a symmetric policer. Why it matters: State which number you quoted.) Tj
+T* (G.722 header tax ? G.722 at 160 bytes every 20 ms pays the same header tax as G.711.) Tj
+T* (Wideband does not remove IP headers. Why it matters: Do not quote 64 kbit/s as the link) Tj
+T* (budget.) Tj
+T* (Comfort noise sizing ? Silence suppression lowers the average and not the peak. Size the) Tj
+T* (peak. Why it matters: A quiet average hides an all-hands call.) Tj
+T* (Pilot rollback week ? A quiet week on the new path before you delete the old trunk. Why it) Tj
+T* (matters: Friday-night deletion is not a cleanup task.) Tj
+T* (Expert wave ? Move people who call each other in the same migration wave so they do not) Tj
+T* (trombone for a year. Why it matters: Tromboning is a cost.) Tj
+T* (IVR range split ? Contact-center numbers stay on UCCE. User numbers go to Teams. The SBC) Tj
+T* (enforces the split. Why it matters: One route pattern that sends everything to Teams strands) Tj
+T* (the IVR.) Tj
+T* (Whisper and barge caution ? Supervisor features such as whisper and barge belong to the) Tj
+T* (contact-center product, not to a Teams peer call. Why it matters: Do not promise them from a) Tj
+T* (Teams calling policy.) Tj
+T* (Recording both sides ? If the contact center and Teams both record, you still need one Call-) Tj
+T* (ID to know it is the same conversation. Why it matters: Two audio files without a key are) Tj
+T* (two rumors.) Tj
+T* (Privacy review ? Recording, desktop capture, and directory search all need a privacy) Tj
+T* (decision before go-live. Why it matters: A surprise recorder fails the review in public.) Tj
+T* (Restore test ? A retention setting you have never restored is a hope. Ask the recording) Tj
+T* (partner for one file back. Why it matters: Legal hold on a mailbox does not do this.) Tj
+T* (Form the agent saw ? Quality scores should use a form published to the people being scored.) Tj
+T* (Why it matters: Secret criteria are not coaching.) Tj
+T* (Export for WFM ? Queue totals have to be able to leave the contact center on a schedule the) Tj
+T* (WFM tool can read. Why it matters: A screenshot is not a feed.) Tj
+T* (Shrinkage labeled ? If shrinkage is a guess, say it is a guess. Thirty percent is not a law) Tj
+T* (of nature. Why it matters: Hidden assumptions become fights.) Tj
+T* (Occupancy watch ? High occupancy next to rising abandons means the service level is being) Tj
+T* (spent to look efficient. Why it matters: Watch both.) Tj
+ET
+endstream
+endobj
+32 0 obj
+<< /Length 3887 >>
+stream
+BT
+/F1 11 Tf
+50 780 Td
+14 TL
+(Case timeline fields ? E.164, Call-ID, queue, agent. Four fields make a case auditable. Why) Tj
+T* (it matters: A free-text note does not.) Tj
+T* (Bot eval set ? A list of utterances whose correct intent you already know. Run it before you) Tj
+T* (publish a prompt change. Why it matters: Foundry is a place to do this. A phone number is) Tj
+T* (not.) Tj
+T* (Unannounced feature risk ? A design that needs a product Microsoft has not shipped is not a) Tj
+T* (hook. It is a bet. Why it matters: Hooks in this campus use today?s policies, events, and) Tj
+T* (identifiers.) Tj
+T* (Admin center SBC status ? The Direct Routing page that shows whether Teams considers the SBC) Tj
+T* (healthy. Why it matters: It reflects OPTIONS and pairing, not your feelings about the) Tj
+T* (carrier.) Tj
+T* (Test call both ways ? Inbound and outbound are different routes. A successful outbound call) Tj
+T* (does not prove the carrier can deliver inbound. Why it matters: Always do both.) Tj
+T* (Emergency both ways ? You care that the emergency call leaves, and that the location and) Tj
+T* (notification are correct. Inbound to the queue is a different test. Why it matters: Do not) Tj
+T* (mix the evidence.) Tj
+T* (Holiday and certificate calendar ? Two dates that take companies down: the holiday the) Tj
+T* (attendant does not know, and the certificate that expires. Why it matters: Put both on one) Tj
+T* (calendar.) Tj
+T* (Contoso is fictional ? Contoso, Fabrikam, and 555 numbers in this campus are samples. They) Tj
+T* (are not your tenant. Why it matters: Do not whois them and open a ticket.) Tj
+T* (Checked date ? 14 October 2026 is when this campus was compared with Learn. It is not a) Tj
+T* (promise the page stays still. Why it matters: Say the date when you quote a retirement.) Tj
+T* (Audio DSCP 46 ? Microsoft?s QoS article recommends DSCP 46 \(EF, Expedited Forwarding\) for) Tj
+T* (Teams audio, with initial client source ports 50000?50019. Why it matters: A mark only helps) Tj
+T* (if every hop agrees. Audio waiting in the default queue is how words drop out.) Tj
+T* (Audio port range 50000?50019 ? The recommended initial client source ports for audio are) Tj
+T* (50000?50019. Browser joins do not use these fixed ranges. Why it matters: Port-based ACLs) Tj
+T* (are how routers mark traffic from devices that cannot set DSCP themselves.) Tj
+T* (Video DSCP 34 ? Microsoft?s QoS article recommends DSCP 34 \(AF41, Assured Forwarding 41\) for) Tj
+T* (Teams video, with initial client source ports 50020?50039. Why it matters: A mark only helps) Tj
+T* (if every hop agrees. Audio waiting in the default queue is how words drop out.) Tj
+T* (Video port range 50020?50039 ? The recommended initial client source ports for video are) Tj
+T* (50020?50039. Browser joins do not use these fixed ranges. Why it matters: Port-based ACLs) Tj
+T* (are how routers mark traffic from devices that cannot set DSCP themselves.) Tj
+T* (Application sharing DSCP 18 ? Microsoft?s QoS article recommends DSCP 18 \(AF21, Assured) Tj
+T* (Forwarding 21\) for Teams application sharing, with initial client source ports 50040?50059.) Tj
+T* (Why it matters: A mark only helps if every hop agrees. Audio waiting in the default queue is) Tj
+T* (how words drop out.) Tj
+T* (Application sharing port range 50040?50059 ? The recommended initial client source ports for) Tj
+T* (application sharing are 50040?50059. Browser joins do not use these fixed ranges. Why it) Tj
+T* (matters: Port-based ACLs are how routers mark traffic from devices that cannot set DSCP) Tj
+T* (themselves.) Tj
+T* (Calling and meetings signaling DSCP 40 ? Microsoft?s QoS article recommends DSCP 40 \(CS5,) Tj
+T* (Class Selector 5\) for Teams calling and meetings signaling, with initial client source ports) Tj
+T* (50070?50089. Why it matters: A mark only helps if every hop agrees. Audio waiting in the) Tj
+ET
+endstream
+endobj
+33 0 obj
+<< /Length 3926 >>
+stream
+BT
+/F1 11 Tf
+50 780 Td
+14 TL
+(default queue is how words drop out.) Tj
+T* (Calling and meetings signaling port range 50070?50089 ? The recommended initial client) Tj
+T* (source ports for calling and meetings signaling are 50070?50089. Browser joins do not use) Tj
+T* (these fixed ranges. Why it matters: Port-based ACLs are how routers mark traffic from) Tj
+T* (devices that cannot set DSCP themselves.) Tj
+T* (Connect-MicrosoftTeams ? Opens a PowerShell session against the tenant that holds the voice) Tj
+T* (configuration. Confirm the parameter set with Get-Help in the module version you have. Why) Tj
+T* (it matters: Interviewers ask for the object model more than for a memorized script. A wrong) Tj
+T* (parameter against production is not a lab.) Tj
+T* (Get-CsOnlineUser ? Reads the online user, including voice policy and number fields you) Tj
+T* (should inspect before a change. Confirm the parameter set with Get-Help in the module) Tj
+T* (version you have. Why it matters: Interviewers ask for the object model more than for a) Tj
+T* (memorized script. A wrong parameter against production is not a lab.) Tj
+T* (New-CsOnlinePSTNGateway ? Pairs a Direct Routing SBC by the FQDN you will present on the) Tj
+T* (certificate. Confirm the parameter set with Get-Help in the module version you have. Why it) Tj
+T* (matters: Interviewers ask for the object model more than for a memorized script. A wrong) Tj
+T* (parameter against production is not a lab.) Tj
+T* (Set-CsOnlinePSTNGateway ? Changes settings on a paired SBC, including media bypass and SIP) Tj
+T* (signaling options documented for that cmdlet. Confirm the parameter set with Get-Help in the) Tj
+T* (module version you have. Why it matters: Interviewers ask for the object model more than for) Tj
+T* (a memorized script. A wrong parameter against production is not a lab.) Tj
+T* (Get-CsOnlinePSTNGateway ? Shows the paired gateways and the status fields the module) Tj
+T* (returns. Confirm the parameter set with Get-Help in the module version you have. Why it) Tj
+T* (matters: Interviewers ask for the object model more than for a memorized script. A wrong) Tj
+T* (parameter against production is not a lab.) Tj
+T* (Set-CsOnlinePstnUsage ? Maintains the tenant?s list of PSTN usage names. Confirm the) Tj
+T* (parameter set with Get-Help in the module version you have. Why it matters: Interviewers ask) Tj
+T* (for the object model more than for a memorized script. A wrong parameter against production) Tj
+T* (is not a lab.) Tj
+T* (New-CsOnlineVoiceRoute ? Creates a voice route with a number pattern and one or more) Tj
+T* (gateways. Confirm the parameter set with Get-Help in the module version you have. Why it) Tj
+T* (matters: Interviewers ask for the object model more than for a memorized script. A wrong) Tj
+T* (parameter against production is not a lab.) Tj
+T* (New-CsOnlineVoiceRoutingPolicy ? Creates a policy whose ordered PSTN usages a user is) Tj
+T* (allowed to match. Confirm the parameter set with Get-Help in the module version you have.) Tj
+T* (Why it matters: Interviewers ask for the object model more than for a memorized script. A) Tj
+T* (wrong parameter against production is not a lab.) Tj
+T* (Grant-CsOnlineVoiceRoutingPolicy ? Assigns a voice routing policy to a user. Confirm the) Tj
+T* (parameter set with Get-Help in the module version you have. Why it matters: Interviewers ask) Tj
+T* (for the object model more than for a memorized script. A wrong parameter against production) Tj
+T* (is not a lab.) Tj
+T* (New-CsTenantDialPlan ? Creates a tenant dial plan that holds normalization rules. Confirm) Tj
+T* (the parameter set with Get-Help in the module version you have. Why it matters: Interviewers) Tj
+T* (ask for the object model more than for a memorized script. A wrong parameter against) Tj
+T* (production is not a lab.) Tj
+T* (Grant-CsTenantDialPlan ? Assigns a tenant dial plan to a user. Confirm the parameter set) Tj
+ET
+endstream
+endobj
+34 0 obj
+<< /Length 4065 >>
+stream
+BT
+/F1 11 Tf
+50 780 Td
+14 TL
+(with Get-Help in the module version you have. Why it matters: Interviewers ask for the) Tj
+T* (object model more than for a memorized script. A wrong parameter against production is not a) Tj
+T* (lab.) Tj
+T* (Set-CsPhoneNumberAssignment ? Assigns or removes a phone number from a user or resource) Tj
+T* (account. Confirm the parameter set with Get-Help in the module version you have. Why it) Tj
+T* (matters: Interviewers ask for the object model more than for a memorized script. A wrong) Tj
+T* (parameter against production is not a lab.) Tj
+T* (New-CsAutoAttendant ? Creates an auto attendant voice app. Confirm the parameter set with) Tj
+T* (Get-Help in the module version you have. Why it matters: Interviewers ask for the object) Tj
+T* (model more than for a memorized script. A wrong parameter against production is not a lab.) Tj
+T* (New-CsCallQueue ? Creates a call queue voice app. Confirm the parameter set with Get-Help in) Tj
+T* (the module version you have. Why it matters: Interviewers ask for the object model more than) Tj
+T* (for a memorized script. A wrong parameter against production is not a lab.) Tj
+T* (New-CsOnlineApplicationInstance ? Creates an application instance. Resource accounts and) Tj
+T* (compliance-recording bots both use this family. Confirm the parameters for the object you) Tj
+T* (mean. Confirm the parameter set with Get-Help in the module version you have. Why it) Tj
+T* (matters: Interviewers ask for the object model more than for a memorized script. A wrong) Tj
+T* (parameter against production is not a lab.) Tj
+T* (New-CsTeamsComplianceRecordingPolicy ? Creates the policy that invites a recording) Tj
+T* (application into new calls and meetings. Confirm the parameter set with Get-Help in the) Tj
+T* (module version you have. Why it matters: Interviewers ask for the object model more than for) Tj
+T* (a memorized script. A wrong parameter against production is not a lab.) Tj
+T* (New-CsTeamsComplianceRecordingApplication ? Attaches a recording application instance to a) Tj
+T* (compliance recording policy. Confirm the parameter set with Get-Help in the module version) Tj
+T* (you have. Why it matters: Interviewers ask for the object model more than for a memorized) Tj
+T* (script. A wrong parameter against production is not a lab.) Tj
+T* (Grant-CsTeamsComplianceRecordingPolicy ? Assigns the compliance recording policy to a user.) Tj
+T* (Assignment alone is not enough without the application instance. Confirm the parameter set) Tj
+T* (with Get-Help in the module version you have. Why it matters: Interviewers ask for the) Tj
+T* (object model more than for a memorized script. A wrong parameter against production is not a) Tj
+T* (lab.) Tj
+T* (Get-CsTeamsComplianceRecordingPolicy ? Reads the compliance recording policies in the) Tj
+T* (tenant. Confirm the parameter set with Get-Help in the module version you have. Why it) Tj
+T* (matters: Interviewers ask for the object model more than for a memorized script. A wrong) Tj
+T* (parameter against production is not a lab.) Tj
+T* (New-CsOnlineLisCivicAddress ? Starts an emergency civic address. Confirm the current) Tj
+T* (CsOnlineLis noun before you run it. Confirm the parameter set with Get-Help in the module) Tj
+T* (version you have. Why it matters: Interviewers ask for the object model more than for a) Tj
+T* (memorized script. A wrong parameter against production is not a lab.) Tj
+T* (100 Trying ? The next hop received the INVITE and is working on it. Dialog is not up. Why it) Tj
+T* (matters: A ladder without response codes is a story. The code is the branch.) Tj
+T* (180 Ringing ? The far end is alerting. You may not have media yet. Why it matters: A ladder) Tj
+T* (without response codes is a story. The code is the branch.) Tj
+T* (183 Session Progress ? Early media may be present. Do not treat it as an answer. Why it) Tj
+T* (matters: A ladder without response codes is a story. The code is the branch.) Tj
+T* (200 OK ? The INVITE succeeded. ACK completes the dialog. BYE ends it later. Why it matters:) Tj
+ET
+endstream
+endobj
+35 0 obj
+<< /Length 3559 >>
+stream
+BT
+/F1 11 Tf
+50 780 Td
+14 TL
+(A ladder without response codes is a story. The code is the branch.) Tj
+T* (ACK ? Completes the INVITE transaction after 200 OK. Why it matters: A ladder without) Tj
+T* (response codes is a story. The code is the branch.) Tj
+T* (BYE ? Ends an established dialog. The other side answers 200 OK. Why it matters: A ladder) Tj
+T* (without response codes is a story. The code is the branch.) Tj
+T* (CANCEL ? Gives up an INVITE that has not been answered yet. Why it matters: A ladder without) Tj
+T* (response codes is a story. The code is the branch.) Tj
+T* (OPTIONS ? A health check. Teams uses it to see whether the SBC is answering. Why it matters:) Tj
+T* (A ladder without response codes is a story. The code is the branch.) Tj
+T* (403 Forbidden ? The request was understood and refused. Often policy, identity, or a route) Tj
+T* (the trunk will not accept. Why it matters: A ladder without response codes is a story. The) Tj
+T* (code is the branch.) Tj
+T* (404 Not Found ? The user or number is not known at that hop. Why it matters: A ladder) Tj
+T* (without response codes is a story. The code is the branch.) Tj
+T* (408 Request Timeout ? No final response in time. Look at firewalls and the next hop, not at) Tj
+T* (the greeting. Why it matters: A ladder without response codes is a story. The code is the) Tj
+T* (branch.) Tj
+T* (480 Temporarily Unavailable ? The target exists and cannot take the call right now. Why it) Tj
+T* (matters: A ladder without response codes is a story. The code is the branch.) Tj
+T* (486 Busy Here ? The target is busy. Why it matters: A ladder without response codes is a) Tj
+T* (story. The code is the branch.) Tj
+T* (487 Request Terminated ? The INVITE ended because of CANCEL or a similar abort. Why it) Tj
+T* (matters: A ladder without response codes is a story. The code is the branch.) Tj
+T* (488 Not Acceptable Here ? Codecs or SDP could not be agreed. A classic empty codec) Tj
+T* (intersection. Why it matters: A ladder without response codes is a story. The code is the) Tj
+T* (branch.) Tj
+T* (503 Service Unavailable ? The hop is overloaded or deliberately out of service. Fail over if) Tj
+T* (you have another gateway. Why it matters: A ladder without response codes is a story. The) Tj
+T* (code is the branch.) Tj
+T* (G.711 ? 64 kbit/s payload. At 20 ms, layer 3 is 80 kbit/s and Ethernet with an 18-byte) Tj
+T* (header is 87.2 kbit/s. Why it matters: An empty codec intersection is a 488, not a mystery) Tj
+T* (outage.) Tj
+T* (G.722 ? Wideband payload at 64 kbit/s. The header math matches G.711 when the packet is 160) Tj
+T* (bytes every 20 ms. Why it matters: An empty codec intersection is a 488, not a mystery) Tj
+T* (outage.) Tj
+T* (G.729 ? 8 kbit/s payload, 20 bytes at 20 ms. Layer 3 is 24 kbit/s. Direct Routing can offer) Tj
+T* (it. Confirm the SBC allows it. Why it matters: An empty codec intersection is a 488, not a) Tj
+T* (mystery outage.) Tj
+T* (SILK ? A Teams codec on the Direct Routing list. Bitrate varies, so do not quote a single) Tj
+T* (G.711-style figure for it. Why it matters: An empty codec intersection is a 488, not a) Tj
+T* (mystery outage.) Tj
+T* (AMR-WB ? On the Direct Routing codec list for non-bypass calls only. Do not expect it on a) Tj
+T* (media-bypass path. Why it matters: An empty codec intersection is a 488, not a mystery) Tj
+T* (outage.) Tj
+T* (Teams Administrator ? Broad Teams administration, including many voice settings. Check the) Tj
+T* (current role article before you grant Global Administrator out of habit. Why it matters:) Tj
+ET
+endstream
+endobj
+36 0 obj
+<< /Length 2999 >>
+stream
+BT
+/F1 11 Tf
+50 780 Td
+14 TL
+(Day-to-day voice work should not sit in a global role.) Tj
+T* (Teams Telephony Administrator ? Voice-focused administration of calling and phone numbers.) Tj
+T* (Check the current role article before you grant Global Administrator out of habit. Why it) Tj
+T* (matters: Day-to-day voice work should not sit in a global role.) Tj
+T* (Teams Communications Administrator ? Meetings and voice communications configuration,) Tj
+T* (without the full Teams admin scope. Check the current role article before you grant Global) Tj
+T* (Administrator out of habit. Why it matters: Day-to-day voice work should not sit in a global) Tj
+T* (role.) Tj
+T* (Teams Communications Support Engineer ? Troubleshooting access, including call analytics for) Tj
+T* (users. Check the current role article before you grant Global Administrator out of habit.) Tj
+T* (Why it matters: Day-to-day voice work should not sit in a global role.) Tj
+T* (Teams Communications Support Specialist ? Narrower troubleshooting access than the engineer) Tj
+T* (role. Check the current role article before you grant Global Administrator out of habit. Why) Tj
+T* (it matters: Day-to-day voice work should not sit in a global role.) Tj
+T* (User Administrator ? Required together with a Teams admin role when you create and license) Tj
+T* (resource accounts. Check the current role article before you grant Global Administrator out) Tj
+T* (of habit. Why it matters: Day-to-day voice work should not sit in a global role.) Tj
+T* (Attendant routing ? Rings the agents who are available at the same time, within the queue?s) Tj
+T* (limits. Presence-based routing can skip an agent who is already in a call or a meeting. Why) Tj
+T* (it matters: The method is a business promise. Serial is cruel to the person on top if you) Tj
+T* (forget.) Tj
+T* (Serial routing ? Rings agents in the order you listed, one after another. Presence-based) Tj
+T* (routing can skip an agent who is already in a call or a meeting. Why it matters: The method) Tj
+T* (is a business promise. Serial is cruel to the person on top if you forget.) Tj
+T* (Round robin ? Remembers who took the last call and starts after them. Presence-based routing) Tj
+T* (can skip an agent who is already in a call or a meeting. Why it matters: The method is a) Tj
+T* (business promise. Serial is cruel to the person on top if you forget.) Tj
+T* (Longest idle ? Offers the call to the agent who has been idle longest. Presence-based) Tj
+T* (routing can skip an agent who is already in a call or a meeting. Why it matters: The method) Tj
+T* (is a business promise. Serial is cruel to the person on top if you forget.) Tj
+T* () Tj
+T* (CypherMonkey ? cyphermonkeylabs.com ? linktr.ee/cyphermonkey ?) Tj
+T* (https://github.com/cipher0x9/microsoft-voice-cc-lab-free-university-mesmerizing ?) Tj
+T* (Independent educational project, not affiliated with or endorsed by any vendor. Trademarks) Tj
+T* (belong to their owners. MIT code, CC BY-NC-SA content. No email.) Tj
+ET
+endstream
+endobj
+37 0 obj
+<< /Type /Page /Parent 72 0 R /MediaBox [0 0 612 792] /Contents 2 0 R /Resources << /Font << /F1 1 0 R >> >> >>
+endobj
+38 0 obj
+<< /Type /Page /Parent 72 0 R /MediaBox [0 0 612 792] /Contents 3 0 R /Resources << /Font << /F1 1 0 R >> >> >>
+endobj
+39 0 obj
+<< /Type /Page /Parent 72 0 R /MediaBox [0 0 612 792] /Contents 4 0 R /Resources << /Font << /F1 1 0 R >> >> >>
+endobj
+40 0 obj
+<< /Type /Page /Parent 72 0 R /MediaBox [0 0 612 792] /Contents 5 0 R /Resources << /Font << /F1 1 0 R >> >> >>
+endobj
+41 0 obj
+<< /Type /Page /Parent 72 0 R /MediaBox [0 0 612 792] /Contents 6 0 R /Resources << /Font << /F1 1 0 R >> >> >>
+endobj
+42 0 obj
+<< /Type /Page /Parent 72 0 R /MediaBox [0 0 612 792] /Contents 7 0 R /Resources << /Font << /F1 1 0 R >> >> >>
+endobj
+43 0 obj
+<< /Type /Page /Parent 72 0 R /MediaBox [0 0 612 792] /Contents 8 0 R /Resources << /Font << /F1 1 0 R >> >> >>
+endobj
+44 0 obj
+<< /Type /Page /Parent 72 0 R /MediaBox [0 0 612 792] /Contents 9 0 R /Resources << /Font << /F1 1 0 R >> >> >>
+endobj
+45 0 obj
+<< /Type /Page /Parent 72 0 R /MediaBox [0 0 612 792] /Contents 10 0 R /Resources << /Font << /F1 1 0 R >> >> >>
+endobj
+46 0 obj
+<< /Type /Page /Parent 72 0 R /MediaBox [0 0 612 792] /Contents 11 0 R /Resources << /Font << /F1 1 0 R >> >> >>
+endobj
+47 0 obj
+<< /Type /Page /Parent 72 0 R /MediaBox [0 0 612 792] /Contents 12 0 R /Resources << /Font << /F1 1 0 R >> >> >>
+endobj
+48 0 obj
+<< /Type /Page /Parent 72 0 R /MediaBox [0 0 612 792] /Contents 13 0 R /Resources << /Font << /F1 1 0 R >> >> >>
+endobj
+49 0 obj
+<< /Type /Page /Parent 72 0 R /MediaBox [0 0 612 792] /Contents 14 0 R /Resources << /Font << /F1 1 0 R >> >> >>
+endobj
+50 0 obj
+<< /Type /Page /Parent 72 0 R /MediaBox [0 0 612 792] /Contents 15 0 R /Resources << /Font << /F1 1 0 R >> >> >>
+endobj
+51 0 obj
+<< /Type /Page /Parent 72 0 R /MediaBox [0 0 612 792] /Contents 16 0 R /Resources << /Font << /F1 1 0 R >> >> >>
+endobj
+52 0 obj
+<< /Type /Page /Parent 72 0 R /MediaBox [0 0 612 792] /Contents 17 0 R /Resources << /Font << /F1 1 0 R >> >> >>
+endobj
+53 0 obj
+<< /Type /Page /Parent 72 0 R /MediaBox [0 0 612 792] /Contents 18 0 R /Resources << /Font << /F1 1 0 R >> >> >>
+endobj
+54 0 obj
+<< /Type /Page /Parent 72 0 R /MediaBox [0 0 612 792] /Contents 19 0 R /Resources << /Font << /F1 1 0 R >> >> >>
+endobj
+55 0 obj
+<< /Type /Page /Parent 72 0 R /MediaBox [0 0 612 792] /Contents 20 0 R /Resources << /Font << /F1 1 0 R >> >> >>
+endobj
+56 0 obj
+<< /Type /Page /Parent 72 0 R /MediaBox [0 0 612 792] /Contents 21 0 R /Resources << /Font << /F1 1 0 R >> >> >>
+endobj
+57 0 obj
+<< /Type /Page /Parent 72 0 R /MediaBox [0 0 612 792] /Contents 22 0 R /Resources << /Font << /F1 1 0 R >> >> >>
+endobj
+58 0 obj
+<< /Type /Page /Parent 72 0 R /MediaBox [0 0 612 792] /Contents 23 0 R /Resources << /Font << /F1 1 0 R >> >> >>
+endobj
+59 0 obj
+<< /Type /Page /Parent 72 0 R /MediaBox [0 0 612 792] /Contents 24 0 R /Resources << /Font << /F1 1 0 R >> >> >>
+endobj
+60 0 obj
+<< /Type /Page /Parent 72 0 R /MediaBox [0 0 612 792] /Contents 25 0 R /Resources << /Font << /F1 1 0 R >> >> >>
+endobj
+61 0 obj
+<< /Type /Page /Parent 72 0 R /MediaBox [0 0 612 792] /Contents 26 0 R /Resources << /Font << /F1 1 0 R >> >> >>
+endobj
+62 0 obj
+<< /Type /Page /Parent 72 0 R /MediaBox [0 0 612 792] /Contents 27 0 R /Resources << /Font << /F1 1 0 R >> >> >>
+endobj
+63 0 obj
+<< /Type /Page /Parent 72 0 R /MediaBox [0 0 612 792] /Contents 28 0 R /Resources << /Font << /F1 1 0 R >> >> >>
+endobj
+64 0 obj
+<< /Type /Page /Parent 72 0 R /MediaBox [0 0 612 792] /Contents 29 0 R /Resources << /Font << /F1 1 0 R >> >> >>
+endobj
+65 0 obj
+<< /Type /Page /Parent 72 0 R /MediaBox [0 0 612 792] /Contents 30 0 R /Resources << /Font << /F1 1 0 R >> >> >>
+endobj
+66 0 obj
+<< /Type /Page /Parent 72 0 R /MediaBox [0 0 612 792] /Contents 31 0 R /Resources << /Font << /F1 1 0 R >> >> >>
+endobj
+67 0 obj
+<< /Type /Page /Parent 72 0 R /MediaBox [0 0 612 792] /Contents 32 0 R /Resources << /Font << /F1 1 0 R >> >> >>
+endobj
+68 0 obj
+<< /Type /Page /Parent 72 0 R /MediaBox [0 0 612 792] /Contents 33 0 R /Resources << /Font << /F1 1 0 R >> >> >>
+endobj
+69 0 obj
+<< /Type /Page /Parent 72 0 R /MediaBox [0 0 612 792] /Contents 34 0 R /Resources << /Font << /F1 1 0 R >> >> >>
+endobj
+70 0 obj
+<< /Type /Page /Parent 72 0 R /MediaBox [0 0 612 792] /Contents 35 0 R /Resources << /Font << /F1 1 0 R >> >> >>
+endobj
+71 0 obj
+<< /Type /Page /Parent 72 0 R /MediaBox [0 0 612 792] /Contents 36 0 R /Resources << /Font << /F1 1 0 R >> >> >>
+endobj
+72 0 obj
+<< /Type /Pages /Count 35 /Kids [37 0 R 38 0 R 39 0 R 40 0 R 41 0 R 42 0 R 43 0 R 44 0 R 45 0 R 46 0 R 47 0 R 48 0 R 49 0 R 50 0 R 51 0 R 52 0 R 53 0 R 54 0 R 55 0 R 56 0 R 57 0 R 58 0 R 59 0 R 60 0 R 61 0 R 62 0 R 63 0 R 64 0 R 65 0 R 66 0 R 67 0 R 68 0 R 69 0 R 70 0 R 71 0 R] >>
+endobj
+73 0 obj
+<< /Type /Catalog /Pages 72 0 R >>
+endobj
+xref
+0 74
+0000000000 65535 f 
+0000000009 00000 n 
+0000000079 00000 n 
+0000003827 00000 n 
+0000007783 00000 n 
+0000011715 00000 n 
+0000015612 00000 n 
+0000019477 00000 n 
+0000023395 00000 n 
+0000027250 00000 n 
+0000031428 00000 n 
+0000035326 00000 n 
+0000039317 00000 n 
+0000043104 00000 n 
+0000046815 00000 n 
+0000050589 00000 n 
+0000054409 00000 n 
+0000058339 00000 n 
+0000062251 00000 n 
+0000066042 00000 n 
+0000069766 00000 n 
+0000073596 00000 n 
+0000077504 00000 n 
+0000081250 00000 n 
+0000085091 00000 n 
+0000088977 00000 n 
+0000092912 00000 n 
+0000096870 00000 n 
+0000100661 00000 n 
+0000104467 00000 n 
+0000108045 00000 n 
+0000111995 00000 n 
+0000115872 00000 n 
+0000119812 00000 n 
+0000123791 00000 n 
+0000127909 00000 n 
+0000131521 00000 n 
+0000134573 00000 n 
+0000134701 00000 n 
+0000134829 00000 n 
+0000134957 00000 n 
+0000135085 00000 n 
+0000135213 00000 n 
+0000135341 00000 n 
+0000135469 00000 n 
+0000135597 00000 n 
+0000135726 00000 n 
+0000135855 00000 n 
+0000135984 00000 n 
+0000136113 00000 n 
+0000136242 00000 n 
+0000136371 00000 n 
+0000136500 00000 n 
+0000136629 00000 n 
+0000136758 00000 n 
+0000136887 00000 n 
+0000137016 00000 n 
+0000137145 00000 n 
+0000137274 00000 n 
+0000137403 00000 n 
+0000137532 00000 n 
+0000137661 00000 n 
+0000137790 00000 n 
+0000137919 00000 n 
+0000138048 00000 n 
+0000138177 00000 n 
+0000138306 00000 n 
+0000138435 00000 n 
+0000138564 00000 n 
+0000138693 00000 n 
+0000138822 00000 n 
+0000138951 00000 n 
+0000139080 00000 n 
+0000139378 00000 n 
+trailer << /Size 74 /Root 73 0 R >>
+startxref
+139429
+%%EOF
