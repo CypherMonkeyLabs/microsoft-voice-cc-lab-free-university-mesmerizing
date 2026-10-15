@@ -27,10 +27,16 @@ const STORE = "mvcc-lab-v1";
 const trackPacks = {};
 const moduleFlags = {};
 let topoHandle = null;
+let heroHandle = null;
 
 function disposeTopology() {
   if (topoHandle && topoHandle.dispose) topoHandle.dispose();
   topoHandle = null;
+}
+
+function disposeHero() {
+  if (heroHandle && heroHandle.dispose) heroHandle.dispose();
+  heroHandle = null;
 }
 
 async function fetchJson(url) {
@@ -136,6 +142,8 @@ function freshState() {
     dailyOk: false,
     konami: false,
     sandboxOk: false,
+    lang: "en",
+    vivid: "neon",
   };
 }
 
@@ -256,13 +264,16 @@ const ACH_COPY = {
 };
 
 const THEMES = [
-  { id: "light", label: "Light" },
-  { id: "futuristic", label: "Futuristic" },
-  { id: "gaming", label: "Gaming" },
   { id: "neon", label: "Neon" },
-  { id: "dark", label: "Dark acrylic" },
-  { id: "hc", label: "High contrast" },
-  { id: "teams", label: "Teams purple" },
+  { id: "holographic", label: "Holo" },
+  { id: "cyberpunk", label: "Cyber" },
+  { id: "sunset", label: "Sunset" },
+  { id: "light", label: "Light" },
+  { id: "dark", label: "Dark" },
+  { id: "futuristic", label: "Future" },
+  { id: "gaming", label: "Game" },
+  { id: "hc", label: "Contrast" },
+  { id: "teams", label: "Teams" },
 ];
 const FONTS = [
   { id: "sm", label: "Small" },
@@ -272,8 +283,7 @@ const FONTS = [
 ];
 
 function initialTheme() {
-  if (window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches) return "dark";
-  return "light";
+  return "neon";
 }
 
 function activeTheme() {
@@ -303,9 +313,17 @@ function paintChrome() {
   if (rate && document.activeElement !== rate) rate.value = String(state.rate || 1);
   const listen = $("#listen");
   if (listen && state.narration === false && !speaking) listen.textContent = "Narration off";
+  if (heroHandle && heroHandle.setPalette) {
+    try { heroHandle.setPalette(activeTheme()); } catch (err) { /* palette is visual */ }
+  }
+  if (typeof applyI18n === "function") applyI18n();
+  $$("[data-home-theme]").forEach((button) => {
+    button.setAttribute("aria-pressed", button.getAttribute("data-home-theme") === activeTheme() ? "true" : "false");
+  });
 }
 
 function setTheme(next) {
+  if (next && next !== "light") state.vivid = next;
   state.theme = next;
   save();
 }
@@ -347,7 +365,7 @@ function chartSvg(chart) {
     const y = 28 + i * 36;
     const w = Math.max(4, (bar.value / max) * 360);
     rows += '<text x="0" y="' + (y + 14) + '" fill="var(--ink)" font-size="13" font-family="var(--sans)">' + esc(bar.label) + "</text>";
-    rows += '<rect x="220" y="' + y + '" width="' + w + '" height="18" rx="6" fill="var(--teal)"></rect>';
+    rows += '<rect x="220" y="' + y + '" width="' + w + '" height="18" rx="6" fill="var(--teal)"><title>' + esc(bar.label) + ": " + esc(String(bar.display || bar.value)) + "</title></rect>";
     rows += '<text x="' + (228 + w) + '" y="' + (y + 14) + '" fill="var(--muted)" font-size="12" font-family="var(--sans)">' + esc(bar.display || bar.value) + "</text>";
   });
   const caption = (chart.title || "Chart") + ". " + (chart.note || "");
@@ -385,15 +403,15 @@ function sourceList(sources) {
   );
 }
 
-function monkeyMarkup(pose) {
+function monkeyMarkup(pose, look) {
   return (
-    '<svg class="monkey" data-pose="' + pose + '" data-fixed="1" viewBox="0 0 64 72" aria-hidden="true">' +
+    '<svg class="monkey" data-pose="' + pose + '" data-look="' + (look == null ? 0 : look) + '" data-fixed="1" viewBox="0 0 64 72" aria-hidden="true">' +
     '<path class="tail" d="M46 54c10 2 14 12 8 16" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"></path>' +
     '<circle cx="32" cy="28" r="14" fill="var(--cc-accent-3)"></circle>' +
     '<circle cx="18" cy="26" r="5" fill="var(--cc-accent-4)"></circle>' +
     '<circle cx="46" cy="26" r="5" fill="var(--cc-accent-4)"></circle>' +
-    '<circle cx="27" cy="27" r="1.6" fill="#1a1208"></circle>' +
-    '<circle cx="37" cy="27" r="1.6" fill="#1a1208"></circle>' +
+    '<circle class="eye" cx="27" cy="27" r="1.6" fill="#1a1208"></circle>' +
+    '<circle class="eye" cx="37" cy="27" r="1.6" fill="#1a1208"></circle>' +
     '<path class="smile" d="M27 33c2.2 2 7.8 2 10 0" fill="none" stroke="#1a1208" stroke-width="1.4" stroke-linecap="round"></path>' +
     '<path class="headset" d="M20 24c0-8 24-8 24 0v6" fill="none" stroke="var(--cc-accent-1)" stroke-width="2"></path>' +
     '<rect x="16" y="28" width="6" height="8" rx="2" fill="var(--cc-accent-1)"></rect>' +
@@ -439,7 +457,7 @@ function signalDeck(anchorId) {
   const picks = [];
   for (let i = 0; i < 6; i += 1) picks.push(tracks[(start + i) % tracks.length]);
   const cards = picks.map((track) => (
-    '<article class="signal-card"><h3>' + esc((track.chart && track.chart.title) || track.title) + "</h3>" +
+    '<article class="signal-card holo"><h3>' + esc((track.chart && track.chart.title) || track.title) + "</h3>" +
     chartSvg(track.chart || { bars: [], title: track.title }) +
     '<p class="tiny">Track ' + esc(track.num) + ". " + esc((track.chart && track.chart.note) || "") + "</p></article>"
   )).join("");
@@ -476,6 +494,51 @@ function heroFlow() {
   );
 }
 
+function isoIcon(track) {
+  const n = Number(String(track.num).replace(/\D/g, "")) || 1;
+  const id = String(track.id || "t").replace(/[^a-z0-9]/gi, "");
+  const hue = (n * 37) % 360;
+  const hue2 = (hue + 46) % 360;
+  const glyphs = [
+    "M74 40 H86 V52 H74 Z",
+    "M80 36 L90 52 H70 Z",
+    "M72 44 H88 M80 36 V52",
+    "M70 40 H90 M70 48 H90",
+    "M74 38 C80 34 86 38 86 44 C86 52 74 52 74 44 C74 38 74 38 74 38",
+    "M72 50 L80 36 L88 50",
+    "M70 42 H90 V52 H70 Z M75 42 V38 H85 V42",
+    "M80 36 A8 8 0 1 1 79.8 36",
+  ];
+  const glyph = glyphs[(n - 1) % glyphs.length];
+  return (
+    '<span class="iso-wrap"><svg class="iso-icon" viewBox="0 0 160 150" role="img" aria-label="' + esc(track.title) + ' icon">' +
+    "<defs>" +
+    '<linearGradient id="fa' + id + '" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="hsl(' + hue + ',95%,68%)"/><stop offset="100%" stop-color="hsl(' + hue2 + ',90%,50%)"/></linearGradient>' +
+    '<linearGradient id="fl' + id + '" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="hsl(' + hue + ',70%,36%)"/><stop offset="100%" stop-color="hsl(' + hue + ',80%,16%)"/></linearGradient>' +
+    '<linearGradient id="fr' + id + '" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="hsl(' + hue2 + ',85%,46%)"/><stop offset="100%" stop-color="hsl(' + hue2 + ',70%,22%)"/></linearGradient>' +
+    '<filter id="fs' + id + '" x="-40%" y="-40%" width="180%" height="180%"><feDropShadow dx="0" dy="12" stdDeviation="6" flood-color="hsl(' + hue + ',100%,58%)" flood-opacity="0.7"/></filter>' +
+    "</defs>" +
+    '<polygon points="80,18 132,46 80,74 28,46" fill="url(#fa' + id + ')" filter="url(#fs' + id + ')"/>' +
+    '<polygon points="28,46 80,74 80,122 28,94" fill="url(#fl' + id + ')"/>' +
+    '<polygon points="80,74 132,46 132,94 80,122" fill="url(#fr' + id + ')"/>' +
+    '<path d="' + glyph + '" fill="none" stroke="#fff" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"/>' +
+    '<text x="80" y="142" text-anchor="middle" fill="currentColor" font-size="12" font-family="sans-serif">' + esc(track.num) + "</text>" +
+    "</svg></span>"
+  );
+}
+
+function ringStat(value, label, pct) {
+  const radius = 16;
+  const circ = 2 * Math.PI * radius;
+  const dash = Math.max(4, (Math.max(8, Math.min(100, pct)) / 100) * circ);
+  return (
+    '<div class="stat holo"><svg class="ring" viewBox="0 0 44 44" aria-hidden="true">' +
+    '<circle class="ring-bg" cx="22" cy="22" r="16"></circle>' +
+    '<circle class="ring-fg" cx="22" cy="22" r="16" stroke-dasharray="' + dash.toFixed(1) + " " + circ.toFixed(1) + '"></circle></svg>' +
+    '<b data-count="' + value + '">' + value + "</b><span>" + label + "</span></div>"
+  );
+}
+
 function renderHome() {
   const counts = DATA.counts || {};
   const stats = [
@@ -488,40 +551,46 @@ function renderHome() {
     [counts.cards || 0, "Cards"],
     [counts.scenarios || DATA.scenarios.length, "Scenes"],
   ];
+  const maxStat = Math.max.apply(null, stats.map((item) => Number(item[0]) || 1));
   const poses = ["idle", "wave", "think", "listen", "celebrate"];
   const swatches = THEMES.map((theme) => '<button type="button" class="swatch" data-home-theme="' + theme.id + '" aria-pressed="' + (activeTheme() === theme.id ? "true" : "false") + '">' + esc(theme.label) + "</button>").join("");
   const spots = [
-    ["#/diagrams", "Diagrams"],
-    ["#/flows", "Flows"],
-    ["#/charts", "Charts"],
-    ["#/downloads", "Cheat Codes"],
-    ["#/play", "Play"],
-    ["#/map", "Ecosystem"],
-    ["#/downloads", "Downloads"],
-    ["#/career", "Careers"],
+    ["#/diagrams", "Diagrams", "diagrams"],
+    ["#/flows", "Flows", "flows"],
+    ["#/charts", "Charts", "charts"],
+    ["#/downloads", "Cheat Codes", "codes"],
+    ["#/play", "Play", "play"],
+    ["#/map", "Ecosystem", "eco"],
+    ["#/downloads", "Downloads", "downloads"],
+    ["#/career", "Careers", "careers"],
   ];
   const tiles = DATA.tracks.map((track) => {
     return (
-      '<a class="track-tile" href="#/track/' + track.id + '">' +
-      '<span class="idx">' + track.emoji + " " + esc(track.num) + "</span>" +
+      '<a class="track-tile holo" href="#/track/' + track.id + '">' +
+      isoIcon(track) +
+      '<span class="idx">' + esc(track.num) + "</span>" +
       "<strong>" + esc(track.title) + "</strong>" +
       "<em>" + lessonsIn(track.id).length + " lessons</em>" +
       "<span>" + esc(track.why) + "</span></a>"
     );
   }).join("");
   return (
-    '<section class="billboard">' +
-    '<div class="billboard-top">' +
-    '<div class="mascot-row" aria-label="Mascot variations">' + poses.map(monkeyMarkup).join("") + "</div>" +
-    '<div class="swatches" role="group" aria-label="Theme switcher">' + swatches + "</div>" +
-    "</div>" +
-    '<div class="grid stats live-counters">' + stats.map((item) => '<div class="stat"><b data-count="' + item[0] + '">' + item[0] + "</b><span>" + item[1] + "</span></div>").join("") + "</div>" +
-    heroFlow() +
-    '<nav class="spot-nav" aria-label="Home sections">' + spots.map((spot) => '<a class="spot" href="' + spot[0] + '">' + esc(spot[1]) + "</a>").join("") + "</nav>" +
-    signalDeck("t01") +
-    "</section>" +
-    '<p class="kicker">Free offline campus · firewall prefixes checked 15 October 2026</p>' +
     "<h1>Microsoft Voice &amp; Contact Center Lab</h1>" +
+    '<section class="neon-hero" id="neon-hero">' +
+    '<canvas id="hero-gl" aria-label="Three.js call path. Teams, SIP proxy, SBC, and carrier orbit a neon grid."></canvas>' +
+    '<div class="hero-fallback" id="hero-fallback" hidden>' + heroFlow() + "</div>" +
+    '<div class="hero-overlay">' +
+    '<div class="hero-copy">' +
+    '<div class="mascot-row" aria-label="Mascot variations">' + poses.map((pose, index) => monkeyMarkup(pose, index)).join("") + "</div>" +
+    '<p class="hero-title" data-i18n="greet">The call path, in light.</p>' +
+    '<p class="hero-sub">Teams, the SIP proxy, the SBC, and the carrier. Signaling stays on TLS 5061. Media may bypass. <a href="#/regions" data-i18n="regions">Regions</a></p>' +
+    "</div>" +
+    '<div class="grid stats live-counters hero-stats">' + stats.map((item) => ringStat(item[0], item[1], (Number(item[0]) / maxStat) * 100)).join("") + "</div>" +
+    '<div class="swatches" role="group" aria-label="Theme switcher">' + swatches + "</div>" +
+    '<nav class="spot-nav" aria-label="Home sections">' + spots.map((spot) => '<a class="spot" href="' + spot[0] + '" data-i18n="' + spot[2] + '">' + esc(spot[1]) + "</a>").join("") + "</nav>" +
+    "</div></section>" +
+    signalDeck("t01") +
+    '<p class="kicker">Free offline campus · firewall prefixes checked 15 October 2026</p>' +
     '<p class="lede">A study bench for the engineer who has to explain a Teams call, a queue, a recorder, and a contact-center route without guessing. No account. No key. No network after this file is open.</p>' +
     '<p class="callout">' + esc(DATA.examFact || "") + "</p>" +
     '<div class="hero-actions row">' +
@@ -532,6 +601,7 @@ function renderHome() {
     '<a class="ghost" href="#/play">Play</a>' +
     '<a class="ghost" href="#/track/t01">Start with the tenant</a>' +
     "</div>" +
+    architectAudio() +
     '<div class="hero-frame">' +
     '<div class="topology-stage" id="home-stage">' +
     '<div class="gl-fallback" id="home-fallback">' + callRibbon() + "</div>" +
@@ -587,8 +657,8 @@ function renderTrack(id) {
   const labs = DATA.labs.filter((lab) => lab.track === id);
   return (
     crumbs([["Home", "#/"], ["Tracks", "#/"], [track.title, ""]]) +
-    '<p class="kicker">Track ' + esc(track.num) + " · " + esc(track.emoji) + "</p>" +
-    "<h1>" + esc(track.title) + "</h1>" +
+    '<div class="track-head">' + isoIcon(track) + '<div><p class="kicker">Track ' + esc(track.num) + "</p>" +
+    "<h1>" + esc(track.title) + "</h1></div></div>" +
     '<div class="callout"><strong>Why it matters. </strong>' + esc(track.why) + "</div>" +
     parallaxRow() +
     signalDeck(id) +
@@ -1796,8 +1866,8 @@ function missing() {
 
 function renderCharts() {
   window.__listen = "Charts. Licensing, call quality, Erlang C, and the certification timeline. Teaching samples are labeled.";
-  return '<p class="kicker">Figures</p><h1>Charts</h1><p class="lede">Licensing, quality, staffing, and the dates that were true on 14 October 2026.</p>' +
-    (DATA.charts || []).map((chart) => '<article class="panel"><h2>' + esc(chart.title) + "</h2>" + chart.svg + '<p class="tiny">' + esc(chart.note) + "</p></article>").join("");
+  return '<p class="kicker">Figures</p><h1>Charts</h1><p class="lede">Licensing, quality, staffing, and the dates that were true on 14 October 2026. Hover a bar to read its label.</p>' +
+    (DATA.charts || []).map((chart) => '<article class="panel holo chart-panel"><h2>' + esc(chart.title) + "</h2>" + chart.svg + '<p class="tiny">' + esc(chart.note) + "</p></article>").join("");
 }
 
 function renderFaults() {
@@ -1826,6 +1896,7 @@ function renderAudio() {
   window.__listen = "Offline audio. Tones are generated. Spoken clips are synthesized on this machine, not recorded from a carrier.";
   const groups = ["dtmf", "progress", "prompt", "intro"];
   return '<p class="kicker">No network</p><h1>Audio</h1><p class="lede">DTMF, call-progress tones, attendant samples, and short intros. Nothing is uploaded. Production attendants use a recorded prompt, not these clips.</p>' +
+    architectAudio() +
     groups.map((kind) => {
       const rows = (DATA.audio || []).filter((clip) => clip.kind === kind);
       return "<h2>" + esc(kind) + "</h2>" + rows.map((clip) => '<article class="panel audio-card"><h3>' + esc(clip.title) + "</h3><p>" + esc(clip.blurb) + '</p><audio controls preload="none" src="' + esc(clip.file) + '"></audio></article>').join("");
@@ -1999,6 +2070,7 @@ async function render() {
   const gen = ++renderGen;
   clearLadders();
   disposeTopology();
+  disposeHero();
   if (window.speechSynthesis) window.speechSynthesis.cancel();
   speaking = false;
   const listen = $("#listen");
@@ -2011,7 +2083,7 @@ async function render() {
     redirectHash(needsArg[root]);
     return;
   }
-  const known = ["home", "track", "lesson", "labs", "lab", "quiz", "cards", "scenarios", "scenario", "glossary", "map", "charts", "faults", "audio", "boss", "exam", "sources", "powershell", "topology", "settings", "tips", "field", "migrate", "ports", "career", "news", "downloads", "game", "sandbox", "daily", "explorer", "diagrams", "flows", "play"];
+  const known = ["home", "track", "lesson", "labs", "lab", "quiz", "cards", "scenarios", "scenario", "glossary", "map", "charts", "faults", "audio", "boss", "exam", "sources", "powershell", "topology", "settings", "tips", "field", "migrate", "ports", "career", "news", "downloads", "game", "sandbox", "daily", "explorer", "diagrams", "flows", "play", "regions"];
   if (known.indexOf(root) === -1) {
     redirectHash("#/");
     return;
@@ -2035,6 +2107,13 @@ async function render() {
   if (root === "tips" && arg && !tipPack(arg)) {
     redirectHash("#/tips");
     return;
+  }
+  document.body.dataset.home = root === "home" ? "1" : "0";
+  const brand = document.querySelector(".brand .monkey");
+  if (brand) {
+    const order = ["home", "diagrams", "flows", "charts", "downloads", "play", "map", "career", "regions"];
+    const found = order.indexOf(root);
+    brand.dataset.look = String((found < 0 ? root.length : found) % 4);
   }
   paintView('<p class="loading">Loading this page.</p>');
   try {
@@ -2093,6 +2172,7 @@ async function render() {
   else if (root === "diagrams") html = renderDiagrams();
   else if (root === "flows") html = renderFlows();
   else if (root === "play") html = renderPlay();
+  else if (root === "regions") html = renderRegions();
   else html = missing();
   paintView(html);
   const main = $("#main");
@@ -2213,11 +2293,12 @@ function wire(root, arg) {
     $$("[data-home-theme]").forEach((button) => {
       button.onclick = function () {
         setTheme(button.getAttribute("data-home-theme"));
-        render();
       };
     });
+    mountHero();
   }
   if (window.armVisuals) window.armVisuals(root);
+  if (typeof applyI18n === "function") applyI18n();
   if (root === "powershell") mountPowerShell($("#ps-host"));
   if (root === "topology") openMesh("topo-gl", "topo-fallback", "topo");
   if (root === "map") {
@@ -2241,6 +2322,7 @@ function navHtml() {
     ["#/map", "Ecosystem"],
     ["#/downloads", "Downloads"],
     ["#/career", "Careers"],
+    ["#/regions", "Regions"],
     ["#/labs", "Labs"],
     ["#/powershell", "PowerShell"],
     ["#/topology", "SBC mesh"],
@@ -2567,6 +2649,24 @@ function bindScenario(prefix) {
   });
 }
 
+async function mountHero() {
+  const canvas = document.getElementById("hero-gl");
+  const fallback = document.getElementById("hero-fallback");
+  if (!canvas) return;
+  const gen = renderGen;
+  try {
+    const mod = await import("./studios/hero.js");
+    if (gen !== renderGen) return;
+    disposeHero();
+    heroHandle = mod.mount(canvas, activeTheme());
+    canvas.hidden = false;
+    if (fallback) fallback.hidden = true;
+  } catch (err) {
+    canvas.hidden = true;
+    if (fallback) fallback.hidden = false;
+  }
+}
+
 async function openMesh(canvasId, fallbackId, prefix) {
   const canvas = document.getElementById(canvasId);
   const fallback = document.getElementById(fallbackId);
@@ -2652,6 +2752,23 @@ async function boot() {
     render();
   });
   if (!state.theme) state.theme = initialTheme();
+  if (!state.lang) state.lang = "en";
+  const lang = $("#lang");
+  if (lang) {
+    lang.value = state.lang;
+    lang.onchange = function () {
+      state.lang = lang.value;
+      save();
+    };
+  }
+  const flip = $("#theme-flip");
+  if (flip) {
+    flip.onclick = function () {
+      if (activeTheme() === "light") setTheme(state.vivid || "neon");
+      else setTheme("light");
+    };
+  }
+  if (typeof armLightbox === "function") armLightbox();
   const syncHeader = function () {
     const bar = document.querySelector(".top");
     if (bar) document.documentElement.style.setProperty("--header-h", bar.offsetHeight + "px");

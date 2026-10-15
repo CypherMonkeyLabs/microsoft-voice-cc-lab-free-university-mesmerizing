@@ -847,15 +847,16 @@ async function loadAtlas() {
   return payload;
 }
 
-function atlasCard(item) {
+function atlasCard(item, feature) {
   const kind = item.animated ? "Animated flow" : "Diagram";
   return (
-    '<article class="panel atlas-card" id="atlas-' + esc(item.id) + '" data-kind="' + (item.animated ? "flow" : "diagram") + '" data-topic="' + esc(item.topic) + '">' +
+    '<article class="panel atlas-card holo' + (feature ? " atlas-feature" : "") + '" id="atlas-' + esc(item.id) + '" data-kind="' + (item.animated ? "flow" : "diagram") + '" data-topic="' + esc(item.topic) + '" data-title="' + esc(item.title) + '" data-caption="' + esc(item.caption) + '">' +
     '<p class="kicker">' + kind + " · " + esc(item.topic) + "</p>" +
     "<h2>" + esc(item.title) + "</h2>" +
     '<div class="figure-canvas">' + item.svg + "</div>" +
     "<p>" + esc(item.caption) + "</p>" +
-    '<p class="tiny"><a href="' + esc(item.source) + '">Source</a> · accessed ' + esc(item.accessed) + "</p></article>"
+    '<p class="tiny"><a href="' + esc(item.source) + '">Source</a> · accessed ' + esc(item.accessed) + "</p>" +
+    '<button type="button" class="primary enlarge" data-enlarge="1" data-i18n="enlarge">Enlarge</button></article>'
   );
 }
 
@@ -878,7 +879,7 @@ function atlasPage(flowsOnly) {
     '<p class="lede">' + items.length + (flowsOnly ? " animated call, signal, and data flows." : " custom diagrams, including the animated flows.") + " Hand-built for this campus. Not a copy of a vendor document.</p>" +
     filters +
     '<p class="tiny" id="atlas-count">' + items.length + " showing</p>" +
-    '<div id="atlas-list">' + items.map(atlasCard).join("") + "</div>"
+    '<div id="atlas-list">' + items.map((item, index) => atlasCard(item, index === 0)).join("") + "</div>"
   );
 }
 
@@ -904,7 +905,7 @@ function renderPlay() {
     crumbs([["Home", "#/"], ["Play", ""]]) +
     '<p class="kicker">Practice</p><h1>Play</h1>' +
     '<p class="lede">Games and sandboxes already in this campus. Scores stay in this browser.</p>' +
-    '<div class="lab-grid">' + tiles.map((tile) => '<a class="card spot" href="' + tile[0] + '"><h3>' + esc(tile[1]) + "</h3><p>" + esc(tile[2]) + "</p></a>").join("") + "</div>"
+    '<div class="lab-grid">' + tiles.map((tile) => '<a class="card spot holo" href="' + tile[0] + '"><h3>' + esc(tile[1]) + "</h3><p>" + esc(tile[2]) + "</p></a>").join("") + "</div>"
   );
 }
 
@@ -927,6 +928,219 @@ function wireAtlas() {
   buttons.forEach((button) => {
     button.onclick = function () { apply(button.getAttribute("data-atlas")); };
   });
+  $$("[data-enlarge]").forEach((button) => {
+    button.onclick = function () {
+      const card = button.closest(".atlas-card");
+      if (card) openLightbox(card);
+    };
+  });
+  $$(".atlas-card .figure-canvas").forEach((canvas) => {
+    canvas.onclick = function () {
+      const card = canvas.closest(".atlas-card");
+      if (card) openLightbox(card);
+    };
+  });
+}
+
+function openLightbox(card) {
+  const box = $("#lightbox");
+  const stage = $("#lb-stage");
+  if (!box || !stage) return;
+  const figure = card.querySelector(".figure-canvas");
+  stage.innerHTML = figure ? figure.innerHTML : "";
+  stage.classList.remove("paused");
+  stage.dataset.step = "0";
+  const play = $("#lb-play");
+  if (play) play.textContent = "Pause";
+  const legend = $("#lb-legend");
+  if (legend) legend.textContent = (card.getAttribute("data-kind") === "flow" ? "Animated flow" : "Diagram") + " · " + (card.getAttribute("data-topic") || "");
+  const why = $("#lb-why");
+  if (why) why.textContent = card.getAttribute("data-caption") || "";
+  const title = $("#lb-title");
+  if (title) title.textContent = card.getAttribute("data-title") || "Diagram";
+  box.hidden = false;
+}
+
+function closeLightbox() {
+  const box = $("#lightbox");
+  if (box) box.hidden = true;
+}
+
+function armLightbox() {
+  const box = $("#lightbox");
+  if (!box || box.dataset.bound === "1") return;
+  box.dataset.bound = "1";
+  const close = $("#lb-close");
+  if (close) close.onclick = closeLightbox;
+  box.addEventListener("click", function (event) {
+    if (event.target === box) closeLightbox();
+  });
+  const play = $("#lb-play");
+  if (play) {
+    play.onclick = function () {
+      const stage = $("#lb-stage");
+      if (!stage) return;
+      const paused = stage.classList.toggle("paused");
+      play.textContent = paused ? "Play" : "Pause";
+      if (!paused) {
+        stage.querySelectorAll(".atlas-packet").forEach((node) => {
+          node.style.animation = "";
+          node.style.offsetDistance = "";
+        });
+      }
+    };
+  }
+  const step = $("#lb-step");
+  if (step) {
+    step.onclick = function () {
+      const stage = $("#lb-stage");
+      if (!stage) return;
+      stage.classList.add("paused");
+      const playBtn = $("#lb-play");
+      if (playBtn) playBtn.textContent = "Play";
+      const next = (Number(stage.dataset.step) || 0) + 1;
+      stage.dataset.step = String(next % 8);
+      const packets = stage.querySelectorAll(".atlas-packet");
+      if (!packets.length) return;
+      packets.forEach((node) => {
+        node.style.animation = "none";
+        node.style.offsetDistance = ((next % 8) * 12.5) + "%";
+      });
+    };
+  }
+  document.addEventListener("keydown", function (event) {
+    if (event.key === "Escape") closeLightbox();
+  });
+}
+
+const I18N = {
+  en: { greet: "The call path, in light.", diagrams: "Diagrams", flows: "Flows", charts: "Charts", codes: "Cheat Codes", play: "Play", eco: "Ecosystem", downloads: "Downloads", careers: "Careers", regions: "Regions", codesShort: "Codes", enlarge: "Enlarge", listen: "Architect briefing", light: "Light", dark: "Dark" },
+  es: { greet: "La ruta de la llamada, en luz.", diagrams: "Diagramas", flows: "Flujos", charts: "Gráficos", codes: "Chuletas", play: "Jugar", eco: "Ecosistema", downloads: "Descargas", careers: "Carreras", regions: "Regiones", codesShort: "Chuletas", enlarge: "Ampliar", listen: "Charla de arquitectura", light: "Claro", dark: "Oscuro" },
+  hi: { greet: "कॉल का रास्ता, रोशनी में।", diagrams: "आरेख", flows: "प्रवाह", charts: "चार्ट", codes: "चीट कोड", play: "खेल", eco: "इकोसिस्टम", downloads: "डाउनलोड", careers: "करियर", regions: "क्षेत्र", codesShort: "कोड", enlarge: "बड़ा करें", listen: "आर्किटेक्ट वार्ता", light: "हल्का", dark: "गहरा" },
+  te: { greet: "కాల్ మార్గం, వెలుగులో.", diagrams: "రేఖాచిత్రాలు", flows: "ప్రవాహాలు", charts: "పటాలు", codes: "చీట్ కోడ్", play: "ఆట", eco: "వ్యవస్థ", downloads: "డౌన్‌లోడ్", careers: "వృత్తులు", regions: "ప్రాంతాలు", codesShort: "కోడ్", enlarge: "పెద్దది", listen: "వాస్తు సంభాషణ", light: "వెలుతురు", dark: "చీకటి" },
+  fr: { greet: "Le chemin de l'appel, en lumière.", diagrams: "Schémas", flows: "Flux", charts: "Graphiques", codes: "Antisèches", play: "Jouer", eco: "Écosystème", downloads: "Téléchargements", careers: "Carrières", regions: "Régions", codesShort: "Fiches", enlarge: "Agrandir", listen: "Brief architectes", light: "Clair", dark: "Sombre" },
+  de: { greet: "Der Anrufweg, in Licht.", diagrams: "Diagramme", flows: "Flüsse", charts: "Charts", codes: "Spickzettel", play: "Spielen", eco: "Ökosystem", downloads: "Downloads", careers: "Karriere", regions: "Regionen", codesShort: "Zettel", enlarge: "Vergrößern", listen: "Architektenbriefing", light: "Hell", dark: "Dunkel" },
+  ja: { greet: "通話経路を、光で。", diagrams: "図", flows: "フロー", charts: "チャート", codes: "チートシート", play: "練習", eco: "エコシステム", downloads: "ダウンロード", careers: "キャリア", regions: "地域", codesShort: "シート", enlarge: "拡大", listen: "設計者の対話", light: "ライト", dark: "ダーク" },
+  ar: { greet: "مسار المكالمة، في الضوء.", diagrams: "مخططات", flows: "تدفقات", charts: "رسوم", codes: "أوراق الغش", play: "تدريب", eco: "المنظومة", downloads: "تنزيلات", careers: "مسارات", regions: "مناطق", codesShort: "أوراق", enlarge: "تكبير", listen: "حوار المعماريين", light: "فاتح", dark: "داكن" },
+};
+
+function applyI18n() {
+  const lang = state.lang || "en";
+  const pack = I18N[lang] || I18N.en;
+  document.documentElement.lang = lang;
+  document.documentElement.dir = lang === "ar" ? "rtl" : "ltr";
+  $$("[data-i18n]").forEach((node) => {
+    const key = node.getAttribute("data-i18n");
+    if (pack[key]) node.textContent = pack[key];
+  });
+  const sel = $("#lang");
+  if (sel && sel.value !== lang) sel.value = lang;
+  const flip = $("#theme-flip");
+  if (flip) flip.textContent = activeTheme() === "light" ? pack.dark : pack.light;
+}
+
+function architectAudio() {
+  return (
+    '<section class="panel holo architect">' +
+    '<h2 data-i18n="listen">Architect briefing</h2>' +
+    '<p>Two short clips. Maya and Jon walk the campus: how to view the scene, open the menu, practise, and share. Spoken on this machine with espeak-ng. Nothing is uploaded.</p>' +
+    '<figure><figcaption>Use and view</figcaption><audio controls preload="none" src="audio/architect-use.mp3"></audio></figure>' +
+    '<figure><figcaption>Practise and share</figcaption><audio controls preload="none" src="audio/architect-share.mp3"></audio></figure>' +
+    '<p class="audio-actions"><a href="https://github.com/cipher0x9/microsoft-voice-cc-lab-free-university-mesmerizing/issues">Rate and comment</a> · <button type="button" class="ghost" id="share-lab">Share</button> · <a href="https://cyphermonkeylabs.com">CypherMonkey Labs</a></p>' +
+    '<p class="tiny" id="share-note">Share copies the public campus address. Report a concern from the footer. No email is shown.</p></section>'
+  );
+}
+
+function wireArchitect() {
+  const button = $("#share-lab");
+  if (!button || button.dataset.bound === "1") return;
+  button.dataset.bound = "1";
+  button.onclick = function () {
+    const url = "https://cipher0x9.github.io/microsoft-voice-cc-lab-free-university-mesmerizing/campus/";
+    const note = $("#share-note");
+    const done = function (text) { if (note) note.textContent = text; };
+    if (navigator.share) {
+      navigator.share({ title: "Microsoft Voice & Contact Center Lab", url: url }).then(function () { done("Shared."); }).catch(function () { done(url); });
+      return;
+    }
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(url).then(function () { done("Copied " + url); }).catch(function () { done(url); });
+      return;
+    }
+    done(url);
+  };
+}
+
+function bindChartTips() {
+  const host = $("#view");
+  if (!host || host.dataset.tips === "1") return;
+  host.dataset.tips = "1";
+  let tip = $("#chart-tip");
+  if (!tip) {
+    tip = document.createElement("div");
+    tip.id = "chart-tip";
+    tip.className = "chart-tip";
+    tip.hidden = true;
+    document.body.appendChild(tip);
+  }
+  host.addEventListener("pointerover", function (event) {
+    const node = event.target && event.target.closest ? event.target.closest("rect, path") : null;
+    if (!node || !node.closest("svg")) return;
+    const own = node.querySelector("title");
+    const svg = node.closest("svg");
+    const svgTitle = svg ? svg.querySelector("title") : null;
+    const label = (own && own.textContent) || (svgTitle && svgTitle.textContent) || "";
+    if (!label) {
+      tip.hidden = true;
+      return;
+    }
+    tip.hidden = false;
+    tip.textContent = label;
+  });
+  host.addEventListener("pointermove", function (event) {
+    if (tip.hidden) return;
+    tip.style.left = (event.clientX + 14) + "px";
+    tip.style.top = (event.clientY + 16) + "px";
+  });
+  host.addEventListener("pointerout", function (event) {
+    const node = event.target && event.target.closest ? event.target.closest("rect, path") : null;
+    if (node) tip.hidden = true;
+  });
+}
+
+function renderRegions() {
+  window.__listen = "Regions. Cited firewall lists, then an example country map that is not a live catalog.";
+  const cited = [
+    ["Commercial SBC signaling and media", "52.112.0.0/14 and 52.120.0.0/14. IPv6 signaling 2603:1063:400::/40. IPv6 media adds 2603:1063:100::/40. SIP/TLS TCP 5061.", "https://learn.microsoft.com/en-us/microsoftteams/direct-routing-plan"],
+    ["Teams client optimize", "52.112.0.0/14 and 52.122.0.0/15, plus IPv6 2603:1063::/38. This is not the SBC pair. 52.120.0.0/14 is not on the client optimize list.", "https://learn.microsoft.com/en-us/microsoft-365/enterprise/urls-and-ip-address-ranges"],
+    ["GCC High and DoD", "Different proxy names and media prefixes. GCC High media 52.127.88.0/21. DoD media 52.127.64.0/21. Do not copy a commercial ACL into those clouds.", "https://learn.microsoft.com/en-us/microsoftteams/direct-routing-plan"],
+    ["Client QoS marks", "Audio UDP/TCP 50000–50019 DSCP 46. Browser joins do not use that range.", "https://learn.microsoft.com/en-us/microsoftteams/qos-in-teams"],
+  ];
+  const examples = [
+    ["US", "United States", "+1", "Example: Calling Plans are a country catalog. Confirm the current list before you assign a SKU."],
+    ["GB", "United Kingdom", "+44", "Example: emergency 999 and 112 must not be eaten by a catch-all dial-plan rule."],
+    ["IN", "India", "+91", "Example: this campus teaches that Operator Connect for India is its own plan. Re-read the vendor page."],
+    ["DE", "Germany", "+49", "Example: location-based routing is the tool when PSTN must stay with the local gateway."],
+    ["JP", "Japan", "+81", "Example: media processors prefer a nearby region. You do not pick a street address for one."],
+    ["AE", "United Arab Emirates", "+971", "Example: a traveler laptop should not egress through another country’s SBC."],
+    ["BR", "Brazil", "+55", "Example study pin only. Not a claim about carrier coverage."],
+    ["AU", "Australia", "+61", "Example study pin only. Not a data-residency promise."],
+  ];
+  return (
+    crumbs([["Home", "#/"], ["Regions", ""]]) +
+    '<p class="kicker">Places · checked 15 October 2026</p><h1>Regions</h1>' +
+    '<p class="lede">Two lists are facts from Microsoft’s pages. The country grid below is an example study map, not a live PSTN catalog and not a data-residency table.</p>' +
+    '<div class="region-grid">' + examples.map((row) => (
+      '<article class="panel holo region-card"><p class="flag" aria-hidden="true">' + esc(row[0]) + '</p><h2>' + esc(row[1]) + '</h2><p class="kicker">' + esc(row[2]) + '</p><p><span class="tag warn">Example</span> ' + esc(row[3]) + "</p></article>"
+    )).join("") + "</div>" +
+    "<h2>Cited network facts</h2>" +
+    fieldTable(["What", "Fact", "Source"], cited.map((row) => [
+      esc(row[0]),
+      esc(row[1]),
+      '<a href="' + esc(row[2]) + '">Microsoft Learn</a>',
+    ])) +
+    '<p class="tiny">Accessed 15 October 2026 for the firewall rows. The country cards stay labeled Example. The vendor page wins when they disagree.</p>'
+  );
 }
 
 function extraHits() {
@@ -943,6 +1157,7 @@ function extraHits() {
     { href: "#/play", title: "Play", kind: "Game" },
     { href: "#/downloads", title: "Cheat Codes and downloads", kind: "Guide" },
     { href: "#/career", title: "Career and certification paths", kind: "Guide" },
+    { href: "#/regions", title: "Regions and residency notes", kind: "Guide" },
     { href: "#/news", title: "What is new", kind: "Guide" },
   ];
 }
@@ -1376,6 +1591,8 @@ function wireExtras(root) {
   }
   if (root === "diagrams" || root === "flows") wireAtlas();
   if (root === "lesson" || root === "field" || root === "migrate" || root === "ports") mountOnThisPage();
+  bindChartTips();
+  wireArchitect();
 }
 
 function bindReadbar() {
@@ -1403,6 +1620,13 @@ function cycleMascot() {
       node.dataset.pose = poses[index];
     });
   }, 7000);
+  window.setInterval(function () {
+    if (document.documentElement.dataset.motion === "reduce") return;
+    $$(".monkey").forEach((node) => {
+      const next = ((Number(node.dataset.look) || 0) + 1) % 4;
+      node.dataset.look = String(next);
+    });
+  }, 180000);
 }
 
 function armKonami() {
@@ -1458,10 +1682,16 @@ const STORE = "mvcc-lab-v1";
 const trackPacks = {};
 const moduleFlags = {};
 let topoHandle = null;
+let heroHandle = null;
 
 function disposeTopology() {
   if (topoHandle && topoHandle.dispose) topoHandle.dispose();
   topoHandle = null;
+}
+
+function disposeHero() {
+  if (heroHandle && heroHandle.dispose) heroHandle.dispose();
+  heroHandle = null;
 }
 
 async function fetchJson(url) {
@@ -1567,6 +1797,8 @@ function freshState() {
     dailyOk: false,
     konami: false,
     sandboxOk: false,
+    lang: "en",
+    vivid: "neon",
   };
 }
 
@@ -1687,13 +1919,16 @@ const ACH_COPY = {
 };
 
 const THEMES = [
-  { id: "light", label: "Light" },
-  { id: "futuristic", label: "Futuristic" },
-  { id: "gaming", label: "Gaming" },
   { id: "neon", label: "Neon" },
-  { id: "dark", label: "Dark acrylic" },
-  { id: "hc", label: "High contrast" },
-  { id: "teams", label: "Teams purple" },
+  { id: "holographic", label: "Holo" },
+  { id: "cyberpunk", label: "Cyber" },
+  { id: "sunset", label: "Sunset" },
+  { id: "light", label: "Light" },
+  { id: "dark", label: "Dark" },
+  { id: "futuristic", label: "Future" },
+  { id: "gaming", label: "Game" },
+  { id: "hc", label: "Contrast" },
+  { id: "teams", label: "Teams" },
 ];
 const FONTS = [
   { id: "sm", label: "Small" },
@@ -1703,8 +1938,7 @@ const FONTS = [
 ];
 
 function initialTheme() {
-  if (window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches) return "dark";
-  return "light";
+  return "neon";
 }
 
 function activeTheme() {
@@ -1734,9 +1968,17 @@ function paintChrome() {
   if (rate && document.activeElement !== rate) rate.value = String(state.rate || 1);
   const listen = $("#listen");
   if (listen && state.narration === false && !speaking) listen.textContent = "Narration off";
+  if (heroHandle && heroHandle.setPalette) {
+    try { heroHandle.setPalette(activeTheme()); } catch (err) { /* palette is visual */ }
+  }
+  if (typeof applyI18n === "function") applyI18n();
+  $$("[data-home-theme]").forEach((button) => {
+    button.setAttribute("aria-pressed", button.getAttribute("data-home-theme") === activeTheme() ? "true" : "false");
+  });
 }
 
 function setTheme(next) {
+  if (next && next !== "light") state.vivid = next;
   state.theme = next;
   save();
 }
@@ -1778,7 +2020,7 @@ function chartSvg(chart) {
     const y = 28 + i * 36;
     const w = Math.max(4, (bar.value / max) * 360);
     rows += '<text x="0" y="' + (y + 14) + '" fill="var(--ink)" font-size="13" font-family="var(--sans)">' + esc(bar.label) + "</text>";
-    rows += '<rect x="220" y="' + y + '" width="' + w + '" height="18" rx="6" fill="var(--teal)"></rect>';
+    rows += '<rect x="220" y="' + y + '" width="' + w + '" height="18" rx="6" fill="var(--teal)"><title>' + esc(bar.label) + ": " + esc(String(bar.display || bar.value)) + "</title></rect>";
     rows += '<text x="' + (228 + w) + '" y="' + (y + 14) + '" fill="var(--muted)" font-size="12" font-family="var(--sans)">' + esc(bar.display || bar.value) + "</text>";
   });
   const caption = (chart.title || "Chart") + ". " + (chart.note || "");
@@ -1816,15 +2058,15 @@ function sourceList(sources) {
   );
 }
 
-function monkeyMarkup(pose) {
+function monkeyMarkup(pose, look) {
   return (
-    '<svg class="monkey" data-pose="' + pose + '" data-fixed="1" viewBox="0 0 64 72" aria-hidden="true">' +
+    '<svg class="monkey" data-pose="' + pose + '" data-look="' + (look == null ? 0 : look) + '" data-fixed="1" viewBox="0 0 64 72" aria-hidden="true">' +
     '<path class="tail" d="M46 54c10 2 14 12 8 16" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"></path>' +
     '<circle cx="32" cy="28" r="14" fill="var(--cc-accent-3)"></circle>' +
     '<circle cx="18" cy="26" r="5" fill="var(--cc-accent-4)"></circle>' +
     '<circle cx="46" cy="26" r="5" fill="var(--cc-accent-4)"></circle>' +
-    '<circle cx="27" cy="27" r="1.6" fill="#1a1208"></circle>' +
-    '<circle cx="37" cy="27" r="1.6" fill="#1a1208"></circle>' +
+    '<circle class="eye" cx="27" cy="27" r="1.6" fill="#1a1208"></circle>' +
+    '<circle class="eye" cx="37" cy="27" r="1.6" fill="#1a1208"></circle>' +
     '<path class="smile" d="M27 33c2.2 2 7.8 2 10 0" fill="none" stroke="#1a1208" stroke-width="1.4" stroke-linecap="round"></path>' +
     '<path class="headset" d="M20 24c0-8 24-8 24 0v6" fill="none" stroke="var(--cc-accent-1)" stroke-width="2"></path>' +
     '<rect x="16" y="28" width="6" height="8" rx="2" fill="var(--cc-accent-1)"></rect>' +
@@ -1870,7 +2112,7 @@ function signalDeck(anchorId) {
   const picks = [];
   for (let i = 0; i < 6; i += 1) picks.push(tracks[(start + i) % tracks.length]);
   const cards = picks.map((track) => (
-    '<article class="signal-card"><h3>' + esc((track.chart && track.chart.title) || track.title) + "</h3>" +
+    '<article class="signal-card holo"><h3>' + esc((track.chart && track.chart.title) || track.title) + "</h3>" +
     chartSvg(track.chart || { bars: [], title: track.title }) +
     '<p class="tiny">Track ' + esc(track.num) + ". " + esc((track.chart && track.chart.note) || "") + "</p></article>"
   )).join("");
@@ -1907,6 +2149,51 @@ function heroFlow() {
   );
 }
 
+function isoIcon(track) {
+  const n = Number(String(track.num).replace(/\D/g, "")) || 1;
+  const id = String(track.id || "t").replace(/[^a-z0-9]/gi, "");
+  const hue = (n * 37) % 360;
+  const hue2 = (hue + 46) % 360;
+  const glyphs = [
+    "M74 40 H86 V52 H74 Z",
+    "M80 36 L90 52 H70 Z",
+    "M72 44 H88 M80 36 V52",
+    "M70 40 H90 M70 48 H90",
+    "M74 38 C80 34 86 38 86 44 C86 52 74 52 74 44 C74 38 74 38 74 38",
+    "M72 50 L80 36 L88 50",
+    "M70 42 H90 V52 H70 Z M75 42 V38 H85 V42",
+    "M80 36 A8 8 0 1 1 79.8 36",
+  ];
+  const glyph = glyphs[(n - 1) % glyphs.length];
+  return (
+    '<span class="iso-wrap"><svg class="iso-icon" viewBox="0 0 160 150" role="img" aria-label="' + esc(track.title) + ' icon">' +
+    "<defs>" +
+    '<linearGradient id="fa' + id + '" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="hsl(' + hue + ',95%,68%)"/><stop offset="100%" stop-color="hsl(' + hue2 + ',90%,50%)"/></linearGradient>' +
+    '<linearGradient id="fl' + id + '" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="hsl(' + hue + ',70%,36%)"/><stop offset="100%" stop-color="hsl(' + hue + ',80%,16%)"/></linearGradient>' +
+    '<linearGradient id="fr' + id + '" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="hsl(' + hue2 + ',85%,46%)"/><stop offset="100%" stop-color="hsl(' + hue2 + ',70%,22%)"/></linearGradient>' +
+    '<filter id="fs' + id + '" x="-40%" y="-40%" width="180%" height="180%"><feDropShadow dx="0" dy="12" stdDeviation="6" flood-color="hsl(' + hue + ',100%,58%)" flood-opacity="0.7"/></filter>' +
+    "</defs>" +
+    '<polygon points="80,18 132,46 80,74 28,46" fill="url(#fa' + id + ')" filter="url(#fs' + id + ')"/>' +
+    '<polygon points="28,46 80,74 80,122 28,94" fill="url(#fl' + id + ')"/>' +
+    '<polygon points="80,74 132,46 132,94 80,122" fill="url(#fr' + id + ')"/>' +
+    '<path d="' + glyph + '" fill="none" stroke="#fff" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"/>' +
+    '<text x="80" y="142" text-anchor="middle" fill="currentColor" font-size="12" font-family="sans-serif">' + esc(track.num) + "</text>" +
+    "</svg></span>"
+  );
+}
+
+function ringStat(value, label, pct) {
+  const radius = 16;
+  const circ = 2 * Math.PI * radius;
+  const dash = Math.max(4, (Math.max(8, Math.min(100, pct)) / 100) * circ);
+  return (
+    '<div class="stat holo"><svg class="ring" viewBox="0 0 44 44" aria-hidden="true">' +
+    '<circle class="ring-bg" cx="22" cy="22" r="16"></circle>' +
+    '<circle class="ring-fg" cx="22" cy="22" r="16" stroke-dasharray="' + dash.toFixed(1) + " " + circ.toFixed(1) + '"></circle></svg>' +
+    '<b data-count="' + value + '">' + value + "</b><span>" + label + "</span></div>"
+  );
+}
+
 function renderHome() {
   const counts = DATA.counts || {};
   const stats = [
@@ -1919,40 +2206,46 @@ function renderHome() {
     [counts.cards || 0, "Cards"],
     [counts.scenarios || DATA.scenarios.length, "Scenes"],
   ];
+  const maxStat = Math.max.apply(null, stats.map((item) => Number(item[0]) || 1));
   const poses = ["idle", "wave", "think", "listen", "celebrate"];
   const swatches = THEMES.map((theme) => '<button type="button" class="swatch" data-home-theme="' + theme.id + '" aria-pressed="' + (activeTheme() === theme.id ? "true" : "false") + '">' + esc(theme.label) + "</button>").join("");
   const spots = [
-    ["#/diagrams", "Diagrams"],
-    ["#/flows", "Flows"],
-    ["#/charts", "Charts"],
-    ["#/downloads", "Cheat Codes"],
-    ["#/play", "Play"],
-    ["#/map", "Ecosystem"],
-    ["#/downloads", "Downloads"],
-    ["#/career", "Careers"],
+    ["#/diagrams", "Diagrams", "diagrams"],
+    ["#/flows", "Flows", "flows"],
+    ["#/charts", "Charts", "charts"],
+    ["#/downloads", "Cheat Codes", "codes"],
+    ["#/play", "Play", "play"],
+    ["#/map", "Ecosystem", "eco"],
+    ["#/downloads", "Downloads", "downloads"],
+    ["#/career", "Careers", "careers"],
   ];
   const tiles = DATA.tracks.map((track) => {
     return (
-      '<a class="track-tile" href="#/track/' + track.id + '">' +
-      '<span class="idx">' + track.emoji + " " + esc(track.num) + "</span>" +
+      '<a class="track-tile holo" href="#/track/' + track.id + '">' +
+      isoIcon(track) +
+      '<span class="idx">' + esc(track.num) + "</span>" +
       "<strong>" + esc(track.title) + "</strong>" +
       "<em>" + lessonsIn(track.id).length + " lessons</em>" +
       "<span>" + esc(track.why) + "</span></a>"
     );
   }).join("");
   return (
-    '<section class="billboard">' +
-    '<div class="billboard-top">' +
-    '<div class="mascot-row" aria-label="Mascot variations">' + poses.map(monkeyMarkup).join("") + "</div>" +
-    '<div class="swatches" role="group" aria-label="Theme switcher">' + swatches + "</div>" +
-    "</div>" +
-    '<div class="grid stats live-counters">' + stats.map((item) => '<div class="stat"><b data-count="' + item[0] + '">' + item[0] + "</b><span>" + item[1] + "</span></div>").join("") + "</div>" +
-    heroFlow() +
-    '<nav class="spot-nav" aria-label="Home sections">' + spots.map((spot) => '<a class="spot" href="' + spot[0] + '">' + esc(spot[1]) + "</a>").join("") + "</nav>" +
-    signalDeck("t01") +
-    "</section>" +
-    '<p class="kicker">Free offline campus · firewall prefixes checked 15 October 2026</p>' +
     "<h1>Microsoft Voice &amp; Contact Center Lab</h1>" +
+    '<section class="neon-hero" id="neon-hero">' +
+    '<canvas id="hero-gl" aria-label="Three.js call path. Teams, SIP proxy, SBC, and carrier orbit a neon grid."></canvas>' +
+    '<div class="hero-fallback" id="hero-fallback" hidden>' + heroFlow() + "</div>" +
+    '<div class="hero-overlay">' +
+    '<div class="hero-copy">' +
+    '<div class="mascot-row" aria-label="Mascot variations">' + poses.map((pose, index) => monkeyMarkup(pose, index)).join("") + "</div>" +
+    '<p class="hero-title" data-i18n="greet">The call path, in light.</p>' +
+    '<p class="hero-sub">Teams, the SIP proxy, the SBC, and the carrier. Signaling stays on TLS 5061. Media may bypass. <a href="#/regions" data-i18n="regions">Regions</a></p>' +
+    "</div>" +
+    '<div class="grid stats live-counters hero-stats">' + stats.map((item) => ringStat(item[0], item[1], (Number(item[0]) / maxStat) * 100)).join("") + "</div>" +
+    '<div class="swatches" role="group" aria-label="Theme switcher">' + swatches + "</div>" +
+    '<nav class="spot-nav" aria-label="Home sections">' + spots.map((spot) => '<a class="spot" href="' + spot[0] + '" data-i18n="' + spot[2] + '">' + esc(spot[1]) + "</a>").join("") + "</nav>" +
+    "</div></section>" +
+    signalDeck("t01") +
+    '<p class="kicker">Free offline campus · firewall prefixes checked 15 October 2026</p>' +
     '<p class="lede">A study bench for the engineer who has to explain a Teams call, a queue, a recorder, and a contact-center route without guessing. No account. No key. No network after this file is open.</p>' +
     '<p class="callout">' + esc(DATA.examFact || "") + "</p>" +
     '<div class="hero-actions row">' +
@@ -1963,6 +2256,7 @@ function renderHome() {
     '<a class="ghost" href="#/play">Play</a>' +
     '<a class="ghost" href="#/track/t01">Start with the tenant</a>' +
     "</div>" +
+    architectAudio() +
     '<div class="hero-frame">' +
     '<div class="topology-stage" id="home-stage">' +
     '<div class="gl-fallback" id="home-fallback">' + callRibbon() + "</div>" +
@@ -2018,8 +2312,8 @@ function renderTrack(id) {
   const labs = DATA.labs.filter((lab) => lab.track === id);
   return (
     crumbs([["Home", "#/"], ["Tracks", "#/"], [track.title, ""]]) +
-    '<p class="kicker">Track ' + esc(track.num) + " · " + esc(track.emoji) + "</p>" +
-    "<h1>" + esc(track.title) + "</h1>" +
+    '<div class="track-head">' + isoIcon(track) + '<div><p class="kicker">Track ' + esc(track.num) + "</p>" +
+    "<h1>" + esc(track.title) + "</h1></div></div>" +
     '<div class="callout"><strong>Why it matters. </strong>' + esc(track.why) + "</div>" +
     parallaxRow() +
     signalDeck(id) +
@@ -3227,8 +3521,8 @@ function missing() {
 
 function renderCharts() {
   window.__listen = "Charts. Licensing, call quality, Erlang C, and the certification timeline. Teaching samples are labeled.";
-  return '<p class="kicker">Figures</p><h1>Charts</h1><p class="lede">Licensing, quality, staffing, and the dates that were true on 14 October 2026.</p>' +
-    (DATA.charts || []).map((chart) => '<article class="panel"><h2>' + esc(chart.title) + "</h2>" + chart.svg + '<p class="tiny">' + esc(chart.note) + "</p></article>").join("");
+  return '<p class="kicker">Figures</p><h1>Charts</h1><p class="lede">Licensing, quality, staffing, and the dates that were true on 14 October 2026. Hover a bar to read its label.</p>' +
+    (DATA.charts || []).map((chart) => '<article class="panel holo chart-panel"><h2>' + esc(chart.title) + "</h2>" + chart.svg + '<p class="tiny">' + esc(chart.note) + "</p></article>").join("");
 }
 
 function renderFaults() {
@@ -3257,6 +3551,7 @@ function renderAudio() {
   window.__listen = "Offline audio. Tones are generated. Spoken clips are synthesized on this machine, not recorded from a carrier.";
   const groups = ["dtmf", "progress", "prompt", "intro"];
   return '<p class="kicker">No network</p><h1>Audio</h1><p class="lede">DTMF, call-progress tones, attendant samples, and short intros. Nothing is uploaded. Production attendants use a recorded prompt, not these clips.</p>' +
+    architectAudio() +
     groups.map((kind) => {
       const rows = (DATA.audio || []).filter((clip) => clip.kind === kind);
       return "<h2>" + esc(kind) + "</h2>" + rows.map((clip) => '<article class="panel audio-card"><h3>' + esc(clip.title) + "</h3><p>" + esc(clip.blurb) + '</p><audio controls preload="none" src="' + esc(clip.file) + '"></audio></article>').join("");
@@ -3430,6 +3725,7 @@ async function render() {
   const gen = ++renderGen;
   clearLadders();
   disposeTopology();
+  disposeHero();
   if (window.speechSynthesis) window.speechSynthesis.cancel();
   speaking = false;
   const listen = $("#listen");
@@ -3442,7 +3738,7 @@ async function render() {
     redirectHash(needsArg[root]);
     return;
   }
-  const known = ["home", "track", "lesson", "labs", "lab", "quiz", "cards", "scenarios", "scenario", "glossary", "map", "charts", "faults", "audio", "boss", "exam", "sources", "powershell", "topology", "settings", "tips", "field", "migrate", "ports", "career", "news", "downloads", "game", "sandbox", "daily", "explorer", "diagrams", "flows", "play"];
+  const known = ["home", "track", "lesson", "labs", "lab", "quiz", "cards", "scenarios", "scenario", "glossary", "map", "charts", "faults", "audio", "boss", "exam", "sources", "powershell", "topology", "settings", "tips", "field", "migrate", "ports", "career", "news", "downloads", "game", "sandbox", "daily", "explorer", "diagrams", "flows", "play", "regions"];
   if (known.indexOf(root) === -1) {
     redirectHash("#/");
     return;
@@ -3466,6 +3762,13 @@ async function render() {
   if (root === "tips" && arg && !tipPack(arg)) {
     redirectHash("#/tips");
     return;
+  }
+  document.body.dataset.home = root === "home" ? "1" : "0";
+  const brand = document.querySelector(".brand .monkey");
+  if (brand) {
+    const order = ["home", "diagrams", "flows", "charts", "downloads", "play", "map", "career", "regions"];
+    const found = order.indexOf(root);
+    brand.dataset.look = String((found < 0 ? root.length : found) % 4);
   }
   paintView('<p class="loading">Loading this page.</p>');
   try {
@@ -3524,6 +3827,7 @@ async function render() {
   else if (root === "diagrams") html = renderDiagrams();
   else if (root === "flows") html = renderFlows();
   else if (root === "play") html = renderPlay();
+  else if (root === "regions") html = renderRegions();
   else html = missing();
   paintView(html);
   const main = $("#main");
@@ -3644,11 +3948,12 @@ function wire(root, arg) {
     $$("[data-home-theme]").forEach((button) => {
       button.onclick = function () {
         setTheme(button.getAttribute("data-home-theme"));
-        render();
       };
     });
+    mountHero();
   }
   if (window.armVisuals) window.armVisuals(root);
+  if (typeof applyI18n === "function") applyI18n();
   if (root === "powershell") mountPowerShell($("#ps-host"));
   if (root === "topology") openMesh("topo-gl", "topo-fallback", "topo");
   if (root === "map") {
@@ -3672,6 +3977,7 @@ function navHtml() {
     ["#/map", "Ecosystem"],
     ["#/downloads", "Downloads"],
     ["#/career", "Careers"],
+    ["#/regions", "Regions"],
     ["#/labs", "Labs"],
     ["#/powershell", "PowerShell"],
     ["#/topology", "SBC mesh"],
@@ -3998,6 +4304,24 @@ function bindScenario(prefix) {
   });
 }
 
+async function mountHero() {
+  const canvas = document.getElementById("hero-gl");
+  const fallback = document.getElementById("hero-fallback");
+  if (!canvas) return;
+  const gen = renderGen;
+  try {
+    const mod = await import("./studios/hero.js");
+    if (gen !== renderGen) return;
+    disposeHero();
+    heroHandle = mod.mount(canvas, activeTheme());
+    canvas.hidden = false;
+    if (fallback) fallback.hidden = true;
+  } catch (err) {
+    canvas.hidden = true;
+    if (fallback) fallback.hidden = false;
+  }
+}
+
 async function openMesh(canvasId, fallbackId, prefix) {
   const canvas = document.getElementById(canvasId);
   const fallback = document.getElementById(fallbackId);
@@ -4083,6 +4407,23 @@ async function boot() {
     render();
   });
   if (!state.theme) state.theme = initialTheme();
+  if (!state.lang) state.lang = "en";
+  const lang = $("#lang");
+  if (lang) {
+    lang.value = state.lang;
+    lang.onchange = function () {
+      state.lang = lang.value;
+      save();
+    };
+  }
+  const flip = $("#theme-flip");
+  if (flip) {
+    flip.onclick = function () {
+      if (activeTheme() === "light") setTheme(state.vivid || "neon");
+      else setTheme("light");
+    };
+  }
+  if (typeof armLightbox === "function") armLightbox();
   const syncHeader = function () {
     const bar = document.querySelector(".top");
     if (bar) document.documentElement.style.setProperty("--header-h", bar.offsetHeight + "px");

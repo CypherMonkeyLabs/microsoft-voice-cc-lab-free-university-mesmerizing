@@ -84,15 +84,16 @@ async function loadAtlas() {
   return payload;
 }
 
-function atlasCard(item) {
+function atlasCard(item, feature) {
   const kind = item.animated ? "Animated flow" : "Diagram";
   return (
-    '<article class="panel atlas-card" id="atlas-' + esc(item.id) + '" data-kind="' + (item.animated ? "flow" : "diagram") + '" data-topic="' + esc(item.topic) + '">' +
+    '<article class="panel atlas-card holo' + (feature ? " atlas-feature" : "") + '" id="atlas-' + esc(item.id) + '" data-kind="' + (item.animated ? "flow" : "diagram") + '" data-topic="' + esc(item.topic) + '" data-title="' + esc(item.title) + '" data-caption="' + esc(item.caption) + '">' +
     '<p class="kicker">' + kind + " · " + esc(item.topic) + "</p>" +
     "<h2>" + esc(item.title) + "</h2>" +
     '<div class="figure-canvas">' + item.svg + "</div>" +
     "<p>" + esc(item.caption) + "</p>" +
-    '<p class="tiny"><a href="' + esc(item.source) + '">Source</a> · accessed ' + esc(item.accessed) + "</p></article>"
+    '<p class="tiny"><a href="' + esc(item.source) + '">Source</a> · accessed ' + esc(item.accessed) + "</p>" +
+    '<button type="button" class="primary enlarge" data-enlarge="1" data-i18n="enlarge">Enlarge</button></article>'
   );
 }
 
@@ -115,7 +116,7 @@ function atlasPage(flowsOnly) {
     '<p class="lede">' + items.length + (flowsOnly ? " animated call, signal, and data flows." : " custom diagrams, including the animated flows.") + " Hand-built for this campus. Not a copy of a vendor document.</p>" +
     filters +
     '<p class="tiny" id="atlas-count">' + items.length + " showing</p>" +
-    '<div id="atlas-list">' + items.map(atlasCard).join("") + "</div>"
+    '<div id="atlas-list">' + items.map((item, index) => atlasCard(item, index === 0)).join("") + "</div>"
   );
 }
 
@@ -141,7 +142,7 @@ function renderPlay() {
     crumbs([["Home", "#/"], ["Play", ""]]) +
     '<p class="kicker">Practice</p><h1>Play</h1>' +
     '<p class="lede">Games and sandboxes already in this campus. Scores stay in this browser.</p>' +
-    '<div class="lab-grid">' + tiles.map((tile) => '<a class="card spot" href="' + tile[0] + '"><h3>' + esc(tile[1]) + "</h3><p>" + esc(tile[2]) + "</p></a>").join("") + "</div>"
+    '<div class="lab-grid">' + tiles.map((tile) => '<a class="card spot holo" href="' + tile[0] + '"><h3>' + esc(tile[1]) + "</h3><p>" + esc(tile[2]) + "</p></a>").join("") + "</div>"
   );
 }
 
@@ -164,6 +165,219 @@ function wireAtlas() {
   buttons.forEach((button) => {
     button.onclick = function () { apply(button.getAttribute("data-atlas")); };
   });
+  $$("[data-enlarge]").forEach((button) => {
+    button.onclick = function () {
+      const card = button.closest(".atlas-card");
+      if (card) openLightbox(card);
+    };
+  });
+  $$(".atlas-card .figure-canvas").forEach((canvas) => {
+    canvas.onclick = function () {
+      const card = canvas.closest(".atlas-card");
+      if (card) openLightbox(card);
+    };
+  });
+}
+
+function openLightbox(card) {
+  const box = $("#lightbox");
+  const stage = $("#lb-stage");
+  if (!box || !stage) return;
+  const figure = card.querySelector(".figure-canvas");
+  stage.innerHTML = figure ? figure.innerHTML : "";
+  stage.classList.remove("paused");
+  stage.dataset.step = "0";
+  const play = $("#lb-play");
+  if (play) play.textContent = "Pause";
+  const legend = $("#lb-legend");
+  if (legend) legend.textContent = (card.getAttribute("data-kind") === "flow" ? "Animated flow" : "Diagram") + " · " + (card.getAttribute("data-topic") || "");
+  const why = $("#lb-why");
+  if (why) why.textContent = card.getAttribute("data-caption") || "";
+  const title = $("#lb-title");
+  if (title) title.textContent = card.getAttribute("data-title") || "Diagram";
+  box.hidden = false;
+}
+
+function closeLightbox() {
+  const box = $("#lightbox");
+  if (box) box.hidden = true;
+}
+
+function armLightbox() {
+  const box = $("#lightbox");
+  if (!box || box.dataset.bound === "1") return;
+  box.dataset.bound = "1";
+  const close = $("#lb-close");
+  if (close) close.onclick = closeLightbox;
+  box.addEventListener("click", function (event) {
+    if (event.target === box) closeLightbox();
+  });
+  const play = $("#lb-play");
+  if (play) {
+    play.onclick = function () {
+      const stage = $("#lb-stage");
+      if (!stage) return;
+      const paused = stage.classList.toggle("paused");
+      play.textContent = paused ? "Play" : "Pause";
+      if (!paused) {
+        stage.querySelectorAll(".atlas-packet").forEach((node) => {
+          node.style.animation = "";
+          node.style.offsetDistance = "";
+        });
+      }
+    };
+  }
+  const step = $("#lb-step");
+  if (step) {
+    step.onclick = function () {
+      const stage = $("#lb-stage");
+      if (!stage) return;
+      stage.classList.add("paused");
+      const playBtn = $("#lb-play");
+      if (playBtn) playBtn.textContent = "Play";
+      const next = (Number(stage.dataset.step) || 0) + 1;
+      stage.dataset.step = String(next % 8);
+      const packets = stage.querySelectorAll(".atlas-packet");
+      if (!packets.length) return;
+      packets.forEach((node) => {
+        node.style.animation = "none";
+        node.style.offsetDistance = ((next % 8) * 12.5) + "%";
+      });
+    };
+  }
+  document.addEventListener("keydown", function (event) {
+    if (event.key === "Escape") closeLightbox();
+  });
+}
+
+const I18N = {
+  en: { greet: "The call path, in light.", diagrams: "Diagrams", flows: "Flows", charts: "Charts", codes: "Cheat Codes", play: "Play", eco: "Ecosystem", downloads: "Downloads", careers: "Careers", regions: "Regions", codesShort: "Codes", enlarge: "Enlarge", listen: "Architect briefing", light: "Light", dark: "Dark" },
+  es: { greet: "La ruta de la llamada, en luz.", diagrams: "Diagramas", flows: "Flujos", charts: "Gráficos", codes: "Chuletas", play: "Jugar", eco: "Ecosistema", downloads: "Descargas", careers: "Carreras", regions: "Regiones", codesShort: "Chuletas", enlarge: "Ampliar", listen: "Charla de arquitectura", light: "Claro", dark: "Oscuro" },
+  hi: { greet: "कॉल का रास्ता, रोशनी में।", diagrams: "आरेख", flows: "प्रवाह", charts: "चार्ट", codes: "चीट कोड", play: "खेल", eco: "इकोसिस्टम", downloads: "डाउनलोड", careers: "करियर", regions: "क्षेत्र", codesShort: "कोड", enlarge: "बड़ा करें", listen: "आर्किटेक्ट वार्ता", light: "हल्का", dark: "गहरा" },
+  te: { greet: "కాల్ మార్గం, వెలుగులో.", diagrams: "రేఖాచిత్రాలు", flows: "ప్రవాహాలు", charts: "పటాలు", codes: "చీట్ కోడ్", play: "ఆట", eco: "వ్యవస్థ", downloads: "డౌన్‌లోడ్", careers: "వృత్తులు", regions: "ప్రాంతాలు", codesShort: "కోడ్", enlarge: "పెద్దది", listen: "వాస్తు సంభాషణ", light: "వెలుతురు", dark: "చీకటి" },
+  fr: { greet: "Le chemin de l'appel, en lumière.", diagrams: "Schémas", flows: "Flux", charts: "Graphiques", codes: "Antisèches", play: "Jouer", eco: "Écosystème", downloads: "Téléchargements", careers: "Carrières", regions: "Régions", codesShort: "Fiches", enlarge: "Agrandir", listen: "Brief architectes", light: "Clair", dark: "Sombre" },
+  de: { greet: "Der Anrufweg, in Licht.", diagrams: "Diagramme", flows: "Flüsse", charts: "Charts", codes: "Spickzettel", play: "Spielen", eco: "Ökosystem", downloads: "Downloads", careers: "Karriere", regions: "Regionen", codesShort: "Zettel", enlarge: "Vergrößern", listen: "Architektenbriefing", light: "Hell", dark: "Dunkel" },
+  ja: { greet: "通話経路を、光で。", diagrams: "図", flows: "フロー", charts: "チャート", codes: "チートシート", play: "練習", eco: "エコシステム", downloads: "ダウンロード", careers: "キャリア", regions: "地域", codesShort: "シート", enlarge: "拡大", listen: "設計者の対話", light: "ライト", dark: "ダーク" },
+  ar: { greet: "مسار المكالمة، في الضوء.", diagrams: "مخططات", flows: "تدفقات", charts: "رسوم", codes: "أوراق الغش", play: "تدريب", eco: "المنظومة", downloads: "تنزيلات", careers: "مسارات", regions: "مناطق", codesShort: "أوراق", enlarge: "تكبير", listen: "حوار المعماريين", light: "فاتح", dark: "داكن" },
+};
+
+function applyI18n() {
+  const lang = state.lang || "en";
+  const pack = I18N[lang] || I18N.en;
+  document.documentElement.lang = lang;
+  document.documentElement.dir = lang === "ar" ? "rtl" : "ltr";
+  $$("[data-i18n]").forEach((node) => {
+    const key = node.getAttribute("data-i18n");
+    if (pack[key]) node.textContent = pack[key];
+  });
+  const sel = $("#lang");
+  if (sel && sel.value !== lang) sel.value = lang;
+  const flip = $("#theme-flip");
+  if (flip) flip.textContent = activeTheme() === "light" ? pack.dark : pack.light;
+}
+
+function architectAudio() {
+  return (
+    '<section class="panel holo architect">' +
+    '<h2 data-i18n="listen">Architect briefing</h2>' +
+    '<p>Two short clips. Maya and Jon walk the campus: how to view the scene, open the menu, practise, and share. Spoken on this machine with espeak-ng. Nothing is uploaded.</p>' +
+    '<figure><figcaption>Use and view</figcaption><audio controls preload="none" src="audio/architect-use.mp3"></audio></figure>' +
+    '<figure><figcaption>Practise and share</figcaption><audio controls preload="none" src="audio/architect-share.mp3"></audio></figure>' +
+    '<p class="audio-actions"><a href="https://github.com/cipher0x9/microsoft-voice-cc-lab-free-university-mesmerizing/issues">Rate and comment</a> · <button type="button" class="ghost" id="share-lab">Share</button> · <a href="https://cyphermonkeylabs.com">CypherMonkey Labs</a></p>' +
+    '<p class="tiny" id="share-note">Share copies the public campus address. Report a concern from the footer. No email is shown.</p></section>'
+  );
+}
+
+function wireArchitect() {
+  const button = $("#share-lab");
+  if (!button || button.dataset.bound === "1") return;
+  button.dataset.bound = "1";
+  button.onclick = function () {
+    const url = "https://cipher0x9.github.io/microsoft-voice-cc-lab-free-university-mesmerizing/campus/";
+    const note = $("#share-note");
+    const done = function (text) { if (note) note.textContent = text; };
+    if (navigator.share) {
+      navigator.share({ title: "Microsoft Voice & Contact Center Lab", url: url }).then(function () { done("Shared."); }).catch(function () { done(url); });
+      return;
+    }
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(url).then(function () { done("Copied " + url); }).catch(function () { done(url); });
+      return;
+    }
+    done(url);
+  };
+}
+
+function bindChartTips() {
+  const host = $("#view");
+  if (!host || host.dataset.tips === "1") return;
+  host.dataset.tips = "1";
+  let tip = $("#chart-tip");
+  if (!tip) {
+    tip = document.createElement("div");
+    tip.id = "chart-tip";
+    tip.className = "chart-tip";
+    tip.hidden = true;
+    document.body.appendChild(tip);
+  }
+  host.addEventListener("pointerover", function (event) {
+    const node = event.target && event.target.closest ? event.target.closest("rect, path") : null;
+    if (!node || !node.closest("svg")) return;
+    const own = node.querySelector("title");
+    const svg = node.closest("svg");
+    const svgTitle = svg ? svg.querySelector("title") : null;
+    const label = (own && own.textContent) || (svgTitle && svgTitle.textContent) || "";
+    if (!label) {
+      tip.hidden = true;
+      return;
+    }
+    tip.hidden = false;
+    tip.textContent = label;
+  });
+  host.addEventListener("pointermove", function (event) {
+    if (tip.hidden) return;
+    tip.style.left = (event.clientX + 14) + "px";
+    tip.style.top = (event.clientY + 16) + "px";
+  });
+  host.addEventListener("pointerout", function (event) {
+    const node = event.target && event.target.closest ? event.target.closest("rect, path") : null;
+    if (node) tip.hidden = true;
+  });
+}
+
+function renderRegions() {
+  window.__listen = "Regions. Cited firewall lists, then an example country map that is not a live catalog.";
+  const cited = [
+    ["Commercial SBC signaling and media", "52.112.0.0/14 and 52.120.0.0/14. IPv6 signaling 2603:1063:400::/40. IPv6 media adds 2603:1063:100::/40. SIP/TLS TCP 5061.", "https://learn.microsoft.com/en-us/microsoftteams/direct-routing-plan"],
+    ["Teams client optimize", "52.112.0.0/14 and 52.122.0.0/15, plus IPv6 2603:1063::/38. This is not the SBC pair. 52.120.0.0/14 is not on the client optimize list.", "https://learn.microsoft.com/en-us/microsoft-365/enterprise/urls-and-ip-address-ranges"],
+    ["GCC High and DoD", "Different proxy names and media prefixes. GCC High media 52.127.88.0/21. DoD media 52.127.64.0/21. Do not copy a commercial ACL into those clouds.", "https://learn.microsoft.com/en-us/microsoftteams/direct-routing-plan"],
+    ["Client QoS marks", "Audio UDP/TCP 50000–50019 DSCP 46. Browser joins do not use that range.", "https://learn.microsoft.com/en-us/microsoftteams/qos-in-teams"],
+  ];
+  const examples = [
+    ["US", "United States", "+1", "Example: Calling Plans are a country catalog. Confirm the current list before you assign a SKU."],
+    ["GB", "United Kingdom", "+44", "Example: emergency 999 and 112 must not be eaten by a catch-all dial-plan rule."],
+    ["IN", "India", "+91", "Example: this campus teaches that Operator Connect for India is its own plan. Re-read the vendor page."],
+    ["DE", "Germany", "+49", "Example: location-based routing is the tool when PSTN must stay with the local gateway."],
+    ["JP", "Japan", "+81", "Example: media processors prefer a nearby region. You do not pick a street address for one."],
+    ["AE", "United Arab Emirates", "+971", "Example: a traveler laptop should not egress through another country’s SBC."],
+    ["BR", "Brazil", "+55", "Example study pin only. Not a claim about carrier coverage."],
+    ["AU", "Australia", "+61", "Example study pin only. Not a data-residency promise."],
+  ];
+  return (
+    crumbs([["Home", "#/"], ["Regions", ""]]) +
+    '<p class="kicker">Places · checked 15 October 2026</p><h1>Regions</h1>' +
+    '<p class="lede">Two lists are facts from Microsoft’s pages. The country grid below is an example study map, not a live PSTN catalog and not a data-residency table.</p>' +
+    '<div class="region-grid">' + examples.map((row) => (
+      '<article class="panel holo region-card"><p class="flag" aria-hidden="true">' + esc(row[0]) + '</p><h2>' + esc(row[1]) + '</h2><p class="kicker">' + esc(row[2]) + '</p><p><span class="tag warn">Example</span> ' + esc(row[3]) + "</p></article>"
+    )).join("") + "</div>" +
+    "<h2>Cited network facts</h2>" +
+    fieldTable(["What", "Fact", "Source"], cited.map((row) => [
+      esc(row[0]),
+      esc(row[1]),
+      '<a href="' + esc(row[2]) + '">Microsoft Learn</a>',
+    ])) +
+    '<p class="tiny">Accessed 15 October 2026 for the firewall rows. The country cards stay labeled Example. The vendor page wins when they disagree.</p>'
+  );
 }
 
 function extraHits() {
@@ -180,6 +394,7 @@ function extraHits() {
     { href: "#/play", title: "Play", kind: "Game" },
     { href: "#/downloads", title: "Cheat Codes and downloads", kind: "Guide" },
     { href: "#/career", title: "Career and certification paths", kind: "Guide" },
+    { href: "#/regions", title: "Regions and residency notes", kind: "Guide" },
     { href: "#/news", title: "What is new", kind: "Guide" },
   ];
 }
@@ -613,6 +828,8 @@ function wireExtras(root) {
   }
   if (root === "diagrams" || root === "flows") wireAtlas();
   if (root === "lesson" || root === "field" || root === "migrate" || root === "ports") mountOnThisPage();
+  bindChartTips();
+  wireArchitect();
 }
 
 function bindReadbar() {
@@ -640,6 +857,13 @@ function cycleMascot() {
       node.dataset.pose = poses[index];
     });
   }, 7000);
+  window.setInterval(function () {
+    if (document.documentElement.dataset.motion === "reduce") return;
+    $$(".monkey").forEach((node) => {
+      const next = ((Number(node.dataset.look) || 0) + 1) % 4;
+      node.dataset.look = String(next);
+    });
+  }, 180000);
 }
 
 function armKonami() {

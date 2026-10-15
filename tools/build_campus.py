@@ -138,6 +138,7 @@ def main() -> None:
     studios = CAMPUS / "studios"
     studios.mkdir(parents=True, exist_ok=True)
     shutil.copyfile(SRC / "studios" / "topology.js", studios / "topology.js")
+    shutil.copyfile(SRC / "studios" / "hero.js", studios / "hero.js")
     shutil.copyfile(SRC / "effects.js", CAMPUS / "effects.js")
     build_atlas()
 
@@ -148,6 +149,7 @@ def main() -> None:
         "./app.css",
         "./app.js",
         "./studios/topology.js",
+        "./studios/hero.js",
         "./vendor/three.module.min.js",
         "./vendor/OrbitControls.js",
         "./og-card.png",
@@ -168,8 +170,9 @@ def main() -> None:
         precache.append(f"./data/tracks/{track['id']}.json")
     audio_dir = CAMPUS / "audio"
     if audio_dir.is_dir():
-        for clip in sorted(audio_dir.glob("*.wav")):
-            precache.append("./audio/" + clip.name)
+        for pattern in ("*.wav", "*.mp3"):
+            for clip in sorted(audio_dir.glob(pattern)):
+                precache.append("./audio/" + clip.name)
     downloads = CAMPUS / "downloads"
     if downloads.is_dir():
         for item in sorted(downloads.iterdir()):
@@ -203,7 +206,7 @@ def main() -> None:
 
 
 HTML_TEMPLATE = """<!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="neon">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -228,9 +231,10 @@ HTML_TEMPLATE = """<!DOCTYPE html>
 <script>
 try {{
   var saved = JSON.parse(localStorage.getItem("mvcc-lab-v1") || "{{}}");
-  var theme = saved.theme;
-  if (!theme && window.matchMedia && matchMedia("(prefers-color-scheme: dark)").matches) theme = "dark";
-  if (theme) document.documentElement.dataset.theme = theme;
+  var theme = saved.theme || "neon";
+  document.documentElement.dataset.theme = theme;
+  if (saved.lang === "ar") document.documentElement.dir = "rtl";
+  if (saved.lang) document.documentElement.lang = saved.lang;
   document.documentElement.dataset.font = saved.font || "md";
   var motion = saved.reduceMotion || "system";
   var reduce = motion === "reduce" || (motion !== "full" && window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches);
@@ -261,8 +265,8 @@ try {{
       <circle cx="32" cy="28" r="14" fill="var(--cc-accent-3)"></circle>
       <circle cx="18" cy="26" r="5" fill="var(--cc-accent-4)"></circle>
       <circle cx="46" cy="26" r="5" fill="var(--cc-accent-4)"></circle>
-      <circle cx="27" cy="27" r="1.6" fill="#1a1208"></circle>
-      <circle cx="37" cy="27" r="1.6" fill="#1a1208"></circle>
+      <circle class="eye" cx="27" cy="27" r="1.6" fill="#1a1208"></circle>
+      <circle class="eye" cx="37" cy="27" r="1.6" fill="#1a1208"></circle>
       <path class="smile" d="M27 33c2.2 2 7.8 2 10 0" fill="none" stroke="#1a1208" stroke-width="1.4" stroke-linecap="round"></path>
       <path class="headset" d="M20 24c0-8 24-8 24 0v6" fill="none" stroke="var(--cc-accent-1)" stroke-width="2"></path>
       <rect x="16" y="28" width="6" height="8" rx="2" fill="var(--cc-accent-1)"></rect>
@@ -277,6 +281,19 @@ try {{
     <span class="pill" id="streak">Streak 0</span>
     <span class="pill" id="done">0%</span>
     <span class="pill" id="ach-count">0 badges</span>
+    <label class="lang-pick"><span class="visually-hidden">Language</span>
+      <select id="lang" aria-label="Language">
+        <option value="en">EN</option>
+        <option value="es">ES</option>
+        <option value="hi">HI</option>
+        <option value="te">TE</option>
+        <option value="fr">FR</option>
+        <option value="de">DE</option>
+        <option value="ja">JA</option>
+        <option value="ar">AR</option>
+      </select>
+    </label>
+    <button class="ghost theme-flip" id="theme-flip" type="button" data-i18n="light">Light</button>
     <button class="ghost theme-cycle" id="theme-cycle" type="button">Theme</button>
     <a class="icon-btn" id="settings" href="#/settings" aria-label="Settings">
       <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="3" fill="none" stroke="currentColor" stroke-width="1.8"></circle><path d="M12 3.5v2.2M12 18.3v2.2M3.5 12h2.2M18.3 12h2.2M6 6l1.6 1.6M16.4 16.4 18 18M18 6l-1.6 1.6M7.6 16.4 6 18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"></path></svg>
@@ -284,14 +301,14 @@ try {{
   </div>
   </div>
   <nav class="primary-nav" id="primary-nav" aria-label="Sections">
-    <a href="#/diagrams">Diagrams</a>
-    <a href="#/flows">Flows</a>
-    <a href="#/charts">Charts</a>
-    <a href="#/downloads">Cheat Codes</a>
-    <a href="#/play">Play</a>
-    <a href="#/map">Ecosystem</a>
-    <a href="#/downloads">Downloads</a>
-    <a href="#/career">Careers</a>
+    <a href="#/diagrams" data-i18n="diagrams">Diagrams</a>
+    <a href="#/flows" data-i18n="flows">Flows</a>
+    <a href="#/charts" data-i18n="charts">Charts</a>
+    <a href="#/downloads" data-i18n="codes">Cheat Codes</a>
+    <a href="#/play" data-i18n="play">Play</a>
+    <a href="#/map" data-i18n="eco">Ecosystem</a>
+    <a href="#/downloads" data-i18n="downloads">Downloads</a>
+    <a href="#/career" data-i18n="careers">Careers</a>
   </nav>
 </header>
 <div class="shell">
@@ -302,11 +319,11 @@ try {{
   </main>
 </div>
 <nav class="bottom-nav" aria-label="Mobile">
-  <a href="#/diagrams" data-tab="diagrams">Diagrams</a>
-  <a href="#/flows" data-tab="flows">Flows</a>
-  <a href="#/charts" data-tab="charts">Charts</a>
-  <a href="#/downloads" data-tab="downloads">Codes</a>
-  <a href="#/play" data-tab="play">Play</a>
+  <a href="#/diagrams" data-tab="diagrams" data-i18n="diagrams">Diagrams</a>
+  <a href="#/flows" data-tab="flows" data-i18n="flows">Flows</a>
+  <a href="#/charts" data-tab="charts" data-i18n="charts">Charts</a>
+  <a href="#/downloads" data-tab="downloads" data-i18n="codesShort">Codes</a>
+  <a href="#/play" data-tab="play" data-i18n="play">Play</a>
 </nav>
 <div class="dock" role="region" aria-label="Section audio">
   <button id="listen" type="button">Listen</button>
@@ -325,8 +342,8 @@ try {{
     <circle cx="32" cy="28" r="14" fill="var(--cc-accent-3)"></circle>
     <circle cx="18" cy="26" r="5" fill="var(--cc-accent-4)"></circle>
     <circle cx="46" cy="26" r="5" fill="var(--cc-accent-4)"></circle>
-    <circle cx="27" cy="27" r="1.6" fill="#1a1208"></circle>
-    <circle cx="37" cy="27" r="1.6" fill="#1a1208"></circle>
+    <circle class="eye" cx="27" cy="27" r="1.6" fill="#1a1208"></circle>
+    <circle class="eye" cx="37" cy="27" r="1.6" fill="#1a1208"></circle>
     <path class="smile" d="M27 33c2.2 2 7.8 2 10 0" fill="none" stroke="#1a1208" stroke-width="1.4" stroke-linecap="round"></path>
     <path class="headset" d="M20 24c0-8 24-8 24 0v6" fill="none" stroke="var(--cc-accent-1)" stroke-width="2"></path>
     <rect x="16" y="28" width="6" height="8" rx="2" fill="var(--cc-accent-1)"></rect>
@@ -349,6 +366,21 @@ try {{
     <a href="https://cipher0x9.github.io/gemini-gems-free-gallery/">Gemini Gems</a>
   </nav>
 </footer>
+<div id="lightbox" class="lightbox" hidden>
+  <div class="lb-frame" role="dialog" aria-modal="true" aria-labelledby="lb-title">
+    <div class="lb-bar">
+      <p id="lb-title">Diagram</p>
+      <button type="button" class="ghost" id="lb-close">Close</button>
+    </div>
+    <div id="lb-stage"></div>
+    <div class="lb-controls">
+      <button type="button" class="primary" id="lb-play">Pause</button>
+      <button type="button" class="ghost" id="lb-step">Step</button>
+    </div>
+    <p id="lb-legend" class="kicker"></p>
+    <p id="lb-why"></p>
+  </div>
+</div>
 <div id="egg" class="egg" hidden>
   <p>Operator mode. The monkey found the hidden keypad. This does not change a tenant.</p>
 </div>

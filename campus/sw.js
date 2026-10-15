@@ -1,12 +1,13 @@
-/* Offline cache for the Voice Lab. Generated. Cache ec24e932699b. */
+/* Offline cache for the Voice Lab. Generated. Cache 852194ee96fb. */
 "use strict";
-const CACHE = "mvcc-lab-ec24e932699b";
+const CACHE = "mvcc-lab-852194ee96fb";
 const PRECACHE = [
   "./",
   "./index.html",
   "./app.css",
   "./app.js",
   "./studios/topology.js",
+  "./studios/hero.js",
   "./vendor/three.module.min.js",
   "./vendor/OrbitControls.js",
   "./og-card.png",
@@ -71,6 +72,8 @@ const PRECACHE = [
   "./audio/tone-dial.wav",
   "./audio/tone-reorder.wav",
   "./audio/tone-ringback.wav",
+  "./audio/architect-share.mp3",
+  "./audio/architect-use.mp3",
   "./downloads/call-flows.html",
   "./downloads/career.html",
   "./downloads/catalog.json",
