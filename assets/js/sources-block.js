@@ -17,17 +17,27 @@
       .replace(/"/g, "&quot;");
   }
 
+  function publicNote(note) {
+    return String(note || "")
+      .replace(/Opened in place of https?:\/\/\S+, which did not open/g, "Opened in place of a page that did not open when checked")
+      .replace(/https?:\/\/\S+/g, "")
+      .replace(/\s+/g, " ")
+      .replace(/\s+([.,;])/g, "$1")
+      .trim();
+  }
+
   function item(source) {
-    var title = esc(source.title || source.url || "Untitled");
+    var title = esc(source.title || "Untitled");
     var url = esc(source.url || "");
     var checked = esc(source.lastChecked || "2026-10");
-    var note = source.note ? " " + esc(source.note) : "";
-    if (source.status !== "ok") {
+    var note = publicNote(source.note);
+    if (source.status !== "ok" || !url) {
       return '<li class="is-confirm"><strong>' + title + "</strong> — confirm — last checked " +
-        checked + '. <a href="' + url + '">' + url + "</a> did not open when checked." + note + "</li>";
+        checked + ". Did not open when checked." + (note ? " " + esc(note) + "." : "") + "</li>";
     }
     var kind = KIND[source.kind] || "Docs";
-    return '<li><a href="' + url + '">' + title + "</a> — " + kind + " — last checked " + checked + "." + note + "</li>";
+    return '<li><a href="' + url + '">' + title + "</a> — " + kind + " — last checked " + checked + "." +
+      (note ? " " + esc(note) : "") + "</li>";
   }
 
   function paint(block, data) {

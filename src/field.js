@@ -129,13 +129,30 @@ function atlasFilters(items) {
   );
 }
 
+var UNOPENED_SOURCE = {
+  "https://learn.microsoft.com/en-us/microsoftteams/cloud-voicemail": "Cloud Voicemail",
+  "https://learn.microsoft.com/en-us/microsoftteams/teams-phone-mobile-plan": "Plan Teams Phone Mobile",
+  "https://www.oracle.com/communications/session-border-controller/": "Oracle Session Border Controller",
+  "https://www.audiocodes.com/solutions-products/products/session-border-controllers": "AudioCodes session border controllers",
+  "https://www.cisco.com/c/en/us/products/unified-communications/unified-border-element/index.html": "Cisco Unified Border Element"
+};
+
+function citeHtml(url, label, accessed) {
+  var closed = UNOPENED_SOURCE[url];
+  var linkable = typeof url === "string" && /^https?:\/\//.test(url) && !closed;
+  if (!linkable) {
+    return '<p class="tiny"><strong>' + esc(closed || label || "Source") + "</strong> — confirm — last checked 2026-10. Did not open when checked.</p>";
+  }
+  return '<p class="tiny"><a href="' + esc(url) + '">' + esc(label || "Source") + "</a> · accessed " + esc(accessed || "2026-10-14") + "</p>";
+}
+
 function diagramCard(item, feature) {
   return (
     '<article class="blueprint atlas-card' + (feature ? " atlas-feature" : "") + '"' + atlasMeta(item) + ">" +
     '<div class="plate"><p class="kicker">Sheet · ' + esc(item.topic) + "</p><h2>" + esc(item.title) + "</h2>" +
     '<div class="figure-canvas">' + item.svg + "</div>" + rideSvg("diagram") + "</div>" +
     '<div class="sheet-notes">' + hopCallouts(item.caption, ["Trace", "Boundary", "Check"]) +
-    '<p class="tiny"><a href="' + esc(item.source) + '">Source</a> · accessed ' + esc(item.accessed) + "</p>" +
+    citeHtml(item.source, "Source", item.accessed) +
     '<button type="button" class="primary enlarge" data-enlarge="1" data-i18n="enlarge">Enlarge</button></div></article>'
   );
 }
@@ -146,7 +163,7 @@ function flowCard(item, feature) {
     '<div class="figure-canvas">' + item.svg + "</div>" +
     '<div class="film-notes"><p class="kicker">Signal · ' + esc(item.topic) + "</p><h2>" + esc(item.title) + "</h2>" +
     rideSvg("flow") + hopCallouts(item.caption, ["Signal", "Media", "Fail"]) +
-    '<p class="tiny"><a href="' + esc(item.source) + '">Source</a> · accessed ' + esc(item.accessed) + "</p>" +
+    citeHtml(item.source, "Source", item.accessed) +
     '<button type="button" class="ghost enlarge" data-enlarge="1" data-i18n="enlarge">Enlarge</button></div></article>'
   );
 }

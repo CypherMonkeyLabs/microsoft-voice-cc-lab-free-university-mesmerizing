@@ -328,6 +328,24 @@ def bar_chart(chart) -> str:
     return f'<figure class="callout">{"".join(parts)}<figcaption>{esc(note)} Counts in this drawing are teaching order, not customers.</figcaption></figure>'
 
 
+CLOSED_SOURCES = {
+    "https://learn.microsoft.com/en-us/microsoftteams/cloud-voicemail": "Cloud Voicemail",
+    "https://learn.microsoft.com/en-us/microsoftteams/teams-phone-mobile-plan": "Plan Teams Phone Mobile",
+    "https://www.oracle.com/communications/session-border-controller/": "Oracle Session Border Controller",
+    "https://www.audiocodes.com/solutions-products/products/session-border-controllers": "AudioCodes session border controllers",
+    "https://www.cisco.com/c/en/us/products/unified-communications/unified-border-element/index.html": "Cisco Unified Border Element",
+}
+
+
+def cite_paragraph(url: str, accessed: str) -> str:
+    """A glossary citation. Unopened pages are confirm text with no address."""
+    title = CLOSED_SOURCES.get(url or "")
+    if title or not str(url or "").startswith("http"):
+        label = title or "Source"
+        return f"<p><strong>{esc(label)}</strong> — confirm — last checked 2026-10. Did not open when checked.</p>"
+    return f'<p><a href="{esc(url)}">{esc(url)}</a> accessed {esc(accessed or CHECKED)}</p>'
+
+
 def quiz_block(items) -> str:
     cards = []
     for q in items:
@@ -495,7 +513,7 @@ def build():
 
     # Glossary page
     gloss_items = "".join(
-        f'<article class="quiz-card" id="{esc(slug(g["term"]))}"><h2>{esc(g["term"])}</h2><p class="read-sent">{esc(g["plain"])}</p><p>Config: {esc(g.get("config") or "")}</p><p>Fault: {esc(g.get("fault") or "")}</p><p><a href="{esc(g.get("source") or "")}">{esc(g.get("source") or "")}</a> accessed {esc(g.get("accessed") or CHECKED)}</p></article>'
+        f'<article class="quiz-card" id="{esc(slug(g["term"]))}"><h2>{esc(g["term"])}</h2><p class="read-sent">{esc(g["plain"])}</p><p>Config: {esc(g.get("config") or "")}</p><p>Fault: {esc(g.get("fault") or "")}</p>{cite_paragraph(g.get("source") or "", g.get("accessed") or CHECKED)}</article>'
         for g in glossary
     )
     write("glossary.html", "Glossary · Teams Phone Lab",
@@ -804,7 +822,7 @@ def write_pdf_note(path: Path, title: str, steps: list[str]) -> None:
 
 
 def sources_deck_slides() -> list[tuple[str, str]]:
-    """Closing slides. Every line is a URL this lab opened, or a confirm row."""
+    """Closing slides. Opened rows keep their URL. Confirm rows name the page and omit the URL."""
     seen = set()
     lines = []
     folder = ROOT / "campus" / "data" / "sources"
@@ -819,14 +837,20 @@ def sources_deck_slides() -> list[tuple[str, str]]:
             continue
         for source in data.get("sources") or []:
             url = source.get("url") or ""
-            if not url or url in seen:
+            checked = source.get("lastChecked") or sources_render.CHECKED
+            title = source.get("title") or "Untitled"
+            if source.get("status") != "ok" or not url:
+                key = "confirm:" + title
+                if key in seen:
+                    continue
+                seen.add(key)
+                lines.append(f"{title} — confirm — last checked {checked}. Did not open when checked.")
+                continue
+            if url in seen:
                 continue
             seen.add(url)
-            status = "confirm" if source.get("status") != "ok" else (source.get("kind") or "docs")
-            line = f"{source.get('title')} — {status} — {url} — last checked {source.get('lastChecked') or sources_render.CHECKED}"
-            if source.get("status") != "ok":
-                line += ". Did not open when checked."
-            lines.append(line)
+            kind = source.get("kind") or "docs"
+            lines.append(f"{title} — {kind} — {url} — last checked {checked}")
     if not lines:
         return [("Sources and go deeper", "Confirm before relying. last checked 2026-10.")]
     slides = []

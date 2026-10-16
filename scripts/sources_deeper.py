@@ -32,12 +32,12 @@ REPLACEMENTS = {
     "https://learn.microsoft.com/en-us/microsoftteams/cloud-voicemail": {
         "url": "https://learn.microsoft.com/en-us/microsoftteams/set-up-phone-system-voicemail",
         "fallback_title": "Set up Cloud Voicemail",
-        "note": "Opened in place of https://learn.microsoft.com/en-us/microsoftteams/cloud-voicemail, which did not open. The title is the page that opened.",
+        "note": "Opened in place of a page that did not open when checked. The title is the page that opened.",
     },
     "https://learn.microsoft.com/en-us/microsoftteams/teams-phone-mobile-plan": {
         "url": "https://learn.microsoft.com/en-us/microsoftteams/operator-connect-mobile-plan",
         "fallback_title": "Operator Connect Mobile",
-        "note": "Opened in place of https://learn.microsoft.com/en-us/microsoftteams/teams-phone-mobile-plan, which did not open. This is the page that opened, not proof it equals the old slug.",
+        "note": "Opened in place of a page that did not open when checked. This is the page that opened, not proof it equals the old slug.",
     },
     "https://www.audiocodes.com/solutions-products/products/session-border-controllers": {
         "url": "https://www.audiocodes.com/products/session-border-controllers-sbcs",
@@ -443,11 +443,15 @@ def docx_append(path: Path, sources: list[dict]) -> None:
     chunks = ['<w:p><w:r><w:t>Sources and go deeper</w:t></w:r></w:p>']
     for source in sources:
         status = "confirm" if source.get("status") != "ok" else (source.get("kind") or "docs")
-        line = f'{source.get("title")} — {status} — {source.get("url")} — last checked {CHECKED}'
+        note = sources_render.public_note(source.get("note") or "")
         if source.get("status") != "ok":
-            line += ". Did not open when checked."
-            if source.get("note"):
-                line += " " + str(source["note"])
+            line = f'{source.get("title")} — confirm — last checked {CHECKED}. Did not open when checked.'
+            if note:
+                line += " " + note
+        else:
+            line = f'{source.get("title")} — {status} — {source.get("url")} — last checked {CHECKED}'
+            if note:
+                line += ". " + note
         chunks.append("<w:p><w:r><w:t>" + sources_render.esc(line) + "</w:t></w:r></w:p>")
     if "</w:body>" not in xml:
         raise SystemExit(f"docx has no body close: {path}")

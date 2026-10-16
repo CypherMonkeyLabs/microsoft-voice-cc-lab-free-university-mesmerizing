@@ -27,7 +27,7 @@
     },
     {
       "title": "Cloud Voicemail",
-      "url": "https://learn.microsoft.com/en-us/microsoftteams/cloud-voicemail",
+      "url": "",
       "kind": "learn",
       "lastChecked": "2026-10",
       "status": "confirm",
@@ -107,7 +107,7 @@
     },
     {
       "title": "Plan Teams Phone Mobile",
-      "url": "https://learn.microsoft.com/en-us/microsoftteams/teams-phone-mobile-plan",
+      "url": "",
       "kind": "learn",
       "lastChecked": "2026-10",
       "status": "confirm",
@@ -227,11 +227,11 @@
     },
     {
       "title": "Cisco Unified Border Element",
-      "url": "https://www.cisco.com/c/en/us/products/unified-communications/unified-border-element/index.html",
+      "url": "",
       "kind": "vendor",
       "lastChecked": "2026-10",
-      "status": "ok",
-      "note": ""
+      "status": "confirm",
+      "note": "Did not open when checked."
     },
     {
       "title": "Azure Communication Services Call Automation",
@@ -323,7 +323,7 @@
     },
     {
       "title": "AudioCodes session border controllers",
-      "url": "https://www.audiocodes.com/solutions-products/products/session-border-controllers",
+      "url": "",
       "kind": "vendor",
       "lastChecked": "2026-10",
       "status": "confirm",
@@ -339,7 +339,7 @@
     },
     {
       "title": "Oracle Session Border Controller",
-      "url": "https://www.oracle.com/communications/session-border-controller/",
+      "url": "",
       "kind": "vendor",
       "lastChecked": "2026-10",
       "status": "confirm",

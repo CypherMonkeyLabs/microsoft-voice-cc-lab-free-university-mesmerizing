@@ -166,6 +166,9 @@ section.is-reading {
     0 0 28px 6px rgba(167, 139, 250, 0.8);
   pointer-events: none;
 }
+@media (max-width: 720px) {
+  .tour-card { max-height: min(260px, 42vh); overflow: auto; }
+}
 .tour-card {
   position: fixed;
   z-index: 121;
