@@ -108,3 +108,23 @@ Puentes entre plataformas
 Ganchos de integración futura
 Configurar un cambio del ecosistema
 Diagnosticar a través de un límite de proveedor
+Qué nombra CTI
+El canal de voz de Dynamics
+Teams Phone en el canal de voz
+La cuenta de recursos y el número
+Salesforce Voice y Partner Contact Center
+Amazon Connect y la telefonía del partner
+La unión de la llamada con el registro
+Una comparación sin ganador
+Lo que nombran las páginas de Microsoft
+Amazon Connect Customer
+CCAI Platform y el cambio de nombre a GECX
+Solo diferencias documentadas
+Lo que estas páginas no deciden
+Clasificación y luego asignación
+Flujos de trabajo de voz y colas de voz
+Mayor capacidad, round robin y menos activo
+Pronóstico, capacidad y turnos
+Indicadores y barreras
+Dos controles de grabación
+Qué control falló

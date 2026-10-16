@@ -1,0 +1,24 @@
+{
+  "room": "T20-R01-classification-then-assignment.html",
+  "lesson": "t20-routing",
+  "title": "Classification, then assignment",
+  "checked": "2026-10",
+  "sources": [
+    {
+      "title": "Overview of unified routing",
+      "url": "https://learn.microsoft.com/en-us/dynamics365/customer-service/administer/overview-unified-routing",
+      "kind": "learn",
+      "lastChecked": "2026-10",
+      "status": "ok",
+      "note": ""
+    },
+    {
+      "title": "Microsoft Teams",
+      "url": "https://en.wikipedia.org/wiki/Microsoft_Teams",
+      "kind": "wikipedia",
+      "lastChecked": "2026-10",
+      "status": "ok",
+      "note": "Wikipedia fallback for background. Confirm the vendor page before you change a tenant."
+    }
+  ]
+}

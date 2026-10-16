@@ -1,0 +1,40 @@
+{
+  "room": "T19-R06-what-these-pages-do-not-decide.html",
+  "lesson": "t19-gaps",
+  "title": "What these pages do not decide",
+  "checked": "2026-10",
+  "sources": [
+    {
+      "title": "What is Amazon Connect Customer",
+      "url": "https://docs.aws.amazon.com/connect/latest/adminguide/what-is-amazon-connect.html",
+      "kind": "docs",
+      "lastChecked": "2026-10",
+      "status": "ok",
+      "note": ""
+    },
+    {
+      "title": "Teams contact center integration models",
+      "url": "https://learn.microsoft.com/en-us/microsoftteams/teams-contact-center",
+      "kind": "learn",
+      "lastChecked": "2026-10",
+      "status": "ok",
+      "note": ""
+    },
+    {
+      "title": "Contact Center AI Platform",
+      "url": "https://docs.cloud.google.com/contact-center/ccai-platform/docs",
+      "kind": "docs",
+      "lastChecked": "2026-10",
+      "status": "ok",
+      "note": ""
+    },
+    {
+      "title": "Microsoft Teams",
+      "url": "https://en.wikipedia.org/wiki/Microsoft_Teams",
+      "kind": "wikipedia",
+      "lastChecked": "2026-10",
+      "status": "ok",
+      "note": "Wikipedia fallback for background. Confirm the vendor page before you change a tenant."
+    }
+  ]
+}

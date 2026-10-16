@@ -1,0 +1,32 @@
+{
+  "room": "T18-R04-the-resource-account-and-the-number.html",
+  "lesson": "t18-resource",
+  "title": "The resource account and the number",
+  "checked": "2026-10",
+  "sources": [
+    {
+      "title": "Configure Teams Phone in the voice channel",
+      "url": "https://learn.microsoft.com/en-us/dynamics365/contact-center/administer/configure-teams-phone-in-voice-channel",
+      "kind": "learn",
+      "lastChecked": "2026-10",
+      "status": "ok",
+      "note": ""
+    },
+    {
+      "title": "Create and manage workstreams",
+      "url": "https://learn.microsoft.com/en-us/dynamics365/customer-service/administer/create-workstreams",
+      "kind": "learn",
+      "lastChecked": "2026-10",
+      "status": "ok",
+      "note": ""
+    },
+    {
+      "title": "Microsoft Teams",
+      "url": "https://en.wikipedia.org/wiki/Microsoft_Teams",
+      "kind": "wikipedia",
+      "lastChecked": "2026-10",
+      "status": "ok",
+      "note": "Wikipedia fallback for background. Confirm the vendor page before you change a tenant."
+    }
+  ]
+}

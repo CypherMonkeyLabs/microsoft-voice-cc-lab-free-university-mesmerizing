@@ -1,7 +1,7 @@
 {
   "checked": "2026-10-16",
   "fallback": "I only answer from pages in this campus. I do not have a grounded note for that, so I will not guess.",
-  "identity": "Lucky is a lifelong student and an AI enthusiast. The path runs from systems, networking, voice, and contact center work into AI omni-channel agents.",
+  "identity": "This campus is a free study bench for Teams Phone and contact center work. Confirm every claim before you rely on it.",
   "copyright": "© 2026 CypherMonkeyLabs 🐒",
   "synonyms": {
     "sbc": ["gateway", "border", "audiocodes", "ribbon", "oracle"],
@@ -24,7 +24,7 @@
       "title": "This campus",
       "href": "#/",
       "keywords": ["what is this", "about", "campus", "voice lab", "who", "lucky", "student", "identity"],
-      "answer": "This is a free offline campus for Teams Phone, Direct Routing, Dynamics 365 Contact Center, and the systems around the call. No account and no API key. Lucky is a lifelong student and an AI enthusiast. The path runs from systems, networking, voice, and contact center work into AI omni-channel agents.",
+      "answer": "This is a free offline campus for Teams Phone, Direct Routing, Dynamics 365 Contact Center, and the systems around the call. No account and no API key. Confirm every claim before you rely on it.",
       "source": "Home page of this campus"
     },
     {

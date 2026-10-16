@@ -1263,7 +1263,7 @@ function renderField() {
   const cards = FIELD_LINKS.map((item) => '<a class="card" href="' + item[0] + '"><h3>' + esc(item[1]) + "</h3><p>" + esc(item[2]) + "</p></a>").join("");
   return (
     '<p class="kicker">Gap audit · 15 October 2026</p><h1>Field desk</h1>' +
-    '<p class="lede">Every section below is a real page in this campus. The seventeen tracks still hold the long lessons. This desk is the map when you need a checklist, a port, or a printable sheet.</p>' +
+    '<p class="lede">Every section below is a real page in this campus. The tracks still hold the long lessons. This desk is the map when you need a checklist, a port, or a printable sheet.</p>' +
     '<div class="lab-grid">' + cards + "</div>" +
     '<article class="panel"><h2>Named customers</h2><p>This lab does not claim a named deployment. Integration patterns for CUCM, Webex, UCCE, Genesys, and Amazon Connect are teaching bridges on the coexistence and ecosystem tracks. <span class="tag warn">Unverified</span> as a story about any real company.</p>' +
     '<p class="tiny">Older Origin rooms from cypher-microsoft-voice-cc-lab were not readable from this build environment, so they are not pasted in here. The facts on this desk come from the lessons already cited in this repo.</p></article>'
@@ -2433,7 +2433,7 @@ function renderHome() {
     '<label class="row"><input id="home-wan" type="checkbox"> Manchester WAN down</label>' +
     '<label class="row"><input id="home-cert" type="checkbox"> Certificate mismatch</label>' +
     "</div>" +
-    "<h2>Seventeen tracks</h2>" +
+    "<h2>" + DATA.tracks.length + " tracks</h2>" +
     '<div class="track-grid">' + tiles + "</div>" +
     '<div class="split">' +
     '<article class="panel"><h2>Why this order</h2>' +
@@ -2502,8 +2502,25 @@ function renderTrack(id) {
     }).join("") +
     "</div>" +
     (labs.length ? "<h2>Labs on this track</h2><div class=\"lab-grid\">" + labs.map(labCard).join("") + "</div>" : "") +
-    sectionDl(id)
+    sectionDl(id) +
+    trackSourceList(id)
   );
+}
+
+function trackSourceList(trackId) {
+  var bag = [];
+  var seen = {};
+  lessonsIn(trackId).forEach(function (lesson) {
+    var deeper = window.MVCC_SOURCES && window.MVCC_SOURCES[lesson.id];
+    var rows = (deeper && deeper.sources && deeper.sources.length) ? deeper.sources : (lesson.sources || []);
+    rows.forEach(function (source) {
+      var key = source.url || ("confirm:" + (source.title || ""));
+      if (!key || seen[key]) return;
+      seen[key] = true;
+      bag.push(source);
+    });
+  });
+  return sourceList(bag);
 }
 
 function tipPack(id) {
@@ -4211,6 +4228,9 @@ function menuIcon(kind) {
     code: '<path d="m9 8-4 4 4 4M15 8l4 4-4 4"' + stroke + "></path>",
     play: '<path d="M8 6.2v11.6L18 12 8 6.2Z"' + stroke + "></path>",
     eco: '<circle cx="12" cy="12" r="2.4"' + stroke + '></circle><path d="M12 4v3M12 17v3M4 12h3M17 12h3M6.2 6.2l2.1 2.1M15.7 15.7l2.1 2.1M17.8 6.2l-2.1 2.1M8.3 15.7l-2.1 2.1"' + stroke + "></path>",
+    cti: '<rect x="8" y="3" width="8" height="14" rx="2"' + stroke + '></rect><path d="M11 14.5h2"' + stroke + '></path><rect x="4" y="15" width="8" height="6" rx="1"' + stroke + "></rect>",
+    compare: '<circle cx="7" cy="12" r="3"' + stroke + '></circle><circle cx="12" cy="8" r="3"' + stroke + '></circle><circle cx="17" cy="12" r="3"' + stroke + "></circle>",
+    route: '<path d="M5 7h14M5 12h14M5 17h14"' + stroke + "></path>",
     down: '<path d="M12 4v10M8 10l4 4 4-4M5 19h14"' + stroke + "></path>",
     career: '<path d="M4 9h16v9H4z"' + stroke + '></path><path d="M9 9V7a3 3 0 0 1 6 0v2"' + stroke + "></path>",
     region: '<circle cx="12" cy="12" r="8"' + stroke + '></circle><path d="M4 12h16M12 4c2 2.4 3 5 3 8s-1 5.6-3 8c-2-2.4-3-5-3-8s1-5.6 3-8Z"' + stroke + "></path>",
@@ -4254,13 +4274,16 @@ function menuCard(item) {
 function navHtml() {
   const themes = THEMES.map((theme) => '<button type="button" class="swatch" data-home-theme="' + theme.id + '" aria-pressed="' + (activeTheme() === theme.id ? "true" : "false") + '">' + esc(theme.label) + "</button>").join("");
   const views = [
-    { href: "#/", route: "home", icon: "home", label: "Home", desc: "Call path, live counters, and the seventeen tracks." },
+    { href: "#/", route: "home", icon: "home", label: "Home", desc: "Call path, live counters, and the " + DATA.tracks.length + " tracks." },
     { href: "#/diagrams", route: "diagrams", icon: "diagram", label: "Diagrams", desc: "Atlas figures, including the troubleshooting tree.", i18n: "diagrams" },
     { href: "#/flows", route: "flows", icon: "flow", label: "Flows", desc: "Animated call paths you can pause and step.", i18n: "flows" },
     { href: "#/charts", route: "charts", icon: "chart", label: "Charts", desc: "Licensing, CQD, Erlang C, and the timelines.", i18n: "charts" },
     { href: "#/downloads", route: "downloads", icon: "code", label: "Cheat Codes", desc: "Printable sheets, flashcards, and the offline zip.", i18n: "codes" },
     { href: "#/play", route: "play", icon: "play", label: "Play", desc: "Ports game, call-flow sandbox, and the daily drill.", i18n: "play" },
-    { href: "#/map", route: "map", icon: "eco", label: "Ecosystem", desc: "Mind map of the systems around the call.", i18n: "eco" },
+    { href: "#/map", route: "map", icon: "eco", label: "Ecosystem", desc: "Glossary, mind map, sister technologies, integration maps, bridges, and future hooks.", i18n: "eco" },
+    { href: "#/track/t18", route: "track", icon: "cti", label: "CRM and CTI", desc: "Dynamics 365 voice and Salesforce Voice, and how each bridge reaches the record." },
+    { href: "#/track/t19", route: "track", icon: "compare", label: "Comparison", desc: "Microsoft, Amazon Connect Customer, and Google CCAI, cited and not ranked." },
+    { href: "#/track/t20", route: "track", icon: "route", label: "Routing, WFM, QM", desc: "Assignment, forecasting, and quality evaluation are three controls." },
     { href: "#/downloads", route: "downloads", icon: "down", label: "Downloads", desc: "HTML, PDF, and PNG sheets for the desk.", i18n: "downloads" },
     { href: "#/career", route: "career", icon: "career", label: "Careers", desc: "Field-desk paths next to the work in the tracks.", i18n: "careers" },
     { href: "#/regions", route: "regions", icon: "region", label: "Regions", desc: "Commercial, GCC High, and DoD are different lists." },

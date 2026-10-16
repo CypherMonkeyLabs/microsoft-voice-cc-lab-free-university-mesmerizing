@@ -77,13 +77,16 @@
     { id: "home", label: "Home", href: "index.html", icon: "home", desc: "Teams Phone rooms. Read offline. Claims stay cited." },
     { id: "start", label: "Start Here", href: "start.html", icon: "rocket", desc: "Tenant, license, then a dial plan." },
     { id: "help", label: "Help", href: "help.html", icon: "link", desc: "Microsoft Learn pages this lab cites. Confirm before you rely on a seat." },
-    { id: "rooms", label: "All Rooms", href: "index.html#rooms", icon: "rooms", desc: "Seventeen tracks. Open a written room from the map." },
+    { id: "rooms", label: "All Rooms", href: "index.html#rooms", icon: "rooms", desc: (document.querySelector('meta[name="lab-tracks"]') && /^\d+$/.test(document.querySelector('meta[name="lab-tracks"]').content) ? document.querySelector('meta[name="lab-tracks"]').content + " tracks. " : "") + "Open a written room from the map." },
     { id: "diagrams", label: "Diagrams", href: "diagrams.html", icon: "image", desc: "Diagrams from the lessons, saved as SVG, PNG, and HTML." },
     { id: "flows", label: "Flows", href: "flows.html", icon: "flow", desc: "Animated call paths. Reduced motion keeps every hop visible." },
     { id: "charts", label: "Charts", href: "charts.html", icon: "sliders", desc: "Counts from this repository. No traffic and no prices." },
     { id: "cheat", label: "Cheat Codes", href: "downloads.html", icon: "cards", desc: "Sheets, cards, and a zip. Each file carries the disclaimer." },
     { id: "play", label: "Play", href: "play.html", icon: "spark", desc: "A port game and a routing drill. Scores stay in this browser." },
-    { id: "ecosystem", label: "Ecosystem", href: "ecosystem.html", icon: "globe", desc: "Glossary, sisters, and bridges to CUCM, Webex, and UCCE." },
+    { id: "ecosystem", label: "Ecosystem", href: "ecosystem.html", icon: "globe", desc: "Glossary, mind map, sister technologies, integration maps, bridges, and future hooks." },
+    { id: "cti", label: "CRM and CTI", href: "tracks/T18/index.html", icon: "phone", desc: "Dynamics 365 voice and Salesforce Voice, and how each bridge reaches the record." },
+    { id: "compare", label: "Comparison", href: "tracks/T19/index.html", icon: "sliders", desc: "Microsoft, Amazon Connect Customer, and Google CCAI, cited and not ranked." },
+    { id: "routing", label: "Routing, WFM, QM", href: "tracks/T20/index.html", icon: "building", desc: "Assignment, forecasting, and quality evaluation are three controls." },
     { id: "bridges", label: "Bridges", href: "bridges.html", icon: "globe", desc: "Bridges to CUCM, Webex Calling, and UCCE. Confirm before relying." },
     { id: "downloads", label: "Downloads", href: "downloads.html#downloads-bonus", icon: "download", desc: "Sheets, cards, templates, and the offline zip." },
     { id: "careers", label: "Careers", href: "careers.html", icon: "mic", desc: "Study paths. Job titles are labels, not open roles." },
@@ -92,8 +95,6 @@
     { id: "glossary", label: "Glossary", href: "glossary.html", icon: "book", desc: "Term, config note, fault, and source." },
     { id: "labs", label: "Hands-on Labs", href: "labs.html", icon: "flask", desc: "Browser labs. They do not sign in to a tenant." },
     { id: "cases", label: "Troubleshooting", href: "troubleshooting.html", icon: "wrench", desc: "A symptom, a likely cause, and the check." },
-    { id: "interviews", label: "Interview Prep", href: "interviews.html", icon: "mic", desc: "Questions with a source. No invented work history." },
-    { id: "regions", label: "Countries", href: "regions.html", icon: "flag", desc: "Commercial, GCC High, and DoD are different lists." },
     { id: "mastery", label: "Mastery", href: "start.html", icon: "map", desc: "Fundamentals through Copilot. Unverified stays marked." },
     { id: "ports", label: "Ports", href: "downloads/sheets/ports-protocols.html", icon: "radio", desc: "Ports named in the Teams Phone lessons. Confirm the current list." },
     { id: "certs", label: "Exam notes", href: "careers.html", icon: "check", desc: "MS-700, AB-250, and the seats this lab can still name. Confirm the seat." }
@@ -252,7 +253,7 @@
       }).join("") +
       "</div>" +
       '<button type="button" class="a11y-motion" data-motion-toggle aria-pressed="' + (motionOn() ? "true" : "false") + '">Reduce motion</button>' +
-      '<p class="display-stats">110 rooms · Teams Phone · cited notes</p>' +
+      '<p class="display-stats">' + ((document.querySelector('meta[name="lab-rooms"]') && /^\d+$/.test(document.querySelector('meta[name="lab-rooms"]').content)) ? document.querySelector('meta[name="lab-rooms"]').content + " rooms · " : "") + 'Teams Phone · cited notes</p>' +
       "</div>";
     if (bar) bar.appendChild(dock);
     else document.body.insertBefore(dock, document.body.firstChild);

@@ -1,0 +1,32 @@
+{
+  "room": "T20-R02-voice-workstreams-and-voice-queues.html",
+  "lesson": "t20-queues",
+  "title": "Voice workstreams and voice queues",
+  "checked": "2026-10",
+  "sources": [
+    {
+      "title": "Create and manage workstreams",
+      "url": "https://learn.microsoft.com/en-us/dynamics365/customer-service/administer/create-workstreams",
+      "kind": "learn",
+      "lastChecked": "2026-10",
+      "status": "ok",
+      "note": ""
+    },
+    {
+      "title": "Assignment methods for unified routing",
+      "url": "https://learn.microsoft.com/en-us/dynamics365/customer-service/administer/assignment-methods",
+      "kind": "learn",
+      "lastChecked": "2026-10",
+      "status": "ok",
+      "note": ""
+    },
+    {
+      "title": "Microsoft Teams",
+      "url": "https://en.wikipedia.org/wiki/Microsoft_Teams",
+      "kind": "wikipedia",
+      "lastChecked": "2026-10",
+      "status": "ok",
+      "note": "Wikipedia fallback for background. Confirm the vendor page before you change a tenant."
+    }
+  ]
+}

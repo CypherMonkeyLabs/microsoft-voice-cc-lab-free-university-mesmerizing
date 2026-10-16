@@ -276,12 +276,26 @@ html[data-motion="reduce"] .nav-icon:hover { transform: none; }
   .v4-stage > .topbar { margin: 8px 8px 8px; top: 8px; }
   .stage-banner { display: none !important; }
   main p:not(:has(.dl-btn)),
-  main li {
-    padding-right: 116px;
-  }
-  .hero-band p:has(.dl-btn),
+  main li,
+  .hero-band p,
+  .hero-band .lede,
+  .hero-band .stat-row,
   .hero-band .kicker { padding-right: 0; }
-  .hero-band .stat-row { padding-right: 112px; }
+  /* Collapsed guide. A full monkey sits on the first lines of a 390px page. */
+  .mvcc-bot {
+    left: auto !important;
+    top: auto !important;
+    right: 10px !important;
+    bottom: calc(var(--dock, 78px) + 8px) !important;
+    width: 48px !important;
+    height: 48px !important;
+  }
+  .bot-launch,
+  .bot-launch .monkey-svg {
+    width: 48px !important;
+    height: 48px !important;
+  }
+  main.wrap { padding-bottom: calc(var(--dock, 78px) + 16px); }
 }
 
 .sources-deeper {

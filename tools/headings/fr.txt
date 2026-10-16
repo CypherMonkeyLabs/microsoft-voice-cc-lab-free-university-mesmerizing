@@ -108,3 +108,23 @@ Ponts inter-plateformes
 Crochets d'intégration future
 Configurer un changement d'écosystème
 Dépanner à travers une frontière de fournisseur
+Ce que CTI nomme
+Le canal vocal Dynamics
+Teams Phone dans le canal vocal
+Le compte de ressource et le numéro
+Salesforce Voice et Partner Contact Center
+Amazon Connect et la téléphonie partenaire
+La jointure appel-enregistrement
+Une comparaison sans vainqueur
+Ce que nomment les pages Microsoft
+Amazon Connect Customer
+CCAI Platform et le renommage GECX
+Uniquement les différences documentées
+Ce que ces pages ne tranchent pas
+Classification, puis affectation
+Workstreams vocaux et files vocales
+Plus haute capacité, round robin, moins actif
+Prévision, capacité et horaires
+Indicateurs et garde-fous
+Deux contrôles d'enregistrement
+Quel contrôle a échoué

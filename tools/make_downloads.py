@@ -26,6 +26,7 @@ FOOT = (
     "https://github.com/CypherMonkeyLabs · https://linktr.ee/cypherMonkey · "
     + REPO
     + " · (c) 2026 CypherMonkeyLabs. Independent educational project, not affiliated with or endorsed by any vendor. "
+    "Comparison notes describe only public pages this lab opened. They do not rank vendors. "
     "Trademarks belong to their owners. MIT code, CC BY-NC-SA content. Contact https://cyphermonkeylabs.com/#contact."
 )
 
@@ -47,6 +48,9 @@ TRACKS = {
     "t15": "15 ACS, Speech, Copilot",
     "t16": "16 Certifications and status",
     "t17": "17 Ecosystem",
+    "t18": "18 CRM and CTI",
+    "t19": "19 Comparison",
+    "t20": "20 Routing, WFM, QM",
 }
 
 PORT_LINES = [
@@ -198,6 +202,7 @@ def footer_html() -> str:
         f'<a href="{html.escape(REPO)}">github.com/CypherMonkeyLabs/microsoft-voice-cc-lab-free-university-mesmerizing</a></p>'
         "<p>© 2026 CypherMonkeyLabs 🐒</p>"
         "<p>Independent educational project, not affiliated with or endorsed by any vendor. "
+        "Comparison notes describe only public pages this lab opened. They do not rank vendors. "
         "Trademarks belong to their owners. MIT code, CC BY-NC-SA content.</p>"
         "<p>Report a concern and work with us: "
         '<a href="https://cyphermonkeylabs.com/#contact">cyphermonkeylabs.com contact form</a>. '

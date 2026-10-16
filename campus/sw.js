@@ -1,10 +1,13 @@
-/* Offline cache for the Voice Lab. Generated. Cache d001b04534ec. */
+/* Offline cache for the Voice Lab. Generated. Cache ef85d9bd5ef2. */
 "use strict";
-const CACHE = "mvcc-lab-d001b04534ec";
+const CACHE = "mvcc-lab-ef85d9bd5ef2";
 const PRECACHE = [
   "./",
   "./index.html",
   "./app.css",
+  "./chrome.css",
+  "./fx.js",
+  "./sources-deeper.js",
   "./app.js",
   "./studios/topology.js",
   "./studios/hero.js",
@@ -55,6 +58,9 @@ const PRECACHE = [
   "./data/tracks/t15.json",
   "./data/tracks/t16.json",
   "./data/tracks/t17.json",
+  "./data/tracks/t18.json",
+  "./data/tracks/t19.json",
+  "./data/tracks/t20.json",
   "./audio/aa-goodbye.wav",
   "./audio/aa-hold.wav",
   "./audio/aa-hours.wav",
@@ -93,7 +99,6 @@ const PRECACHE = [
   "./downloads/career.html",
   "./downloads/catalog.json",
   "./downloads/config-checklist.html",
-  "./downloads/flashcards.html",
   "./downloads/flashcards.json",
   "./downloads/glossary-core.html",
   "./downloads/glossary-full.html",
@@ -116,6 +121,9 @@ const PRECACHE = [
   "./downloads/track-t15.html",
   "./downloads/track-t16.html",
   "./downloads/track-t17.html",
+  "./downloads/track-t18.html",
+  "./downloads/track-t19.html",
+  "./downloads/track-t20.html",
   "./downloads/troubleshooting.html",
   "./downloads/whats-new.html"
 ];

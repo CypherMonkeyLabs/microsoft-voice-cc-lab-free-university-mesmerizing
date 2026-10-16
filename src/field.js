@@ -500,7 +500,7 @@ function renderField() {
   const cards = FIELD_LINKS.map((item) => '<a class="card" href="' + item[0] + '"><h3>' + esc(item[1]) + "</h3><p>" + esc(item[2]) + "</p></a>").join("");
   return (
     '<p class="kicker">Gap audit · 15 October 2026</p><h1>Field desk</h1>' +
-    '<p class="lede">Every section below is a real page in this campus. The seventeen tracks still hold the long lessons. This desk is the map when you need a checklist, a port, or a printable sheet.</p>' +
+    '<p class="lede">Every section below is a real page in this campus. The tracks still hold the long lessons. This desk is the map when you need a checklist, a port, or a printable sheet.</p>' +
     '<div class="lab-grid">' + cards + "</div>" +
     '<article class="panel"><h2>Named customers</h2><p>This lab does not claim a named deployment. Integration patterns for CUCM, Webex, UCCE, Genesys, and Amazon Connect are teaching bridges on the coexistence and ecosystem tracks. <span class="tag warn">Unverified</span> as a story about any real company.</p>' +
     '<p class="tiny">Older Origin rooms from cypher-microsoft-voice-cc-lab were not readable from this build environment, so they are not pasted in here. The facts on this desk come from the lessons already cited in this repo.</p></article>'

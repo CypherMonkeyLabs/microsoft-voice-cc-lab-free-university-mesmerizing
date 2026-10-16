@@ -3896,4 +3896,705 @@ Across vendors, name the boundary and match the identifier. Then change one thin
 @sources
 dr,rec,cqd,d365
 ---
+---
+@id
+t18-cti
+@track
+t18
+@title
+What CTI names
+@minutes
+6
+@why
+The name is older than any of the products in this track. The vendor page still has to say what the product actually does.
+@depends
+A CRM you can name; a telephone system you can name
+@p1
+Wikipedia’s page for computer telephony integration says computer-telephony integration, also called computer–telephone integration or CTI, is a general term for technologies that coordinate interactions between telephones and computers. The following sentence on that page is marked citation needed. This room stops at the sourced sentence.
+@p2
+Dynamics 365 and Salesforce each publish a specific bridge. CTI is the family name. It is not a configuration screen, and it does not tell you whether the representative answers in Teams, in a CRM workspace, or in a partner desktop.
+@flow
+Telephone|The call;Computer|The record or the desktop;CTI|The general name;Vendor page|The product you configure
+@chart
+Name, then product
+@note
+Teaching order. Not a count of products.
+@bars
+Name|1|CTI;Dynamics|2|Voice channel;Salesforce|3|Salesforce Voice;Record|4|The join you store
+@lab
+integrate-map
+@say
+CTI names the coordination. The vendor page names the product.
+@fault
+A design says CTI and never says which app answers the call.
+@listen
+CTI is the general name for coordinating a telephone and a computer. Open the vendor page before you configure anything.
+@sources
+ctiwiki,voicech,sfpartner
+---
+@id
+t18-d365-voice
+@track
+t18
+@title
+The Dynamics voice channel
+@minutes
+8
+@why
+The voice channel is the Dynamics page that says where PSTN calling lives, and which app the representative uses.
+@depends
+Dynamics 365 Contact Center or Customer Service; the voice-channel article
+@p1
+The introduction to the voice channel applies to Dynamics 365 Contact Center embedded, Dynamics 365 Contact Center standalone, and Dynamics 365 Customer Service. It says representatives receive and make PSTN calls through a native calling experience in Dynamics 365, and that the voice channel is built on Azure Communication Services. The same page says routing a voice call uses unified routing, the same way an incoming chat is assigned, and that a Copilot Studio agent can be the conversational IVR because it shares the platform.
+@p2
+The capabilities table on that page includes call controls, music on hold and on wait, customer and case lookup, emergency dialing currently supported in the United States and Puerto Rico only, a callback number, distribution of incoming calls, voicemail, outbound calls, transfer to an external number, phone-number provisioning, skills-based assignment, transcription, recording, sentiment, translation, supervisor monitor and barge, a post-call survey, and queue-position announcements. This room does not copy the marketing sections above that table.
+@flow
+PSTN|Native calling in Dynamics;Platform|Azure Communication Services;Route|Unified routing;Workspace|The app the later rooms name
+@chart
+What the voice-channel page states
+@note
+A list from one table. Not a score.
+@bars
+Calling|1|PSTN in Dynamics;Routing|2|Unified routing;IVR|3|Copilot Studio agent;Emergency|4|US and Puerto Rico only
+@lab
+
+@say
+The voice channel is ACS calling inside Dynamics, routed like the other channels.
+@fault
+The pilot looks for the call in the Teams client because nobody read where the notification is delivered.
+@listen
+The Dynamics voice channel is native PSTN calling in Dynamics, built on Azure Communication Services, and routed with unified routing.
+@sources
+voicech,unified
+---
+@id
+t18-teams-bridge
+@track
+t18
+@title
+Teams Phone into the voice channel
+@minutes
+8
+@why
+A Teams number can be the PSTN path. The page that allows it also limits which Calling Plan numbers qualify.
+@depends
+A configured voice channel; Teams Phone connectivity you can name
+@p1
+The page Configure Teams Phone in the voice channel says the PSTN connectivity is a Teams Calling Plan, Operator Connect, or Direct Routing. For a Teams Calling Plan, that page says service numbers only are supported. It also lists Enterprise Voice, outbound-calling prerequisites, and a licensing guide. This room does not copy SKU names from the licensing guide.
+@p2
+Synchronization needs the Teams Administrator or Teams Telephony Administrator role, and the delegated Graph permission TeamsResourceAccount.Read.All with admin consent. The page says a Teams resource account is required for every number used with Dynamics 365 Contact Center. Direct Routing uses Set-CsPhoneNumberAssignment with PhoneNumberType DirectRouting, then Grant-CsOnlineVoiceRoutingPolicy. Operator Connect uses PhoneNumberType OperatorConnect.
+@flow
+Connectivity|Calling Plan, Operator Connect, or Direct Routing;Limit|Calling Plan service numbers only;Permission|TeamsResourceAccount.Read.All;Account|One resource account per number
+@chart
+Documented PSTN choices
+@note
+Three options the page names. Not a preference.
+@bars
+Calling Plan|1|Service numbers only;Operator Connect|2|PhoneNumberType OperatorConnect;Direct Routing|3|PhoneNumberType DirectRouting;Consent|4|Admin consent
+@lab
+integrate-map
+@say
+Teams can carry the number. A Calling Plan here is service numbers only.
+@fault
+A user Calling Plan number is synced because the service-number limit was skipped.
+@listen
+Teams Phone in this channel allows Calling Plan service numbers, Operator Connect, or Direct Routing. Copy the application ID from the current page.
+@sources
+teamsvoice
+---
+@id
+t18-resource
+@track
+t18
+@title
+The resource account and the number
+@minutes
+8
+@why
+The number does not appear in Dynamics until the resource account exists and someone runs Sync from Teams.
+@depends
+The Teams Phone page; a phone number in E.164
+@p1
+The same page shows Connect-MicrosoftTeams, then New-CsOnlineApplicationInstance, then Set-CsOnlineApplicationInstance and Sync-CsOnlineApplicationInstance. Those last two examples include an ApplicationId and the organization’s Azure Communication Services resource ID. Copy both from the current page. This room does not ask you to memorize the identifier.
+@p2
+After the license and the service number are on the resource account, the page says to open Copilot Service admin center, Channels, Phone numbers, Advanced, the Teams phone system tab, and Sync from Teams. Then create a workstream and add a voice channel for that number. When a customer calls, the representative receives the notification in the Copilot Service workspace app. If recording is enabled, an announcement plays. If an outbound conversation is not created, the page says the representative gets an alert and should initiate the call again.
+@flow
+Create|Application instance;Associate|ACS resource on the page;Sync|Sync from Teams;Notify|Copilot Service workspace
+@chart
+Order on the Teams Phone page
+@note
+Sequence. Not a volume.
+@bars
+Instance|1|New-CsOnlineApplicationInstance;Associate|2|ApplicationId from the page;Number|3|Service number;Sync|4|Sync from Teams
+@lab
+
+@say
+I sync the Teams service number, and the representative answers in Copilot Service workspace.
+@fault
+The number is assigned in Teams and never synced, so Dynamics has no voice channel for it.
+@listen
+Create the resource account, copy the application ID from the current page, assign the number, and sync it into the voice channel.
+@sources
+teamsvoice,workstreams
+---
+@id
+t18-sf-name
+@track
+t18
+@title
+Salesforce Voice and Partner Contact Center
+@minutes
+7
+@why
+The old name is still in product screens. The pages opened for this room say what the current name is.
+@depends
+A Salesforce org; the two pages named in the sources
+@p1
+The help page opened for this room is titled Connect Voice from a Partner Contact Center. It says Salesforce Voice with Telephony Providers, formerly Service Cloud Voice, is now part of Partner Contact Center, and that you may still see the older name. Its learning map lists the Telephony Integration REST API, the Voice Toolkit API, and Lambda functions for Amazon Connect under Develop.
+@p2
+The same note still names Salesforce Voice with Amazon Connect, Salesforce Voice with Partner Telephony, and Salesforce Voice with Partner Telephony from Amazon Connect. It points to Agentforce Contact Center Voice for a built-in telephony offering. This room does not describe that offering beyond the pointer. A Salesforce developer-guide URL was requested during this build and did not open, so this room does not quote it.
+@flow
+Old name|Service Cloud Voice;Guide|Salesforce Voice;Help page|Partner Contact Center;Models|Still named on the page
+@chart
+Names on the opened pages
+@note
+A rename, not a rank.
+@bars
+Guide|1|Salesforce Voice;Help|2|Partner Contact Center;Amazon|3|Named model;Partner|4|Named model
+@lab
+
+@say
+Service Cloud Voice is now Salesforce Voice, and the help page places it in Partner Contact Center.
+@fault
+A design uses only the old name and misses which telephony model the page still lists.
+@listen
+Salesforce’s guide says Service Cloud Voice is now Salesforce Voice. The help page says that voice offering is now part of Partner Contact Center.
+@sources
+sfvoice,sfpartner
+---
+@id
+t18-sf-telephony
+@track
+t18
+@title
+Amazon Connect and partner telephony
+@minutes
+7
+@why
+The help page does not collapse the telephony models into one setup path.
+@depends
+The Partner Contact Center help page
+@p1
+The learning map on Connect Voice from a Partner Contact Center lists separate setup paths: Partner Contact Center with Amazon Connect, Partner Contact Center Voice, and Partner Contact Center with Amazon Connect as bring your own. It also lists supervisor listen-in and barge-in, linking calls with customer contact records, and the Telephony Integration REST API and Voice Toolkit API under Develop.
+@p2
+This room does not add editions, government-cloud limits, or prices. Those were not on the help page that opened. The developer-guide URL did not open from this build, so it is marked confirm and it is not quoted.
+@flow
+Amazon Connect|A setup path on the map;Bring your own|A separate path;Partner telephony|Still named;Record link|Link calls with contact records
+@chart
+Paths the learning map lists
+@note
+Separate paths. Not a recommendation.
+@bars
+Amazon|1|Setup path;Bring your own|2|Separate path;Partner|3|Named on the page;Link|4|Contact records
+@lab
+integrate-map
+@say
+I can point at which Salesforce telephony path the learning map names.
+@fault
+Bring-your-own Amazon Connect is configured with the setup steps for the path that provisions Amazon Connect for you.
+@listen
+The Salesforce learning map lists Amazon Connect, bring your own, and partner telephony as separate setup paths.
+@sources
+sfpartner,sfvoice
+---
+@id
+t18-seam
+@track
+t18
+@title
+The call-to-record seam
+@minutes
+8
+@why
+The bridge fails when the call and the CRM record do not share an identifier you stored.
+@depends
+Track 14’s three Teams models; the two CRM bridges in this track
+@p1
+Microsoft’s Teams contact-center article describes three provider models. Extend uses the Teams client as the calling endpoint. The Dynamics Teams Phone page, which is a different article, says the representative receives the Teams-number call in the Copilot Service workspace app. Those are different desktops. Do not describe the Dynamics workspace as the Extend client.
+@p2
+The Salesforce learning map includes Link Calls with Customer Contact Records. Store the number and the call identifier the product gives you, and test a record that should not match. The Dynamics voice-channel table includes customer and case lookup. A lookup that returns the wrong record is a data fault, not a codec fault. Track 17’s CRM room is the place for the screen-pop fields this campus already names.
+@flow
+Desktop|Workspace or Teams client or partner app;Lookup|Customer and case, or contact record;Key|The identifier you store;Miss|Wrong record or no record
+@chart
+Which desktop the page names
+@note
+Three desktops. Not a winner.
+@bars
+Dynamics|1|Copilot Service workspace;Extend|2|Teams client;Salesforce|3|Partner Contact Center;Key|4|Stored identifier
+@lab
+integrate-map
+@say
+I name the desktop that answers, and the identifier that joins the call to the record.
+@fault
+The call connects and the case that opens belongs to a different person.
+@listen
+Name the desktop the page describes, then store the identifier that joins the call to the record.
+@sources
+cc,teamsvoice,voicech,sfpartner
+---
+@id
+t19-method
+@track
+t19
+@title
+A comparison with no winner
+@minutes
+6
+@why
+A comparison is a set of sentences you can point at. A ranking is a sentence these pages do not contain.
+@depends
+The pages listed on this track
+@p1
+Each later room uses a page this lab opened in October 2026. The product name is the name printed on that page. If two pages use two names, both names stay, with the page each one came from. Bars in this track are equal on purpose. Length is not a rank, a price, or a market share.
+@p2
+Words such as a superlative for quality, a prize, or a promise of no effort are not used here, even when a vendor page uses them. The Teams contact-center article links a certified-solutions list. This track does not paste that list, and it does not paste a different app index.
+@flow
+Open|The page;Name|As printed;Claim|Only what that page says;Stop|No rank and no price
+@chart
+How to read this track
+@note
+Equal bars mean the page was opened.
+@bars
+Microsoft|1|Opened;Amazon|1|Opened;Google|1|Opened;Salesforce|1|Opened
+@lab
+
+@say
+I can cite the page, and I will not rank the vendors.
+@fault
+A slide declares a winner using a word that is not on the opened page.
+@listen
+This comparison cites opened pages only. It does not rank vendors and it does not invent prices.
+@sources
+cc,connect,ccaip,sfpartner
+---
+@id
+t19-microsoft
+@track
+t19
+@title
+What the Microsoft pages name
+@minutes
+8
+@why
+Microsoft publishes more than one voice path. The page you cite has to be the path you mean.
+@depends
+Track 18; the Teams contact-center article
+@p1
+The Dynamics voice-channel page says the channel provides native PSTN calling in Dynamics 365, is built on Azure Communication Services, and routes calls with unified routing. The Teams Phone page says a Teams number used with Contact Center is a Calling Plan service number, Operator Connect, or Direct Routing, and that the representative is notified in Copilot Service workspace.
+@p2
+The Teams contact-center article names three models for a provider: Unify, using Azure Communication Services call automation and the calling SDK. Extend, where the Teams client is the calling endpoint and the provider acts as a telephony carrier alongside Microsoft 365. Connect, using a certified SBC and Direct Routing. A note on Connect says the contact-center agent does not need a phone-system license, and the Teams user does, plus a number, for transfer. The article links a certified list. This room does not copy vendor names from a different index.
+@flow
+Dynamics|ACS voice channel;Teams number|Service number, Operator Connect, or Direct Routing;Provider|Unify, Extend, or Connect;List|Linked, not pasted here
+@chart
+Microsoft pages, side by side
+@note
+Different articles. Not a score.
+@bars
+Voice channel|1|ACS in Dynamics;Teams number|1|Three PSTN options;Unify|1|ACS calling;Extend|1|Teams client;Connect|1|Certified SBC
+@lab
+
+@say
+I can say which Microsoft article I am quoting before I name a model.
+@fault
+Extend, which uses the Teams client, is described with the Dynamics workspace notification.
+@listen
+Quote the Dynamics voice channel, the Teams number bridge, or the three provider models. They are different pages.
+@sources
+voicech,teamsvoice,cc
+---
+@id
+t19-amazon
+@track
+t19
+@title
+Amazon Connect Customer
+@minutes
+7
+@why
+The admin guide opened for this room uses a current product name that is not the old title.
+@depends
+The Amazon Connect Customer page in the sources
+@p1
+That guide says Amazon Connect Customer is the current name for the product previously called Amazon Connect. It says Amazon Connect is now a set of agentic AI solutions for different business functions, and that this guide covers Amazon Connect Customer. This room uses that distinction and does not describe the other functions.
+@p2
+The page says agents spend time on voice, chat, SMS, or other channels. It says administrators provision phone numbers, and with managers they define queues, routing profiles, and flows. It says you pay only for what you use, and it links a pricing page. This room does not copy a price. Salesforce’s pages, in the previous track, name Amazon Connect as one telephony path into Partner Contact Center. That is a Salesforce sentence, not an Amazon ranking.
+@flow
+Name|Amazon Connect Customer;Guide|This admin guide;Channels|Voice, chat, SMS, or others;Admin|Numbers, queues, routing profiles, flows
+@chart
+What the opened Amazon page states
+@note
+One page. Not a market share.
+@bars
+Name|1|Connect Customer;Channels|1|Named on the page;Queues|1|Routing profiles and flows;Price|1|No number copied
+@lab
+
+@say
+The guide I opened calls the contact-center product Amazon Connect Customer.
+@fault
+A comparison uses the old product title as if this guide still used it as the name.
+@listen
+Amazon’s opened guide calls the product Amazon Connect Customer and describes voice, chat, SMS, queues, and flows. It does not give a price on this page.
+@sources
+connect,sfpartner
+---
+@id
+t19-google
+@track
+t19
+@title
+CCAI Platform and the GECX rename
+@minutes
+8
+@why
+The docs page and the legal change log do not print the same product title. Both were opened.
+@depends
+The CCAI Platform docs page; the legal change log
+@p1
+The docs page opened for this room is titled Contact Center AI Platform. It says CCAI Platform is built natively on Google Cloud, uses other Gemini Enterprise for Customer Experience products, and is purpose-built to work alongside CRMs. It says the platform queues and routes voice and digital channels, names Virtual Agent, Agent Assist, and Insights, and says it reports on agent performance and customer satisfaction. It links a locations page. This room does not copy the country list.
+@p2
+The legal change log contains this line: Updated name of Customer Engagement Suite and Contact Center AI to Gemini Enterprise for Customer Experience (GECX). A different line says the service terms for Contact Center AI Platform were renamed to Google Cloud Contact Center as a Service in a section of those terms, and another line says the services-summary name for CCAI Platform was updated toward Google Cloud Contact Center as a Service. The docs page opened here still uses Contact Center AI Platform. This room does not say that docs page was renamed away.
+@flow
+Docs title|Contact Center AI Platform;Docs body|Uses GECX products;Change log|GECX line;Other lines|CCaaS in the terms
+@chart
+Two Google pages
+@note
+Both opened. Neither ranks a vendor.
+@bars
+Docs|1|CCAI Platform title;Body|1|Names GECX products;Log|1|GECX rename line;Terms|1|Separate CCaaS line
+@lab
+
+@say
+The docs page still says Contact Center AI Platform. The change log records the GECX rename.
+@fault
+A diagram drops the docs title because a change-log line exists.
+@listen
+Keep both Google names. The docs page says Contact Center AI Platform. The change log records the rename to Gemini Enterprise for Customer Experience.
+@sources
+ccaip,glegal
+---
+@id
+t19-table
+@track
+t19
+@title
+Documented differences only
+@minutes
+8
+@why
+A table is safe when every cell comes from a page you can reopen.
+@depends
+The four product rooms in this track
+@p1
+Dynamics, on the voice-channel page: native PSTN calling in Dynamics, built on Azure Communication Services, routed with unified routing, with customer and case lookup in the capabilities table. Teams providers, on the contact-center page: Unify, Extend, or Connect, as the previous room states. Amazon Connect Customer, on its guide: agents on voice, chat, SMS, or other channels, and administrators on numbers, queues, routing profiles, and flows. CCAI Platform, on its docs page: queuing and routing across voice and digital, working alongside CRMs, and using other Gemini Enterprise for Customer Experience products. Salesforce, on the help page: Partner Contact Center, with Amazon Connect and partner-telephony models still named.
+@p2
+Read down a column only. Do not add a column for a score. The chart on this page uses the same length for each page so a longer bar cannot be mistaken for a preference.
+@flow
+Name|As the page prints it;Channels|Only channels that page names;Telephony|Who that page says carries it;CRM|How that page relates the record
+@chart
+Pages opened for this table
+@note
+Equal length. Not a rank.
+@bars
+Dynamics|1|Voice channel;Teams|1|Three models;Amazon|1|Connect Customer;Google|1|CCAI Platform;Salesforce|1|Partner Contact Center
+@lab
+
+@say
+I can fill the table from the pages and leave the score column off.
+@fault
+A cell is filled with a feature the opened page did not mention.
+@listen
+Compare only the name, the channels, the telephony, and the CRM relationship that the opened page states.
+@sources
+voicech,cc,connect,ccaip,glegal,sfpartner
+---
+@id
+t19-gaps
+@track
+t19
+@title
+What these pages do not decide
+@minutes
+6
+@why
+The honest end of a comparison is the list of questions the opened pages do not answer.
+@depends
+The table room
+@p1
+These pages do not state a price figure this room can repeat. Amazon’s guide says you pay only for what you use and links pricing. No amount is copied. They do not state market share. They do not rank the products. The Teams article links a certified-solutions list and a list of providers in the certification process. This track does not paste either list.
+@p2
+A country list, a license SKU, and an edition matrix stay on the page that owns them. Track 14 remains the place for coexistence designs this campus already wrote. If a newer page disagrees with this room, the newer page wins. The access month is October 2026.
+@flow
+Price|Not copied;Share|Not on these pages;Rank|Not in this track;List|Linked, not pasted
+@chart
+Left undecided
+@note
+Gaps. Not a hidden score.
+@bars
+Price|1|No figure copied;Share|1|Not stated here;Rank|1|Not used;Vendor list|1|Not pasted
+@lab
+hook-plan
+@say
+I can say what this comparison refuses to decide.
+@fault
+A missing cell is filled with a remembered price or a rank.
+@listen
+These pages do not decide price numbers, market share, or a winner. A certified list stays on Microsoft’s page.
+@sources
+connect,cc,ccaip
+---
+@id
+t20-routing
+@track
+t20
+@title
+Classification, then assignment
+@minutes
+7
+@why
+Unified routing is two stages. Mixing them makes the wrong control look broken.
+@depends
+Dynamics 365 Contact Center or Customer Service; Copilot Service admin center
+@p1
+The unified-routing overview applies to Dynamics 365 Contact Center embedded, Contact Center standalone, and Customer Service. It says unified routing has two stages. In classification, rules and machine-learning models can add information on the work item. In assignment, requests are prioritized and then assigned using the nature of the work, related entities, skills, and the current availability and workload.
+@p2
+The page says you configure unified routing in the Copilot Service admin center, and that representatives must use the Copilot Service workspace app to be assigned work. It says unified routing is not supported in Unified Service Desk. Intelligent skill finder depends on an AI Builder category classification model, so AI Builder has to be available in the region where you use it. The page says unified routing is supported in the same regions as Dynamics 365 Contact Center. This room does not copy that region list.
+@flow
+Classify|Rules or ML models add information;Assign|Priority, skills, availability, workload;App|Copilot Service workspace;Limit|Not Unified Service Desk
+@chart
+Two stages
+@note
+Order of the work. Not a handle time.
+@bars
+Classification|1|Add information;Assignment|2|Match and prioritize;Workspace|3|Required app;Region|4|Same as Contact Center
+@lab
+routing-designer
+@say
+Classification adds information. Assignment uses it. They are not the same stage.
+@fault
+A skill is missing and the assignment method is rebuilt before anyone checks classification.
+@listen
+Unified routing classifies a work item, then assigns it. Representatives use Copilot Service workspace. Unified Service Desk is not supported.
+@sources
+unified
+---
+@id
+t20-queues
+@track
+t20
+@title
+Voice workstreams and voice queues
+@minutes
+8
+@why
+A voice workstream will not offer pick mode. The page says push only, and the choice cannot be edited later.
+@depends
+The workstreams page; the assignment-methods page
+@p1
+The workstreams page says a workstream is a container to enrich, route, and assign work items. Types are Messaging, Record, and Voice. Voice routes calls to support numbers. In the create dialog, Push sends the work with a message alert, and Pick waits until someone takes it from Open work items. For voice, push mode only is available, and the work distribution mode cannot be edited later. A fallback queue receives work when no route-to-queue rule identifies a queue.
+@p2
+The assignment-methods page says least active is the default selection when you create a voice or messaging queue, and that it is for those channels only. The same page says the Queue priority field orders work across queues: work from higher-priority queues is assigned first. When queues mix out-of-the-box methods and custom prioritization, the page says the out-of-the-box queues are prioritized first. This room does not copy the assignment scale limits. The page links them.
+@flow
+Type|Voice;Mode|Push only;Fallback|Queue when no rule matches;Priority|Higher-priority queues first
+@chart
+Voice work, as the pages state it
+@note
+Constraints. Not a queue count.
+@bars
+Push|1|Only mode for voice;Fallback|2|Required choice;Least active|3|Default on a new voice queue;Priority|4|Across queues
+@lab
+
+@say
+A voice workstream is push only. I will not edit that mode later, because the page says I cannot.
+@fault
+Pick mode is promised on a voice workstream, or the fallback queue has no members.
+@listen
+Voice workstreams are push only. Least active is the default on a new voice or messaging queue. Higher-priority queues are assigned first.
+@sources
+workstreams,assign
+---
+@id
+t20-assign
+@track
+t20
+@title
+Highest capacity, round robin, least active
+@minutes
+8
+@why
+The assignment method is a choice on the queue. The page defines three out-of-the-box methods this room can repeat.
+@depends
+The assignment-methods page
+@p1
+Highest capacity assigns to the representative with the highest available capacity who has the skills from classification and an allowed presence. If more than one has the same capacity, the page says round-robin order breaks the tie. Exact match filters on an exact skill match and then orders by available capacity. Closest match orders by closest match rather than by available capacity. Advanced round robin matches skills, presence, and capacity. The initial order is when the user was added to the queue, then the order updates from assignments, and the order is kept per queue. A tie uses the earliest last-assignment time.
+@p2
+Least active, for voice and messaging only, uses the time since last capacity was released for a voice or messaging conversation and the Block capacity for wrap-up setting. The page says that data is in the msdyn_agentchannelstate table. First-in-first-out is the default prioritization when an out-of-the-box or custom method has no prioritization rules. For chat and voice, the page says the system uses conversation creation time. The page says not to use least active for employment decisions such as compensation, rewards, or seniority. Custom methods do not inherit the workstream’s presence, capacity, and skill settings. You configure those rules yourself.
+@flow
+Highest capacity|Available capacity, then round robin;Round robin|Per queue, last assignment;Least active|Last capacity release;Limit|Not an employment decision
+@chart
+Three methods
+@note
+Names from one page. Not a productivity score.
+@bars
+Capacity|1|Highest available;Round robin|2|Per queue;Least active|3|Voice and messaging;FIFO|4|Default when no rules
+@lab
+routing-designer
+@say
+I can name which assignment method the queue uses, and I will not use it to rank employees.
+@fault
+Closest match is expected to order by free capacity, which is the exact-match behavior instead.
+@listen
+Highest capacity uses free capacity. Round robin keeps an order per queue. Least active uses the last capacity release, and it is not for employment decisions.
+@sources
+assign,workstreams
+---
+@id
+t20-wfm
+@track
+t20
+@title
+Forecast, capacity, and schedule
+@minutes
+8
+@why
+Workforce management in this stack starts as a forecast of volume and handle time. It is not a Teams calling policy.
+@depends
+The forecasting overview
+@p1
+The forecasting overview says a forecast estimates volume and average handle time by channel and queue. Volume excludes conversations that AI agents handle with no representative joining. Forecasting is the first stage. Capacity planning uses the default forecast snapshot to calculate staffing requirements. Scheduling turns those requirements into shifts.
+@p2
+A short-term scenario is 15-minute intervals for a horizon of up to six weeks, which the page also states as 42 days, using a linear trend on internal or external data. A long-term scenario is daily, for up to three years, stated as 1,096 days. Weighted average is marked preview, uses external data, and refreshes manually. The page says not to use the feature for employment decisions. It also says forecasts might not account for unexpected trends. This room does not copy a shrinkage percentage. The Erlang calculator elsewhere in this campus stays a teaching model.
+@flow
+Forecast|Volume and AHT;Capacity|Default snapshot;Schedule|Shifts;Limit|Not an employment decision
+@chart
+Three stages on the overview
+@note
+The numbers are the horizons the page states.
+@bars
+Short-term|42|Up to 42 days;Long-term|1096|Up to 1096 days;Interval|15|15 minutes;Preview|1|Weighted average
+@lab
+
+@say
+Forecast volume and handle time, then capacity, then shifts. The short-term horizon on the page is up to 42 days.
+@fault
+A daily three-year scenario is used to staff a 15-minute interval this afternoon.
+@listen
+Forecasting estimates volume and average handle time. Short-term is 15-minute intervals up to 42 days. Long-term is daily, up to 1,096 days.
+@sources
+wfm
+---
+@id
+t20-qm
+@track
+t20
+@title
+Indicators and guardrails
+@minutes
+8
+@why
+A quality indicator produces a score. A guardrail produces a violation. The page treats them as different objects.
+@depends
+Dynamics 365 Contact Center; the quality and coaching page
+@p1
+The quality and coaching page applies to Dynamics 365 Contact Center only. An evaluation plan sets the criteria, which conversations, the timing, and the actions. Frequency is In real time, during the conversation, or On conversation close, after it ends. Conditions pick the queue or workstream. Sampling is a percentage. Real-time actions can notify a supervisor, send a coaching nudge, or both, for ranges the page names Critical, Warning, and Normal. On conversation close, weights say how much each indicator contributes.
+@p2
+Indicators are questions with scores. Answer types on the page include Yes/No, multi-select, and single select. Guardrails are required or prohibited behaviors. They are evaluated for violations rather than numeric scores, and each has a priority of Low, Medium, or High. You need the Omnichannel Administrator role, and the page says to set up consumption-based billing and capacity. The page says not to use the feature for employment decisions, and not to infer emotional or psychological states. Build the library, then the plan, then activate it.
+@flow
+Library|Indicators and guardrails;Plan|Frequency, conditions, sampling;Action|Nudge, notify, or a score;Limit|Not an employment decision
+@chart
+Two criteria types
+@note
+Different objects. Not a quality target.
+@bars
+Indicator|1|Scored question;Guardrail|2|Violation, not a score;Realtime|3|During the conversation;Close|4|After the conversation
+@lab
+
+@say
+An indicator scores. A guardrail flags a required or prohibited behavior. Neither one is an employment decision.
+@fault
+A prohibited phrase is given a numeric weight because it was entered as an indicator.
+@listen
+Quality evaluation uses scored indicators and unscored guardrails. Real time and on close are different frequencies. Do not use the score for employment decisions.
+@sources
+quality
+---
+@id
+t20-recording
+@track
+t20
+@title
+Two recording controls
+@minutes
+7
+@why
+Dynamics can play a recording announcement on the voice channel. Teams compliance recording is a separate policy.
+@depends
+The Teams Phone voice-channel page; the Teams recording pages
+@p1
+The Configure Teams Phone in the voice channel page says that when call recording is enabled, an announcement plays to notify participants. The voice-channel capabilities table also lists transcription and recording, and supervisor record and manage. That is the Dynamics side.
+@p2
+Teams compliance recording is configured with a recording policy and a recording application, on the introduction and setup pages this campus already cites. Enabling the Dynamics announcement does not grant that Teams policy, and granting the Teams policy does not by itself tell you the Dynamics announcement is on. Read both controls. Track 17’s recording room walks the Teams policy objects.
+@flow
+Dynamics|Announcement when recording is enabled;Teams|Compliance-recording policy;Check|Each control on its own page;Join|One call identifier in both places
+@chart
+Two controls
+@note
+Separate switches. Not a feature score.
+@bars
+Dynamics|1|Announcement on that page;Teams|2|Policy and application;Test|3|A new call;Key|4|Call identifier
+@lab
+
+@say
+I will check the Dynamics announcement and the Teams recording policy as two controls.
+@fault
+One system is recording and the other is silent, and the case notes say both are on.
+@listen
+Dynamics documents a recording announcement. Teams compliance recording is its own policy. Test each one.
+@sources
+teamsvoice,voicech,rec,recsetup
+---
+@id
+t20-order
+@track
+t20
+@title
+Which control failed
+@minutes
+7
+@why
+Routing, forecasting, and quality fail in different places. The first control you change should be the one the evidence names.
+@depends
+The rooms in this track
+@p1
+If the work never reaches a queue, read classification and the route-to-queue rules, then the fallback queue. If it reaches the queue and the wrong person gets it, read the assignment method, presence, capacity, and skills. If the queue is staffed for the wrong interval, read the forecast scenario type before you edit the assignment method. If the conversation happened and the score is the dispute, read whether the plan used an indicator or a guardrail, and whether it ran in real time or on close.
+@p2
+Recording is the same habit. Check the Dynamics announcement and the Teams policy separately. None of these controls is an employment action. The assignment, forecast, and quality pages each say not to use them for compensation, rewards, seniority, or similar decisions. The chart is the order you check. It is not a count of incidents.
+@flow
+No queue|Classification and fallback;Wrong person|Assignment method;Wrong day|Forecast type;Wrong score|Indicator or guardrail
+@chart
+Check order
+@note
+Sequence. Not an incident count.
+@bars
+Route|1|Classification;Assign|2|Method;Forecast|3|Scenario type;Quality|4|Plan type;Record|5|Two controls
+@lab
+routing-designer
+@say
+I name the control that failed before I change a different one.
+@fault
+A forecast miss is debugged by rewriting the assignment rules.
+@listen
+Check classification, then assignment, then the forecast type, then the quality plan. Recording stays two controls.
+@sources
+unified,assign,wfm,quality,teamsvoice
+---
 ''')

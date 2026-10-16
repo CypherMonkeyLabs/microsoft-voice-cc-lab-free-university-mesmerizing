@@ -408,6 +408,7 @@ try {{
   <aside class="disclaimer-panel" aria-labelledby="campus-disc">
     <h2 id="campus-disc">A note from the student behind this lab</h2>
     <p>This is an <strong>independent, free, learning-only student project</strong>. It respects every company and vendor. Trademarks belong to their owners. It is <strong>not affiliated with or endorsed by</strong> any of them.</p>
+    <p>Comparison notes describe only public pages this lab opened. They do not rank vendors.</p>
     <p>If anyone has a concern, the content will be removed or corrected promptly via the contact form at <a href="https://cyphermonkeylabs.com/#contact">https://cyphermonkeylabs.com/#contact</a>. Nothing here is sold. Happy to volunteer for any organization.</p>
   </aside>
   <svg class="monkey" id="monkey" data-pose="idle" data-look="2" viewBox="0 0 64 72" aria-hidden="true">

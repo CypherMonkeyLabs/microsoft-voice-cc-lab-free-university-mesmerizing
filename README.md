@@ -10,7 +10,7 @@ A free, offline campus for a voice engineer preparing for Teams Phone and Micros
 
 Checked **14 October 2026** for the lesson set. Firewall prefixes were re-checked **15 October 2026** against Plan Direct Routing and the Office 365 URLs and IP address ranges article. Direct Routing SBC signaling and media use 52.112.0.0/14 and 52.120.0.0/14. Teams client optimize uses 52.112.0.0/14 and 52.122.0.0/15. Those lists are not the same. This is not a Microsoft, Cisco, AudioCodes, Ribbon, Oracle, Genesys, or Amazon publication. When a vendor page and this file disagree, the vendor page wins. Certification seats move. Read the exam page again before you book.
 
-The header menu is Diagrams, Flows, Charts, Cheat Codes, Play, Ecosystem, Downloads, and Careers. Each menu row is an icon, a label, and one line. Home opens on an animated call path, live counters, five mascot poses, and a theme switcher, then a signal deck of charts. Guide Bot answers only from this campus.
+The header menu is Diagrams, Flows, Charts, Cheat Codes, Play, Ecosystem, CRM and CTI, Comparison, Routing, WFM, QM, Downloads, and Careers. Each menu row is an icon, a label, and one line. Comparison notes describe only public pages this lab opened. They do not rank vendors. Home opens on an animated call path, live counters, five mascot poses, and a theme switcher, then a signal deck of charts. Guide Bot answers only from this campus.
 
 ## Open it
 
@@ -30,20 +30,20 @@ Progress, theme, lab runs, and exam self-ratings stay in `localStorage` under `m
 
 | | |
 |---|---|
-| Tracks | 17, each with why it matters and what it depends on |
-| Lessons | 110, each with three animated flows, at least three diagrams, and a Try it link |
-| Illustrations | 1,540 distinct inline SVGs, plus a Diagram Atlas of 29 figures |
-| Animated flows | 330 in lessons, plus 14 animated atlas flows |
+| Tracks | 20, each with why it matters and what it depends on |
+| Lessons | 130, each with three animated flows, at least three diagrams, and a Try it link |
+| Illustrations | 1,820 distinct inline SVGs, plus a Diagram Atlas of 29 figures |
+| Animated flows | 390 in lessons, plus 14 animated atlas flows |
 | Charts | 22, including licensing, CQD, Erlang C, and the certification and feature timelines |
 | Labs | 25, all runnable with no key |
-| Quiz | 644 questions, each with an explanation and a source |
+| Quiz | 668 questions, each with an explanation and a source |
 | Boss exams | 6: MS-700, AB-250, MB-280, AB-210, AZ-900, SC-900. Each one opens as an incident with a synthetic SBC or service log, then the question bank |
-| Flashcards | 607 |
+| Flashcards | 619 |
 | Scenarios | 24 |
-| Glossary | 347 terms, with a config note and a fault |
+| Glossary | 359 terms, with a config note and a fault |
 | Fault catalog | 36 rows: symptom, cause, fix, check, source |
 | Audio | 32 offline clips beside the HTML (DTMF, call progress, attendant samples, short intros) |
-| Sources | 52, dated 14 October 2026 |
+| Sources | 65, dated 14 October 2026. New chapters were opened again in October 2026. |
 
 Rebuild the file from the sources, then check the counts:
 
@@ -80,7 +80,8 @@ Checked 14 October 2026 against a local server.
 2. PSTN connectivity, dial plans, voice routing, attendants, and queues.
 3. Emergency calling, devices, SBCs, TLS, and troubleshooting.
 4. Dynamics 365 Contact Center, coexistence, ACS, Speech, and Copilot Studio.
-5. The exam status board, then the ecosystem track.
+5. The exam status board, then the ecosystem track: glossary, mind map, sister technologies, integration maps, bridges, and future hooks.
+6. CRM and CTI (Dynamics 365 voice and Salesforce Voice), a cited comparison with no ranking, then routing, workforce management, and quality evaluation.
 
 If you have one hour: the tenant boundary, Direct Routing, the normalization tester, the voice-routing matcher, and the ecosystem mind map.
 
@@ -124,7 +125,7 @@ MIT for the code. CC BY-NC-SA 4.0 for the curriculum text, diagrams, and sheets.
 
 ## Screenshots
 
-Home, with the call path and the seventeen tracks:
+Home, with the call path. The menu lists twenty tracks:
 
 ![Home](docs/assets/home.png)
 

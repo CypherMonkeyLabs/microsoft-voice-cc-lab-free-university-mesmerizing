@@ -1,0 +1,66 @@
+%PDF-1.4
+1 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica >>
+endobj
+2 0 obj
+<< /Length 1773 >>
+stream
+BT
+/F1 11 Tf
+50 780 Td
+14 TL
+(20 Routing, WFM, QM) Tj
+T* () Tj
+T* (20 Routing, WFM, QM) Tj
+T* () Tj
+T* (Pro tips) Tj
+T* (? Unified routing has two stages on its overview page: classification, then assignment. A) Tj
+T* (voice workstream is push mode only.) Tj
+T* (? A short-term forecast on the forecasting overview is 15-minute intervals for a horizon of) Tj
+T* (up to six weeks \(42 days\). A long-term forecast is daily, up to three years \(1,096 days\).) Tj
+T* () Tj
+T* (Interview traps) Tj
+T* (? Using a quality score or a forecast for employment decisions. Both pages say not to.) Tj
+T* (? Treating the Dynamics recording announcement and a Teams compliance-recording policy as) Tj
+T* (one switch.) Tj
+T* () Tj
+T* (Cheat sheet) Tj
+T* (Classify    rules and ML models add information) Tj
+T* (Assign      highest capacity, round robin, least active) Tj
+T* (Voice queue least active is the default on that page) Tj
+T* (Forecast    volume and AHT, then capacity, then shifts) Tj
+T* (Quality     indicators score, guardrails do not) Tj
+T* (Not for     compensation, seniority, or rewards) Tj
+T* () Tj
+T* (Facts in the long lessons were checked 14 October 2026. This sheet is a memory aid.) Tj
+T* () Tj
+T* (CypherMonkey Labs ? https://cyphermonkeylabs.com ? https://github.com/CypherMonkeyLabs ?) Tj
+T* (https://linktr.ee/cypherMonkey ? https://github.com/CypherMonkeyLabs/microsoft-voice-cc-lab-) Tj
+T* (free-university-mesmerizing ? \(c\) 2026 CypherMonkeyLabs. Independent educational project,) Tj
+T* (not affiliated with or endorsed by any vendor. Comparison notes describe only public pages) Tj
+T* (this lab opened. They do not rank vendors. Trademarks belong to their owners. MIT code, CC) Tj
+T* (BY-NC-SA content. Contact https://cyphermonkeylabs.com/#contact.) Tj
+ET
+endstream
+endobj
+3 0 obj
+<< /Type /Page /Parent 4 0 R /MediaBox [0 0 612 792] /Contents 2 0 R /Resources << /Font << /F1 1 0 R >> >> >>
+endobj
+4 0 obj
+<< /Type /Pages /Count 1 /Kids [3 0 R] >>
+endobj
+5 0 obj
+<< /Type /Catalog /Pages 4 0 R >>
+endobj
+xref
+0 6
+0000000000 65535 f 
+0000000009 00000 n 
+0000000079 00000 n 
+0000001904 00000 n 
+0000002030 00000 n 
+0000002087 00000 n 
+trailer << /Size 6 /Root 5 0 R >>
+startxref
+2136
+%%EOF

@@ -6,11 +6,11 @@
   "sources": [
     {
       "title": "Cisco Unified Border Element",
-      "url": "",
+      "url": "https://www.cisco.com/c/en/us/products/unified-communications/unified-border-element/index.html",
       "kind": "vendor",
       "lastChecked": "2026-10",
-      "status": "confirm",
-      "note": "Did not open when checked."
+      "status": "ok",
+      "note": ""
     },
     {
       "title": "Teams contact center integration models",

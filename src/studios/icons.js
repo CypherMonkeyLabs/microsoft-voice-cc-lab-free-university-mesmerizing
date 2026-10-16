@@ -108,6 +108,19 @@ function buildGroup(id, color) {
     group.children[0].material.wireframe = true;
     put(new THREE.SphereGeometry(0.1, 10, 10), 0.45, 0.3, 0.2, true);
     put(new THREE.SphereGeometry(0.08, 10, 10), -0.35, -0.25, 0.3, true);
+  } else if (id === "t18") {
+    put(new THREE.BoxGeometry(0.62, 0.82, 0.08), 0.28, -0.05, 0, false);
+    put(new THREE.CylinderGeometry(0.1, 0.1, 0.55, 10), -0.42, 0.02, 0.12, true);
+    put(new THREE.TorusGeometry(0.16, 0.045, 8, 16), -0.42, 0.42, 0.12, true);
+    group.children[2].rotation.x = Math.PI / 2;
+  } else if (id === "t19") {
+    put(new THREE.SphereGeometry(0.26, 16, 16), -0.5, -0.05, 0, false);
+    put(new THREE.SphereGeometry(0.26, 16, 16), 0, 0.16, 0, true);
+    put(new THREE.SphereGeometry(0.26, 16, 16), 0.5, -0.05, 0, false);
+  } else if (id === "t20") {
+    put(new THREE.BoxGeometry(0.95, 0.16, 0.38), 0, 0.38, 0, true);
+    put(new THREE.BoxGeometry(0.95, 0.16, 0.38), 0, 0, 0, false);
+    put(new THREE.BoxGeometry(0.95, 0.16, 0.38), 0, -0.38, 0, true);
   } else {
     put(new THREE.OctahedronGeometry(0.5), 0, 0, 0, true);
   }
