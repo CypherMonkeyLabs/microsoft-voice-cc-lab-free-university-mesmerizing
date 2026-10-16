@@ -10,7 +10,7 @@ A free, offline campus for a voice engineer preparing for Teams Phone and Micros
 
 Checked **14 October 2026** for the lesson set. Firewall prefixes were re-checked **15 October 2026** against Plan Direct Routing and the Office 365 URLs and IP address ranges article. Direct Routing SBC signaling and media use 52.112.0.0/14 and 52.120.0.0/14. Teams client optimize uses 52.112.0.0/14 and 52.122.0.0/15. Those lists are not the same. This is not a Microsoft, Cisco, AudioCodes, Ribbon, Oracle, Genesys, or Amazon publication. When a vendor page and this file disagree, the vendor page wins. Certification seats move. Read the exam page again before you book.
 
-The header menu is Diagrams, Flows, Charts, Cheat Codes, Play, Ecosystem, Downloads, and Careers. Home opens on an animated call path, live counters, five mascot poses, and a theme switcher, then a signal deck of charts.
+The header menu is Diagrams, Flows, Charts, Cheat Codes, Play, Ecosystem, Downloads, and Careers. Each menu row is an icon, a label, and one line. Home opens on an animated call path, live counters, five mascot poses, and a theme switcher, then a signal deck of charts. Guide Bot answers only from this campus.
 
 ## Open it
 
@@ -20,7 +20,7 @@ GitHub Pages serves the `campus` folder. Locally:
 python3 -m http.server 8741
 ```
 
-Then open [http://127.0.0.1:8741/campus/](http://127.0.0.1:8741/campus/). Search is Ctrl+K or `/`. `[` and `]` move between lessons in a track. Theme cycles light, futuristic, gaming, neon, dark acrylic, high contrast, and Teams purple. The header links CypherMonkey Labs, Linktree, this repo, DEV, Hugging Face, and X. Cheat codes, a ports game, a call-flow sandbox, and a daily challenge live under the field desk. Listen waits for a voice already installed in the browser and does not upload anything. Partial hashes such as `#/track/` and `#/lesson/` redirect to a real track or home.
+Then open [http://127.0.0.1:8741/campus/](http://127.0.0.1:8741/campus/). Search is Ctrl+K or `/`, and the menu has its own search. `[` and `]` move between lessons in a track. Theme cycles light, futuristic, gaming, neon, dark acrylic, high contrast, and Teams purple. The header links Visit my GitHub, Visit the Labs org, Visit Cypher Monkey Labs, X, and Hugging Face. Lucky is a lifelong student and an AI enthusiast, from systems, networking, voice, and contact center work into AI omni-channel agents. The footer is © 2026 CypherMonkeyLabs 🐒. Cheat codes, a ports game, a call-flow sandbox, and a daily challenge live under the field desk. Listen waits for a voice already installed in the browser and does not upload anything. Partial hashes such as `#/track/` and `#/lesson/` redirect to a real track or home.
 
 A zip of the campus folder is in `releases/microsoft-voice-contact-center-lab.zip`. Unzip it and serve that folder with the same Python command. Fetching the track files needs HTTP, which is also how GitHub Pages hosts it.
 
@@ -120,7 +120,7 @@ AB-250 is the Dynamics 365 Contact Center exam; confirm the live seat. AZ-900 an
 
 ## License
 
-MIT for the code. CC BY-NC-SA 4.0 for the curriculum text, diagrams, and sheets. Copyright (c) 2026 Microsoft Voice & Contact Center Lab. See `LICENSE`. The footer uses the same split.
+MIT for the code. CC BY-NC-SA 4.0 for the curriculum text, diagrams, and sheets. Copyright © 2026 CypherMonkeyLabs 🐒. See `LICENSE`. The footer uses the same split.
 
 ## Screenshots
 

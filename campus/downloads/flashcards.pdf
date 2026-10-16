@@ -171,7 +171,7 @@ ET
 endstream
 endobj
 5 0 obj
-<< /Length 3845 >>
+<< /Length 3822 >>
 stream
 BT
 /F1 11 Tf
@@ -215,25 +215,27 @@ T* (carrier. If it fails: A mobile user matches a Direct Routing route and hairp
 T* (SIP proxies ? For commercial Microsoft 365, signal to sip.pstnhub.microsoft.com, then sip2,) Tj
 T* (then sip3, on TCP 5061. GCC High and DoD use different names. Why it matters: DNS can return) Tj
 T* (one address. The firewall must allow the published ranges, not that one answer.) Tj
-T* (How do you approach SIP proxies? ? Allow 52.112.0.0/14 and 52.120.0.0/14 as published on the) Tj
-T* (plan page, and re-check the page when you change firewalls. If it fails: A lockdown allows) Tj
-T* (only today?s DNS answer and the trunk fails next week.) Tj
+T* (How do you approach SIP proxies? ? Checked 15 October 2026. Direct Routing SBC signaling and) Tj
+T* (media on the plan page: 52.112.0.0/14 and 52.120.0.0/14. Teams client optimize on the Office) Tj
+T* (365 URLs page and the worldwide endpoints feed: 52.112.0.0/14 and 52.122.0.0/15. Those lists) Tj
+T* (are not interchangeable. If it fails: A lockdown allows only today?s DNS answer and the) Tj
+T* (trunk fails next week.) Tj
 T* (Media ports for Direct Routing ? UDP 3478?3481 and 49152?53247 between the SBC and the media) Tj
 T* (processors, unless media bypass keeps the media off that path. Why it matters: People open) Tj
 T* (5061 and forget media, so signaling works and audio does not.) Tj
-T* (How do you approach Media ports for Direct Routing? ? Budget at least two media ports per) Tj
-T* (concurrent call on the SBC. If it fails: Calls connect and both sides hear silence.) Tj
 ET
 endstream
 endobj
 6 0 obj
-<< /Length 3813 >>
+<< /Length 3868 >>
 stream
 BT
 /F1 11 Tf
 50 780 Td
 14 TL
-(Media re-targeting ? Microsoft does not support changing the media target in the middle of) Tj
+(How do you approach Media ports for Direct Routing? ? Budget at least two media ports per) Tj
+T* (concurrent call on the SBC. If it fails: Calls connect and both sides hear silence.) Tj
+T* (Media re-targeting ? Microsoft does not support changing the media target in the middle of) Tj
 T* (an active Direct Routing call. Why it matters: A clever SBC feature that moves media mid-) Tj
 T* (call will not be a supported troubleshooting step.) Tj
 T* (How do you approach Media re-targeting? ? Negotiate media at setup and leave it. If it) Tj
@@ -277,19 +279,19 @@ T* (How do you approach Gateway priority? ? Put the local SBC first and a remote
 T* (then pull the cable in a maintenance window. If it fails: Both gateways are priority 1 and) Tj
 T* (nobody knows which one took the call.) Tj
 T* (Emergency short code ? 999, 112, and 911 must be normalized on purpose. A general rule that) Tj
-T* (runs first can swallow them. Why it matters: An emergency call that matches an international) Tj
-T* (route is a design defect.) Tj
 ET
 endstream
 endobj
 7 0 obj
-<< /Length 3866 >>
+<< /Length 3842 >>
 stream
 BT
 /F1 11 Tf
 50 780 Td
 14 TL
-(How do you approach Emergency short code? ? Put emergency rules above catch-alls, and give) Tj
+(runs first can swallow them. Why it matters: An emergency call that matches an international) Tj
+T* (route is a design defect.) Tj
+T* (How do you approach Emergency short code? ? Put emergency rules above catch-alls, and give) Tj
 T* (them a route that is always present. If it fails: A user dials 999 and the dial plan turns) Tj
 T* (it into an extension.) Tj
 T* (Auto attendant ? A voice app that answers, plays a greeting, and routes by schedule, menu,) Tj
@@ -333,19 +335,19 @@ T* (Civic address ? The street address you validate for emergency calling. A dis
 T* (location is specific enough for responders. Why it matters: A campus with one address and) Tj
 T* (five buildings is not specific.) Tj
 T* (How do you approach Civic address? ? Validate the address and tie subnets to places inside) Tj
-T* (it. If it fails: The PSAP gets a city and no building.) Tj
-T* (Trusted IP ? An address that means ?this client is inside our network.? It is how Teams) Tj
 ET
 endstream
 endobj
 8 0 obj
-<< /Length 3803 >>
+<< /Length 3827 >>
 stream
 BT
 /F1 11 Tf
 50 780 Td
 14 TL
-(decides the client is on a site you mapped. Why it matters: If the trusted IP is the VPN) Tj
+(it. If it fails: The PSAP gets a city and no building.) Tj
+T* (Trusted IP ? An address that means ?this client is inside our network.? It is how Teams) Tj
+T* (decides the client is on a site you mapped. Why it matters: If the trusted IP is the VPN) Tj
 T* (concentrator, every remote user looks internal.) Tj
 T* (How do you approach Trusted IP? ? List the real internet egress addresses, not the VPN pool,) Tj
 T* (unless you mean to. If it fails: Remote users inherit a building.) Tj
@@ -389,19 +391,19 @@ T* (interfaces so a branch user stays on the local media path. Why it matters: I
 T* (specific than a single bypass flag.) Tj
 T* (How do you approach Local media optimization? ? Use the current media optimization article) Tj
 T* (and the SBC vendor?s build. If it fails: Internal users hairpin out to the internet and back) Tj
-T* (to the SBC on the same LAN.) Tj
-T* (SIP Gateway ? Microsoft?s front end for certain compatible analog and SIP devices that are) Tj
 ET
 endstream
 endobj
 9 0 obj
-<< /Length 4126 >>
+<< /Length 4080 >>
 stream
 BT
 /F1 11 Tf
 50 780 Td
 14 TL
-(not Teams phones. Why it matters: It is not a substitute for a certified Direct Routing SBC.) Tj
+(to the SBC on the same LAN.) Tj
+T* (SIP Gateway ? Microsoft?s front end for certain compatible analog and SIP devices that are) Tj
+T* (not Teams phones. Why it matters: It is not a substitute for a certified Direct Routing SBC.) Tj
 T* (How do you approach SIP Gateway? ? Check the current supported device list before you buy) Tj
 T* (handsets. If it fails: A generic analog adapter is plugged in and never registers.) Tj
 T* (Teams-certified phone ? A handset in Microsoft?s certified device program, signing in as a) Tj
@@ -445,19 +447,19 @@ T* (Poor stream clues ? Teach yourself to look at jitter, packet loss, and round
 T* (separately. A mark of DSCP 0 plus high jitter is a different fault from 12% loss with EF) Tj
 T* (still set. Why it matters: One ?poor? label hides the cause.) Tj
 T* (How do you approach Poor stream clues? ? Capture at the egress and compare with CQD. If it) Tj
-T* (fails: The ticket says ?Teams is down? and loss is 0.2% with a 600 ms RTT.) Tj
-T* (SIP ladder ? A time-ordered picture of requests and responses between client, proxy, SBC,) Tj
 ET
 endstream
 endobj
 10 0 obj
-<< /Length 3845 >>
+<< /Length 3832 >>
 stream
 BT
 /F1 11 Tf
 50 780 Td
 14 TL
-(and carrier, joined by Call-ID. Why it matters: Without the Call-ID you are looking at two) Tj
+(fails: The ticket says ?Teams is down? and loss is 0.2% with a 600 ms RTT.) Tj
+T* (SIP ladder ? A time-ordered picture of requests and responses between client, proxy, SBC,) Tj
+T* (and carrier, joined by Call-ID. Why it matters: Without the Call-ID you are looking at two) Tj
 T* (different calls.) Tj
 T* (How do you approach SIP ladder? ? Capture on the SBC, filter the Call-ID, and read the first) Tj
 T* (non-success code. If it fails: Two captures are compared and they are different calls.) Tj
@@ -501,19 +503,19 @@ T* (Copilot in the contact center ? Assistive summaries, suggested replies, and 
 T* (the representative experience. It is not the PSTN route. Why it matters: A summary of the) Tj
 T* (wrong case is worse than no summary.) Tj
 T* (How do you approach Copilot in the contact center? ? Connect knowledge sources and test on a) Tj
-T* (known case. If it fails: Copilot answers from a stale article and the agent sends it.) Tj
-T* (AB-250 channels weight ? The published AB-250 study guide weights channel implementation at) Tj
 ET
 endstream
 endobj
 11 0 obj
-<< /Length 3938 >>
+<< /Length 3945 >>
 stream
 BT
 /F1 11 Tf
 50 780 Td
 14 TL
-(about 30?35 percent, the largest slice. Why it matters: People over-study Copilot and under-) Tj
+(known case. If it fails: Copilot answers from a stale article and the agent sends it.) Tj
+T* (AB-250 channels weight ? The published AB-250 study guide weights channel implementation at) Tj
+T* (about 30?35 percent, the largest slice. Why it matters: People over-study Copilot and under-) Tj
 T* (study voice, chat, and the other channels.) Tj
 T* (How do you approach AB-250 channels weight? ? Spend the study time on channel setup and) Tj
 T* (routing. If it fails: An exam candidate can describe Copilot and cannot trace a voice) Tj
@@ -557,19 +559,19 @@ T* (through the SBC. It is normal during dual-running and expensive as a steady 
 T* (matters: Media and licenses both feel it.) Tj
 T* (How do you approach Tromboning? ? Move groups that call each other in the same wave. If it) Tj
 T* (fails: The carrier bill rises and nobody left the building.) Tj
-T* (Webex calling bridge ? A SIP trunk through a local gateway or CUBE can carry calls between) Tj
-T* (Webex Calling users and Teams users during a split estate. Why it matters: Chat) Tj
 ET
 endstream
 endobj
 12 0 obj
-<< /Length 3734 >>
+<< /Length 3724 >>
 stream
 BT
 /F1 11 Tf
 50 780 Td
 14 TL
-(interoperability is a different project from voice.) Tj
+(Webex calling bridge ? A SIP trunk through a local gateway or CUBE can carry calls between) Tj
+T* (Webex Calling users and Teams users during a split estate. Why it matters: Chat) Tj
+T* (interoperability is a different project from voice.) Tj
 T* (How do you approach Webex calling bridge? ? Treat it as coexistence with one numbering plan,) Tj
 T* (not as a merger. If it fails: Two dial plans both own the same range.) Tj
 T* (UCCE coexistence ? Contact-center agents can stay on CVP and Finesse while knowledge workers) Tj
@@ -613,19 +615,19 @@ T* (has its own approval rules. Do not assume you can clone a person.) Tj
 T* (How do you approach Azure AI Speech? ? Choose a voice you are allowed to use and log the) Tj
 T* (recognition result. If it fails: The prompt language does not match the caller and every) Tj
 T* (intent is unknown.) Tj
-T* (Copilot Studio voice agent ? A bot built in Copilot Studio that can front a voice channel,) Tj
-T* (including Dynamics contact-center voice, using topics or generative orchestration. Why it) Tj
 ET
 endstream
 endobj
 13 0 obj
-<< /Length 3658 >>
+<< /Length 3677 >>
 stream
 BT
 /F1 11 Tf
 50 780 Td
 14 TL
-(matters: Generative answers still need an escape to a human and a knowledge source you) Tj
+(Copilot Studio voice agent ? A bot built in Copilot Studio that can front a voice channel,) Tj
+T* (including Dynamics contact-center voice, using topics or generative orchestration. Why it) Tj
+T* (matters: Generative answers still need an escape to a human and a knowledge source you) Tj
 T* (trust.) Tj
 T* (How do you approach Copilot Studio voice agent? ? Publish the agent, attach it to the) Tj
 T* (channel, and test the escape digit. If it fails: The agent is the only target of the public) Tj
@@ -669,19 +671,19 @@ T* (representative experience, and analytics. If it fails: A candidate revises M
 T* (tests for this exam.) Tj
 T* (AZ-900 ? Azure Fundamentals. It was not on the retirement list reviewed on 14 October 2026.) Tj
 T* (Why it matters: Useful context for ACS and Speech. It will not teach you a dial plan.) Tj
-T* (How do you approach AZ-900? ? Take it if you need Azure vocabulary, not instead of MS-700.) Tj
-T* (If it fails: A voice design is approved because someone passed AZ-900.) Tj
 ET
 endstream
 endobj
 14 0 obj
-<< /Length 3721 >>
+<< /Length 3702 >>
 stream
 BT
 /F1 11 Tf
 50 780 Td
 14 TL
-(SC-900 ? Security, Compliance, and Identity Fundamentals. The English certification is) Tj
+(How do you approach AZ-900? ? Take it if you need Azure vocabulary, not instead of MS-700.) Tj
+T* (If it fails: A voice design is approved because someone passed AZ-900.) Tj
+T* (SC-900 ? Security, Compliance, and Identity Fundamentals. The English certification is) Tj
 T* (scheduled to update on 21 October 2026. Why it matters: It frames Entra ID and compliance.) Tj
 T* (It does not configure an SBC.) Tj
 T* (How do you approach SC-900? ? Read the current study guide after the 21 October update if) Tj
@@ -725,19 +727,19 @@ T* (reuses an open meeting proves nothing.) Tj
 T* (How do you approach Existing calls are unaffected? ? Place a fresh call after the grant and) Tj
 T* (confirm the bot joined. If it fails: The pilot says recording failed because they watched an) Tj
 T* (old meeting.) Tj
-T* (Quality management ? Listening to and scoring recorded interactions. Often the same vendor) Tj
-T* (as compliance recording, sometimes a separate one. Why it matters: QM needs the recording) Tj
 ET
 endstream
 endobj
 15 0 obj
-<< /Length 3767 >>
+<< /Length 3843 >>
 stream
 BT
 /F1 11 Tf
 50 780 Td
 14 TL
-(first. A score without audio is a rumor.) Tj
+(Quality management ? Listening to and scoring recorded interactions. Often the same vendor) Tj
+T* (as compliance recording, sometimes a separate one. Why it matters: QM needs the recording) Tj
+T* (first. A score without audio is a rumor.) Tj
 T* (How do you approach Quality management? ? Define the form, the sample, and who may listen.) Tj
 T* (If it fails: Supervisors export recordings to a laptop share.) Tj
 T* (Workforce management ? Scheduling and adherence for a queue. It eats interval stats, handle) Tj
@@ -781,19 +783,19 @@ T* (Call-ID ? The SIP header that identifies one dialog. It is the join key betw
 T* (capture, a carrier ticket, and a CRM note. Why it matters: A timestamp is not an identifier.) Tj
 T* (Two calls start in the same second.) Tj
 T* (How do you approach Call-ID? ? Write the Call-ID into the system you will have open during) Tj
-T* (an incident. If it fails: Support has a CRM case and an SBC log and cannot prove they are) Tj
-T* (the same call.) Tj
 ET
 endstream
 endobj
 16 0 obj
-<< /Length 3877 >>
+<< /Length 3801 >>
 stream
 BT
 /F1 11 Tf
 50 780 Td
 14 TL
-(Integration seam ? A named place where another system is allowed to attach: a policy, a) Tj
+(an incident. If it fails: Support has a CRM case and an SBC log and cannot prove they are) Tj
+T* (the same call.) Tj
+T* (Integration seam ? A named place where another system is allowed to attach: a policy, a) Tj
 T* (queue overflow, a subnet list, an event, an identifier. Why it matters: A seam you do not) Tj
 T* (name becomes a rewrite.) Tj
 T* (How do you approach Integration seam? ? Document the seam in the same change as the feature.) Tj
@@ -837,19 +839,19 @@ T* (fails: The location is stripped at the SBC and the PSAP gets the trunk?s add
 T* (On-site notification ? An emergency calling policy can notify people on site when an) Tj
 T* (emergency call is placed. Why it matters: Security who are not notified will meet the) Tj
 T* (responders in the wrong lobby.) Tj
-T* (How do you approach On-site notification? ? Test the notification with the carrier?s test) Tj
-T* (process, not with a real emergency call. If it fails: The test notifies nobody because the) Tj
 ET
 endstream
 endobj
 17 0 obj
-<< /Length 3859 >>
+<< /Length 3868 >>
 stream
 BT
 /F1 11 Tf
 50 780 Td
 14 TL
-(policy was never assigned.) Tj
+(How do you approach On-site notification? ? Test the notification with the carrier?s test) Tj
+T* (process, not with a real emergency call. If it fails: The test notifies nobody because the) Tj
+T* (policy was never assigned.) Tj
 T* (GCC High SIP ? Office 365 GCC High uses sip.pstnhub.gov.teams.microsoft.us. Do not copy the) Tj
 T* (commercial three-proxy list into a government tenant. Why it matters: The commercial names) Tj
 T* (will not be the signaling peers.) Tj
@@ -893,19 +895,19 @@ T* (to CUCM and never peers with the pstnhub names.) Tj
 T* (Vendor-first support ? Microsoft?s Direct Routing support boundary: you call the SBC vendor,) Tj
 T* (they escalate to Microsoft if they must. Non-certified SBCs can be refused. Why it matters:) Tj
 T* (Opening a Microsoft case with a homemade SBC wastes the outage.) Tj
-T* (How do you approach Vendor-first support? ? Keep the certified-list screenshot with the) Tj
-T* (firmware version. If it fails: A ticket is opened with no SBC logs and no firmware.) Tj
 ET
 endstream
 endobj
 18 0 obj
-<< /Length 3738 >>
+<< /Length 3768 >>
 stream
 BT
 /F1 11 Tf
 50 780 Td
 14 TL
-(Analog via Direct Routing ? Fax, door phones, and elevators usually stay on an SBC or SIP) Tj
+(How do you approach Vendor-first support? ? Keep the certified-list screenshot with the) Tj
+T* (firmware version. If it fails: A ticket is opened with no SBC logs and no firmware.) Tj
+T* (Analog via Direct Routing ? Fax, door phones, and elevators usually stay on an SBC or SIP) Tj
 T* (Gateway, not on a Teams client. Why it matters: A Calling Plan user license does not give) Tj
 T* (you an elevator phone.) Tj
 T* (How do you approach Analog via Direct Routing? ? Put analog on the SBC design and test the) Tj
@@ -949,19 +951,19 @@ T* (Evaluation form ? The QM scorecard. It should cite behaviors you can hear, n
 T* (matters: A form that scores ?professionalism? without a definition will not survive an) Tj
 T* (argument.) Tj
 T* (How do you approach Evaluation form? ? Publish the form before you score people. If it) Tj
-T* (fails: Agents are coached on a form they have never seen.) Tj
-T* (Screen recording ? Often a QM vendor feature on the agent desktop. Teams compliance) Tj
 ET
 endstream
 endobj
 19 0 obj
-<< /Length 3671 >>
+<< /Length 3695 >>
 stream
 BT
 /F1 11 Tf
 50 780 Td
 14 TL
-(recording?s documented media list is voice, video, and screen share inside the Teams) Tj
+(fails: Agents are coached on a form they have never seen.) Tj
+T* (Screen recording ? Often a QM vendor feature on the agent desktop. Teams compliance) Tj
+T* (recording?s documented media list is voice, video, and screen share inside the Teams) Tj
 T* (session, which is not the same as a silent desktop recorder. Why it matters: Do not claim) Tj
 T* (Teams records the CRM screen unless the product you bought does.) Tj
 T* (How do you approach Screen recording? ? If you need the desktop, buy and disclose that) Tj
@@ -1005,19 +1007,19 @@ T* (How do you approach Real-time translation? ? Decide where translation is all
 T* (skilled human is required. If it fails: A billing dispute is translated badly and the case) Tj
 T* (notes disagree.) Tj
 T* (Knowledge source ? The documents a Copilot or a generative agent is allowed to quote. If the) Tj
-T* (source is wrong, the answer is wrong with confidence. Why it matters: Ground the agent or do) Tj
-T* (not put it on the phone.) Tj
 ET
 endstream
 endobj
 20 0 obj
-<< /Length 3777 >>
+<< /Length 3780 >>
 stream
 BT
 /F1 11 Tf
 50 780 Td
 14 TL
-(How do you approach Knowledge source? ? Limit the sources and test questions whose answers) Tj
+(source is wrong, the answer is wrong with confidence. Why it matters: Ground the agent or do) Tj
+T* (not put it on the phone.) Tj
+T* (How do you approach Knowledge source? ? Limit the sources and test questions whose answers) Tj
 T* (you already know. If it fails: The agent quotes a retired price list.) Tj
 T* (Generative orchestration ? The Copilot Studio mode that chooses topics and tools from the) Tj
 T* (conversation, as opposed to a rigid topic tree. Why it matters: It needs tighter safety) Tj
@@ -1061,19 +1063,19 @@ T* (fatter pipe. If it fails: A branch backhauls media across a continent.) Tj
 T* (DSCP rewrite ? A router or VPN that sets the mark back to 0. The client did its job and the) Tj
 T* (path undid it. Why it matters: Verify at the egress, not only on the PC.) Tj
 T* (How do you approach DSCP rewrite? ? Capture outside the VPN. If it fails: The laptop shows) Tj
-T* (EF and the WAN sees 0.) Tj
-T* (Browser join ports ? People who join meetings in a browser do not use the fixed 50000-range) Tj
 ET
 endstream
 endobj
 21 0 obj
-<< /Length 3855 >>
+<< /Length 3867 >>
 stream
 BT
 /F1 11 Tf
 50 780 Td
 14 TL
-(client ports. An ACL that only matches those ports misses them. Why it matters: QoS designs) Tj
+(EF and the WAN sees 0.) Tj
+T* (Browser join ports ? People who join meetings in a browser do not use the fixed 50000-range) Tj
+T* (client ports. An ACL that only matches those ports misses them. Why it matters: QoS designs) Tj
 T* (that ignore browsers miss a real population.) Tj
 T* (How do you approach Browser join ports? ? Say so in the design if many people join from) Tj
 T* (browsers. If it fails: Guests sound worse and the ACL is declared complete.) Tj
@@ -1117,19 +1119,19 @@ T* (voicemail without a mailbox is a dead end.) Tj
 T* (How do you approach Voicemail overflow? ? Test the overflow, then check that the message) Tj
 T* (arrived. If it fails: Callers are offered voicemail and the message is never deposited.) Tj
 T* (Pilot number ? The public number on the first voice app. Everything else can be an internal) Tj
-T* (target. Why it matters: People buy a number per menu option and then cannot afford to change) Tj
-T* (the menu.) Tj
 ET
 endstream
 endobj
 22 0 obj
-<< /Length 3693 >>
+<< /Length 3663 >>
 stream
 BT
 /F1 11 Tf
 50 780 Td
 14 TL
-(How do you approach Pilot number? ? One number, many targets, overflow included. If it) Tj
+(target. Why it matters: People buy a number per menu option and then cannot afford to change) Tj
+T* (the menu.) Tj
+T* (How do you approach Pilot number? ? One number, many targets, overflow included. If it) Tj
 T* (fails: Each menu option is a ported number and the carrier lead time runs the project.) Tj
 T* (Security group policy assign ? Compliance recording and many Teams policies can be assigned) Tj
 T* (to a group. A user in the wrong group is recorded, or not, as a consequence. Why it matters:) Tj
@@ -1173,19 +1175,19 @@ T* (SIP options timer teaching model ? This campus treats repeated missed OPTION
 T* (pull a trunk. It does not publish Microsoft?s internal counter as if it were a documented) Tj
 T* (integer. Why it matters: A lab timer is not a contractual timer.) Tj
 T* (How do you approach SIP options timer teaching model? ? Watch the admin-center SBC status) Tj
-T* (and the SBC?s own OPTIONS log together. If it fails: Someone sets a script to fail over) Tj
-T* (after one missed packet and flaps the trunk.) Tj
 ET
 endstream
 endobj
 23 0 obj
-<< /Length 3788 >>
+<< /Length 3744 >>
 stream
 BT
 /F1 11 Tf
 50 780 Td
 14 TL
-(Failover rehearsal ? Pull the primary proxy or the primary SBC in a window and prove the) Tj
+(and the SBC?s own OPTIONS log together. If it fails: Someone sets a script to fail over) Tj
+T* (after one missed packet and flaps the trunk.) Tj
+T* (Failover rehearsal ? Pull the primary proxy or the primary SBC in a window and prove the) Tj
 T* (next one takes calls. Why it matters: A second gateway that has never received a call is a) Tj
 T* (drawing.) Tj
 T* (How do you approach Failover rehearsal? ? Rehearse, then put the result in the runbook. If) Tj
@@ -1229,19 +1231,19 @@ T* (skip it. If it fails: A design depends on an unannounced SBC feature.) Tj
 T* (Power model wording ? Older conversation says Power for the third contact-center model. The) Tj
 T* (Learn article maintained on 14 October 2026 says Unify, Extend, and Connect. Why it matters:) Tj
 T* (Using the old word without a mapping hides the media path.) Tj
-T* (How do you approach Power model wording? ? Ask the vendor which of the three current models) Tj
-T* (they hold. If it fails: The contract says Power and the network team opens no ports.) Tj
 ET
 endstream
 endobj
 24 0 obj
-<< /Length 3833 >>
+<< /Length 3892 >>
 stream
 BT
 /F1 11 Tf
 50 780 Td
 14 TL
-(Certified list changes ? The list of SBCs and contact-center solutions changes. A campus) Tj
+(How do you approach Power model wording? ? Ask the vendor which of the three current models) Tj
+T* (they hold. If it fails: The contract says Power and the network team opens no ports.) Tj
+T* (Certified list changes ? The list of SBCs and contact-center solutions changes. A campus) Tj
 T* (page is not the list. Why it matters: Quote the list the week you buy.) Tj
 T* (How do you approach Certified list changes? ? Link the design to the current Microsoft page) Tj
 T* (and the firmware. If it fails: A purchase order cites a 2022 PDF.) Tj
@@ -1285,19 +1287,19 @@ T* (is an example.) Tj
 T* (How do you approach Study guide wins? ? Re-open the guide before you book. If it fails: A) Tj
 T* (candidate memorizes a third-party brain dump.) Tj
 T* (Session border controller ? The device that speaks SIP to Teams and SIP or another protocol) Tj
-T* (to the carrier or PBX, and enforces the edge. Why it matters: Without a certified one,) Tj
-T* (Direct Routing is unsupported.) Tj
 ET
 endstream
 endobj
 25 0 obj
-<< /Length 3882 >>
+<< /Length 3817 >>
 stream
 BT
 /F1 11 Tf
 50 780 Td
 14 TL
-(How do you approach Session border controller? ? Pair the FQDN, not a nickname. If it fails:) Tj
+(to the carrier or PBX, and enforces the edge. Why it matters: Without a certified one,) Tj
+T* (Direct Routing is unsupported.) Tj
+T* (How do you approach Session border controller? ? Pair the FQDN, not a nickname. If it fails:) Tj
 T* (A router with SIP ALG is described as the SBC.) Tj
 T* (SIP ALG ? A firewall feature that rewrites SIP. It breaks Direct Routing more often than it) Tj
 T* (helps. Why it matters: Microsoft?s network guidance does not want helpers in the media path.) Tj
@@ -1341,19 +1343,19 @@ T* (Calling policy ? A Teams calling policy controls client calling features. It
 T* (voice routing policy that selects an SBC. Why it matters: Two policies with similar names) Tj
 T* (get granted backwards.) Tj
 T* (How do you approach Calling policy? ? Grant the routing policy and the calling policy on) Tj
-T* (purpose. If it fails: Outbound PSTN is blocked by a calling policy and the route is blamed.) Tj
-T* (Caller ID substitution ? Presenting a service number instead of a personal mobile. It is a) Tj
 ET
 endstream
 endobj
 26 0 obj
-<< /Length 3905 >>
+<< /Length 3932 >>
 stream
 BT
 /F1 11 Tf
 50 780 Td
 14 TL
-(policy, not a hope. Why it matters: Wrong caller ID breaks return calls and CRM trust.) Tj
+(purpose. If it fails: Outbound PSTN is blocked by a calling policy and the route is blamed.) Tj
+T* (Caller ID substitution ? Presenting a service number instead of a personal mobile. It is a) Tj
+T* (policy, not a hope. Why it matters: Wrong caller ID breaks return calls and CRM trust.) Tj
 T* (How do you approach Caller ID substitution? ? Set it on the user or the resource account you) Tj
 T* (mean. If it fails: Customers call back a personal mobile that was never the company number.) Tj
 T* (Normalization translation tokens ? Teams translations use tokens such as $1 for a capture) Tj
@@ -1397,19 +1399,19 @@ T* (in a lab. If it fails: Night calls ring the daytime queue.) Tj
 T* (Network site object ? A named place in the Teams network topology. Subnets attach to it.) Tj
 T* (Emergency addresses and LBR attach to that story. Why it matters: A site with no subnets) Tj
 T* (does nothing.) Tj
-T* (How do you approach Network site object? ? Create the site, then the subnets, then the) Tj
-T* (address. If it fails: The address exists and no subnet points at it.) Tj
 ET
 endstream
 endobj
 27 0 obj
-<< /Length 3738 >>
+<< /Length 3715 >>
 stream
 BT
 /F1 11 Tf
 50 780 Td
 14 TL
-(Emergency address validation ? Civic addresses are validated. An unvalidated string is not a) Tj
+(How do you approach Network site object? ? Create the site, then the subnets, then the) Tj
+T* (address. If it fails: The address exists and no subnet points at it.) Tj
+T* (Emergency address validation ? Civic addresses are validated. An unvalidated string is not a) Tj
 T* (location you can trust. Why it matters: A typo in the street number sends responders next) Tj
 T* (door.) Tj
 T* (How do you approach Emergency address validation? ? Validate, then test from a known subnet.) Tj
@@ -1453,19 +1455,19 @@ T* (follows.) Tj
 T* (How do you approach SRTP profile mismatch? ? Capture SDP and read the profile. If it fails:) Tj
 T* (The carrier leg is SRTP and the Teams leg was stripped.) Tj
 T* (Telephone-event ? The SDP way digits are carried so an IVR can see them even when the audio) Tj
-T* (codec would hide tones. Why it matters: In-band tones through a lossy codec disappear.) Tj
-T* (How do you approach Telephone-event? ? Offer telephone-event and test a digit. If it fails:) Tj
 ET
 endstream
 endobj
 28 0 obj
-<< /Length 3753 >>
+<< /Length 3775 >>
 stream
 BT
 /F1 11 Tf
 50 780 Td
 14 TL
-(The bot never hears 1 and the talk path is fine.) Tj
+(codec would hide tones. Why it matters: In-band tones through a lossy codec disappear.) Tj
+T* (How do you approach Telephone-event? ? Offer telephone-event and test a digit. If it fails:) Tj
+T* (The bot never hears 1 and the talk path is fine.) Tj
 T* (Call-ID header ? The header that stays with a SIP dialog so two logs can be proved to be one) Tj
 T* (call. Why it matters: Timestamps collide.) Tj
 T* (How do you approach Call-ID header? ? Copy it into the ticket and the CRM. If it fails: Two) Tj
@@ -1509,19 +1511,19 @@ T* (Embedded versus standalone ? Contact Center can sit inside Customer Service 
 T* (own app. Agents must be told which one they open. Why it matters: The pilot URL is not) Tj
 T* (tribal knowledge.) Tj
 T* (How do you approach Embedded versus standalone? ? Write the URL and the mode in the design.) Tj
-T* (If it fails: Agents look in the wrong app and report an outage.) Tj
-T* (Intent unknown bucket ? The classification result you get when the model or the rules do not) Tj
 ET
 endstream
 endobj
 29 0 obj
-<< /Length 3525 >>
+<< /Length 3510 >>
 stream
 BT
 /F1 11 Tf
 50 780 Td
 14 TL
-(know. It needs a queue. Why it matters: A loop is not a bucket.) Tj
+(If it fails: Agents look in the wrong app and report an outage.) Tj
+T* (Intent unknown bucket ? The classification result you get when the model or the rules do not) Tj
+T* (know. It needs a queue. Why it matters: A loop is not a bucket.) Tj
 T* (How do you approach Intent unknown bucket? ? Route unknown to humans. If it fails: Unknown) Tj
 T* (replays the same prompt.) Tj
 T* (Copilot summary ? A draft of the conversation for the representative. It can be wrong. The) Tj
@@ -1565,19 +1567,19 @@ T* (window ends with no public route.) Tj
 T* (Group policy assignment ? Many Teams policies, including compliance recording, can target a) Tj
 T* (group. Membership changes the effective policy without a click on the user. Why it matters:) Tj
 T* (A contractor group can inherit recording.) Tj
-T* (How do you approach Group policy assignment? ? Read the effective policy after group) Tj
-T* (changes. If it fails: Recording starts for people who were only added to a mail group.) Tj
 ET
 endstream
 endobj
 30 0 obj
-<< /Length 3897 >>
+<< /Length 3944 >>
 stream
 BT
 /F1 11 Tf
 50 780 Td
 14 TL
-(Zero-cost allotment ? Teams Phone subscriptions include a number of free resource-account) Tj
+(How do you approach Group policy assignment? ? Read the effective policy after group) Tj
+T* (changes. If it fails: Recording starts for people who were only added to a mail group.) Tj
+T* (Zero-cost allotment ? Teams Phone subscriptions include a number of free resource-account) Tj
 T* (licenses you still have to acquire in the admin center. Why it matters: Free does not mean) Tj
 T* (already present.) Tj
 T* (How do you approach Zero-cost allotment? ? Buy the zero-price SKU and assign it. If it) Tj
@@ -1621,19 +1623,19 @@ T* (Erlang. If it fails: Two dashboards disagree and both claim victory.) Tj
 T* (Hold music licensing ? The hold file is a copyrighted work unless you made it or licensed) Tj
 T* (it. Why it matters: Uploading a song is not a technical setting.) Tj
 T* (How do you approach Hold music licensing? ? Use a track you can defend. If it fails: A) Tj
-T* (famous song plays to every caller.) Tj
-T* (Notification group ? The people the emergency policy emails or messages when an emergency) Tj
 ET
 endstream
 endobj
 31 0 obj
-<< /Length 3824 >>
+<< /Length 3806 >>
 stream
 BT
 /F1 11 Tf
 50 780 Td
 14 TL
-(call starts. Why it matters: An empty group is a silent policy.) Tj
+(famous song plays to every caller.) Tj
+T* (Notification group ? The people the emergency policy emails or messages when an emergency) Tj
+T* (call starts. Why it matters: An empty group is a silent policy.) Tj
 T* (How do you approach Notification group? ? Put facilities or security in it and test. If it) Tj
 T* (fails: Responders arrive and nobody inside knows which floor.) Tj
 T* (Dispatchable location ? A location specific enough for a responder to find the caller. A) Tj
@@ -1677,19 +1679,19 @@ T* (Export for WFM ? Queue totals have to be able to leave the contact center on
 T* (WFM tool can read. Why it matters: A screenshot is not a feed.) Tj
 T* (Shrinkage labeled ? If shrinkage is a guess, say it is a guess. Thirty percent is not a law) Tj
 T* (of nature. Why it matters: Hidden assumptions become fights.) Tj
-T* (Occupancy watch ? High occupancy next to rising abandons means the service level is being) Tj
-T* (spent to look efficient. Why it matters: Watch both.) Tj
 ET
 endstream
 endobj
 32 0 obj
-<< /Length 3887 >>
+<< /Length 3847 >>
 stream
 BT
 /F1 11 Tf
 50 780 Td
 14 TL
-(Case timeline fields ? E.164, Call-ID, queue, agent. Four fields make a case auditable. Why) Tj
+(Occupancy watch ? High occupancy next to rising abandons means the service level is being) Tj
+T* (spent to look efficient. Why it matters: Watch both.) Tj
+T* (Case timeline fields ? E.164, Call-ID, queue, agent. Four fields make a case auditable. Why) Tj
 T* (it matters: A free-text note does not.) Tj
 T* (Bot eval set ? A list of utterances whose correct intent you already know. Run it before you) Tj
 T* (publish a prompt change. Why it matters: Foundry is a place to do this. A phone number is) Tj
@@ -1733,19 +1735,19 @@ T* (application sharing are 50040?50059. Browser joins do not use these fixed ra
 T* (matters: Port-based ACLs are how routers mark traffic from devices that cannot set DSCP) Tj
 T* (themselves.) Tj
 T* (Calling and meetings signaling DSCP 40 ? Microsoft?s QoS article recommends DSCP 40 \(CS5,) Tj
-T* (Class Selector 5\) for Teams calling and meetings signaling, with initial client source ports) Tj
-T* (50070?50089. Why it matters: A mark only helps if every hop agrees. Audio waiting in the) Tj
 ET
 endstream
 endobj
 33 0 obj
-<< /Length 3926 >>
+<< /Length 3995 >>
 stream
 BT
 /F1 11 Tf
 50 780 Td
 14 TL
-(default queue is how words drop out.) Tj
+(Class Selector 5\) for Teams calling and meetings signaling, with initial client source ports) Tj
+T* (50070?50089. Why it matters: A mark only helps if every hop agrees. Audio waiting in the) Tj
+T* (default queue is how words drop out.) Tj
 T* (Calling and meetings signaling port range 50070?50089 ? The recommended initial client) Tj
 T* (source ports for calling and meetings signaling are 50070?50089. Browser joins do not use) Tj
 T* (these fixed ranges. Why it matters: Port-based ACLs are how routers mark traffic from) Tj
@@ -1789,19 +1791,19 @@ T* (is not a lab.) Tj
 T* (New-CsTenantDialPlan ? Creates a tenant dial plan that holds normalization rules. Confirm) Tj
 T* (the parameter set with Get-Help in the module version you have. Why it matters: Interviewers) Tj
 T* (ask for the object model more than for a memorized script. A wrong parameter against) Tj
-T* (production is not a lab.) Tj
-T* (Grant-CsTenantDialPlan ? Assigns a tenant dial plan to a user. Confirm the parameter set) Tj
 ET
 endstream
 endobj
 34 0 obj
-<< /Length 4065 >>
+<< /Length 4010 >>
 stream
 BT
 /F1 11 Tf
 50 780 Td
 14 TL
-(with Get-Help in the module version you have. Why it matters: Interviewers ask for the) Tj
+(production is not a lab.) Tj
+T* (Grant-CsTenantDialPlan ? Assigns a tenant dial plan to a user. Confirm the parameter set) Tj
+T* (with Get-Help in the module version you have. Why it matters: Interviewers ask for the) Tj
 T* (object model more than for a memorized script. A wrong parameter against production is not a) Tj
 T* (lab.) Tj
 T* (Set-CsPhoneNumberAssignment ? Assigns or removes a phone number from a user or resource) Tj
@@ -1845,19 +1847,19 @@ T* (matters: A ladder without response codes is a story. The code is the branch.
 T* (180 Ringing ? The far end is alerting. You may not have media yet. Why it matters: A ladder) Tj
 T* (without response codes is a story. The code is the branch.) Tj
 T* (183 Session Progress ? Early media may be present. Do not treat it as an answer. Why it) Tj
-T* (matters: A ladder without response codes is a story. The code is the branch.) Tj
-T* (200 OK ? The INVITE succeeded. ACK completes the dialog. BYE ends it later. Why it matters:) Tj
 ET
 endstream
 endobj
 35 0 obj
-<< /Length 3559 >>
+<< /Length 3548 >>
 stream
 BT
 /F1 11 Tf
 50 780 Td
 14 TL
-(A ladder without response codes is a story. The code is the branch.) Tj
+(matters: A ladder without response codes is a story. The code is the branch.) Tj
+T* (200 OK ? The INVITE succeeded. ACK completes the dialog. BYE ends it later. Why it matters:) Tj
+T* (A ladder without response codes is a story. The code is the branch.) Tj
 T* (ACK ? Completes the INVITE transaction after 200 OK. Why it matters: A ladder without) Tj
 T* (response codes is a story. The code is the branch.) Tj
 T* (BYE ? Ends an established dialog. The other side answers 200 OK. Why it matters: A ladder) Tj
@@ -1901,19 +1903,19 @@ T* (mystery outage.) Tj
 T* (AMR-WB ? On the Direct Routing codec list for non-bypass calls only. Do not expect it on a) Tj
 T* (media-bypass path. Why it matters: An empty codec intersection is a 488, not a mystery) Tj
 T* (outage.) Tj
-T* (Teams Administrator ? Broad Teams administration, including many voice settings. Check the) Tj
-T* (current role article before you grant Global Administrator out of habit. Why it matters:) Tj
 ET
 endstream
 endobj
 36 0 obj
-<< /Length 2999 >>
+<< /Length 3532 >>
 stream
 BT
 /F1 11 Tf
 50 780 Td
 14 TL
-(Day-to-day voice work should not sit in a global role.) Tj
+(Teams Administrator ? Broad Teams administration, including many voice settings. Check the) Tj
+T* (current role article before you grant Global Administrator out of habit. Why it matters:) Tj
+T* (Day-to-day voice work should not sit in a global role.) Tj
 T* (Teams Telephony Administrator ? Voice-focused administration of calling and phone numbers.) Tj
 T* (Check the current role article before you grant Global Administrator out of habit. Why it) Tj
 T* (matters: Day-to-day voice work should not sit in a global role.) Tj
@@ -1944,10 +1946,13 @@ T* (Longest idle ? Offers the call to the agent who has been idle longest. Prese
 T* (routing can skip an agent who is already in a call or a meeting. Why it matters: The method) Tj
 T* (is a business promise. Serial is cruel to the person on top if you forget.) Tj
 T* () Tj
-T* (CypherMonkey ? cyphermonkeylabs.com ? linktr.ee/cyphermonkey ?) Tj
-T* (https://github.com/cipher0x9/microsoft-voice-cc-lab-free-university-mesmerizing ?) Tj
-T* (Independent educational project, not affiliated with or endorsed by any vendor. Trademarks) Tj
-T* (belong to their owners. MIT code, CC BY-NC-SA content. No email.) Tj
+T* (CypherMonkey ? https://cyphermonkeylabs.com ? https://github.com/cipher0x9 ?) Tj
+T* (https://github.com/CypherMonkeyLabs ? https://github.com/cipher0x9/microsoft-voice-cc-lab-) Tj
+T* (free-university-mesmerizing ? https://github.com/CypherMonkeyLabs/microsoft-voice-cc-lab-) Tj
+T* (free-university-mesmerizing ? https://x.com/Cypher0x9 ? https://huggingface.co/Cypher0x9 ?) Tj
+T* (\(c\) 2026 CypherMonkeyLabs. Independent educational project, not affiliated with or endorsed) Tj
+T* (by any vendor. Trademarks belong to their owners. MIT code, CC BY-NC-SA content. No email.) Tj
+T* (https://github.com/cipher0x9/microsoft-voice-cc-lab-free-university-mesmerizing) Tj
 ET
 endstream
 endobj
@@ -2070,75 +2075,75 @@ xref
 0000003827 00000 n 
 0000007783 00000 n 
 0000011715 00000 n 
-0000015612 00000 n 
-0000019477 00000 n 
-0000023395 00000 n 
-0000027250 00000 n 
-0000031428 00000 n 
-0000035326 00000 n 
-0000039317 00000 n 
-0000043104 00000 n 
-0000046815 00000 n 
-0000050589 00000 n 
-0000054409 00000 n 
-0000058339 00000 n 
-0000062251 00000 n 
-0000066042 00000 n 
-0000069766 00000 n 
-0000073596 00000 n 
-0000077504 00000 n 
-0000081250 00000 n 
-0000085091 00000 n 
-0000088977 00000 n 
-0000092912 00000 n 
-0000096870 00000 n 
-0000100661 00000 n 
-0000104467 00000 n 
-0000108045 00000 n 
-0000111995 00000 n 
-0000115872 00000 n 
-0000119812 00000 n 
-0000123791 00000 n 
-0000127909 00000 n 
-0000131521 00000 n 
-0000134573 00000 n 
-0000134701 00000 n 
-0000134829 00000 n 
-0000134957 00000 n 
-0000135085 00000 n 
-0000135213 00000 n 
-0000135341 00000 n 
-0000135469 00000 n 
-0000135597 00000 n 
-0000135726 00000 n 
-0000135855 00000 n 
-0000135984 00000 n 
-0000136113 00000 n 
-0000136242 00000 n 
-0000136371 00000 n 
-0000136500 00000 n 
-0000136629 00000 n 
-0000136758 00000 n 
-0000136887 00000 n 
-0000137016 00000 n 
-0000137145 00000 n 
-0000137274 00000 n 
-0000137403 00000 n 
-0000137532 00000 n 
-0000137661 00000 n 
-0000137790 00000 n 
-0000137919 00000 n 
-0000138048 00000 n 
-0000138177 00000 n 
-0000138306 00000 n 
-0000138435 00000 n 
-0000138564 00000 n 
-0000138693 00000 n 
-0000138822 00000 n 
-0000138951 00000 n 
-0000139080 00000 n 
-0000139378 00000 n 
+0000015589 00000 n 
+0000019509 00000 n 
+0000023403 00000 n 
+0000027282 00000 n 
+0000031414 00000 n 
+0000035299 00000 n 
+0000039297 00000 n 
+0000043074 00000 n 
+0000046804 00000 n 
+0000050559 00000 n 
+0000054455 00000 n 
+0000058309 00000 n 
+0000062230 00000 n 
+0000066051 00000 n 
+0000069799 00000 n 
+0000073632 00000 n 
+0000077552 00000 n 
+0000081268 00000 n 
+0000085065 00000 n 
+0000089010 00000 n 
+0000092880 00000 n 
+0000096865 00000 n 
+0000100633 00000 n 
+0000104461 00000 n 
+0000108024 00000 n 
+0000112021 00000 n 
+0000115880 00000 n 
+0000119780 00000 n 
+0000123828 00000 n 
+0000127891 00000 n 
+0000131492 00000 n 
+0000135077 00000 n 
+0000135205 00000 n 
+0000135333 00000 n 
+0000135461 00000 n 
+0000135589 00000 n 
+0000135717 00000 n 
+0000135845 00000 n 
+0000135973 00000 n 
+0000136101 00000 n 
+0000136230 00000 n 
+0000136359 00000 n 
+0000136488 00000 n 
+0000136617 00000 n 
+0000136746 00000 n 
+0000136875 00000 n 
+0000137004 00000 n 
+0000137133 00000 n 
+0000137262 00000 n 
+0000137391 00000 n 
+0000137520 00000 n 
+0000137649 00000 n 
+0000137778 00000 n 
+0000137907 00000 n 
+0000138036 00000 n 
+0000138165 00000 n 
+0000138294 00000 n 
+0000138423 00000 n 
+0000138552 00000 n 
+0000138681 00000 n 
+0000138810 00000 n 
+0000138939 00000 n 
+0000139068 00000 n 
+0000139197 00000 n 
+0000139326 00000 n 
+0000139455 00000 n 
+0000139584 00000 n 
+0000139882 00000 n 
 trailer << /Size 74 /Root 73 0 R >>
 startxref
-139429
+139933
 %%EOF

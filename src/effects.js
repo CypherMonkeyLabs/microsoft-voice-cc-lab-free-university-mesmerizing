@@ -206,23 +206,29 @@ function revealOnScroll() {
 }
 
 function armVisuals(root) {
-  const reduce = document.documentElement.dataset.motion === "reduce";
+  const reduce = document.documentElement.dataset.motion === "reduce" ||
+    (document.documentElement.dataset.motion !== "full" && window.matchMedia("(prefers-reduced-motion: reduce)").matches);
+  const mobile = window.matchMedia("(max-width: 800px)").matches;
   revealOnScroll();
-  ensureConfetti().catch(function () { /* canvas-confetti stays optional */ });
-  if (!reduce) {
-    try { countUp(); } catch (err) { /* counters already show the final number until anime starts */ }
-    try { pulsePackets(); } catch (err) { /* CSS offset-path still moves the packet */ }
-  }
-  if (root === "home" || root === "track" || root === "charts") {
-    sketchBoundary();
-    paintCanvas();
-    paintD3();
-    bindParallax();
-  }
-  if (root === "diagrams" || root === "flows") {
-    if (!reduce) pulsePackets();
-    bindParallax();
-  }
+  const run = function () {
+    if (!reduce && !mobile) {
+      try { countUp(); } catch (err) { /* counters already show the final number */ }
+      try { pulsePackets(); } catch (err) { /* CSS offset-path still moves the packet */ }
+    }
+    if (root === "home" || root === "track" || root === "charts") {
+      sketchBoundary();
+      paintCanvas();
+      if (!mobile) paintD3();
+      if (!reduce) bindParallax();
+    }
+    if ((root === "diagrams" || root === "flows") && !reduce) {
+      pulsePackets();
+      bindParallax();
+    }
+  };
+  const schedule = window.requestIdleCallback || function (fn) { window.setTimeout(fn, 1); };
+  schedule(run, { timeout: mobile ? 2200 : 900 });
 }
 
 window.armVisuals = armVisuals;
+window.ensureConfetti = ensureConfetti;

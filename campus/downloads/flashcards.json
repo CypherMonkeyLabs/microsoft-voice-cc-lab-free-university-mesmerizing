@@ -1,7 +1,7 @@
 {
   "title": "Microsoft Voice & Contact Center Lab flashcards",
   "checked": "2026-10-14",
-  "footer": "CypherMonkey \u00b7 cyphermonkeylabs.com \u00b7 linktr.ee/cyphermonkey \u00b7 https://github.com/CypherMonkeyLabs/microsoft-voice-cc-lab-free-university-mesmerizing \u00b7 Independent educational project, not affiliated with or endorsed by any vendor. Trademarks belong to their owners. MIT code, CC BY-NC-SA content. No email.",
+  "footer": "CypherMonkey \u00b7 https://cyphermonkeylabs.com \u00b7 https://github.com/cipher0x9 \u00b7 https://github.com/CypherMonkeyLabs \u00b7 https://github.com/cipher0x9/microsoft-voice-cc-lab-free-university-mesmerizing \u00b7 https://github.com/CypherMonkeyLabs/microsoft-voice-cc-lab-free-university-mesmerizing \u00b7 https://x.com/Cypher0x9 \u00b7 https://huggingface.co/Cypher0x9 \u00b7 (c) 2026 CypherMonkeyLabs. Independent educational project, not affiliated with or endorsed by any vendor. Trademarks belong to their owners. MIT code, CC BY-NC-SA content. No email.",
   "source": "Generated from the campus glossary. Not a copy of a vendor document.",
   "cards": [
     {
@@ -322,7 +322,7 @@
     {
       "track": "t05",
       "front": "How do you approach SIP proxies?",
-      "back": "Allow 52.112.0.0/14 and 52.120.0.0/14 as published on the plan page, and re-check the page when you change firewalls. If it fails: A lockdown allows only today\u2019s DNS answer and the trunk fails next week."
+      "back": "Checked 15 October 2026. Direct Routing SBC signaling and media on the plan page: 52.112.0.0/14 and 52.120.0.0/14. Teams client optimize on the Office 365 URLs page and the worldwide endpoints feed: 52.112.0.0/14 and 52.122.0.0/15. Those lists are not interchangeable. If it fails: A lockdown allows only today\u2019s DNS answer and the trunk fails next week."
     },
     {
       "track": "t05",
