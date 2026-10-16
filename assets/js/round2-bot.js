@@ -91,7 +91,7 @@
 
   /* Tour */
   var TOUR = [
-    { sel: ".brand", title: "1. Home", text: "Home is the front door. Seventeen tracks, then a room." },
+    { sel: ".brand, a.section-chip[href$='index.html']", title: "1. Home", text: "Home is the front door. Seventeen tracks, then a room." },
     { sel: "[data-tour='menu']", title: "2. Menu", text: "Menu opens the drawer. Each row is an icon, a name, and one line. Esc closes it." },
     { sel: "[data-tour='learn'], a[href$='start.html']", title: "3. Learn", text: "Learn opens the study path: tenant, license, dial plan, then contact center." },
     { sel: "[data-tour='diagrams'], a[href*='diagrams.html']", title: "4. Diagrams", text: "Diagrams are drawings. Every one has a download button." },
@@ -101,39 +101,97 @@
   var tourLayer = document.createElement("div");
   tourLayer.className = "tour-layer";
   tourLayer.hidden = true;
-  tourLayer.innerHTML = '<div class="tour-spot"></div><div class="tour-card" role="dialog" aria-modal="true" aria-label="Tour"><p></p><div class="tour-actions"><button type="button" data-tour-back>Back</button><button type="button" class="primary" data-tour-next>Next</button><button type="button" data-tour-skip>Skip</button></div></div>';
+  tourLayer.innerHTML = '<div class="tour-spot"></div><div class="tour-card" role="dialog" aria-modal="true" aria-label="Tour"><p class="tour-kicker"></p><h2 class="tour-title"></h2><p class="tour-copy"></p><div class="tour-dots" aria-hidden="true"></div><div class="tour-actions"><button type="button" data-tour-back>Back</button><button type="button" class="primary" data-tour-next>Next</button><button type="button" data-tour-skip>Skip</button></div></div>';
   document.body.appendChild(tourLayer);
   var tourAt = 0;
+  function shownBox(node) {
+    var style = getComputedStyle(node);
+    if (style.display === "none" || style.visibility === "hidden") return null;
+    var rect = node.getBoundingClientRect();
+    if (rect.width <= 28 || rect.height <= 18) return null;
+    var visibleW = Math.min(rect.right, window.innerWidth) - Math.max(rect.left, 0);
+    var visibleH = Math.min(rect.bottom, window.innerHeight) - Math.max(rect.top, 0);
+    if (visibleW < 28 || visibleH < 18) return null;
+    return rect;
+  }
   function visible(sel) {
     var nodes = document.querySelectorAll(sel);
+    var phone = window.matchMedia("(max-width: 720px)").matches;
+    var first = null;
+    var brand = null;
+    var dock = null;
     for (var i = 0; i < nodes.length; i++) {
-      var style = getComputedStyle(nodes[i]);
-      if (style.display === "none" || style.visibility === "hidden") continue;
-      var rect = nodes[i].getBoundingClientRect();
-      if (rect.width > 8 && rect.height > 8) return nodes[i];
+      var rect = shownBox(nodes[i]);
+      if (!rect) continue;
+      if (!first) first = nodes[i];
+      if (nodes[i].classList && nodes[i].classList.contains("brand") && rect.width > 72) brand = nodes[i];
+      if (phone && nodes[i].closest && nodes[i].closest(".phone-dock")) dock = nodes[i];
     }
-    return nodes[0] || null;
+    if (brand) return brand;
+    if (dock) return dock;
+    return first;
   }
   function placeTour() {
     var step = TOUR[tourAt];
     var node = visible(step.sel);
     var spot = tourLayer.querySelector(".tour-spot");
     var card = tourLayer.querySelector(".tour-card");
-    var text = tourLayer.querySelector("p");
-    text.textContent = step.title + ". " + step.text;
-    var rect = node ? node.getBoundingClientRect() : { top: 80, left: 16, width: 48, height: 48 };
-    spot.style.top = Math.max(4, rect.top - 6) + "px";
-    spot.style.left = Math.max(4, rect.left - 6) + "px";
-    spot.style.width = (rect.width + 12) + "px";
-    spot.style.height = (rect.height + 12) + "px";
-    var top = rect.bottom + 12;
-    if (top > window.innerHeight - 180) top = Math.max(12, rect.top - 180);
+    tourLayer.querySelector(".tour-kicker").textContent = "Step " + (tourAt + 1) + " of " + TOUR.length;
+    tourLayer.querySelector(".tour-title").textContent = step.title;
+    tourLayer.querySelector(".tour-copy").textContent = step.text;
+    var dots = "";
+    for (var d = 0; d < TOUR.length; d++) {
+      dots += '<span class="tour-dot' + (d === tourAt ? " is-on" : "") + '"></span>';
+    }
+    tourLayer.querySelector(".tour-dots").innerHTML = dots;
+    var rect = node ? node.getBoundingClientRect() : { top: 80, left: 16, width: 48, height: 48, right: 64, bottom: 128 };
+    var dockNav = node && node.closest ? node.closest(".phone-dock") : null;
+    if (dockNav) {
+      var dockRect = dockNav.getBoundingClientRect();
+      var cellLeft = Math.max(dockRect.left + 2, Math.min(rect.left, dockRect.right - 36));
+      var cellWidth = Math.max(36, Math.min(rect.width, dockRect.right - cellLeft - 2));
+      rect = { left: cellLeft, top: dockRect.top + 2, width: cellWidth, height: Math.max(36, dockRect.height - 4), right: cellLeft + cellWidth, bottom: dockRect.bottom - 2 };
+    }
+    var pad = 8;
+    var spotLeft = Math.max(pad, rect.left - 6);
+    var spotTop = Math.max(pad, rect.top - 6);
+    spot.style.left = spotLeft + "px";
+    spot.style.top = spotTop + "px";
+    spot.style.width = Math.max(28, Math.min(rect.width + 12, window.innerWidth - spotLeft - pad)) + "px";
+    spot.style.height = Math.max(28, rect.height + 12) + "px";
+    var margin = 12;
+    var phone = window.matchMedia("(max-width: 720px)").matches;
+    var bottomReserve = phone ? 108 : 20;
+    var maxW = Math.max(200, Math.min(380, window.innerWidth - margin * 2));
+    card.style.width = maxW + "px";
+    card.style.maxWidth = maxW + "px";
+    var cardW = card.offsetWidth || maxW;
+    var cardH = card.offsetHeight || 200;
+    var left = rect.left;
+    if (left + cardW > window.innerWidth - margin) left = window.innerWidth - margin - cardW;
+    if (left < margin) left = margin;
+    var top = rect.bottom + 14;
+    var maxTop = window.innerHeight - bottomReserve - cardH;
+    if (top > maxTop) top = rect.top - cardH - 14;
+    if (top < margin) top = margin;
+    if (top > maxTop) top = Math.max(margin, maxTop);
+    card.style.left = left + "px";
     card.style.top = top + "px";
-    card.style.left = Math.min(window.innerWidth - 24, Math.max(12, rect.left)) + "px";
-    if (parseFloat(card.style.left) + 380 > window.innerWidth) card.style.left = Math.max(12, window.innerWidth - 392) + "px";
+    var box = card.getBoundingClientRect();
+    if (box.right > window.innerWidth - margin) card.style.left = Math.max(margin, window.innerWidth - margin - box.width) + "px";
+    if (box.left < margin) card.style.left = margin + "px";
+    box = card.getBoundingClientRect();
+    if (box.bottom > window.innerHeight - margin) card.style.top = Math.max(margin, window.innerHeight - margin - box.height) + "px";
+    box = card.getBoundingClientRect();
+    var spotBox = spot.getBoundingClientRect();
+    var overlaps = box.left < spotBox.right && box.right > spotBox.left && box.top < spotBox.bottom && box.bottom > spotBox.top;
+    if (overlaps) {
+      var above = spotBox.top - 14 - box.height;
+      if (above >= margin) card.style.top = above + "px";
+      else card.style.top = Math.min(spotBox.bottom + 14, Math.max(margin, window.innerHeight - margin - box.height)) + "px";
+    }
     tourLayer.querySelector("[data-tour-back]").disabled = tourAt === 0;
     tourLayer.querySelector("[data-tour-next]").textContent = tourAt === TOUR.length - 1 ? "Finish" : "Next";
-    if (node && node.focus) { try { node.focus({ preventScroll: true }); } catch (err) { /* ignore */ } }
   }
   function endTour() {
     tourLayer.hidden = true;
@@ -608,7 +666,15 @@
       var foot = document.querySelector(".site-footer");
       var stage = document.querySelector(".v4-stage") || document.body;
       if (foot && stage) stage.insertBefore(foot, stage.firstChild);
+    } else if (mode === "tour") {
+      var stepNum = Number(new URLSearchParams(location.search).get("step") || "1");
+      tourAt = Math.max(0, Math.min(TOUR.length - 1, (stepNum || 1) - 1));
+      tourLayer.hidden = false;
+      placeTour();
     }
+    window.addEventListener("resize", function () {
+      if (!tourLayer.hidden) placeTour();
+    });
     if (!bag.tour && !mode) window.setTimeout(startTour, 400);
     else if (!mode) greetOnce();
     scheduleNudge();

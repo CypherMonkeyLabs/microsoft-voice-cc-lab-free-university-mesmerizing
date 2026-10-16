@@ -5,6 +5,7 @@ from __future__ import annotations
 
 import html
 import json
+import os
 import re
 import shutil
 import subprocess
@@ -585,6 +586,7 @@ def build():
     (ROOT / "assets" / "data" / "downloads.json").write_text(json.dumps({"groups": []}), encoding="utf-8")
 
     deck_slides = [(t["meta"]["title"], t["meta"].get("why") or "") for t in tracks]
+    deck_slides.extend(sources_deck_slides())
     write_pptx(OUT_DL / "teams-phone-deck.pptx", deck_slides)
 
     # PNGs are written with cairosvg inside write_diagram_files. PDFs use headless Chrome.
@@ -801,14 +803,55 @@ def write_pdf_note(path: Path, title: str, steps: list[str]) -> None:
     path.write_bytes(out)
 
 
+def sources_deck_slides() -> list[tuple[str, str]]:
+    """Closing slides. Every line is a URL this lab opened, or a confirm row."""
+    seen = set()
+    lines = []
+    folder = ROOT / "campus" / "data" / "sources"
+    if not folder.exists():
+        return [("Sources and go deeper", "Confirm before relying. last checked 2026-10.")]
+    for path in sorted(folder.glob("*.json")):
+        track_only = path.name.startswith("t") and path.stem.count("-") == 0
+        if path.name in {"checks.json", "sheets.json"} or path.name.startswith("sheet-") or track_only:
+            continue
+        data = json.loads(path.read_text(encoding="utf-8"))
+        if "lesson" not in data:
+            continue
+        for source in data.get("sources") or []:
+            url = source.get("url") or ""
+            if not url or url in seen:
+                continue
+            seen.add(url)
+            status = "confirm" if source.get("status") != "ok" else (source.get("kind") or "docs")
+            line = f"{source.get('title')} — {status} — {url} — last checked {source.get('lastChecked') or sources_render.CHECKED}"
+            if source.get("status") != "ok":
+                line += ". Did not open when checked."
+            lines.append(line)
+    if not lines:
+        return [("Sources and go deeper", "Confirm before relying. last checked 2026-10.")]
+    slides = []
+    for start in range(0, len(lines), 4):
+        slides.append(("Sources and go deeper", "\n".join(lines[start:start + 4])))
+    return slides
+
+
 def write_pptx(path: Path, slides: list[tuple[str, str]]) -> None:
     slide_xmls = []
     rels_slides = []
     for i, (title, body) in enumerate(slides, start=1):
+        paragraphs = []
+        chunks = [part for part in str(body).split("\n") if part.strip()] or [""]
+        for part in chunks:
+            note = "" if part.startswith("Sources") or "last checked" in part else " Confirm before relying."
+            paragraphs.append(
+                f'<a:p><a:r><a:rPr lang="en-US" sz="1400"/><a:t>{esc(part)}{esc(note) if note and "Confirm before relying" not in part else ""}</a:t></a:r></a:p>'
+            )
+        if title != "Sources and go deeper":
+            paragraphs.append('<a:p><a:r><a:rPr lang="en-US" sz="1400"/><a:t>Independent free learning-only project.</a:t></a:r></a:p>')
         slide_xmls.append((i, f'''<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <p:sld xmlns:a="http://schemas.openxmlformats.org/drawingml/2006/main" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships" xmlns:p="http://schemas.openxmlformats.org/presentationml/2006/main"><p:cSld><p:spTree><p:nvGrpSpPr><p:cNvPr id="1" name=""/><p:cNvGrpSpPr/><p:nvPr/></p:nvGrpSpPr><p:grpSpPr><a:xfrm><a:off x="0" y="0"/><a:ext cx="0" cy="0"/><a:chOff x="0" y="0"/><a:chExt cx="0" cy="0"/></a:xfrm></p:grpSpPr>
-<p:sp><p:nvSpPr><p:cNvPr id="2" name="Title"/><p:cNvSpPr/><p:nvPr/></p:nvSpPr><p:spPr><a:xfrm><a:off x="400000" y="300000"/><a:ext cx="8000000" cy="800000"/></a:xfrm></p:spPr><p:txBody><a:bodyPr/><a:lstStyle/><a:p><a:r><a:rPr lang="en-US" sz="3200"/><a:t>{esc(title)}</a:t></a:r></a:p></p:txBody></p:sp>
-<p:sp><p:nvSpPr><p:cNvPr id="3" name="Body"/><p:cNvSpPr/><p:nvPr/></p:nvSpPr><p:spPr><a:xfrm><a:off x="400000" y="1400000"/><a:ext cx="8000000" cy="3000000"/></a:xfrm></p:spPr><p:txBody><a:bodyPr/><a:lstStyle/><a:p><a:r><a:rPr lang="en-US" sz="1800"/><a:t>{esc(body)} Confirm before relying. Independent free learning-only project.</a:t></a:r></a:p></p:txBody></p:sp>
+<p:sp><p:nvSpPr><p:cNvPr id="2" name="Title"/><p:cNvSpPr/><p:nvPr/></p:nvSpPr><p:spPr><a:xfrm><a:off x="400000" y="240000"/><a:ext cx="8400000" cy="700000"/></a:xfrm></p:spPr><p:txBody><a:bodyPr/><a:lstStyle/><a:p><a:r><a:rPr lang="en-US" sz="2800"/><a:t>{esc(title)}</a:t></a:r></a:p></p:txBody></p:sp>
+<p:sp><p:nvSpPr><p:cNvPr id="3" name="Body"/><p:cNvSpPr/><p:nvPr/></p:nvSpPr><p:spPr><a:xfrm><a:off x="400000" y="1000000"/><a:ext cx="8400000" cy="3800000"/></a:xfrm></p:spPr><p:txBody><a:bodyPr/><a:lstStyle/>{"".join(paragraphs)}</p:txBody></p:sp>
 </p:spTree></p:cSld><p:clrMapOvr><a:masterClrMapping/></p:clrMapOvr></p:sld>'''))
         rels_slides.append(f'<Relationship Id="rId{i}" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/slide" Target="slides/slide{i}.xml"/>')
     pres = f'''<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
@@ -839,7 +882,8 @@ def run_chrome(jobs: list[tuple[Path, Path, str]]) -> None:
     def one(job):
         src, dest, kind = job
         dest.parent.mkdir(parents=True, exist_ok=True)
-        cmd = [CHROME, "--headless", "--disable-gpu", "--no-sandbox", "--hide-scrollbars", "--force-device-scale-factor=1", "--window-size=1100,1400"]
+        profile = f"/tmp/chrome-pdf-{dest.stem}-{os.getpid()}"
+        cmd = [CHROME, "--headless", "--disable-gpu", "--no-sandbox", "--hide-scrollbars", "--force-device-scale-factor=1", "--window-size=1100,1400", f"--user-data-dir={profile}"]
         if kind == "png":
             cmd.append(f"--screenshot={dest}")
         else:
