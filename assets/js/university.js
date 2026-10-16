@@ -276,6 +276,9 @@
   var round3Js = document.createElement("script");
   round3Js.src = rootPrefix + "assets/js/round3.js";
   document.body.appendChild(round3Js);
+  var sourcesJs = document.createElement("script");
+  sourcesJs.src = rootPrefix + "assets/js/sources-block.js";
+  document.body.appendChild(sourcesJs);
 
   document.dispatchEvent(new CustomEvent("university-ready"));
 })();

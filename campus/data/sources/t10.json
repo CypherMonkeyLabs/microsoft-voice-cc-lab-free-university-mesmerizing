@@ -1,0 +1,121 @@
+{
+  "track": "t10",
+  "title": "Session border controllers",
+  "checked": "2026-10",
+  "rooms": [
+    {
+      "room": "T10-R01-what-certification-buys-you.html",
+      "sourcesFile": "../../rooms/T10-R01-what-certification-buys-you.sources.json"
+    },
+    {
+      "room": "T10-R02-audiocodes-pattern.html",
+      "sourcesFile": "../../rooms/T10-R02-audiocodes-pattern.sources.json"
+    },
+    {
+      "room": "T10-R03-ribbon-pattern.html",
+      "sourcesFile": "../../rooms/T10-R03-ribbon-pattern.sources.json"
+    },
+    {
+      "room": "T10-R04-oracle-communications-sbc.html",
+      "sourcesFile": "../../rooms/T10-R04-oracle-communications-sbc.sources.json"
+    },
+    {
+      "room": "T10-R05-cisco-cube-for-teams.html",
+      "sourcesFile": "../../rooms/T10-R05-cisco-cube-for-teams.sources.json"
+    },
+    {
+      "room": "T10-R06-the-support-boundary.html",
+      "sourcesFile": "../../rooms/T10-R06-the-support-boundary.sources.json"
+    }
+  ],
+  "sources": [
+    {
+      "title": "Certified SBCs for Direct Routing",
+      "url": "https://learn.microsoft.com/en-us/microsoftteams/direct-routing-border-controllers",
+      "kind": "learn",
+      "lastChecked": "2026-10",
+      "status": "ok",
+      "note": ""
+    },
+    {
+      "title": "Plan Direct Routing",
+      "url": "https://learn.microsoft.com/en-us/microsoftteams/direct-routing-plan",
+      "kind": "learn",
+      "lastChecked": "2026-10",
+      "status": "ok",
+      "note": ""
+    },
+    {
+      "title": "RFC 3261",
+      "url": "https://www.rfc-editor.org/rfc/rfc3261",
+      "kind": "rfc",
+      "lastChecked": "2026-10",
+      "status": "ok",
+      "note": ""
+    },
+    {
+      "title": "Session border controller",
+      "url": "https://en.wikipedia.org/wiki/Session_border_controller",
+      "kind": "wikipedia",
+      "lastChecked": "2026-10",
+      "status": "ok",
+      "note": "Wikipedia fallback for background. Confirm the vendor page before you change a tenant."
+    },
+    {
+      "title": "Microsoft Teams blog index",
+      "url": "https://techcommunity.microsoft.com/category/microsoftteams/blog/microsoftteamsblog",
+      "kind": "community",
+      "lastChecked": "2026-10",
+      "status": "ok",
+      "note": "Community index for the Microsoft Teams blog. This is the index, not a claim that a post discusses this room."
+    },
+    {
+      "title": "AudioCodes session border controllers",
+      "url": "https://www.audiocodes.com/solutions-products/products/session-border-controllers",
+      "kind": "vendor",
+      "lastChecked": "2026-10",
+      "status": "confirm",
+      "note": "HTTP 404"
+    },
+    {
+      "title": "Session Border Controllers (SBCs) | | AudioCodes",
+      "url": "https://www.audiocodes.com/products/session-border-controllers-sbcs",
+      "kind": "vendor",
+      "lastChecked": "2026-10",
+      "status": "ok",
+      "note": "The longer AudioCodes path did not open. This product URL did."
+    },
+    {
+      "title": "Ribbon Communications",
+      "url": "https://ribboncommunications.com/",
+      "kind": "vendor",
+      "lastChecked": "2026-10",
+      "status": "ok",
+      "note": ""
+    },
+    {
+      "title": "Oracle Session Border Controller",
+      "url": "https://www.oracle.com/communications/session-border-controller/",
+      "kind": "vendor",
+      "lastChecked": "2026-10",
+      "status": "confirm",
+      "note": "HTTP 403"
+    },
+    {
+      "title": "Session Border Controller Documentation - Home",
+      "url": "https://docs.oracle.com/en/industries/communications/session-border-controller/index.html",
+      "kind": "docs",
+      "lastChecked": "2026-10",
+      "status": "ok",
+      "note": "The Oracle marketing URL did not open. This docs index did."
+    },
+    {
+      "title": "Cisco Unified Border Element",
+      "url": "https://www.cisco.com/c/en/us/products/unified-communications/unified-border-element/index.html",
+      "kind": "vendor",
+      "lastChecked": "2026-10",
+      "status": "ok",
+      "note": ""
+    }
+  ]
+}

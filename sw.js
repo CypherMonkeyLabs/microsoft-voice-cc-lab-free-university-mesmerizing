@@ -1,5 +1,5 @@
 /* Offline shell for the Teams Phone university. Same-origin GET only. */
-var CACHE = "mvcc-university-v2";
+var CACHE = "mvcc-university-v3";
 var SHELL = [
   "./",
   "./index.html",
@@ -34,6 +34,7 @@ var SHELL = [
   "./assets/js/wow.js",
   "./assets/js/round2-bot.js",
   "./assets/js/round3.js",
+  "./assets/js/sources-block.js",
   "./assets/js/brand.js",
   "./assets/data/guide-index.json",
   "./favicon.svg",

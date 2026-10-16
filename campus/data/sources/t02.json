@@ -1,0 +1,121 @@
+{
+  "track": "t02",
+  "title": "Licensing",
+  "checked": "2026-10",
+  "rooms": [
+    {
+      "room": "T02-R01-the-license-stack.html",
+      "sourcesFile": "../../rooms/T02-R01-the-license-stack.sources.json"
+    },
+    {
+      "room": "T02-R02-calling-plan-flavors.html",
+      "sourcesFile": "../../rooms/T02-R02-calling-plan-flavors.sources.json"
+    },
+    {
+      "room": "T02-R03-teams-premium-is-not-pstn.html",
+      "sourcesFile": "../../rooms/T02-R03-teams-premium-is-not-pstn.sources.json"
+    },
+    {
+      "room": "T02-R04-resource-account-licenses.html",
+      "sourcesFile": "../../rooms/T02-R04-resource-account-licenses.sources.json"
+    },
+    {
+      "room": "T02-R05-rooms-common-area-and-shared-calling.html",
+      "sourcesFile": "../../rooms/T02-R05-rooms-common-area-and-shared-calling.sources.json"
+    },
+    {
+      "room": "T02-R06-a-license-set-you-can-defend.html",
+      "sourcesFile": "../../rooms/T02-R06-a-license-set-you-can-defend.sources.json"
+    }
+  ],
+  "sources": [
+    {
+      "title": "Teams Phone licensing",
+      "url": "https://learn.microsoft.com/en-us/microsoftteams/teams-phone-licensing",
+      "kind": "learn",
+      "lastChecked": "2026-10",
+      "status": "ok",
+      "note": ""
+    },
+    {
+      "title": "Set up Teams Phone",
+      "url": "https://learn.microsoft.com/en-us/microsoftteams/setting-up-your-phone-system",
+      "kind": "learn",
+      "lastChecked": "2026-10",
+      "status": "ok",
+      "note": ""
+    },
+    {
+      "title": "Calling Plans",
+      "url": "https://learn.microsoft.com/en-us/microsoftteams/calling-plans-for-office-365",
+      "kind": "learn",
+      "lastChecked": "2026-10",
+      "status": "ok",
+      "note": ""
+    },
+    {
+      "title": "Microsoft 365",
+      "url": "https://en.wikipedia.org/wiki/Microsoft_365",
+      "kind": "wikipedia",
+      "lastChecked": "2026-10",
+      "status": "ok",
+      "note": "Wikipedia fallback for background. Confirm the vendor page before you change a tenant."
+    },
+    {
+      "title": "Microsoft Teams blog index",
+      "url": "https://techcommunity.microsoft.com/category/microsoftteams/blog/microsoftteamsblog",
+      "kind": "community",
+      "lastChecked": "2026-10",
+      "status": "ok",
+      "note": "Community index for the Microsoft Teams blog. This is the index, not a claim that a post discusses this room."
+    },
+    {
+      "title": "PSTN connectivity options",
+      "url": "https://learn.microsoft.com/en-us/microsoftteams/pstn-connectivity",
+      "kind": "learn",
+      "lastChecked": "2026-10",
+      "status": "ok",
+      "note": ""
+    },
+    {
+      "title": "Teams add-on licensing",
+      "url": "https://learn.microsoft.com/en-us/microsoftteams/teams-add-on-licensing/microsoft-teams-add-on-licensing",
+      "kind": "learn",
+      "lastChecked": "2026-10",
+      "status": "ok",
+      "note": ""
+    },
+    {
+      "title": "Teams Phone Resource Account licenses",
+      "url": "https://learn.microsoft.com/en-us/microsoftteams/teams-add-on-licensing/virtual-user",
+      "kind": "learn",
+      "lastChecked": "2026-10",
+      "status": "ok",
+      "note": ""
+    },
+    {
+      "title": "Voice app prerequisites and licensing",
+      "url": "https://learn.microsoft.com/en-us/microsoftteams/aa-cq-reference-prerequisites-licensing",
+      "kind": "learn",
+      "lastChecked": "2026-10",
+      "status": "ok",
+      "note": ""
+    },
+    {
+      "title": "Manage resource accounts",
+      "url": "https://learn.microsoft.com/en-us/microsoftteams/aa-cq-manage-resource-accounts",
+      "kind": "learn",
+      "lastChecked": "2026-10",
+      "status": "ok",
+      "note": ""
+    },
+    {
+      "title": "Plan Direct Routing",
+      "url": "https://learn.microsoft.com/en-us/microsoftteams/direct-routing-plan",
+      "kind": "learn",
+      "lastChecked": "2026-10",
+      "status": "ok",
+      "note": ""
+    }
+  ]
+}

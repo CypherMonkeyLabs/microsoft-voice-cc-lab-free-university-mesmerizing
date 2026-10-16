@@ -1,0 +1,56 @@
+{
+  "room": "T07-R01-resource-accounts-for-voice-apps.html",
+  "lesson": "t07-ra",
+  "title": "Resource accounts for voice apps",
+  "checked": "2026-10",
+  "sources": [
+    {
+      "title": "Manage resource accounts",
+      "url": "https://learn.microsoft.com/en-us/microsoftteams/aa-cq-manage-resource-accounts",
+      "kind": "learn",
+      "lastChecked": "2026-10",
+      "status": "ok",
+      "note": ""
+    },
+    {
+      "title": "Voice app prerequisites and licensing",
+      "url": "https://learn.microsoft.com/en-us/microsoftteams/aa-cq-reference-prerequisites-licensing",
+      "kind": "learn",
+      "lastChecked": "2026-10",
+      "status": "ok",
+      "note": ""
+    },
+    {
+      "title": "Teams Phone Resource Account licenses",
+      "url": "https://learn.microsoft.com/en-us/microsoftteams/teams-add-on-licensing/virtual-user",
+      "kind": "learn",
+      "lastChecked": "2026-10",
+      "status": "ok",
+      "note": ""
+    },
+    {
+      "title": "Automatic call distributor",
+      "url": "https://en.wikipedia.org/wiki/Automatic_call_distributor",
+      "kind": "wikipedia",
+      "lastChecked": "2026-10",
+      "status": "ok",
+      "note": "Wikipedia fallback for background. Confirm the vendor page before you change a tenant."
+    },
+    {
+      "title": "Interactive voice response",
+      "url": "https://en.wikipedia.org/wiki/Interactive_voice_response",
+      "kind": "wikipedia",
+      "lastChecked": "2026-10",
+      "status": "ok",
+      "note": "Wikipedia fallback for background. Confirm the vendor page before you change a tenant."
+    },
+    {
+      "title": "Microsoft Teams blog index",
+      "url": "https://techcommunity.microsoft.com/category/microsoftteams/blog/microsoftteamsblog",
+      "kind": "community",
+      "lastChecked": "2026-10",
+      "status": "ok",
+      "note": "Community index for the Microsoft Teams blog. This is the index, not a claim that a post discusses this room."
+    }
+  ]
+}

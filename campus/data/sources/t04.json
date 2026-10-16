@@ -1,0 +1,89 @@
+{
+  "track": "t04",
+  "title": "Network and QoS",
+  "checked": "2026-10",
+  "rooms": [
+    {
+      "room": "T04-R01-shortest-path-no-media-proxy.html",
+      "sourcesFile": "../../rooms/T04-R01-shortest-path-no-media-proxy.sources.json"
+    },
+    {
+      "room": "T04-R02-the-port-and-dscp-table.html",
+      "sourcesFile": "../../rooms/T04-R02-the-port-and-dscp-table.sources.json"
+    },
+    {
+      "room": "T04-R03-vpn-and-the-split-tunnel.html",
+      "sourcesFile": "../../rooms/T04-R03-vpn-and-the-split-tunnel.sources.json"
+    },
+    {
+      "room": "T04-R04-bandwidth-you-can-calculate.html",
+      "sourcesFile": "../../rooms/T04-R04-bandwidth-you-can-calculate.sources.json"
+    },
+    {
+      "room": "T04-R05-proving-the-mark-survived.html",
+      "sourcesFile": "../../rooms/T04-R05-proving-the-mark-survived.sources.json"
+    },
+    {
+      "room": "T04-R06-expressroute-is-not-the-requirement.html",
+      "sourcesFile": "../../rooms/T04-R06-expressroute-is-not-the-requirement.sources.json"
+    }
+  ],
+  "sources": [
+    {
+      "title": "QoS in Microsoft Teams",
+      "url": "https://learn.microsoft.com/en-us/microsoftteams/qos-in-teams",
+      "kind": "learn",
+      "lastChecked": "2026-10",
+      "status": "ok",
+      "note": ""
+    },
+    {
+      "title": "Prepare the network for Teams",
+      "url": "https://learn.microsoft.com/en-us/microsoftteams/prepare-network",
+      "kind": "learn",
+      "lastChecked": "2026-10",
+      "status": "ok",
+      "note": ""
+    },
+    {
+      "title": "RFC 3550",
+      "url": "https://www.rfc-editor.org/rfc/rfc3550",
+      "kind": "rfc",
+      "lastChecked": "2026-10",
+      "status": "ok",
+      "note": ""
+    },
+    {
+      "title": "Quality of service",
+      "url": "https://en.wikipedia.org/wiki/Quality_of_service",
+      "kind": "wikipedia",
+      "lastChecked": "2026-10",
+      "status": "ok",
+      "note": "Wikipedia fallback for background. Confirm the vendor page before you change a tenant."
+    },
+    {
+      "title": "Microsoft Teams blog index",
+      "url": "https://techcommunity.microsoft.com/category/microsoftteams/blog/microsoftteamsblog",
+      "kind": "community",
+      "lastChecked": "2026-10",
+      "status": "ok",
+      "note": "Community index for the Microsoft Teams blog. This is the index, not a claim that a post discusses this room."
+    },
+    {
+      "title": "Emergency locations, addresses, and routing",
+      "url": "https://learn.microsoft.com/en-us/microsoftteams/what-are-emergency-locations-addresses-and-call-routing",
+      "kind": "learn",
+      "lastChecked": "2026-10",
+      "status": "ok",
+      "note": ""
+    },
+    {
+      "title": "Plan Direct Routing",
+      "url": "https://learn.microsoft.com/en-us/microsoftteams/direct-routing-plan",
+      "kind": "learn",
+      "lastChecked": "2026-10",
+      "status": "ok",
+      "note": ""
+    }
+  ]
+}

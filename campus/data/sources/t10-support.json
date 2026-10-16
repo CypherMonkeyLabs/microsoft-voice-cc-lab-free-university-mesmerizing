@@ -1,0 +1,48 @@
+{
+  "room": "T10-R06-the-support-boundary.html",
+  "lesson": "t10-support",
+  "title": "The support boundary",
+  "checked": "2026-10",
+  "sources": [
+    {
+      "title": "Certified SBCs for Direct Routing",
+      "url": "https://learn.microsoft.com/en-us/microsoftteams/direct-routing-border-controllers",
+      "kind": "learn",
+      "lastChecked": "2026-10",
+      "status": "ok",
+      "note": ""
+    },
+    {
+      "title": "Plan Direct Routing",
+      "url": "https://learn.microsoft.com/en-us/microsoftteams/direct-routing-plan",
+      "kind": "learn",
+      "lastChecked": "2026-10",
+      "status": "ok",
+      "note": ""
+    },
+    {
+      "title": "RFC 3261",
+      "url": "https://www.rfc-editor.org/rfc/rfc3261",
+      "kind": "rfc",
+      "lastChecked": "2026-10",
+      "status": "ok",
+      "note": ""
+    },
+    {
+      "title": "Session border controller",
+      "url": "https://en.wikipedia.org/wiki/Session_border_controller",
+      "kind": "wikipedia",
+      "lastChecked": "2026-10",
+      "status": "ok",
+      "note": "Wikipedia fallback for background. Confirm the vendor page before you change a tenant."
+    },
+    {
+      "title": "Microsoft Teams blog index",
+      "url": "https://techcommunity.microsoft.com/category/microsoftteams/blog/microsoftteamsblog",
+      "kind": "community",
+      "lastChecked": "2026-10",
+      "status": "ok",
+      "note": "Community index for the Microsoft Teams blog. This is the index, not a claim that a post discusses this room."
+    }
+  ]
+}

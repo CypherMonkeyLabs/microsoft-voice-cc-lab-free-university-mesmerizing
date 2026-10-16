@@ -8,8 +8,12 @@ import json
 import re
 import shutil
 import subprocess
+import sys
 import zipfile
 from pathlib import Path
+
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+import sources_render
 
 ROOT = Path(__file__).resolve().parents[1]
 DATA = ROOT / "campus" / "data"
@@ -281,9 +285,17 @@ def write_diagram_files(diagrams):
             continue
         baked = bake_svg(svg)
         (OUT_DIAG / f"{stem}.svg").write_text(baked, encoding="utf-8")
+        lesson = item["lesson"]
+        room_file = room_href(lesson).split("/")[-1]
+        diagram_sources = sources_render.section_html(
+            sources_render.sources_named(f"{lesson['id']}.json"),
+            note=f"Same checked list as {room_file}.",
+            download_href=f"../../rooms/{room_file[:-5]}.sources.json",
+        ) if sources_render.sources_named(f"{lesson['id']}.json") else ""
         page = f'''<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><title>{esc(fig["title"])}</title>
 <style>body{{margin:0;font:16px/1.45 system-ui,sans-serif;background:#0b1020;color:#e2e8f0}} svg{{width:100%;height:auto;display:block}} .box{{margin:16px;padding:16px;border:2px solid #0f766e;border-radius:16px;background:#ecfdf5;color:#0b1f2a}} .box a{{color:#0b3a8f;font-weight:800}}</style>
 </head><body>{baked}<div class="box"><h1>{esc(fig["title"])}</h1><p>{esc(fig.get("caption") or "")}</p>
+{diagram_sources}
 <p>Independent, free, learning-only student project. Trademarks belong to their owners. Not affiliated or endorsed. Removal via <a href="{CONTACT}">{CONTACT}</a>. Nothing is sold.</p>
 <p>CypherMonkey Labs</p>
 <p><a href="{WEB}">Website</a> · <a href="{ORG}">GitHub</a> · <a href="{TREE}">Linktree</a></p>
@@ -376,9 +388,25 @@ def build():
             for g in terms
         )
         sources = lesson.get("sources") or []
-        src_html = "".join(
-            f'<li><a href="{esc(s["url"])}">{esc(s["title"])}</a> accessed {esc(s.get("accessed") or CHECKED)}</li>'
-            for s in sources
+        src_rows = sources_render.sources_named(f"{lesson['id']}.json")
+        if not src_rows:
+            src_rows = [
+                {
+                    "title": s.get("title") or s.get("url"),
+                    "url": s.get("url"),
+                    "kind": "learn",
+                    "lastChecked": CHECKED[:7],
+                    "status": "confirm",
+                    "note": "Not re-opened by this build. Confirm before relying.",
+                }
+                for s in sources
+            ]
+        room_file = href.split("/")[-1]
+        src_block = sources_render.section_html(
+            src_rows,
+            data_sources=f"{room_file[:-5]}.sources.json",
+            note="Opened 2026-10. A row marked confirm did not open. Wikipedia is background. The Teams blog row is the community index.",
+            download_href=f"{room_file[:-5]}.sources.json",
         )
         dl_visual = dl_row([
             ("SVG", f"{prefix}downloads/diagrams/{stem}.svg"),
@@ -389,12 +417,11 @@ def build():
 <h1>{esc(lesson["title"])}</h1>
 <p class="lede">{sentences(lesson.get("why") or "")}</p>
 {dl_row([("Room HTML", href.split("/")[-1]), ("All downloads", prefix + "downloads.html")])}
-<nav class="toc" aria-label="Room sections"><a href="#five">5 minutes</a> · <a href="#visual">Visual</a> · <a href="#example">Example</a> · <a href="#quiz">Quiz</a> · <a href="#sources">Sources</a> · <a href="#eco">Ecosystem</a></nav>
+<nav class="toc" aria-label="Room sections"><a href="#five">5 minutes</a> · <a href="#visual">Visual</a> · <a href="#example">Example</a> · <a href="#quiz">Quiz</a> · <a href="#eco">Ecosystem</a> · <a href="#sources">Sources and go deeper</a></nav>
 <section id="five" data-read><h2>Learn it in 5 minutes</h2>{body_html}<p>{sentences(lesson.get("listen") or "")}</p>{dl_row([("Room HTML", href.split("/")[-1])])}</section>
 <section id="visual" data-read><h2>Visual</h2>{visual}{bar_chart(lesson.get("chart") or {})}{dl_visual}</section>
 <section id="example" data-read><h2>Worked example</h2><p>{sentences(lesson.get("say") or "")}</p><ol>{flow_html}</ol><p class="callout">If it fails: {esc(lesson.get("fault") or "Check the cited article.")}</p>{dl_row([("Checklist HTML", prefix + "downloads/templates/sbc-checklist.html")])}</section>
 <section id="quiz" data-read><h2>Quiz</h2>{quiz_block(picked)}{dl_row([("Flashcards", prefix + "flashcards.html")])}</section>
-<section id="sources"><h2>Sources</h2><ul>{src_html or "<li>Confirm before relying. This room has no primary URL stored.</li>"}</ul><p>Checked {CHECKED}. When a vendor page and this file disagree, the vendor page wins.</p>{dl_row([("Sources page", prefix + "help.html")])}</section>
 <section id="eco" data-read><h2>Ecosystem</h2>
 <h3>Glossary</h3><ul>{term_html}</ul>
 <h3>Sister technologies</h3><p class="read-sent">Around the call: compliance recording, workforce management, emergency location, analytics, CRM screen pop, and an agent with a human escape. Each one has its own failure.</p>
@@ -402,7 +429,8 @@ def build():
 <h3>Cross-platform bridges</h3>{bridge_html(t14_source)}
 <h3>Future hooks</h3><p class="read-sent">Copilot Studio, Azure Communication Services, and Graph are later tracks in this lab. Treat any uncited limit as confirm before relying.</p>
 {dl_row([("Bridges", prefix + "bridges.html"), ("Ecosystem", prefix + "ecosystem.html")])}
-</section>'''
+</section>
+{src_block}'''
         write(href, f'{lesson["title"]} · Teams Phone Lab', body, lesson.get("why") or lesson["title"])
         guide_rooms.append({"title": lesson["title"], "href": href, "track": meta["title"]})
 
@@ -418,7 +446,8 @@ def build():
 <section id="five" data-read><h2>Learn it in 5 minutes</h2><p>{sentences(meta.get("outcome") or meta.get("why") or "")}</p></section>
 <section id="visual"><h2>Visual</h2>{bar_chart(meta.get("chart") or {})}</section>
 <section id="rooms"><h2>Rooms</h2><ol>{"".join(rows)}</ol></section>
-<section id="eco"><h2>Ecosystem</h2>{bridge_html(t14_source)}</section>'''
+<section id="eco"><h2>Ecosystem</h2>{bridge_html(t14_source)}</section>
+{sources_render.section_html(sources_render.sources_named(meta["id"] + ".json"), data_sources="sources.json", note="Chapter list. Each room keeps its own sources.json.")}'''
         write(f'tracks/{meta["id"].upper()}/index.html', f'{meta["title"]} · Teams Phone Lab', body, meta.get("why") or meta["title"])
 
     # Sheets
@@ -427,12 +456,12 @@ def build():
     for track in tracks:
         meta = track["meta"]
         lines = "".join(f"<li>{esc(ls['title'])}: {esc(ls.get('why') or '')}</li>" for ls in track["lessons"])
-        sheet = standalone_sheet(meta["title"], f"<p>{esc(meta.get('why') or '')}</p><ul>{lines}</ul>{bridge_html(t14_source)}")
+        sheet = standalone_sheet(meta["title"], f"<p>{esc(meta.get('why') or '')}</p><ul>{lines}</ul>{bridge_html(t14_source)}", sources_render.section_html(sources_render.sources_named(meta["id"] + ".json"), with_id=True))
         (OUT_DL / "sheets" / f"{meta['id']}.html").write_text(sheet, encoding="utf-8")
     ports_html = "<ul>" + "".join(f"<li><strong>{esc(a)}</strong> {esc(b)} — {esc(c)}</li>" for a, b, c in PORTS) + "</ul>"
     ports_html += "<p>Taken from this lab’s ports sheet. Signaling stays with Teams. Confirm the current Microsoft list before you open a firewall.</p>"
-    (OUT_DL / "sheets" / "ports-protocols.html").write_text(standalone_sheet("Ports and protocols", ports_html), encoding="utf-8")
-    (OUT_DL / "sheets" / "bridges.html").write_text(standalone_sheet("CUCM, Webex, and UCCE bridges", bridge_html(t14_source)), encoding="utf-8")
+    (OUT_DL / "sheets" / "ports-protocols.html").write_text(standalone_sheet("Ports and protocols", ports_html, sheet_sources("ports")), encoding="utf-8")
+    (OUT_DL / "sheets" / "bridges.html").write_text(standalone_sheet("CUCM, Webex, and UCCE bridges", bridge_html(t14_source), sheet_sources("bridges")), encoding="utf-8")
 
     # Templates
     templates = {
@@ -443,14 +472,15 @@ def build():
     }
     for stem, (title, steps) in templates.items():
         lis = "".join(f"<li>{esc(s)}</li>" for s in steps)
-        (OUT_DL / "templates" / f"{stem}.html").write_text(standalone_sheet(title, f"<ol>{lis}</ol>"), encoding="utf-8")
-        write_docx(OUT_DL / "templates" / f"{stem}.docx", title, steps)
+        (OUT_DL / "templates" / f"{stem}.html").write_text(standalone_sheet(title, f"<ol>{lis}</ol>", sheet_sources(stem if stem != "bridges" else "bridges")), encoding="utf-8")
+        write_docx(OUT_DL / "templates" / f"{stem}.docx", title, steps, sources_render.sources_named(f"sheet-{stem if stem != 'bridges' else 'bridges'}.json"))
         write_pdf_note(OUT_DL / "templates" / f"{stem}.pdf", title, steps)
 
     # Flashcards
     card_html = ["<ul>"]
     for card in cards:
-        card_html.append(f"<li><strong>{esc(card['front'])}</strong> {esc(card['back'])}</li>")
+        card_block = sources_render.section_html(sources_render.sources_named(f"{card['track']}.json"), with_id=False)
+        card_html.append(f"<li><strong>{esc(card['front'])}</strong> {esc(card['back'])}{card_block}</li>")
     card_html.append("</ul>")
     flash_doc = standalone_sheet("Flashcards", "".join(card_html)).replace("../../assets/css/footer.css", "../assets/css/footer.css")
     (OUT_DL / "flashcards.html").write_text(flash_doc, encoding="utf-8")
@@ -470,7 +500,7 @@ def build():
     write("glossary.html", "Glossary · Teams Phone Lab",
           f'<h1>Glossary</h1><p>{len(glossary)} terms. Each one has a config note and a fault.</p>{dl_row([("HTML", "downloads/sheets/glossary.html")])}<section id="five"><h2>Learn it in 5 minutes</h2><p class="read-sent">A term is useful when you can name the fault it causes.</p></section>{gloss_items}',
           "Teams Phone glossary.")
-    (OUT_DL / "sheets" / "glossary.html").write_text(standalone_sheet("Glossary", gloss_items), encoding="utf-8")
+    (OUT_DL / "sheets" / "glossary.html").write_text(standalone_sheet("Glossary", gloss_items, sheet_sources("glossary")), encoding="utf-8")
 
     # Quizzes page (sample of 24, one screen, rest in rooms)
     sample = quiz[:: max(1, len(quiz) // 24)][:24]
@@ -694,11 +724,19 @@ def careers_body(manifest) -> str:
 {dl_row([("Careers HTML", "downloads/sheets/t16.html")])}'''
 
 
-def standalone_sheet(title: str, inner: str) -> str:
+def sheet_sources(key: str) -> str:
+    rows = sources_render.sources_named(f"sheet-{key}.json")
+    if not rows:
+        return ""
+    return sources_render.section_html(rows)
+
+
+def standalone_sheet(title: str, inner: str, sources: str = "") -> str:
     return f'''<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><title>{esc(title)}</title>
 <link rel="stylesheet" href="../../assets/css/footer.css">
-<style>body{{margin:24px auto;max-width:880px;font:17px/1.5 system-ui,sans-serif;color:#0f172a;background:#f8fafc}} h1{{font-size:1.8rem}} a{{color:#0b3a8f;font-weight:800}} .disclaimer-panel a{{color:#0b3a8f}}</style>
+<style>body{{margin:24px auto;max-width:880px;font:17px/1.5 system-ui,sans-serif;color:#0f172a;background:#f8fafc}} h1{{font-size:1.8rem}} a{{color:#0b3a8f;font-weight:800}} .disclaimer-panel a{{color:#0b3a8f}} .sources-deeper a{{color:#0b3a8f}}</style>
 </head><body><h1>{esc(title)}</h1>{inner}
+{sources}
 <footer class="site-footer standalone-footer" data-canon-footer>
 <aside class="disclaimer-panel"><div><h2>A note from the student behind this lab</h2>
 <p>This is an independent, free, learning-only student project. It respects every company and vendor. Trademarks belong to their owners. It is not affiliated or endorsed. Concerns go to <a href="{CONTACT}">{CONTACT}</a> and will be removed or corrected. Nothing is sold. Happy to volunteer for any organization.</p></div></aside>
@@ -710,12 +748,22 @@ def standalone_sheet(title: str, inner: str) -> str:
 </footer></body></html>'''
 
 
-def write_docx(path: Path, title: str, steps: list[str]) -> None:
+def write_docx(path: Path, title: str, steps: list[str], sources: list | None = None) -> None:
     paras = "".join(f"<w:p><w:r><w:t>{esc(step)}</w:t></w:r></w:p>" for step in steps)
+    source_xml = ""
+    if sources:
+        source_xml = "<w:p><w:r><w:t>Sources and go deeper</w:t></w:r></w:p>"
+        for source in sources:
+            status = "confirm" if source.get("status") != "ok" else (source.get("kind") or "docs")
+            line = f'{source.get("title")} — {status} — {source.get("url")} — last checked {sources_render.CHECKED}'
+            if source.get("status") != "ok":
+                line += ". Did not open when checked."
+            source_xml += f"<w:p><w:r><w:t>{esc(line)}</w:t></w:r></w:p>"
     document = f'''<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <w:document xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:body>
 <w:p><w:r><w:t>{esc(title)}</w:t></w:r></w:p>{paras}
 <w:p><w:r><w:t>Independent free learning-only student project. Not affiliated. Contact {CONTACT}. Nothing sold. CypherMonkey Labs. © 2026 CypherMonkeyLabs.</w:t></w:r></w:p>
+{source_xml}
 </w:body></w:document>'''
     content_types = '''<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <Types xmlns="http://schemas.openxmlformats.org/package/2006/content-types"><Default Extension="rels" ContentType="application/vnd.openxmlformats-package.relationships+xml"/><Default Extension="xml" ContentType="application/xml"/><Override PartName="/word/document.xml" ContentType="application/vnd.openxmlformats-officedocument.wordprocessingml.document.main+xml"/></Types>'''

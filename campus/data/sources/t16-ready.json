@@ -1,0 +1,40 @@
+{
+  "room": "T16-R06-how-to-use-the-readiness-map.html",
+  "lesson": "t16-ready",
+  "title": "How to use the readiness map",
+  "checked": "2026-10",
+  "sources": [
+    {
+      "title": "Study guide MS-700",
+      "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/ms-700",
+      "kind": "learn",
+      "lastChecked": "2026-10",
+      "status": "ok",
+      "note": ""
+    },
+    {
+      "title": "Study guide AB-250",
+      "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/ab-250",
+      "kind": "learn",
+      "lastChecked": "2026-10",
+      "status": "ok",
+      "note": ""
+    },
+    {
+      "title": "Microsoft 365",
+      "url": "https://en.wikipedia.org/wiki/Microsoft_365",
+      "kind": "wikipedia",
+      "lastChecked": "2026-10",
+      "status": "ok",
+      "note": "Wikipedia fallback for background. Confirm the vendor page before you change a tenant."
+    },
+    {
+      "title": "Microsoft Teams blog index",
+      "url": "https://techcommunity.microsoft.com/category/microsoftteams/blog/microsoftteamsblog",
+      "kind": "community",
+      "lastChecked": "2026-10",
+      "status": "ok",
+      "note": "Community index for the Microsoft Teams blog. This is the index, not a claim that a post discusses this room."
+    }
+  ]
+}

@@ -148,6 +148,19 @@ html[data-motion="reduce"] .track-tile:hover,
 html[data-motion="reduce"] .card:hover { transform: none; }
 
 .site-foot { margin-bottom: 120px; }
+.sources-deeper {
+  margin: 18px 0;
+  padding: 14px 16px;
+  border: 2px solid #0f766e;
+  border-radius: 16px;
+  background: #ecfdf5;
+  color: #052e2b;
+}
+.sources-deeper h2,
+.sources-deeper li,
+.sources-deeper p { color: #052e2b; }
+.sources-deeper a { color: #0b3a8f; font-weight: 800; }
+.sources-deeper .is-confirm { border-left: 4px solid #b45309; padding-left: 8px; }
 @media (max-width: 800px) {
   .guide {
     right: 8px;

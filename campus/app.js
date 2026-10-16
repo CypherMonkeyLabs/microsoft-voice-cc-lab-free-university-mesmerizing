@@ -2179,15 +2179,37 @@ function depsHtml(track) {
   );
 }
 
-function sourceList(sources) {
-  if (!sources || !sources.length) return "";
-  return (
-    "<ul>" +
-    sources.map((source) => {
-      return "<li><a href=\"" + esc(source.url) + "\">" + esc(source.title) + "</a> <span class=\"tiny\">accessed " + esc(source.accessed) + "</span></li>";
-    }).join("") +
-    "</ul>"
-  );
+function sourceKindLabel(kind) {
+  if (kind === "learn") return "Microsoft Learn";
+  if (kind === "rfc") return "RFC";
+  if (kind === "community") return "Community";
+  if (kind === "wikipedia") return "Wikipedia";
+  if (kind === "vendor") return "Vendor";
+  if (kind === "docs") return "Docs";
+  return "Docs";
+}
+
+function sourceItems(sources) {
+  if (!sources || !sources.length) {
+    return "<li class=\"is-confirm\"><strong>No stored URL</strong> — confirm — last checked 2026-10.</li>";
+  }
+  return sources.map(function (source) {
+    var checked = source.lastChecked || (source.accessed ? String(source.accessed).slice(0, 7) : "2026-10");
+    var kind = sourceKindLabel(source.kind || "learn");
+    var title = esc(source.title || source.url);
+    var url = esc(source.url || "");
+    var note = source.note ? " " + esc(source.note) : "";
+    if (source.status === "confirm") {
+      return "<li class=\"is-confirm\"><strong>" + title + "</strong> — confirm — last checked " + esc(checked) + ". <a href=\"" + url + "\">" + url + "</a> did not open when checked." + note + "</li>";
+    }
+    return "<li><a href=\"" + url + "\">" + title + "</a> — " + kind + " — last checked " + esc(checked) + "." + note + "</li>";
+  }).join("");
+}
+
+function sourceList(sources, lessonId) {
+  var deeper = window.MVCC_SOURCES && lessonId && window.MVCC_SOURCES[lessonId];
+  var rows = deeper && deeper.sources && deeper.sources.length ? deeper.sources : sources;
+  return "<section class=\"sources-deeper\" id=\"sources\"><h2>Sources and go deeper</h2><ul>" + sourceItems(rows) + "</ul></section>";
 }
 
 function monkeyLooks() {
@@ -2611,12 +2633,12 @@ function renderLesson(id) {
     "</div>" +
     audioFor(lesson.track) +
     sectionDl(lesson.track) +
-    "<h2>Sources</h2>" + sourceList(lesson.sources) +
     '<div class="row">' +
     '<button class="primary" id="mark" type="button">' + (on ? "Completed in this browser" : "Mark complete") + "</button>" +
     (prev ? '<a class="ghost" href="#/lesson/' + prev.id + '">Previous</a>' : "") +
     (next ? '<a class="ghost" href="#/lesson/' + next.id + '">Next</a>' : "") +
-    "</div>"
+    "</div>" +
+    sourceList(lesson.sources, lesson.id)
   );
 }
 
@@ -3634,8 +3656,24 @@ function renderExamPage() {
 }
 
 function renderSources() {
-  return '<p class="kicker">Citations</p><h1>Sources</h1><p>Accessed 14 October 2026 unless a row says otherwise. Certification pages move. Read them again before you book.</p>' +
-    "<ul>" + DATA.sources.map((source) => "<li><a href=\"" + esc(source.url) + "\">" + esc(source.title) + "</a> — " + esc(source.used) + "</li>").join("") + "</ul>";
+  var bag = [];
+  var seen = {};
+  if (window.MVCC_SOURCES) {
+    Object.keys(window.MVCC_SOURCES).forEach(function (id) {
+      (window.MVCC_SOURCES[id].sources || []).forEach(function (source) {
+        if (!source.url || seen[source.url]) return;
+        seen[source.url] = true;
+        bag.push(source);
+      });
+    });
+  }
+  if (!bag.length) {
+    bag = (DATA.sources || []).map(function (source) {
+      return { title: source.title, url: source.url, kind: "learn", status: "ok", lastChecked: "2026-10", note: source.used || "" };
+    });
+  }
+  return '<p class="kicker">Citations</p><h1>Sources and go deeper</h1><p>Last checked 2026-10. A row marked confirm did not open.</p>' +
+    '<section class="sources-deeper" id="sources"><ul>' + sourceItems(bag) + "</ul></section>";
 }
 
 function missing() {

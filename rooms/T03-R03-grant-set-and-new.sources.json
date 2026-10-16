@@ -1,0 +1,40 @@
+{
+  "room": "T03-R03-grant-set-and-new.html",
+  "lesson": "t03-grant",
+  "title": "Grant, set, and new",
+  "checked": "2026-10",
+  "sources": [
+    {
+      "title": "Manage voice routing policies",
+      "url": "https://learn.microsoft.com/en-us/microsoftteams/manage-voice-routing-policies",
+      "kind": "learn",
+      "lastChecked": "2026-10",
+      "status": "ok",
+      "note": ""
+    },
+    {
+      "title": "New-CsTeamsComplianceRecordingPolicy",
+      "url": "https://learn.microsoft.com/en-us/powershell/module/teams/new-csteamscompliancerecordingpolicy?view=teams-ps",
+      "kind": "learn",
+      "lastChecked": "2026-10",
+      "status": "ok",
+      "note": ""
+    },
+    {
+      "title": "PowerShell",
+      "url": "https://en.wikipedia.org/wiki/PowerShell",
+      "kind": "wikipedia",
+      "lastChecked": "2026-10",
+      "status": "ok",
+      "note": "Wikipedia fallback for background. Confirm the vendor page before you change a tenant."
+    },
+    {
+      "title": "Microsoft Teams blog index",
+      "url": "https://techcommunity.microsoft.com/category/microsoftteams/blog/microsoftteamsblog",
+      "kind": "community",
+      "lastChecked": "2026-10",
+      "status": "ok",
+      "note": "Community index for the Microsoft Teams blog. This is the index, not a claim that a post discusses this room."
+    }
+  ]
+}

@@ -177,6 +177,7 @@ def main() -> None:
         "./app.css",
         "./chrome.css",
         "./fx.js",
+        "./sources-deeper.js",
         "./app.js",
         "./studios/topology.js",
         "./studios/hero.js",
@@ -485,6 +486,7 @@ try {{
 </div>
 <noscript><p>This campus needs JavaScript. It does not load a CDN. Enable JavaScript in this browser and open the file again.</p></noscript>
 <script type="module" src="effects.js"></script>
+<script src="sources-deeper.js" defer></script>
 <script src="fx.js" defer></script>
 <script src="app.js" defer></script>
 <script src="guide.js" defer></script>

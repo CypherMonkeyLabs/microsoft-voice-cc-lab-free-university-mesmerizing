@@ -283,3 +283,17 @@ html[data-motion="reduce"] .nav-icon:hover { transform: none; }
   .hero-band .kicker { padding-right: 0; }
   .hero-band .stat-row { padding-right: 112px; }
 }
+
+.sources-deeper {
+  margin: 18px 0;
+  padding: 14px 16px;
+  border: 2px solid #0f766e;
+  border-radius: 16px;
+  background: #ecfdf5;
+  color: #052e2b;
+}
+.sources-deeper h2,
+.sources-deeper p,
+.sources-deeper li { color: #052e2b; padding-right: 0; }
+html[data-theme] .sources-deeper a { color: #0b3a8f; font-weight: 800; }
+.sources-deeper .is-confirm { border-left: 4px solid #b45309; padding-left: 8px; }
