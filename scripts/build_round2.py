@@ -10,6 +10,7 @@ import re
 import shutil
 import subprocess
 import sys
+import time
 import zipfile
 from pathlib import Path
 
@@ -627,8 +628,7 @@ def build():
     for track in tracks:
         stem = track["meta"]["id"]
         raster_jobs.append((OUT_DL / "sheets" / f"{stem}.html", OUT_DL / "sheets" / f"{stem}.pdf", "pdf"))
-        if stem in {"t17", "t18", "t19", "t20"}:
-            raster_jobs.append((OUT_DL / "sheets" / f"{stem}.html", OUT_DL / "sheets" / f"{stem}.png", "png"))
+        raster_jobs.append((OUT_DL / "sheets" / f"{stem}.html", OUT_DL / "sheets" / f"{stem}.png", "png"))
     for extra in ("ports-protocols", "bridges", "glossary"):
         raster_jobs.append((OUT_DL / "sheets" / f"{extra}.html", OUT_DL / "sheets" / f"{extra}.pdf", "pdf"))
     raster_jobs.append((OUT_DL / "flashcards.html", OUT_DL / "flashcards.pdf", "pdf"))
@@ -923,18 +923,47 @@ def run_chrome(jobs: list[tuple[Path, Path, str]]) -> None:
     def one(job):
         src, dest, kind = job
         dest.parent.mkdir(parents=True, exist_ok=True)
-        profile = f"/tmp/chrome-pdf-{dest.stem}-{os.getpid()}"
+        profile = f"/tmp/chrome-pdf-{dest.stem}-{kind}-{os.getpid()}"
         cmd = [CHROME, "--headless", "--disable-gpu", "--no-sandbox", "--hide-scrollbars", "--force-device-scale-factor=1", "--window-size=1100,1400", f"--user-data-dir={profile}"]
         if kind == "png":
             cmd.append(f"--screenshot={dest}")
         else:
             cmd += [f"--print-to-pdf={dest}", "--no-pdf-header-footer"]
         cmd.append(src.resolve().as_uri())
+        # Headless Chrome writes the screenshot and then keeps running.
+        # A PNG is done when the file is a stable image. PDFs still use the wait below.
+        if kind == "png" and dest.exists():
+            dest.unlink()
+        proc = subprocess.Popen(cmd, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+        deadline = time.time() + 50
+        last = -1
+        ready = False
         try:
-            subprocess.run(cmd, check=False, timeout=50, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
-        except subprocess.TimeoutExpired:
-            return dest.name + " timeout"
-        return dest.name if dest.exists() and dest.stat().st_size > 80 else dest.name + " empty"
+            while time.time() < deadline:
+                if proc.poll() is not None:
+                    break
+                if kind == "png" and dest.exists():
+                    size = dest.stat().st_size
+                    magic = dest.read_bytes()[:8]
+                    if size > 80 and size == last and magic.startswith(b"\x89PNG"):
+                        ready = True
+                        break
+                    last = size
+                time.sleep(0.4)
+        finally:
+            if proc.poll() is None:
+                proc.terminate()
+                try:
+                    proc.wait(timeout=3)
+                except subprocess.TimeoutExpired:
+                    proc.kill()
+        if kind == "png" and ready:
+            return dest.name
+        if dest.exists() and dest.stat().st_size > 80:
+            if kind == "png" and not dest.read_bytes()[:8].startswith(b"\x89PNG"):
+                return dest.name + " empty"
+            return dest.name if proc.returncode in (0, None) or kind != "png" else dest.name + " timeout"
+        return dest.name + " timeout"
 
     ok = 0
     with ThreadPoolExecutor(max_workers=1) as pool:
