@@ -2346,8 +2346,8 @@ function renderHome() {
   return (
     "<h1>Microsoft Voice &amp; Contact Center Lab</h1>" +
     '<section class="neon-hero" id="neon-hero">' +
-    '<canvas id="hero-gl" aria-label="Three.js call path. Teams, SIP proxy, SBC, carrier, Copilot, and Dynamics 365 orbit a neon globe."></canvas>' +
-    '<div class="hero-fallback" id="hero-fallback" hidden>' + heroFlow() + "</div>" +
+    '<canvas id="hero-gl" hidden width="1280" height="720" aria-label="Three.js call path. Teams, SIP proxy, SBC, carrier, Copilot, and Dynamics 365 orbit a neon globe."></canvas>' +
+    '<div class="hero-fallback" id="hero-fallback">' + heroFlow() + "</div>" +
     '<div class="hero-overlay">' +
     '<div class="hero-copy">' +
     '<div class="mascot-row" aria-label="Mascot variations">' + poses.map((pose, index) => monkeyMarkup(pose, index)).join("") + "</div>" +
@@ -2360,6 +2360,9 @@ function renderHome() {
     signalDeck("t01") +
     '<p class="kicker">Free offline campus · firewall prefixes checked 15 October 2026</p>' +
     '<p class="lede">A study bench for the engineer who has to explain a Teams call, a queue, a recorder, and a contact-center route without guessing. No account. No key. No network after this file is open.</p>' +
+    '<article class="panel" id="about-lucky"><h2>Who keeps this bench</h2>' +
+    '<p>Lucky is a lifelong student and an AI enthusiast. The path runs from systems, networking, voice, and contact center work into AI omni-channel agents. This campus is the study bench for that path.</p>' +
+    '<p class="tiny">© 2026 CypherMonkeyLabs 🐒</p></article>' +
     '<p class="callout">' + esc(DATA.examFact || "") + "</p>" +
     '<div class="hero-actions row">' +
     '<a class="primary" href="#/diagrams">Open the diagram atlas</a>' +
@@ -3998,7 +4001,9 @@ function renderTopology() {
 function paintNav(root, arg) {
   $$(".item", $("#nav")).forEach((link) => {
     const href = link.getAttribute("href") || "";
-    const on = href === "#/" + root || href === "#/" + root + "/" + arg || (root === "home" && href === "#/");
+    const route = link.getAttribute("data-route") || "";
+    let on = href === "#/" + root || href === "#/" + root + "/" + arg || (root === "home" && href === "#/");
+    if (route === "play" && ["play", "game", "sandbox", "daily", "explorer"].indexOf(root) !== -1) on = true;
     if (on) link.setAttribute("aria-current", "page");
     else link.removeAttribute("aria-current");
   });
@@ -4114,49 +4119,113 @@ function langOptions(id) {
   return '<select id="' + id + '" aria-label="Language">' + rows.map((row) => '<option value="' + row[0] + '"' + (row[0] === current ? " selected" : "") + ">" + esc(row[1]) + "</option>").join("") + "</select>";
 }
 
+function menuIcon(kind) {
+  const stroke = ' fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"';
+  const paths = {
+    home: '<path d="M4 11.5 12 4l8 7.5V20a1 1 0 0 1-1 1h-5v-6H10v6H5a1 1 0 0 1-1-1v-8.5Z"' + stroke + "></path>",
+    diagram: '<rect x="3.5" y="4" width="7" height="7" rx="1.4"' + stroke + '></rect><rect x="13.5" y="4" width="7" height="7" rx="1.4"' + stroke + '></rect><rect x="8.5" y="13.5" width="7" height="7" rx="1.4"' + stroke + "></rect>",
+    flow: '<path d="M4 7h9M4 12h16M4 17h8"' + stroke + '></path><path d="m11 5 3 2-3 2M18 10l3 2-3 2M10 15l3 2-3 2"' + stroke + "></path>",
+    chart: '<path d="M4 19V5M4 19h16"' + stroke + '></path><path d="M8 15v-4M12 15V8M16 15v-6"' + stroke + "></path>",
+    code: '<path d="m9 8-4 4 4 4M15 8l4 4-4 4"' + stroke + "></path>",
+    play: '<path d="M8 6.2v11.6L18 12 8 6.2Z"' + stroke + "></path>",
+    eco: '<circle cx="12" cy="12" r="2.4"' + stroke + '></circle><path d="M12 4v3M12 17v3M4 12h3M17 12h3M6.2 6.2l2.1 2.1M15.7 15.7l2.1 2.1M17.8 6.2l-2.1 2.1M8.3 15.7l-2.1 2.1"' + stroke + "></path>",
+    down: '<path d="M12 4v10M8 10l4 4 4-4M5 19h14"' + stroke + "></path>",
+    career: '<path d="M4 9h16v9H4z"' + stroke + '></path><path d="M9 9V7a3 3 0 0 1 6 0v2"' + stroke + "></path>",
+    region: '<circle cx="12" cy="12" r="8"' + stroke + '></circle><path d="M4 12h16M12 4c2 2.4 3 5 3 8s-1 5.6-3 8c-2-2.4-3-5-3-8s1-5.6 3-8Z"' + stroke + "></path>",
+    lab: '<path d="M9 3h6M10 3v6L5.8 18a2.6 2.6 0 0 0 2.4 4h7.6a2.6 2.6 0 0 0 2.4-4L14 9V3"' + stroke + "></path>",
+    ps: '<rect x="4" y="6" width="16" height="12" rx="2"' + stroke + '></rect><path d="M8 11h8M8 14h5"' + stroke + "></path>",
+    mesh: '<path d="M12 3 4 8v8l8 5 8-5V8l-8-5Z"' + stroke + '></path><path d="M12 13V3M12 13 4 8M12 13l8-5"' + stroke + "></path>",
+    quiz: '<path d="M8.5 9a3.5 3.5 0 1 1 5.6 2.8c-.8.6-1.1 1.1-1.1 2.2"' + stroke + '></path><path d="M12 17.5h.01"' + stroke + "></path>",
+    cards: '<rect x="6" y="4.5" width="12" height="15" rx="2"' + stroke + '></rect><path d="M9 9h6M9 12h6"' + stroke + "></path>",
+    scene: '<path d="M5 6h14v8H8l-3 3V6Z"' + stroke + "></path>",
+    book: '<path d="M5 5.5h6.2A2.8 2.8 0 0 1 14 8.3V19a2.8 2.8 0 0 0-2.8-2.8H5V5.5ZM19 5.5h-6.2A2.8 2.8 0 0 0 10 8.3V19a2.8 2.8 0 0 1 2.8-2.8H19V5.5Z"' + stroke + "></path>",
+    fault: '<path d="M12 4 3.5 19h17L12 4Z"' + stroke + '></path><path d="M12 10v4M12 16.2h.01"' + stroke + "></path>",
+    audio: '<path d="M5 10v4M9 7.5v9M13 5.5v13M17 8.5v7"' + stroke + "></path>",
+    boss: '<path d="M12 3.5 9.2 8H4.5l3.6 3.4L6.8 17 12 14.2 17.2 17l-1.3-5.6L19.5 8h-4.7L12 3.5Z"' + stroke + "></path>",
+    exam: '<rect x="6" y="3.5" width="12" height="17" rx="2"' + stroke + '></rect><path d="M9 8h6M9 12h6M9 16h3"' + stroke + "></path>",
+    tip: '<path d="M9 18h6M10 20.5h4"' + stroke + '></path><path d="M12 3.5a5.5 5.5 0 0 1 3 10.1c-.7.5-1 1.1-1 1.9h-4c0-.8-.3-1.4-1-1.9A5.5 5.5 0 0 1 12 3.5Z"' + stroke + "></path>",
+    desk: '<path d="M4 10h16M6 10v8M18 10v8M8 14h8"' + stroke + "></path>",
+    game: '<rect x="3.5" y="8" width="17" height="9" rx="3"' + stroke + '></rect><path d="M8 11.5v3M6.5 13h3M15.5 12h.01M17.5 14h.01"' + stroke + "></path>",
+    daily: '<rect x="4" y="5" width="16" height="15" rx="2"' + stroke + '></rect><path d="M8 3.5v4M16 3.5v4M4 9.5h16"' + stroke + "></path>",
+    sand: '<path d="M7 4h10l-1.6 6.2a3.6 3.6 0 0 1-6.8 0L7 4Z"' + stroke + '></path><path d="M8 20h8"' + stroke + "></path>",
+    gear: '<circle cx="12" cy="12" r="3"' + stroke + '></circle><path d="M12 3.5v2.2M12 18.3v2.2M3.5 12h2.2M18.3 12h2.2M6 6l1.6 1.6M16.4 16.4 18 18M18 6l-1.6 1.6M7.6 16.4 6 18"' + stroke + "></path>",
+    source: '<path d="M8 7H5v12h14V7h-3"' + stroke + '></path><path d="M9 7V4.5h6V7"' + stroke + "></path>",
+    github: '<path fill="currentColor" d="M12 3.2A8.8 8.8 0 0 0 8.7 20c.43.08.59-.19.59-.41 0-.2-.01-.87-.01-1.58-2.42.53-2.93-1.03-2.93-1.03-.39-1-.96-1.26-.96-1.26-.78-.54.06-.53.06-.53.86.06 1.32.89 1.32.89.77 1.32 2.02.94 2.51.72.08-.56.3-.94.55-1.16-1.93-.22-3.96-.97-3.96-4.3 0-.95.34-1.73.9-2.34-.09-.22-.39-1.1.08-2.3 0 0 .73-.23 2.4.89a8.3 8.3 0 0 1 4.36 0c1.67-1.12 2.4-.89 2.4-.89.47 1.2.17 2.08.08 2.3.56.61.9 1.39.9 2.34 0 3.34-2.03 4.08-3.97 4.3.31.27.59.8.59 1.62 0 1.17-.01 2.11-.01 2.4 0 .22.16.48.6.4A8.8 8.8 0 0 0 12 3.2Z"></path>',
+    globe: '<circle cx="12" cy="12" r="8"' + stroke + '></circle><path d="M4 12h16M12 4c2 2.4 3 5 3 8s-1 5.6-3 8c-2-2.4-3-5-3-8s1-5.6 3-8Z"' + stroke + "></path>",
+    x: '<path fill="currentColor" d="M13.4 10.7 19.7 4h-1.5l-5.5 6.1L8.2 4H4.2l6.6 9.6L4.2 20h1.5l5.8-6.4 4.6 6.4h4l-6.7-9.3Zm-2 2.3-.7-1L6 5.1h1.8l4.3 6.1.7 1 5.6 8H16.6l-5.2-7.2Z"></path>',
+    hf: '<circle cx="12" cy="12" r="8"' + stroke + '></circle><circle cx="9" cy="10.5" r="1" fill="currentColor"></circle><circle cx="15" cy="10.5" r="1" fill="currentColor"></circle><path d="M8.6 14.2c1 1.5 5.8 1.5 6.8 0"' + stroke + "></path>"
+  };
+  return '<svg class="mi" viewBox="0 0 24 24" aria-hidden="true">' + (paths[kind] || paths.home) + "</svg>";
+}
+
+function menuCard(item) {
+  const route = item.route ? ' data-route="' + item.route + '"' : "";
+  const i18n = item.i18n ? ' data-i18n="' + item.i18n + '"' : "";
+  const external = item.href.indexOf("http") === 0 ? ' target="_blank" rel="noopener noreferrer"' : "";
+  const search = (item.label + " " + item.desc).toLowerCase();
+  return '<a class="item" href="' + item.href + '"' + route + external + ' data-search="' + esc(search) + '">' +
+    menuIcon(item.icon) +
+    '<span class="mi-label"' + i18n + ">" + esc(item.label) + "</span>" +
+    '<span class="mi-desc">' + esc(item.desc) + "</span></a>";
+}
+
 function navHtml() {
-  const tracks = DATA.tracks.map((track) => '<a class="item" href="#/track/' + track.id + '"><span class="idx">' + esc(track.num) + '</span><span>' + esc(track.title) + "</span></a>").join("");
   const themes = THEMES.map((theme) => '<button type="button" class="swatch" data-home-theme="' + theme.id + '" aria-pressed="' + (activeTheme() === theme.id ? "true" : "false") + '">' + esc(theme.label) + "</button>").join("");
-  const sheet = '<div class="sheet-bar"><p class="kicker">Menu</p><button type="button" class="ghost" id="nav-close" data-i18n="close">Close</button></div>' +
-    '<div class="sheet-prefs"><label class="field">Language ' + langOptions("lang-menu") + "</label>" +
-    '<p class="kicker">Theme</p><div class="choice-row menu-themes">' + themes + "</div>" +
-    '<button type="button" class="item" id="nav-search">Search</button></div>';
   const views = [
-    ["#/", "Home"],
-    ["#/diagrams", "Diagrams"],
-    ["#/flows", "Flows"],
-    ["#/charts", "Charts"],
-    ["#/downloads", "Cheat Codes"],
-    ["#/play", "Play"],
-    ["#/map", "Ecosystem"],
-    ["#/downloads", "Downloads"],
-    ["#/career", "Careers"],
-    ["#/regions", "Regions"],
-    ["#/labs", "Labs"],
-    ["#/powershell", "PowerShell"],
-    ["#/topology", "SBC mesh"],
-    ["#/quiz", "Quiz"],
-    ["#/cards", "Flashcards"],
-    ["#/scenarios", "Scenarios"],
-    ["#/glossary", "Glossary"],
-    ["#/map", "Mind map"],
-    ["#/charts", "Charts"],
-    ["#/faults", "Fault catalog"],
-    ["#/audio", "Audio"],
-    ["#/boss", "Boss exams"],
-    ["#/exam", "Exam map"],
-    ["#/tips", "Tips and traps"],
-    ["#/field", "Field desk"],
-    ["#/game", "Ports game"],
-    ["#/daily", "Daily challenge"],
-    ["#/sandbox", "Call-flow sandbox"],
-    ["#/settings", "Settings"],
-    ["#/sources", "Sources"],
+    { href: "#/", route: "home", icon: "home", label: "Home", desc: "Call path, live counters, and the seventeen tracks." },
+    { href: "#/diagrams", route: "diagrams", icon: "diagram", label: "Diagrams", desc: "Atlas figures, including the troubleshooting tree.", i18n: "diagrams" },
+    { href: "#/flows", route: "flows", icon: "flow", label: "Flows", desc: "Animated call paths you can pause and step.", i18n: "flows" },
+    { href: "#/charts", route: "charts", icon: "chart", label: "Charts", desc: "Licensing, CQD, Erlang C, and the timelines.", i18n: "charts" },
+    { href: "#/downloads", route: "downloads", icon: "code", label: "Cheat Codes", desc: "Printable sheets, flashcards, and the offline zip.", i18n: "codes" },
+    { href: "#/play", route: "play", icon: "play", label: "Play", desc: "Ports game, call-flow sandbox, and the daily drill.", i18n: "play" },
+    { href: "#/map", route: "map", icon: "eco", label: "Ecosystem", desc: "Mind map of the systems around the call.", i18n: "eco" },
+    { href: "#/downloads", route: "downloads", icon: "down", label: "Downloads", desc: "HTML, PDF, and PNG sheets for the desk.", i18n: "downloads" },
+    { href: "#/career", route: "career", icon: "career", label: "Careers", desc: "Field-desk paths next to the work in the tracks.", i18n: "careers" },
+    { href: "#/regions", route: "regions", icon: "region", label: "Regions", desc: "Commercial, GCC High, and DoD are different lists." },
+    { href: "#/labs", route: "labs", icon: "lab", label: "Labs", desc: "Browser labs. No key and no live tenant." },
+    { href: "#/powershell", route: "powershell", icon: "ps", label: "PowerShell", desc: "A simulated tenant. It does not sign in." },
+    { href: "#/topology", route: "topology", icon: "mesh", label: "SBC mesh", desc: "London and Manchester, three proxies, one SBA." },
+    { href: "#/quiz", route: "quiz", icon: "quiz", label: "Quiz", desc: "Questions with an explanation and a source." },
+    { href: "#/cards", route: "cards", icon: "cards", label: "Flashcards", desc: "Flip a card. Progress stays in this browser." },
+    { href: "#/scenarios", route: "scenarios", icon: "scene", label: "Scenarios", desc: "A fault, a choice, and a debrief." },
+    { href: "#/glossary", route: "glossary", icon: "book", label: "Glossary", desc: "Term, config note, fault, and source." },
+    { href: "#/faults", route: "faults", icon: "fault", label: "Fault catalog", desc: "Symptom, cause, fix, and the check." },
+    { href: "#/audio", route: "audio", icon: "audio", label: "Audio", desc: "Tones that already live in this browser." },
+    { href: "#/boss", route: "boss", icon: "boss", label: "Boss exams", desc: "An incident log, then the question bank." },
+    { href: "#/exam", route: "exam", icon: "exam", label: "Exam map", desc: "What is live, retired, or in beta. Check the seat." },
+    { href: "#/tips", route: "tips", icon: "tip", label: "Tips and traps", desc: "Pro tips, interview traps, and a cheat sheet." },
+    { href: "#/field", route: "field", icon: "desk", label: "Field desk", desc: "Migration, ports, careers, and the gap map." },
+    { href: "#/game", route: "game", icon: "game", label: "Ports game", desc: "Match the port to the job it does." },
+    { href: "#/daily", route: "daily", icon: "daily", label: "Daily challenge", desc: "One question for this browser's day." },
+    { href: "#/sandbox", route: "sandbox", icon: "sand", label: "Call-flow sandbox", desc: "Stack the hops and play the path." },
+    { href: "#/settings", route: "settings", icon: "gear", label: "Settings", desc: "Theme, motion, type size, and narration.", i18n: "settings" },
+    { href: "#/sources", route: "sources", icon: "source", label: "Sources", desc: "The vendor pages this campus cites." }
   ];
-  return sheet + '<h2>Campus</h2>' + views.map((view) => {
-    const i18n = view[0] === "#/settings" ? ' data-i18n="settings"' : "";
-    return '<a class="item" href="' + view[0] + '"' + i18n + ">" + esc(view[1]) + "</a>";
-  }).join("") + "<h2>Tracks</h2>" + tracks;
+  const brands = [
+    { href: "https://github.com/cipher0x9", icon: "github", label: "Visit my GitHub", desc: "github.com/cipher0x9" },
+    { href: "https://github.com/CypherMonkeyLabs", icon: "github", label: "Visit the Labs org", desc: "github.com/CypherMonkeyLabs" },
+    { href: "https://cyphermonkeylabs.com", icon: "globe", label: "Visit Cypher Monkey Labs", desc: "cyphermonkeylabs.com" },
+    { href: "https://x.com/Cypher0x9", icon: "x", label: "X", desc: "x.com/Cypher0x9" },
+    { href: "https://huggingface.co/Cypher0x9", icon: "hf", label: "Hugging Face", desc: "huggingface.co/Cypher0x9" }
+  ];
+  const trackCards = DATA.tracks.map((track) => {
+    const why = String(track.why || "").replace(/\s+/g, " ").trim();
+    const search = (track.num + " " + track.title + " " + why).toLowerCase();
+    return '<a class="item" href="#/track/' + track.id + '" data-route="track" data-search="' + esc(search) + '">' +
+      '<span class="idx">' + esc(track.num) + "</span>" +
+      '<span class="mi-label">' + esc(track.title) + "</span>" +
+      '<span class="mi-desc">' + esc(why) + "</span></a>";
+  }).join("");
+  const sheet = '<div class="sheet-bar"><p class="kicker">Menu</p><button type="button" class="ghost" id="nav-close" data-i18n="close">Close</button></div>' +
+    '<label class="menu-search"><span class="visually-hidden">Search the menu</span>' +
+    '<input id="menu-q" type="search" placeholder="Search the menu" autocomplete="off" enterkeyhint="search"></label>' +
+    '<p class="tiny" id="menu-empty" hidden>Nothing in the menu matches. Header search still covers lessons and terms.</p>' +
+    '<div class="sheet-prefs"><label class="field">Language ' + langOptions("lang-menu") + "</label>" +
+    '<p class="kicker">Theme</p><div class="choice-row menu-themes">' + themes + "</div></div>";
+  return sheet +
+    "<h2>Visit</h2>" + brands.map(menuCard).join("") +
+    "<h2>Campus</h2>" + views.map(menuCard).join("") +
+    "<h2>Tracks</h2>" + trackCards;
 }
 
 function openPalette() {
@@ -4496,18 +4565,33 @@ function paintIconFallback(root) {
   });
 }
 
+function whenQuiet(fn) {
+  const schedule = window.requestIdleCallback || function (cb) { return window.setTimeout(cb, 400); };
+  const start = function () { schedule(fn, { timeout: 1600 }); };
+  if (document.readyState === "complete") start();
+  else window.addEventListener("load", start, { once: true });
+}
+
 async function mountIcons() {
   const gen = renderGen;
   const root = $("#view");
   if (!root || !root.querySelector("canvas.track-gl")) return;
-  try {
-    const mod = await import("./studios/icons.js");
-    if (gen !== renderGen) return;
-    disposeIcons();
-    iconHandle = mod.mount($("#view"));
-  } catch (err) {
-    if (gen === renderGen) paintIconFallback($("#view"));
+  const phone = window.matchMedia("(max-width: 800px)").matches;
+  if (phone || motionMode() === "reduce") {
+    paintIconFallback(root);
+    return;
   }
+  whenQuiet(async function () {
+    if (gen !== renderGen) return;
+    try {
+      const mod = await import("./studios/icons.js");
+      if (gen !== renderGen) return;
+      disposeIcons();
+      iconHandle = mod.mount($("#view"));
+    } catch (err) {
+      if (gen === renderGen) paintIconFallback($("#view"));
+    }
+  });
 }
 
 async function mountHero() {
@@ -4515,17 +4599,26 @@ async function mountHero() {
   const fallback = document.getElementById("hero-fallback");
   if (!canvas) return;
   const gen = renderGen;
-  try {
-    const mod = await import("./studios/hero.js");
-    if (gen !== renderGen) return;
-    disposeHero();
-    heroHandle = mod.mount(canvas, activeTheme());
-    canvas.hidden = false;
-    if (fallback) fallback.hidden = true;
-  } catch (err) {
+  const phone = window.matchMedia("(max-width: 800px)").matches;
+  if (phone || motionMode() === "reduce") {
     canvas.hidden = true;
     if (fallback) fallback.hidden = false;
+    return;
   }
+  whenQuiet(async function () {
+    if (gen !== renderGen) return;
+    try {
+      const mod = await import("./studios/hero.js");
+      if (gen !== renderGen) return;
+      disposeHero();
+      heroHandle = mod.mount(canvas, activeTheme());
+      canvas.hidden = false;
+      if (fallback) fallback.hidden = true;
+    } catch (err) {
+      canvas.hidden = true;
+      if (fallback) fallback.hidden = false;
+    }
+  });
 }
 
 async function openMesh(canvasId, fallbackId, prefix) {
@@ -4590,7 +4683,7 @@ function showMenu() {
   const bottom = $("#bottom-menu");
   if (bottom) bottom.setAttribute("aria-current", "page");
   const close = $("#nav-close");
-  if (close) close.focus();
+  if (close) close.focus({ preventScroll: true });
 }
 
 function openMenu() {
@@ -4640,6 +4733,21 @@ function bindMenuChrome() {
       hideMenu();
       openPalette();
     };
+  }
+  const menuQ = $("#menu-q");
+  if (menuQ && menuQ.dataset.bound !== "1") {
+    menuQ.dataset.bound = "1";
+    menuQ.addEventListener("input", function () {
+      const q = menuQ.value.trim().toLowerCase();
+      $$("#nav a.item").forEach((el) => {
+        const blob = (el.getAttribute("data-search") || el.textContent || "").toLowerCase();
+        el.hidden = Boolean(q) && blob.indexOf(q) === -1;
+      });
+      const empty = $("#menu-empty");
+      if (!empty) return;
+      const visible = $$("#nav a.item").some((el) => !el.hidden);
+      empty.hidden = !q || visible;
+    });
   }
   const nav = $("#nav");
   if (nav && nav.dataset.navBound !== "1") {
@@ -4813,6 +4921,12 @@ async function boot() {
     if (button) button.setAttribute("aria-expanded", "false");
   });
   window.addEventListener("resize", placeThemePop);
+  const motionQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
+  const onMotion = function () {
+    if (state.reduceMotion === "reduce" || state.reduceMotion === "full") return;
+    document.documentElement.dataset.motion = motionQuery.matches ? "reduce" : "full";
+  };
+  if (motionQuery.addEventListener) motionQuery.addEventListener("change", onMotion);
   cycleMascot();
   armKonami();
   paintChrome();

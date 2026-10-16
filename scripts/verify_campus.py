@@ -104,18 +104,26 @@ def main() -> None:
         if theme_name not in css:
             fail(f"missing theme {theme_name}")
     for needle in (
+        "https://github.com/cipher0x9",
+        "https://github.com/CypherMonkeyLabs",
         "https://cyphermonkeylabs.com",
-        "https://linktr.ee/cyphermonkey",
-        "https://dev.to/cyphermonkey",
         "https://huggingface.co/Cypher0x9",
         "https://x.com/Cypher0x9",
+        "Visit my GitHub",
+        "Visit the Labs org",
+        "Visit Cypher Monkey Labs",
+        "favicon.svg",
+        "favicon.ico",
+        "Guide Bot",
+        "© 2026 CypherMonkeyLabs",
         "downloads/microsoft-voice-contact-center-lab.zip",
         "Report a concern",
         "Work with us",
     ):
         if needle not in html:
             fail(f"chrome missing {needle}")
-    if "linkedin" in html.lower() or "mailto:" in html.lower():
+    lowered_shell = html.lower()
+    if "linktr.ee" in lowered_shell or "linkedin" in lowered_shell or "mailto:" in lowered_shell:
         fail("shell contains a banned contact")
     sheet = CAMPUS / "downloads" / "ports-protocols.html"
     if not sheet.exists():
@@ -354,12 +362,13 @@ def main() -> None:
     for sheet in (CAMPUS / "downloads").glob("*.html"):
         body = sheet.read_text(encoding="utf-8", errors="ignore")
         lowered_sheet = body.lower()
-        if "linkedin" in lowered_sheet or "mailto:" in lowered_sheet:
+        if "linktr.ee" in lowered_sheet or "linkedin" in lowered_sheet or "mailto:" in lowered_sheet:
             fail(f"sheet contact {sheet.name}")
         if all(bit in body for bit in (
             "https://cyphermonkeylabs.com",
-            "https://linktr.ee/cyphermonkey",
+            "https://github.com/cipher0x9/microsoft-voice-cc-lab-free-university-mesmerizing",
             "https://github.com/CypherMonkeyLabs/microsoft-voice-cc-lab-free-university-mesmerizing",
+            "favicon.svg",
             "MIT code, CC BY-NC-SA content",
         )):
             sheets.append(sheet.name)
@@ -368,6 +377,22 @@ def main() -> None:
     ports_sheet = (CAMPUS / "downloads" / "ports-protocols.html").read_text(encoding="utf-8")
     if "52.122.0.0/15" not in ports_sheet or "52.120.0.0/14" not in ports_sheet:
         fail("ports sheet firewall lists")
+    pdf_path = CAMPUS / "downloads" / "ports-protocols.pdf"
+    if not pdf_path.exists():
+        fail("ports pdf missing")
+    pdf_bytes = pdf_path.read_bytes()
+    if b"github.com/cipher0x9/microsoft-voice-cc-lab-free-university-mesmerizing" not in pdf_bytes:
+        fail("pdf missing original cipher0x9 repo link")
+    if b"linktr.ee" in pdf_bytes.lower():
+        fail("pdf still links linktree")
+    if not (CAMPUS / "favicon.svg").exists() or not (CAMPUS / "favicon.ico").exists():
+        fail("favicon missing")
+    hero_src = (CAMPUS / "studios" / "hero.js").read_text(encoding="utf-8")
+    pixel_src = (CAMPUS / "studios" / "pixel.js").read_text(encoding="utf-8")
+    if "cappedPixelRatio" not in hero_src or "max-width: 800px" not in pixel_src:
+        fail("mobile pixel ratio cap missing")
+    if "prefers-reduced-motion" not in css:
+        fail("reduced motion css missing")
     if "52.122.0.0/15" not in js or "52.120.0.0/14" not in js:
         fail("app firewall lists")
     for vendor_name in ("anime.esm.min.js", "rough.esm.js", "d3.min.js", "confetti.browser.js", "three.module.min.js"):

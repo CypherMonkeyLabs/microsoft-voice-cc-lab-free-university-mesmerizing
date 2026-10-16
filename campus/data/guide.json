@@ -1,0 +1,271 @@
+{
+  "checked": "2026-10-16",
+  "fallback": "I only answer from pages in this campus. I do not have a grounded note for that, so I will not guess.",
+  "identity": "Lucky is a lifelong student and an AI enthusiast. The path runs from systems, networking, voice, and contact center work into AI omni-channel agents.",
+  "copyright": "© 2026 CypherMonkeyLabs 🐒",
+  "synonyms": {
+    "sbc": ["gateway", "border", "audiocodes", "ribbon", "oracle"],
+    "pstn": ["carrier", "trunk", "calling plan"],
+    "e911": ["emergency", "lis", "civic", "dispatchable"],
+    "tls": ["certificate", "5061", "sip"],
+    "qos": ["dscp", "marking"],
+    "exam": ["certification", "ms-700", "mb-280", "ab-210", "ab-250", "az-900", "sc-900"],
+    "diagram": ["figure", "atlas", "blueprint"],
+    "flow": ["ladder", "animation", "call path"],
+    "chart": ["graph", "cqd", "erlang"],
+    "cheat": ["sheet", "download", "printable", "pdf"],
+    "ecosystem": ["mind map", "recording", "wfm", "crm"],
+    "agent": ["copilot", "omni", "omnichannel", "bot"],
+    "license": ["licensing", "sku"]
+  },
+  "entries": [
+    {
+      "id": "about",
+      "title": "This campus",
+      "href": "#/",
+      "keywords": ["what is this", "about", "campus", "voice lab", "who", "lucky", "student", "identity"],
+      "answer": "This is a free offline campus for Teams Phone, Direct Routing, Dynamics 365 Contact Center, and the systems around the call. No account and no API key. Lucky is a lifelong student and an AI enthusiast. The path runs from systems, networking, voice, and contact center work into AI omni-channel agents.",
+      "source": "Home page of this campus"
+    },
+    {
+      "id": "copyright",
+      "title": "Copyright",
+      "href": "#/",
+      "keywords": ["copyright", "license", "mit", "cyphermonkeylabs"],
+      "answer": "The footer reads © 2026 CypherMonkeyLabs 🐒. Code is MIT. Curriculum text, diagrams, and sheets are CC BY-NC-SA. This is not a Microsoft, Cisco, AudioCodes, Ribbon, Oracle, Genesys, or Amazon publication.",
+      "source": "Footer and LICENSE in this repository"
+    },
+    {
+      "id": "offline",
+      "title": "Offline",
+      "href": "#/downloads",
+      "keywords": ["offline", "service worker", "zip", "no cdn", "download"],
+      "answer": "After the first visit, a service worker keeps the campus available with the network off. The Downloads page also links an offline zip. Nothing here asks for a name.",
+      "source": "Downloads page and the campus service worker"
+    },
+    {
+      "id": "diagrams",
+      "title": "Diagrams",
+      "href": "#/diagrams",
+      "keywords": ["diagram", "atlas", "figure", "blueprint", "troubleshooting tree"],
+      "answer": "Diagrams opens the atlas of figures for this campus, including the troubleshooting tree. Each figure stays on the page that teaches it.",
+      "source": "Diagrams page"
+    },
+    {
+      "id": "flows",
+      "title": "Flows",
+      "href": "#/flows",
+      "keywords": ["flow", "animated", "ladder", "filmstrip", "packet"],
+      "answer": "Flows is the filmstrip of animated call paths from the atlas. Lesson pages also step their own flow with play, pause, and step.",
+      "source": "Flows page"
+    },
+    {
+      "id": "charts",
+      "title": "Charts",
+      "href": "#/charts",
+      "keywords": ["chart", "cqd", "erlang", "timeline", "licensing chart"],
+      "answer": "Charts collects the campus graphs, including licensing, Call Quality Dashboard cases, Erlang C as a teaching model, and the certification and feature timelines. A chart on a track is labeled with its note.",
+      "source": "Charts page"
+    },
+    {
+      "id": "cheats",
+      "title": "Cheat Codes",
+      "href": "#/downloads",
+      "keywords": ["cheat", "cheat code", "cheat sheet", "printable", "pdf", "png", "sheet"],
+      "answer": "Cheat Codes opens Downloads. That page lists one-page HTML, PDF, and PNG sheets, the flashcard deck, and the offline zip. Each track also has a cheat sheet under Tips and traps.",
+      "source": "Downloads page"
+    },
+    {
+      "id": "play",
+      "title": "Play",
+      "href": "#/play",
+      "keywords": ["play", "game", "ports game", "sandbox", "daily", "challenge"],
+      "answer": "Play holds the ports game, the call-flow sandbox, and the daily challenge. Scores stay in this browser.",
+      "source": "Play page"
+    },
+    {
+      "id": "ecosystem",
+      "title": "Ecosystem",
+      "href": "#/map",
+      "keywords": ["ecosystem", "mind map", "recording", "wfm", "workforce", "crm", "screen pop", "copilot studio"],
+      "answer": "Ecosystem is track 17 and the mind map: the systems around the call, including Entra ID, Teams Phone, the SBC, the carrier, recording, workforce management, emergency location, Dynamics, ACS, Copilot Studio, CQD, Power BI, and CRM. It is not another Teams policy page.",
+      "source": "Ecosystem mind map"
+    },
+    {
+      "id": "careers",
+      "title": "Careers",
+      "href": "#/career",
+      "keywords": ["career", "job", "role", "interview"],
+      "answer": "Careers is the field-desk page for paths around this work. Interview traps for a track sit under Tips and traps on that track.",
+      "source": "Careers page"
+    },
+    {
+      "id": "prefixes",
+      "title": "Direct Routing prefixes",
+      "href": "#/ports",
+      "keywords": ["52.112", "52.120", "52.122", "prefix", "firewall", "ip", "direct routing range"],
+      "answer": "Direct Routing SBC signaling and media use 52.112.0.0/14 and 52.120.0.0/14. Teams client optimize uses 52.112.0.0/14 and 52.122.0.0/15. Those lists are not the same. Firewall prefixes were re-checked 15 October 2026 against Plan Direct Routing and the Office 365 URLs and IP address ranges article.",
+      "source": "https://learn.microsoft.com/en-us/microsoftteams/direct-routing-plan"
+    },
+    {
+      "id": "signaling",
+      "title": "Signaling port",
+      "href": "#/lesson/t05-dr",
+      "keywords": ["5061", "5060", "sip proxy", "invite", "options", "tls"],
+      "answer": "Direct Routing signaling to the commercial SIP proxies is TCP 5061 with TLS. OPTIONS that miss repeatedly pull the trunk out of the route. Media bypass does not move SIP off 5061.",
+      "source": "Ports and protocols sheet, Plan Direct Routing, accessed 14 October 2026"
+    },
+    {
+      "id": "media",
+      "title": "Media ports",
+      "href": "#/ports",
+      "keywords": ["3478", "49152", "udp", "media", "bypass", "srtp"],
+      "answer": "Media low is UDP 3478-3481. Media high is UDP 49152-53247, unless bypass is a path you designed. Browser joins do not use the fixed 50000 desktop ranges.",
+      "source": "Ports and protocols sheet in this campus"
+    },
+    {
+      "id": "qos",
+      "title": "QoS marking",
+      "href": "#/track/t04",
+      "keywords": ["qos", "dscp", "46", "ef", "audio marking"],
+      "answer": "When QoS is enabled, client audio is DSCP 46 (EF) on UDP/TCP 50000-50019. Video is DSCP 34. Sharing is DSCP 18. Client signaling is DSCP 40 and is not configurable. Source checked in this campus: QoS in Microsoft Teams.",
+      "source": "https://learn.microsoft.com/en-us/microsoftteams/qos-in-teams"
+    },
+    {
+      "id": "exams",
+      "title": "Exam status",
+      "href": "#/exam",
+      "keywords": ["ms-700", "mb-280", "ab-210", "ab-250", "az-900", "sc-900", "ms-900", "ai-900", "retired", "beta", "exam"],
+      "answer": "MS-700 is still live, with a skills update on Oct 27 2026; it is NOT retired and has no replacement. MB-280 retired Jul 31 2026, with AB-210 as its successor; AB-210 is in beta. AB-250 is the Dynamics 365 Contact Center exam; confirm the live seat. AZ-900 and SC-900 are live (SC-900 English update 21 October 2026). MS-900 and AI-900 are retired. Renewal is not retirement. AB-210 is not the contact-center exam and it is not a replacement for MS-700. Certification seats move. Read the exam page again before you book.",
+      "source": "Exam status board, checked 14 October 2026"
+    },
+    {
+      "id": "powershell",
+      "title": "PowerShell simulator",
+      "href": "#/powershell",
+      "keywords": ["powershell", "csOnline", "cmdlet", "tenant simulator"],
+      "answer": "Teams PowerShell on this campus changes a simulated tenant in the browser. It does not sign in to Microsoft 365. Confirm every parameter with Get-Help in the module you actually run.",
+      "source": "PowerShell page"
+    },
+    {
+      "id": "emergency-lab",
+      "title": "Emergency labs",
+      "href": "#/lab/e911-match",
+      "keywords": ["emergency test", "real call", "911", "999", "e911 lab"],
+      "answer": "Do not place a real emergency call to test a lab. Numbers in the labs are samples. Emergency calling on a real tenant has to resolve a dispatchable location before queue music.",
+      "source": "Labs introduction on this campus"
+    },
+    {
+      "id": "sources",
+      "title": "Sources",
+      "href": "#/sources",
+      "keywords": ["source", "citation", "learn.microsoft", "checked"],
+      "answer": "Sources lists the vendor pages this campus cites. Lesson text was checked 14 October 2026. Firewall prefixes were re-checked 15 October 2026. When a vendor page and this file disagree, the vendor page wins.",
+      "source": "Sources page"
+    },
+    {
+      "id": "glossary",
+      "title": "Glossary",
+      "href": "#/glossary",
+      "keywords": ["glossary", "term", "definition"],
+      "answer": "The glossary is a list of terms with a plain line, why it matters, a config note, the fault you see when it is wrong, and a source. Open a term there. I will not invent a definition that is not loaded.",
+      "source": "Glossary page"
+    },
+    {
+      "id": "labs",
+      "title": "Labs",
+      "href": "#/labs",
+      "keywords": ["lab", "try it", "simulator", "no key"],
+      "answer": "Labs run in the browser with no key. They include the Direct Routing call path, the voice-routing matcher, the dial-plan tester, and the others listed on the Labs page.",
+      "source": "Labs page"
+    },
+    {
+      "id": "regions",
+      "title": "Regions",
+      "href": "#/regions",
+      "keywords": ["region", "gcc", "dod", "proxy name"],
+      "answer": "GCC High and DoD use different proxy names and media prefixes from commercial Microsoft 365. Do not copy a commercial ACL. The Regions page and the ports sheet name the difference.",
+      "source": "Ports and protocols sheet"
+    },
+    {
+      "id": "vendor",
+      "title": "Not a vendor site",
+      "href": "#/sources",
+      "keywords": ["microsoft official", "affiliated", "endorsed", "trademark"],
+      "answer": "This is an independent educational project. It is not affiliated with or endorsed by any vendor. Trademarks belong to their owners.",
+      "source": "Footer"
+    }
+  ],
+  "tours": [
+    {
+      "id": "pictures",
+      "title": "Pictures tour",
+      "keywords": ["picture tour", "diagram tour", "show me diagrams"],
+      "steps": [
+        {"href": "#/diagrams", "say": "Diagrams is the atlas. Filter by topic. The troubleshooting tree is one of the figures."},
+        {"href": "#/flows", "say": "Flows plays the animated atlas paths. Pause and step live on the figure."},
+        {"href": "#/charts", "say": "Charts holds licensing, CQD, Erlang C as a teaching model, and the timelines."},
+        {"href": "#/downloads", "say": "Cheat Codes is the download desk: HTML, PDF, and PNG sheets."}
+      ]
+    },
+    {
+      "id": "hour",
+      "title": "One hour tour",
+      "keywords": ["one hour", "start here", "study order", "first tour"],
+      "steps": [
+        {"href": "#/", "say": "Home opens on the call path. The counters are the live totals for this build."},
+        {"href": "#/lesson/t01-tenant", "say": "Start with the tenant boundary. Identity and domain come before dial tone."},
+        {"href": "#/lesson/t05-dr", "say": "Direct Routing: TLS to the SIP proxies, then the SBC, then the carrier."},
+        {"href": "#/lab/dial-plan", "say": "The normalization tester shows the first matching rule. It does not change a tenant."},
+        {"href": "#/lesson/t17-map", "say": "The ecosystem mind map is the systems around the call."}
+      ]
+    },
+    {
+      "id": "eco",
+      "title": "Ecosystem tour",
+      "keywords": ["ecosystem tour", "around the call"],
+      "steps": [
+        {"href": "#/map", "say": "The mind map links Entra ID, Teams Phone, the SBC, the carrier, recording, WFM, emergency location, Dynamics, ACS, Copilot Studio, CQD, and CRM."},
+        {"href": "#/track/t17", "say": "Track 17 is the ecosystem track. Open a lesson for the config note and the fault."},
+        {"href": "#/career", "say": "Careers sits on the field desk next to that map."}
+      ]
+    }
+  ],
+  "quiz": [
+    {
+      "q": "Which pair is Direct Routing SBC signaling and media?",
+      "choices": ["52.112.0.0/14 and 52.120.0.0/14", "52.112.0.0/14 and 52.122.0.0/15", "10.0.0.0/8 only"],
+      "answer": 0,
+      "why": "Plan Direct Routing lists 52.112.0.0/14 and 52.120.0.0/14 for SBC signaling and media. 52.122.0.0/15 is the client optimize list, not the SBC pair.",
+      "source": "https://learn.microsoft.com/en-us/microsoftteams/direct-routing-plan"
+    },
+    {
+      "q": "What is the commercial Direct Routing signaling port?",
+      "choices": ["UDP 5060", "TCP 5061", "TCP 443 only"],
+      "answer": 1,
+      "why": "Signaling to sip, sip2, and sip3 is TCP 5061 with TLS. Media bypass does not move SIP off 5061.",
+      "source": "Ports and protocols sheet, checked 15 October 2026"
+    },
+    {
+      "q": "Which sentence matches the exam status board?",
+      "choices": ["MS-700 is retired and replaced by AB-210", "MS-700 is still live, with a skills update on Oct 27 2026, and has no replacement", "AB-210 is the contact-center exam"],
+      "answer": 1,
+      "why": "MS-700 is still live and has no replacement. AB-210 succeeds MB-280. AB-210 is not the contact-center exam and not a replacement for MS-700.",
+      "source": "Exam status board, checked 14 October 2026"
+    },
+    {
+      "q": "What does the PowerShell page in this campus do?",
+      "choices": ["It signs in to your Microsoft 365 tenant", "It changes a simulated tenant in this browser", "It places a live PSTN call"],
+      "answer": 1,
+      "why": "The cmdlets on that page run against a browser tenant. They do not sign in to Microsoft 365.",
+      "source": "PowerShell page"
+    },
+    {
+      "q": "How should you treat a lab that shows an emergency number?",
+      "choices": ["Place a real emergency call to test it", "Treat the numbers as samples and do not place a real emergency call", "Point every site at the HQ civic address"],
+      "answer": 1,
+      "why": "Lab numbers are samples, such as 555 and contoso.example. Do not place a real emergency call to test a lab.",
+      "source": "Labs introduction on this campus"
+    }
+  ]
+}

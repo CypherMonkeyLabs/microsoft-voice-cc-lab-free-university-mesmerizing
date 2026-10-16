@@ -163,6 +163,9 @@ def main() -> None:
     shutil.copyfile(SRC / "studios" / "topology.js", studios / "topology.js")
     shutil.copyfile(SRC / "studios" / "hero.js", studios / "hero.js")
     shutil.copyfile(SRC / "studios" / "icons.js", studios / "icons.js")
+    shutil.copyfile(SRC / "studios" / "pixel.js", studios / "pixel.js")
+    shutil.copyfile(SRC / "guide.js", CAMPUS / "guide.js")
+    shutil.copyfile(SRC / "guide.json", data_dir / "guide.json")
     write_headings(payload, data_dir)
     shutil.copyfile(SRC / "effects.js", CAMPUS / "effects.js")
     build_atlas()
@@ -196,6 +199,11 @@ def main() -> None:
         "./data/bosses.json",
         "./data/atlas.json",
         "./effects.js",
+        "./guide.js",
+        "./studios/pixel.js",
+        "./data/guide.json",
+        "./favicon.svg",
+        "./favicon.ico",
         "./vendor/anime.esm.min.js",
         "./vendor/rough.esm.js",
         "./vendor/d3.min.js",
@@ -245,6 +253,8 @@ HTML_TEMPLATE = """<!DOCTYPE html>
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" href="favicon.ico" sizes="any">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
 <title>Microsoft Voice &amp; Contact Center Lab</title>
 <meta name="description" content="Free offline campus for Teams Phone, Direct Routing, Dynamics 365 Contact Center, and the systems around the call. No CDN. Checked {checked}.">
 <meta property="og:title" content="Microsoft Voice &amp; Contact Center Lab">
@@ -278,6 +288,13 @@ try {{
 </script>
 </head>
 <body>
+<script>
+(function () {{
+  var hash = location.hash || "";
+  var home = !hash || hash === "#" || hash === "#/";
+  document.body.dataset.home = home ? "1" : "0";
+}})();
+</script>
 <a class="skip" href="#main">Skip to content</a>
 <div class="readbar" id="readbar" aria-hidden="true"></div>
 <header class="top">
@@ -332,14 +349,13 @@ try {{
   </div>
   </div>
   <div class="rail-scroll">
-  <nav class="skybar" aria-label="CypherMonkey">
-    <a href="https://cyphermonkeylabs.com">CypherMonkey Labs</a>
-    <a href="https://linktr.ee/cyphermonkey">Linktree</a>
-    <a href="https://github.com/CypherMonkeyLabs/microsoft-voice-cc-lab-free-university-mesmerizing/issues">Rate, comment, help</a>
-    <a href="https://dev.to/cyphermonkey">DEV</a>
-    <a href="https://huggingface.co/Cypher0x9">Hugging Face</a>
-    <a href="https://x.com/Cypher0x9">X</a>
-    <a id="offline-dl" href="downloads/microsoft-voice-contact-center-lab.zip" download>Download offline</a>
+  <nav class="skybar brand-row" aria-label="CypherMonkey">
+    <a class="brand-link" href="https://github.com/cipher0x9"><svg class="brand-mark" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 2.5A9.5 9.5 0 0 0 8.4 20.8c.47.09.64-.2.64-.45 0-.22-.01-.94-.01-1.71-2.6.57-3.15-1.11-3.15-1.11-.42-1.08-1.03-1.37-1.03-1.37-.85-.58.06-.57.06-.57.94.07 1.43.97 1.43.97.84 1.43 2.2 1.02 2.73.78.09-.6.33-1.02.6-1.25-2.08-.24-4.26-1.04-4.26-4.63 0-1.02.37-1.86.97-2.52-.1-.24-.42-1.2.09-2.5 0 0 .79-.25 2.6.96a9 9 0 0 1 4.72 0c1.8-1.21 2.59-.96 2.59-.96.51 1.3.19 2.26.1 2.5.6.66.96 1.5.96 2.52 0 3.6-2.19 4.39-4.27 4.62.34.29.64.86.64 1.74 0 1.26-.01 2.27-.01 2.58 0 .25.17.52.65.43A9.5 9.5 0 0 0 12 2.5Z"></path></svg>Visit my GitHub</a>
+    <a class="brand-link" href="https://github.com/CypherMonkeyLabs"><svg class="brand-mark" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 2.5A9.5 9.5 0 0 0 8.4 20.8c.47.09.64-.2.64-.45 0-.22-.01-.94-.01-1.71-2.6.57-3.15-1.11-3.15-1.11-.42-1.08-1.03-1.37-1.03-1.37-.85-.58.06-.57.06-.57.94.07 1.43.97 1.43.97.84 1.43 2.2 1.02 2.73.78.09-.6.33-1.02.6-1.25-2.08-.24-4.26-1.04-4.26-4.63 0-1.02.37-1.86.97-2.52-.1-.24-.42-1.2.09-2.5 0 0 .79-.25 2.6.96a9 9 0 0 1 4.72 0c1.8-1.21 2.59-.96 2.59-.96.51 1.3.19 2.26.1 2.5.6.66.96 1.5.96 2.52 0 3.6-2.19 4.39-4.27 4.62.34.29.64.86.64 1.74 0 1.26-.01 2.27-.01 2.58 0 .25.17.52.65.43A9.5 9.5 0 0 0 12 2.5Z"></path></svg>Visit the Labs org</a>
+    <a class="brand-link" href="https://cyphermonkeylabs.com"><svg class="brand-mark" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8" fill="none" stroke="currentColor" stroke-width="1.7"></circle><path d="M4 12h16M12 4c2 2.4 3 5 3 8s-1 5.6-3 8c-2-2.4-3-5-3-8s1-5.6 3-8Z" fill="none" stroke="currentColor" stroke-width="1.7"></path></svg>Visit Cypher Monkey Labs</a>
+    <a class="brand-link" href="https://x.com/Cypher0x9"><svg class="brand-mark" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M13.4 10.7 19.7 4h-1.5l-5.5 6.1L8.2 4H4.2l6.6 9.6L4.2 20h1.5l5.8-6.4 4.6 6.4h4l-6.7-9.3Zm-2 2.3-.7-1L6 5.1h1.8l4.3 6.1.7 1 5.6 8H16.6l-5.2-7.2Z"></path></svg>X</a>
+    <a class="brand-link" href="https://huggingface.co/Cypher0x9"><svg class="brand-mark" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8" fill="none" stroke="currentColor" stroke-width="1.7"></circle><circle cx="9" cy="10.5" r="1" fill="currentColor"></circle><circle cx="15" cy="10.5" r="1" fill="currentColor"></circle><path d="M8.6 14.2c1 1.5 5.8 1.5 6.8 0" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"></path></svg>Hugging Face</a>
+    <a class="brand-link" id="offline-dl" href="downloads/microsoft-voice-contact-center-lab.zip" download>Download offline</a>
   </nav>
   <nav class="primary-nav" id="primary-nav" aria-label="Sections">
     <a href="#/diagrams" data-i18n="diagrams">Diagrams</a>
@@ -354,20 +370,26 @@ try {{
   </div>
   </div>
 </header>
+<script>
+(function () {{
+  var bar = document.querySelector(".top");
+  if (bar) document.documentElement.style.setProperty("--header-h", bar.offsetHeight + "px");
+}})();
+</script>
 <div id="theme-pop" class="theme-pop" hidden role="dialog" aria-label="Theme"></div>
 <div class="shell">
   <nav id="nav" class="nav" aria-label="Campus"></nav>
   <main id="main" tabindex="-1">
     <h1 id="view-title">Microsoft Voice &amp; Contact Center Lab</h1>
-    <div id="view"><p class="loading">Opening the campus.</p></div>
+    <div id="view"><section class="neon-hero" aria-hidden="true"><p class="loading">Opening the campus.</p></section></div>
   </main>
 </div>
 <nav class="bottom-nav" aria-label="Quick">
-  <a href="#/labs" data-tab="learn" data-i18n="learn">Learn</a>
-  <a href="#/diagrams" data-tab="diagrams" data-i18n="diagrams">Diagrams</a>
-  <a href="#/play" data-tab="play" data-i18n="play">Play</a>
-  <button type="button" id="bottom-menu" data-tab="menu" aria-expanded="false" aria-controls="nav" data-i18n="menu">Menu</button>
-  <button type="button" id="bottom-listen" data-tab="listen" data-i18n="listenBar">Listen</button>
+  <a href="#/labs" data-tab="learn"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 5.5h6.2A2.8 2.8 0 0 1 14 8.3V19a2.8 2.8 0 0 0-2.8-2.8H5V5.5Z" fill="none" stroke="currentColor" stroke-width="1.7"></path></svg><span data-i18n="learn">Learn</span></a>
+  <a href="#/diagrams" data-tab="diagrams"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="4" width="7" height="7" rx="1.4" fill="none" stroke="currentColor" stroke-width="1.7"></rect><rect x="13.5" y="4" width="7" height="7" rx="1.4" fill="none" stroke="currentColor" stroke-width="1.7"></rect><rect x="8.5" y="13.5" width="7" height="7" rx="1.4" fill="none" stroke="currentColor" stroke-width="1.7"></rect></svg><span data-i18n="diagrams">Diagrams</span></a>
+  <a href="#/play" data-tab="play"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 6.2v11.6L18 12 8 6.2Z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"></path></svg><span data-i18n="play">Play</span></a>
+  <button type="button" id="bottom-menu" data-tab="menu" aria-expanded="false" aria-controls="nav"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"></path></svg><span data-i18n="menu">Menu</span></button>
+  <button type="button" id="bottom-listen" data-tab="listen"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 10v4M9 7.5v9M13 5.5v13M17 8.5v7" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"></path></svg><span data-i18n="listenBar">Listen</span></button>
 </nav>
 <div class="dock" role="region" aria-label="Section audio">
   <button id="listen" type="button">Listen</button>
@@ -398,7 +420,15 @@ try {{
     <ellipse cx="32" cy="54" rx="14" ry="10" fill="var(--cc-accent-2)"></ellipse>
     <g class="arm"><path d="M20 50c-8 2-12 10-8 14" fill="none" stroke="var(--cc-accent-3)" stroke-width="3" stroke-linecap="round"></path></g>
   </svg>
-  <p class="sig">CypherMonkey · Microsoft Voice &amp; Contact Center Lab</p>
+  <p class="sig">Lucky is a lifelong student and an AI enthusiast, from systems, networking, voice, and contact center work into AI omni-channel agents.</p>
+  <p class="copy">© 2026 CypherMonkeyLabs 🐒</p>
+  <nav class="foot-brands brand-row" aria-label="CypherMonkey">
+    <a class="brand-link" href="https://github.com/cipher0x9"><svg class="brand-mark" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 2.5A9.5 9.5 0 0 0 8.4 20.8c.47.09.64-.2.64-.45 0-.22-.01-.94-.01-1.71-2.6.57-3.15-1.11-3.15-1.11-.42-1.08-1.03-1.37-1.03-1.37-.85-.58.06-.57.06-.57.94.07 1.43.97 1.43.97.84 1.43 2.2 1.02 2.73.78.09-.6.33-1.02.6-1.25-2.08-.24-4.26-1.04-4.26-4.63 0-1.02.37-1.86.97-2.52-.1-.24-.42-1.2.09-2.5 0 0 .79-.25 2.6.96a9 9 0 0 1 4.72 0c1.8-1.21 2.59-.96 2.59-.96.51 1.3.19 2.26.1 2.5.6.66.96 1.5.96 2.52 0 3.6-2.19 4.39-4.27 4.62.34.29.64.86.64 1.74 0 1.26-.01 2.27-.01 2.58 0 .25.17.52.65.43A9.5 9.5 0 0 0 12 2.5Z"></path></svg>Visit my GitHub</a>
+    <a class="brand-link" href="https://github.com/CypherMonkeyLabs"><svg class="brand-mark" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 2.5A9.5 9.5 0 0 0 8.4 20.8c.47.09.64-.2.64-.45 0-.22-.01-.94-.01-1.71-2.6.57-3.15-1.11-3.15-1.11-.42-1.08-1.03-1.37-1.03-1.37-.85-.58.06-.57.06-.57.94.07 1.43.97 1.43.97.84 1.43 2.2 1.02 2.73.78.09-.6.33-1.02.6-1.25-2.08-.24-4.26-1.04-4.26-4.63 0-1.02.37-1.86.97-2.52-.1-.24-.42-1.2.09-2.5 0 0 .79-.25 2.6.96a9 9 0 0 1 4.72 0c1.8-1.21 2.59-.96 2.59-.96.51 1.3.19 2.26.1 2.5.6.66.96 1.5.96 2.52 0 3.6-2.19 4.39-4.27 4.62.34.29.64.86.64 1.74 0 1.26-.01 2.27-.01 2.58 0 .25.17.52.65.43A9.5 9.5 0 0 0 12 2.5Z"></path></svg>Visit the Labs org</a>
+    <a class="brand-link" href="https://cyphermonkeylabs.com"><svg class="brand-mark" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8" fill="none" stroke="currentColor" stroke-width="1.7"></circle><path d="M4 12h16M12 4c2 2.4 3 5 3 8s-1 5.6-3 8c-2-2.4-3-5-3-8s1-5.6 3-8Z" fill="none" stroke="currentColor" stroke-width="1.7"></path></svg>Visit Cypher Monkey Labs</a>
+    <a class="brand-link" href="https://x.com/Cypher0x9"><svg class="brand-mark" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M13.4 10.7 19.7 4h-1.5l-5.5 6.1L8.2 4H4.2l6.6 9.6L4.2 20h1.5l5.8-6.4 4.6 6.4h4l-6.7-9.3Zm-2 2.3-.7-1L6 5.1h1.8l4.3 6.1.7 1 5.6 8H16.6l-5.2-7.2Z"></path></svg>X</a>
+    <a class="brand-link" href="https://huggingface.co/Cypher0x9"><svg class="brand-mark" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8" fill="none" stroke="currentColor" stroke-width="1.7"></circle><circle cx="9" cy="10.5" r="1" fill="currentColor"></circle><circle cx="15" cy="10.5" r="1" fill="currentColor"></circle><path d="M8.6 14.2c1 1.5 5.8 1.5 6.8 0" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"></path></svg>Hugging Face</a>
+  </nav>
   <p>Independent educational project, not affiliated with or endorsed by any vendor. Trademarks belong to their owners. MIT code, CC BY-NC-SA content.</p>
   <p><a href="https://github.com/CypherMonkeyLabs/microsoft-voice-cc-lab-free-university-mesmerizing/issues">Rate, comment, help</a> · <a href="https://cyphermonkeylabs.com/#contact">Report a concern</a> · <a href="https://cyphermonkeylabs.com/#contact">Work with us</a></p>
   <nav class="next-labs" aria-label="Other labs">
@@ -431,9 +461,29 @@ try {{
 <div id="egg" class="egg" hidden>
   <p>Operator mode. The monkey found the hidden keypad. This does not change a tenant.</p>
 </div>
+<div class="guide" id="guide">
+  <button type="button" class="guide-launch" id="guide-open" aria-expanded="false" aria-controls="guide-panel">
+    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 6.5A3.5 3.5 0 0 1 8.5 3h7A3.5 3.5 0 0 1 19 6.5v6A3.5 3.5 0 0 1 15.5 16H12l-4 3.2V16H8.5A3.5 3.5 0 0 1 5 12.5v-6Z" fill="none" stroke="currentColor" stroke-width="1.6"></path></svg>
+    <span>Guide</span>
+  </button>
+  <section id="guide-panel" class="guide-panel" hidden aria-label="Guide Bot">
+    <div class="guide-bar">
+      <p class="kicker" id="guide-title">Guide Bot</p>
+      <button type="button" class="ghost" id="guide-close">Close</button>
+    </div>
+    <div id="guide-log" class="guide-log" role="log" aria-live="polite"></div>
+    <div id="guide-chips" class="guide-chips"></div>
+    <form id="guide-form" class="guide-form">
+      <label class="visually-hidden" for="guide-q">Ask the guide</label>
+      <input id="guide-q" type="text" autocomplete="off" placeholder="Ask about a page in this lab">
+      <button type="submit" class="primary">Send</button>
+    </form>
+  </section>
+</div>
 <noscript><p>This campus needs JavaScript. It does not load a CDN. Enable JavaScript in this browser and open the file again.</p></noscript>
 <script type="module" src="effects.js"></script>
 <script src="app.js" defer></script>
+<script src="guide.js" defer></script>
 </body>
 </html>
 """

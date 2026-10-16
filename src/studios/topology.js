@@ -1,5 +1,6 @@
 import * as THREE from "three";
 import { OrbitControls } from "../vendor/OrbitControls.js";
+import { cappedPixelRatio, mobileViewport } from "./pixel.js";
 
 function motionReduced() {
   const mode = document.documentElement.dataset.motion;
@@ -61,8 +62,14 @@ function linkMesh(start, end, color) {
 
 export function mount(canvas) {
   const reduced = motionReduced();
-  const renderer = new THREE.WebGLRenderer({ canvas: canvas, antialias: true, alpha: true });
-  renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+  const mobile = mobileViewport();
+  const renderer = new THREE.WebGLRenderer({
+    canvas: canvas,
+    antialias: !mobile,
+    alpha: true,
+    powerPreference: mobile ? "low-power" : "high-performance",
+  });
+  renderer.setPixelRatio(cappedPixelRatio());
   renderer.setClearColor(0x000000, 0);
   const scene = new THREE.Scene();
   scene.fog = new THREE.FogExp2(0x0b1120, 0.045);

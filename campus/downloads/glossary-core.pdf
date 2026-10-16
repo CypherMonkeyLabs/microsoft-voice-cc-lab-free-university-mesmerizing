@@ -3,7 +3,7 @@
 << /Type /Font /Subtype /Type1 /BaseFont /Helvetica >>
 endobj
 2 0 obj
-<< /Length 3031 >>
+<< /Length 3181 >>
 stream
 BT
 /F1 11 Tf
@@ -50,31 +50,49 @@ T* (account?s number instead of each having a number.) Tj
 T* () Tj
 T* (Showing 16 core terms. The full HTML sheet lists every core row.) Tj
 T* () Tj
-T* (CypherMonkey ? cyphermonkeylabs.com ? linktr.ee/cyphermonkey ?) Tj
-T* (https://github.com/cipher0x9/microsoft-voice-cc-lab-free-university-mesmerizing ?) Tj
-T* (Independent educational project, not affiliated with or endorsed by any vendor. Trademarks) Tj
-T* (belong to their owners. MIT code, CC BY-NC-SA content. No email.) Tj
+T* (CypherMonkey ? https://cyphermonkeylabs.com ? https://github.com/cipher0x9 ?) Tj
+T* (https://github.com/CypherMonkeyLabs ? https://github.com/cipher0x9/microsoft-voice-cc-lab-) Tj
+T* (free-university-mesmerizing ? https://github.com/CypherMonkeyLabs/microsoft-voice-cc-lab-) Tj
+T* (free-university-mesmerizing ? https://x.com/Cypher0x9 ? https://huggingface.co/Cypher0x9 ?) Tj
+T* (\(c\) 2026 CypherMonkeyLabs. Independent educational project, not affiliated with or endorsed) Tj
 ET
 endstream
 endobj
 3 0 obj
-<< /Type /Page /Parent 4 0 R /MediaBox [0 0 612 792] /Contents 2 0 R /Resources << /Font << /F1 1 0 R >> >> >>
+<< /Length 215 >>
+stream
+BT
+/F1 11 Tf
+50 780 Td
+14 TL
+(by any vendor. Trademarks belong to their owners. MIT code, CC BY-NC-SA content. No email.) Tj
+T* (https://github.com/cipher0x9/microsoft-voice-cc-lab-free-university-mesmerizing) Tj
+ET
+endstream
 endobj
 4 0 obj
-<< /Type /Pages /Count 1 /Kids [3 0 R] >>
+<< /Type /Page /Parent 6 0 R /MediaBox [0 0 612 792] /Contents 2 0 R /Resources << /Font << /F1 1 0 R >> >> >>
 endobj
 5 0 obj
-<< /Type /Catalog /Pages 4 0 R >>
+<< /Type /Page /Parent 6 0 R /MediaBox [0 0 612 792] /Contents 3 0 R /Resources << /Font << /F1 1 0 R >> >> >>
+endobj
+6 0 obj
+<< /Type /Pages /Count 2 /Kids [4 0 R 5 0 R] >>
+endobj
+7 0 obj
+<< /Type /Catalog /Pages 6 0 R >>
 endobj
 xref
-0 6
+0 8
 0000000000 65535 f 
 0000000009 00000 n 
 0000000079 00000 n 
-0000003162 00000 n 
-0000003288 00000 n 
-0000003345 00000 n 
-trailer << /Size 6 /Root 5 0 R >>
+0000003312 00000 n 
+0000003578 00000 n 
+0000003704 00000 n 
+0000003830 00000 n 
+0000003893 00000 n 
+trailer << /Size 8 /Root 7 0 R >>
 startxref
-3394
+3942
 %%EOF

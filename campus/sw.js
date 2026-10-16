@@ -1,6 +1,6 @@
-/* Offline cache for the Voice Lab. Generated. Cache 771c11f42b4b. */
+/* Offline cache for the Voice Lab. Generated. Cache bf055806f02b. */
 "use strict";
-const CACHE = "mvcc-lab-771c11f42b4b";
+const CACHE = "mvcc-lab-bf055806f02b";
 const PRECACHE = [
   "./",
   "./index.html",
@@ -29,6 +29,11 @@ const PRECACHE = [
   "./data/bosses.json",
   "./data/atlas.json",
   "./effects.js",
+  "./guide.js",
+  "./studios/pixel.js",
+  "./data/guide.json",
+  "./favicon.svg",
+  "./favicon.ico",
   "./vendor/anime.esm.min.js",
   "./vendor/rough.esm.js",
   "./vendor/d3.min.js",

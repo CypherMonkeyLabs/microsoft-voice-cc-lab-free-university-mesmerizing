@@ -1,4 +1,5 @@
 import * as THREE from "three";
+import { cappedPixelRatio, mobileViewport } from "./pixel.js";
 
 function motionReduced() {
   const mode = document.documentElement.dataset.motion;
@@ -120,8 +121,15 @@ export function mount(root) {
   const gl = document.createElement("canvas");
   gl.width = 160;
   gl.height = 150;
-  const renderer = new THREE.WebGLRenderer({ canvas: gl, antialias: true, alpha: true, preserveDrawingBuffer: true });
-  renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+  const mobile = mobileViewport();
+  const renderer = new THREE.WebGLRenderer({
+    canvas: gl,
+    antialias: !mobile,
+    alpha: true,
+    preserveDrawingBuffer: true,
+    powerPreference: mobile ? "low-power" : "high-performance",
+  });
+  renderer.setPixelRatio(cappedPixelRatio());
   renderer.setSize(160, 150, false);
   renderer.setClearColor(0x000000, 0);
   const scene = new THREE.Scene();

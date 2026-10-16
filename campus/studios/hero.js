@@ -2,6 +2,7 @@ import * as THREE from "three";
 import { EffectComposer } from "../vendor/postprocessing/EffectComposer.js";
 import { RenderPass } from "../vendor/postprocessing/RenderPass.js";
 import { UnrealBloomPass } from "../vendor/postprocessing/UnrealBloomPass.js";
+import { cappedPixelRatio, mobileViewport } from "./pixel.js";
 
 const PALETTES = {
   neon: { bg: 0x07010f, a: 0xff2d95, b: 0x22e6ff, c: 0xd6ff3f },
@@ -100,8 +101,14 @@ function orbitLine(spec, color) {
 export function mount(canvas, themeId) {
   const reduced = motionReduced();
   const narrow = (canvas.parentElement && canvas.parentElement.clientWidth < 800);
-  const renderer = new THREE.WebGLRenderer({ canvas: canvas, antialias: true, alpha: false, powerPreference: "high-performance" });
-  renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+  const mobile = mobileViewport();
+  const renderer = new THREE.WebGLRenderer({
+    canvas: canvas,
+    antialias: !mobile,
+    alpha: false,
+    powerPreference: mobile ? "low-power" : "high-performance",
+  });
+  renderer.setPixelRatio(cappedPixelRatio());
   renderer.toneMapping = THREE.NoToneMapping;
   if (THREE.SRGBColorSpace) renderer.outputColorSpace = THREE.SRGBColorSpace;
   const scene = new THREE.Scene();
@@ -396,15 +403,17 @@ export function mount(canvas, themeId) {
   if (canvas.parentElement) observer.observe(canvas.parentElement);
   window.addEventListener("pointermove", onMove, { passive: true });
   resize();
-  try {
-    composer = new EffectComposer(renderer);
-    composer.addPass(new RenderPass(scene, camera));
-    const size = renderer.getSize(new THREE.Vector2());
-    bloomPass = new UnrealBloomPass(size, 0.78, 0.52, 0.08);
-    composer.addPass(bloomPass);
-  } catch (err) {
-    composer = null;
-    bloomPass = null;
+  if (!reduced && !mobile) {
+    try {
+      composer = new EffectComposer(renderer);
+      composer.addPass(new RenderPass(scene, camera));
+      const size = renderer.getSize(new THREE.Vector2());
+      bloomPass = new UnrealBloomPass(size, 0.55, 0.4, 0.12);
+      composer.addPass(bloomPass);
+    } catch (err) {
+      composer = null;
+      bloomPass = null;
+    }
   }
   applyPalette(themeId || "neon");
   if (reduced) {

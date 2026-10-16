@@ -21,10 +21,15 @@ OUT = CAMPUS / "downloads"
 FONT = Path("/usr/share/fonts/truetype/macos/Inter-Regular.ttf")
 FONT_B = Path("/usr/share/fonts/truetype/macos/Inter-Bold.ttf")
 REPO = "https://github.com/CypherMonkeyLabs/microsoft-voice-cc-lab-free-university-mesmerizing"
+OLD_REPO = "https://github.com/cipher0x9/microsoft-voice-cc-lab-free-university-mesmerizing"
 FOOT = (
-    "CypherMonkey · cyphermonkeylabs.com · linktr.ee/cyphermonkey · "
+    "CypherMonkey · https://cyphermonkeylabs.com · https://github.com/cipher0x9 · "
+    "https://github.com/CypherMonkeyLabs · "
+    + OLD_REPO
+    + " · "
     + REPO
-    + " · Independent educational project, not affiliated with or endorsed by any vendor. "
+    + " · https://x.com/Cypher0x9 · https://huggingface.co/Cypher0x9 · "
+    "(c) 2026 CypherMonkeyLabs. Independent educational project, not affiliated with or endorsed by any vendor. "
     "Trademarks belong to their owners. MIT code, CC BY-NC-SA content. No email."
 )
 
@@ -189,13 +194,16 @@ def wrap_lines(lines: list[str], width: int = 92) -> list[str]:
 
 def footer_html() -> str:
     return (
-        "<footer><p><strong>CypherMonkey</strong> · "
-        '<a href="https://cyphermonkeylabs.com">cyphermonkeylabs.com</a> · '
-        '<a href="https://linktr.ee/cyphermonkey">linktr.ee/cyphermonkey</a> · '
-        f'<a href="{html.escape(REPO)}">Repo: rate, comment, help</a> · '
-        '<a href="https://dev.to/cyphermonkey">DEV</a> · '
-        '<a href="https://huggingface.co/Cypher0x9">Hugging Face</a> · '
-        '<a href="https://x.com/Cypher0x9">X</a></p>'
+        "<footer><p><strong>CypherMonkey</strong></p><p>"
+        '<a href="https://github.com/cipher0x9">Visit my GitHub</a> · '
+        '<a href="https://github.com/CypherMonkeyLabs">Visit the Labs org</a> · '
+        '<a href="https://cyphermonkeylabs.com">Visit Cypher Monkey Labs</a> · '
+        '<a href="https://x.com/Cypher0x9">X</a> · '
+        '<a href="https://huggingface.co/Cypher0x9">Hugging Face</a></p>'
+        "<p>Repo: "
+        f'<a href="{html.escape(OLD_REPO)}">github.com/cipher0x9/microsoft-voice-cc-lab-free-university-mesmerizing</a> · '
+        f'<a href="{html.escape(REPO)}">github.com/CypherMonkeyLabs/microsoft-voice-cc-lab-free-university-mesmerizing</a></p>'
+        "<p>© 2026 CypherMonkeyLabs 🐒</p>"
         "<p>Independent educational project, not affiliated with or endorsed by any vendor. "
         "Trademarks belong to their owners. MIT code, CC BY-NC-SA content.</p>"
         "<p>Report a concern and work with us: "
@@ -212,6 +220,8 @@ def write_html(path: Path, title: str, lines: list[str]) -> None:
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>{html.escape(title)}</title>
+<link rel="icon" href="../favicon.ico" sizes="any">
+<link rel="icon" href="../favicon.svg" type="image/svg+xml">
 <style>
   body {{ margin: 24px auto; max-width: 820px; font: 16px/1.45 Inter, Segoe UI, sans-serif; color: #142033; background: #f7f4ea; }}
   h1 {{ font-size: 28px; letter-spacing: -0.03em; }}
@@ -261,6 +271,7 @@ def write_pdf(path: Path, title: str, lines: list[str]) -> None:
     pages = []
     chunk: list[str] = []
     wrapped = wrap_lines([title, ""] + lines + ["", FOOT], 92)
+    wrapped.append(OLD_REPO)
     for line in wrapped:
         chunk.append(line)
         if len(chunk) == 46:
