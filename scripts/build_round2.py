@@ -471,10 +471,11 @@ def build():
         meta = track["meta"]
         rows = []
         for lesson in track["lessons"]:
-            rows.append(f'<li><a href="../{room_href(lesson)}">{esc(lesson["title"])}</a> <small>{esc(lesson.get("minutes") or "")} min</small></li>')
+            # Track pages live at tracks/Txx/index.html, two levels under the site root.
+            rows.append(f'<li><a href="../../{room_href(lesson)}">{esc(lesson["title"])}</a> <small>{esc(lesson.get("minutes") or "")} min</small></li>')
         body = f'''<p class="kicker">Track {esc(meta["num"])}</p><h1>{esc(meta["title"])}</h1>
 <p class="lede">{sentences(meta.get("why") or "")}</p>
-{dl_row([("Track sheet", f"../downloads/sheets/{meta['id']}.html"), ("PNG", f"../downloads/sheets/{meta['id']}.png"), ("PDF", f"../downloads/sheets/{meta['id']}.pdf")])}
+{dl_row([("Track sheet", f"../../downloads/sheets/{meta['id']}.html"), ("PNG", f"../../downloads/sheets/{meta['id']}.png"), ("PDF", f"../../downloads/sheets/{meta['id']}.pdf")])}
 <section id="five" data-read><h2>Learn it in 5 minutes</h2><p>{sentences(meta.get("outcome") or meta.get("why") or "")}</p></section>
 <section id="visual"><h2>Visual</h2>{bar_chart(meta.get("chart") or {})}</section>
 <section id="rooms"><h2>Rooms</h2><ol>{"".join(rows)}</ol></section>
@@ -626,6 +627,8 @@ def build():
     for track in tracks:
         stem = track["meta"]["id"]
         raster_jobs.append((OUT_DL / "sheets" / f"{stem}.html", OUT_DL / "sheets" / f"{stem}.pdf", "pdf"))
+        if stem in {"t17", "t18", "t19", "t20"}:
+            raster_jobs.append((OUT_DL / "sheets" / f"{stem}.html", OUT_DL / "sheets" / f"{stem}.png", "png"))
     for extra in ("ports-protocols", "bridges", "glossary"):
         raster_jobs.append((OUT_DL / "sheets" / f"{extra}.html", OUT_DL / "sheets" / f"{extra}.pdf", "pdf"))
     raster_jobs.append((OUT_DL / "flashcards.html", OUT_DL / "flashcards.pdf", "pdf"))

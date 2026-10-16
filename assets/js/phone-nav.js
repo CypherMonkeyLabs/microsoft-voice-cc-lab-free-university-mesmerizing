@@ -106,8 +106,7 @@
     { key: "glossary", label: "Glossary", href: "glossary.html", icon: "book", desc: "Term, config note, and fault." },
     { key: "labs", label: "Labs", href: "labs.html", icon: "flask", desc: "Browser labs. No sign-in." },
     { key: "cases", label: "Cases", href: "troubleshooting.html", icon: "wrench", desc: "Symptom, cause, and the check." },
-    { key: "interviews", label: "Interviews", href: "interviews.html", icon: "mic", desc: "Questions with a source." },
-    { key: "regions", label: "Bridges", href: "bridges.html", icon: "flag", desc: "Commercial, GCC High, and DoD are different lists." },
+    { key: "bridges", label: "Bridges", href: "bridges.html", icon: "flag", desc: "CUCM, Webex Calling, and UCCE next to Teams Phone." },
     { key: "mastery", label: "Mastery", href: "start.html", icon: "map", desc: "Fundamentals through Copilot. Unverified stays marked." }
   ];
 

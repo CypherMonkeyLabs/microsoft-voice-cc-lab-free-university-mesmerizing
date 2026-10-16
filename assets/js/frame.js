@@ -95,8 +95,6 @@
     { id: "glossary", label: "Glossary", href: "glossary.html", icon: "book", desc: "Term, config note, fault, and source." },
     { id: "labs", label: "Hands-on Labs", href: "labs.html", icon: "flask", desc: "Browser labs. They do not sign in to a tenant." },
     { id: "cases", label: "Troubleshooting", href: "troubleshooting.html", icon: "wrench", desc: "A symptom, a likely cause, and the check." },
-    { id: "interviews", label: "Interview Prep", href: "interviews.html", icon: "mic", desc: "Questions with a source. No invented work history." },
-    { id: "regions", label: "Countries", href: "regions.html", icon: "flag", desc: "Commercial, GCC High, and DoD are different lists." },
     { id: "mastery", label: "Mastery", href: "start.html", icon: "map", desc: "Fundamentals through Copilot. Unverified stays marked." },
     { id: "ports", label: "Ports", href: "downloads/sheets/ports-protocols.html", icon: "radio", desc: "Ports named in the Teams Phone lessons. Confirm the current list." },
     { id: "certs", label: "Exam notes", href: "careers.html", icon: "check", desc: "MS-700, AB-250, and the seats this lab can still name. Confirm the seat." }
