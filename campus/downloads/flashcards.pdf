@@ -1907,7 +1907,7 @@ ET
 endstream
 endobj
 36 0 obj
-<< /Length 3532 >>
+<< /Length 3336 >>
 stream
 BT
 /F1 11 Tf
@@ -1946,13 +1946,11 @@ T* (Longest idle ? Offers the call to the agent who has been idle longest. Prese
 T* (routing can skip an agent who is already in a call or a meeting. Why it matters: The method) Tj
 T* (is a business promise. Serial is cruel to the person on top if you forget.) Tj
 T* () Tj
-T* (CypherMonkey ? https://cyphermonkeylabs.com ? https://github.com/cipher0x9 ?) Tj
-T* (https://github.com/CypherMonkeyLabs ? https://github.com/cipher0x9/microsoft-voice-cc-lab-) Tj
-T* (free-university-mesmerizing ? https://github.com/CypherMonkeyLabs/microsoft-voice-cc-lab-) Tj
-T* (free-university-mesmerizing ? https://x.com/Cypher0x9 ? https://huggingface.co/Cypher0x9 ?) Tj
-T* (\(c\) 2026 CypherMonkeyLabs. Independent educational project, not affiliated with or endorsed) Tj
-T* (by any vendor. Trademarks belong to their owners. MIT code, CC BY-NC-SA content. No email.) Tj
-T* (https://github.com/cipher0x9/microsoft-voice-cc-lab-free-university-mesmerizing) Tj
+T* (CypherMonkey Labs ? https://cyphermonkeylabs.com ? https://github.com/CypherMonkeyLabs ?) Tj
+T* (https://linktr.ee/cypherMonkey ? https://github.com/CypherMonkeyLabs/microsoft-voice-cc-lab-) Tj
+T* (free-university-mesmerizing ? \(c\) 2026 CypherMonkeyLabs. Independent educational project,) Tj
+T* (not affiliated with or endorsed by any vendor. Trademarks belong to their owners. MIT code,) Tj
+T* (CC BY-NC-SA content. Contact https://cyphermonkeylabs.com/#contact.) Tj
 ET
 endstream
 endobj
@@ -2106,44 +2104,44 @@ xref
 0000123828 00000 n 
 0000127891 00000 n 
 0000131492 00000 n 
-0000135077 00000 n 
-0000135205 00000 n 
-0000135333 00000 n 
-0000135461 00000 n 
-0000135589 00000 n 
-0000135717 00000 n 
-0000135845 00000 n 
-0000135973 00000 n 
-0000136101 00000 n 
-0000136230 00000 n 
-0000136359 00000 n 
-0000136488 00000 n 
-0000136617 00000 n 
-0000136746 00000 n 
-0000136875 00000 n 
-0000137004 00000 n 
-0000137133 00000 n 
-0000137262 00000 n 
-0000137391 00000 n 
-0000137520 00000 n 
-0000137649 00000 n 
-0000137778 00000 n 
-0000137907 00000 n 
-0000138036 00000 n 
-0000138165 00000 n 
-0000138294 00000 n 
-0000138423 00000 n 
-0000138552 00000 n 
-0000138681 00000 n 
-0000138810 00000 n 
-0000138939 00000 n 
-0000139068 00000 n 
-0000139197 00000 n 
-0000139326 00000 n 
-0000139455 00000 n 
-0000139584 00000 n 
-0000139882 00000 n 
+0000134881 00000 n 
+0000135009 00000 n 
+0000135137 00000 n 
+0000135265 00000 n 
+0000135393 00000 n 
+0000135521 00000 n 
+0000135649 00000 n 
+0000135777 00000 n 
+0000135905 00000 n 
+0000136034 00000 n 
+0000136163 00000 n 
+0000136292 00000 n 
+0000136421 00000 n 
+0000136550 00000 n 
+0000136679 00000 n 
+0000136808 00000 n 
+0000136937 00000 n 
+0000137066 00000 n 
+0000137195 00000 n 
+0000137324 00000 n 
+0000137453 00000 n 
+0000137582 00000 n 
+0000137711 00000 n 
+0000137840 00000 n 
+0000137969 00000 n 
+0000138098 00000 n 
+0000138227 00000 n 
+0000138356 00000 n 
+0000138485 00000 n 
+0000138614 00000 n 
+0000138743 00000 n 
+0000138872 00000 n 
+0000139001 00000 n 
+0000139130 00000 n 
+0000139259 00000 n 
+0000139388 00000 n 
+0000139686 00000 n 
 trailer << /Size 74 /Root 73 0 R >>
 startxref
-139933
+139737
 %%EOF

@@ -1,0 +1,97 @@
+{
+  "track": "t15",
+  "title": "ACS, Speech, Copilot",
+  "checked": "2026-10",
+  "rooms": [
+    {
+      "room": "T15-R01-calling-sdk-versus-call-automation.html",
+      "sourcesFile": "../../rooms/T15-R01-calling-sdk-versus-call-automation.sources.json"
+    },
+    {
+      "room": "T15-R02-teams-interop-from-acs.html",
+      "sourcesFile": "../../rooms/T15-R02-teams-interop-from-acs.sources.json"
+    },
+    {
+      "room": "T15-R03-an-ivr-as-events.html",
+      "sourcesFile": "../../rooms/T15-R03-an-ivr-as-events.sources.json"
+    },
+    {
+      "room": "T15-R04-azure-ai-speech.html",
+      "sourcesFile": "../../rooms/T15-R04-azure-ai-speech.sources.json"
+    },
+    {
+      "room": "T15-R05-copilot-studio-voice.html",
+      "sourcesFile": "../../rooms/T15-R05-copilot-studio-voice.sources.json"
+    },
+    {
+      "room": "T15-R06-foundry-and-what-not-to-invent.html",
+      "sourcesFile": "../../rooms/T15-R06-foundry-and-what-not-to-invent.sources.json"
+    }
+  ],
+  "sources": [
+    {
+      "title": "Azure Communication Services Call Automation",
+      "url": "https://learn.microsoft.com/en-us/azure/communication-services/concepts/call-automation/call-automation",
+      "kind": "learn",
+      "lastChecked": "2026-10",
+      "status": "ok",
+      "note": ""
+    },
+    {
+      "title": "Microsoft Teams",
+      "url": "https://en.wikipedia.org/wiki/Microsoft_Teams",
+      "kind": "wikipedia",
+      "lastChecked": "2026-10",
+      "status": "ok",
+      "note": "Wikipedia fallback for background. Confirm the vendor page before you change a tenant."
+    },
+    {
+      "title": "Microsoft Teams blog index",
+      "url": "https://techcommunity.microsoft.com/category/microsoftteams/blog/microsoftteamsblog",
+      "kind": "community",
+      "lastChecked": "2026-10",
+      "status": "ok",
+      "note": "Community index for the Microsoft Teams blog. This is the index, not a claim that a post discusses this room."
+    },
+    {
+      "title": "Teams Phone extensibility",
+      "url": "https://learn.microsoft.com/en-us/azure/communication-services/concepts/interop/tpe/teams-phone-extensibility-overview",
+      "kind": "learn",
+      "lastChecked": "2026-10",
+      "status": "ok",
+      "note": ""
+    },
+    {
+      "title": "Copilot Studio overview",
+      "url": "https://learn.microsoft.com/en-us/microsoft-copilot-studio/fundamentals-what-is-copilot-studio",
+      "kind": "learn",
+      "lastChecked": "2026-10",
+      "status": "ok",
+      "note": ""
+    },
+    {
+      "title": "Azure AI Speech overview",
+      "url": "https://learn.microsoft.com/en-us/azure/ai-services/speech-service/overview",
+      "kind": "learn",
+      "lastChecked": "2026-10",
+      "status": "ok",
+      "note": ""
+    },
+    {
+      "title": "Dynamics 365 Contact Center",
+      "url": "https://learn.microsoft.com/en-us/dynamics365/contact-center/",
+      "kind": "learn",
+      "lastChecked": "2026-10",
+      "status": "ok",
+      "note": ""
+    },
+    {
+      "title": "Azure AI Foundry documentation",
+      "url": "https://learn.microsoft.com/en-us/azure/ai-foundry/",
+      "kind": "learn",
+      "lastChecked": "2026-10",
+      "status": "ok",
+      "note": ""
+    }
+  ]
+}

@@ -2179,15 +2179,37 @@ function depsHtml(track) {
   );
 }
 
-function sourceList(sources) {
-  if (!sources || !sources.length) return "";
-  return (
-    "<ul>" +
-    sources.map((source) => {
-      return "<li><a href=\"" + esc(source.url) + "\">" + esc(source.title) + "</a> <span class=\"tiny\">accessed " + esc(source.accessed) + "</span></li>";
-    }).join("") +
-    "</ul>"
-  );
+function sourceKindLabel(kind) {
+  if (kind === "learn") return "Microsoft Learn";
+  if (kind === "rfc") return "RFC";
+  if (kind === "community") return "Community";
+  if (kind === "wikipedia") return "Wikipedia";
+  if (kind === "vendor") return "Vendor";
+  if (kind === "docs") return "Docs";
+  return "Docs";
+}
+
+function sourceItems(sources) {
+  if (!sources || !sources.length) {
+    return "<li class=\"is-confirm\"><strong>No stored URL</strong> — confirm — last checked 2026-10.</li>";
+  }
+  return sources.map(function (source) {
+    var checked = source.lastChecked || (source.accessed ? String(source.accessed).slice(0, 7) : "2026-10");
+    var kind = sourceKindLabel(source.kind || "learn");
+    var title = esc(source.title || source.url);
+    var url = esc(source.url || "");
+    var note = source.note ? " " + esc(source.note) : "";
+    if (source.status === "confirm") {
+      return "<li class=\"is-confirm\"><strong>" + title + "</strong> — confirm — last checked " + esc(checked) + ". <a href=\"" + url + "\">" + url + "</a> did not open when checked." + note + "</li>";
+    }
+    return "<li><a href=\"" + url + "\">" + title + "</a> — " + kind + " — last checked " + esc(checked) + "." + note + "</li>";
+  }).join("");
+}
+
+function sourceList(sources, lessonId) {
+  var deeper = window.MVCC_SOURCES && lessonId && window.MVCC_SOURCES[lessonId];
+  var rows = deeper && deeper.sources && deeper.sources.length ? deeper.sources : sources;
+  return "<section class=\"sources-deeper\" id=\"sources\"><h2>Sources and go deeper</h2><ul>" + sourceItems(rows) + "</ul></section>";
 }
 
 function monkeyLooks() {
@@ -2361,7 +2383,7 @@ function renderHome() {
     '<p class="kicker">Free offline campus · firewall prefixes checked 15 October 2026</p>' +
     '<p class="lede">A study bench for the engineer who has to explain a Teams call, a queue, a recorder, and a contact-center route without guessing. No account. No key. No network after this file is open.</p>' +
     '<article class="panel" id="about-lucky"><h2>Who keeps this bench</h2>' +
-    '<p>Lucky is a lifelong student and an AI enthusiast. The path runs from systems, networking, voice, and contact center work into AI omni-channel agents. This campus is the study bench for that path.</p>' +
+    '<p>This campus is a free study bench. Confirm every product claim on the cited page before you rely on it.</p>' +
     '<p class="tiny">© 2026 CypherMonkeyLabs 🐒</p></article>' +
     '<p class="callout">' + esc(DATA.examFact || "") + "</p>" +
     '<div class="hero-actions row">' +
@@ -2397,8 +2419,13 @@ function renderHome() {
     '<li><a href="#/lab/dial-plan">Normalization tester</a></li>' +
     '<li><a href="#/lab/route-match">Voice-routing matcher</a></li>' +
     '<li><a href="#/lesson/t17-map">The ecosystem mind map</a></li>' +
-    "</ol><p><a href=\"#/exam\">Exam status board</a> · <a href=\"#/glossary\">Glossary</a> · <a href=\"#/sources\">Sources</a></p></article></div>"
+    "</ol><p><a href=\"#/exam\">Exam status board</a> · <a href=\"#/glossary\">Glossary</a> · <a href=\"#/sources\">Sources</a></p></article></div>" +
+    sectionDl("t01")
   );
+}
+
+function sectionDl(trackId) {
+  return '<p class="section-dl"><a class="dl-btn" href="downloads/track-' + esc(trackId) + '.html" download>Download this section</a> <a class="dl-btn" href="downloads/microsoft-voice-contact-center-lab.zip" download>Zip</a></p>';
 }
 
 function callRibbon() {
@@ -2447,7 +2474,8 @@ function renderTrack(id) {
       );
     }).join("") +
     "</div>" +
-    (labs.length ? "<h2>Labs on this track</h2><div class=\"lab-grid\">" + labs.map(labCard).join("") + "</div>" : "")
+    (labs.length ? "<h2>Labs on this track</h2><div class=\"lab-grid\">" + labs.map(labCard).join("") + "</div>" : "") +
+    sectionDl(id)
   );
 }
 
@@ -2604,12 +2632,13 @@ function renderLesson(id) {
     (lesson.lab && lesson.lab !== lesson.tryLab ? '<a class="ghost" href="#/lab/' + esc(lesson.lab) + '">Open the lab</a>' : "") +
     "</div>" +
     audioFor(lesson.track) +
-    "<h2>Sources</h2>" + sourceList(lesson.sources) +
+    sectionDl(lesson.track) +
     '<div class="row">' +
     '<button class="primary" id="mark" type="button">' + (on ? "Completed in this browser" : "Mark complete") + "</button>" +
     (prev ? '<a class="ghost" href="#/lesson/' + prev.id + '">Previous</a>' : "") +
     (next ? '<a class="ghost" href="#/lesson/' + next.id + '">Next</a>' : "") +
-    "</div>"
+    "</div>" +
+    sourceList(lesson.sources, lesson.id)
   );
 }
 
@@ -3627,8 +3656,24 @@ function renderExamPage() {
 }
 
 function renderSources() {
-  return '<p class="kicker">Citations</p><h1>Sources</h1><p>Accessed 14 October 2026 unless a row says otherwise. Certification pages move. Read them again before you book.</p>' +
-    "<ul>" + DATA.sources.map((source) => "<li><a href=\"" + esc(source.url) + "\">" + esc(source.title) + "</a> — " + esc(source.used) + "</li>").join("") + "</ul>";
+  var bag = [];
+  var seen = {};
+  if (window.MVCC_SOURCES) {
+    Object.keys(window.MVCC_SOURCES).forEach(function (id) {
+      (window.MVCC_SOURCES[id].sources || []).forEach(function (source) {
+        if (!source.url || seen[source.url]) return;
+        seen[source.url] = true;
+        bag.push(source);
+      });
+    });
+  }
+  if (!bag.length) {
+    bag = (DATA.sources || []).map(function (source) {
+      return { title: source.title, url: source.url, kind: "learn", status: "ok", lastChecked: "2026-10", note: source.used || "" };
+    });
+  }
+  return '<p class="kicker">Citations</p><h1>Sources and go deeper</h1><p>Last checked 2026-10. A row marked confirm did not open.</p>' +
+    '<section class="sources-deeper" id="sources"><ul>' + sourceItems(bag) + "</ul></section>";
 }
 
 function missing() {
@@ -4202,11 +4247,9 @@ function navHtml() {
     { href: "#/sources", route: "sources", icon: "source", label: "Sources", desc: "The vendor pages this campus cites." }
   ];
   const brands = [
-    { href: "https://github.com/cipher0x9", icon: "github", label: "Visit my GitHub", desc: "github.com/cipher0x9" },
-    { href: "https://github.com/CypherMonkeyLabs", icon: "github", label: "Visit the Labs org", desc: "github.com/CypherMonkeyLabs" },
-    { href: "https://cyphermonkeylabs.com", icon: "globe", label: "Visit Cypher Monkey Labs", desc: "cyphermonkeylabs.com" },
-    { href: "https://x.com/Cypher0x9", icon: "x", label: "X", desc: "x.com/Cypher0x9" },
-    { href: "https://huggingface.co/Cypher0x9", icon: "hf", label: "Hugging Face", desc: "huggingface.co/Cypher0x9" }
+    { href: "https://cyphermonkeylabs.com", icon: "globe", label: "Website", desc: "cyphermonkeylabs.com" },
+    { href: "https://github.com/CypherMonkeyLabs", icon: "github", label: "GitHub", desc: "github.com/CypherMonkeyLabs" },
+    { href: "https://linktr.ee/cypherMonkey", icon: "globe", label: "Linktree", desc: "linktr.ee/cypherMonkey" }
   ];
   const trackCards = DATA.tracks.map((track) => {
     const why = String(track.why || "").replace(/\s+/g, " ").trim();
@@ -4335,7 +4378,47 @@ function setListenText(text) {
   const dock = $("#listen");
   const bar = $("#bottom-listen");
   if (dock) dock.textContent = text;
-  if (bar) bar.textContent = text === "Stop" ? "Stop" : "Listen";
+  if (bar) {
+    const label = bar.querySelector("span");
+    if (label) label.textContent = text === "Stop" ? "Stop" : "Listen";
+    else bar.textContent = text === "Stop" ? "Stop" : "Listen";
+  }
+}
+
+function clearReadMarks() {
+  document.querySelectorAll(".is-spoken, .is-reading").forEach((node) => {
+    node.classList.remove("is-spoken", "is-reading");
+  });
+}
+
+function readItems() {
+  const root = document.getElementById("view") || document.getElementById("main");
+  const items = [];
+  if (!root) return items;
+  root.querySelectorAll("p, li").forEach((el) => {
+    if (el.closest(".site-foot, .guide, .dock, .disclaimer-panel")) return;
+    if (el.querySelector("a, button, code, .read-sentence")) {
+      if ((el.textContent || "").trim()) items.push(el);
+      return;
+    }
+    const text = (el.textContent || "").trim();
+    if (!text) return;
+    const parts = text.split(/(?<=[.!?])\s+/).filter(Boolean);
+    if (parts.length < 2) {
+      items.push(el);
+      return;
+    }
+    el.textContent = "";
+    parts.forEach((part, index) => {
+      const span = document.createElement("span");
+      span.className = "read-sentence";
+      span.textContent = part;
+      el.appendChild(span);
+      if (index < parts.length - 1) el.appendChild(document.createTextNode(" "));
+      items.push(span);
+    });
+  });
+  return items;
 }
 
 async function toggleListen() {
@@ -4351,6 +4434,7 @@ async function toggleListen() {
   if (speaking) {
     synth.cancel();
     speaking = false;
+    clearReadMarks();
     setListenText("Listen");
     return;
   }
@@ -4361,18 +4445,46 @@ async function toggleListen() {
     setListenText("Pick a voice");
     return;
   }
-  const utterance = new SpeechSynthesisUtterance(text);
-  utterance.rate = Number(state.rate || $("#rate").value || 1);
-  utterance.voice = voice;
-  utterance.onend = function () { speaking = false; setListenText(listenLabel()); };
-  utterance.onerror = function () { speaking = false; setListenText(listenLabel()); };
+  const nodes = readItems();
+  const queue = nodes.length ? nodes : [null];
+  let index = 0;
+  const reduce = document.documentElement.dataset.motion === "reduce"
+    || (document.documentElement.dataset.motion !== "full" && window.matchMedia("(prefers-reduced-motion: reduce)").matches);
+  function finish() {
+    speaking = false;
+    clearReadMarks();
+    setListenText(listenLabel());
+  }
+  function step() {
+    if (!speaking) return;
+    clearReadMarks();
+    if (index >= queue.length) {
+      finish();
+      return;
+    }
+    const node = queue[index];
+    index += 1;
+    const spoken = node ? node.textContent : text;
+    if (node) {
+      node.classList.add("is-spoken");
+      const section = node.closest("section, article, .prose, .callout, .panel") || node.parentElement;
+      if (section) section.classList.add("is-reading");
+      node.scrollIntoView({ block: "center", behavior: reduce ? "auto" : "smooth" });
+    }
+    const utterance = new SpeechSynthesisUtterance(spoken || "");
+    utterance.rate = Number(state.rate || $("#rate").value || 1);
+    utterance.voice = voice;
+    utterance.onend = step;
+    utterance.onerror = step;
+    synth.speak(utterance);
+  }
   speaking = true;
   setListenText("Stop");
   synth.cancel();
   window.setTimeout(() => {
     if (!speaking) return;
     if (synth.paused) synth.resume();
-    synth.speak(utterance);
+    step();
   }, 60);
 }
 

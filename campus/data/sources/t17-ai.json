@@ -1,0 +1,56 @@
+{
+  "room": "T17-R09-ai-agents-beside-the-queue.html",
+  "lesson": "t17-ai",
+  "title": "AI agents beside the queue",
+  "checked": "2026-10",
+  "sources": [
+    {
+      "title": "Copilot Studio overview",
+      "url": "https://learn.microsoft.com/en-us/microsoft-copilot-studio/fundamentals-what-is-copilot-studio",
+      "kind": "learn",
+      "lastChecked": "2026-10",
+      "status": "ok",
+      "note": ""
+    },
+    {
+      "title": "Azure Communication Services Call Automation",
+      "url": "https://learn.microsoft.com/en-us/azure/communication-services/concepts/call-automation/call-automation",
+      "kind": "learn",
+      "lastChecked": "2026-10",
+      "status": "ok",
+      "note": ""
+    },
+    {
+      "title": "Azure AI Foundry documentation",
+      "url": "https://learn.microsoft.com/en-us/azure/ai-foundry/",
+      "kind": "learn",
+      "lastChecked": "2026-10",
+      "status": "ok",
+      "note": ""
+    },
+    {
+      "title": "Microsoft Teams",
+      "url": "https://en.wikipedia.org/wiki/Microsoft_Teams",
+      "kind": "wikipedia",
+      "lastChecked": "2026-10",
+      "status": "ok",
+      "note": "Wikipedia fallback for background. Confirm the vendor page before you change a tenant."
+    },
+    {
+      "title": "Call centre",
+      "url": "https://en.wikipedia.org/wiki/Call_centre",
+      "kind": "wikipedia",
+      "lastChecked": "2026-10",
+      "status": "ok",
+      "note": "Wikipedia fallback for background. Confirm the vendor page before you change a tenant."
+    },
+    {
+      "title": "Microsoft Teams blog index",
+      "url": "https://techcommunity.microsoft.com/category/microsoftteams/blog/microsoftteamsblog",
+      "kind": "community",
+      "lastChecked": "2026-10",
+      "status": "ok",
+      "note": "Community index for the Microsoft Teams blog. This is the index, not a claim that a post discusses this room."
+    }
+  ]
+}

@@ -1,0 +1,12 @@
+{
+  "name": "Microsoft Voice and Contact Center Lab",
+  "short_name": "Teams Phone Lab",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#0b1020",
+  "theme_color": "#4f46e5",
+  "icons": [
+    { "src": "favicon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" }
+  ]
+}

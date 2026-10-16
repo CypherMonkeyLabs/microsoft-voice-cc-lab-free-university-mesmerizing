@@ -1,0 +1,56 @@
+{
+  "room": "T17-R04-compliance-recording-and-quality-management.html",
+  "lesson": "t17-rec",
+  "title": "Compliance recording and quality management",
+  "checked": "2026-10",
+  "sources": [
+    {
+      "title": "Introduction to Teams recording",
+      "url": "https://learn.microsoft.com/en-us/microsoftteams/teams-recording-policy",
+      "kind": "learn",
+      "lastChecked": "2026-10",
+      "status": "ok",
+      "note": ""
+    },
+    {
+      "title": "Set up compliance recording",
+      "url": "https://learn.microsoft.com/en-us/microsoftteams/teams-compliance-recording-setup",
+      "kind": "learn",
+      "lastChecked": "2026-10",
+      "status": "ok",
+      "note": ""
+    },
+    {
+      "title": "New-CsTeamsComplianceRecordingPolicy",
+      "url": "https://learn.microsoft.com/en-us/powershell/module/teams/new-csteamscompliancerecordingpolicy?view=teams-ps",
+      "kind": "learn",
+      "lastChecked": "2026-10",
+      "status": "ok",
+      "note": ""
+    },
+    {
+      "title": "Microsoft Teams",
+      "url": "https://en.wikipedia.org/wiki/Microsoft_Teams",
+      "kind": "wikipedia",
+      "lastChecked": "2026-10",
+      "status": "ok",
+      "note": "Wikipedia fallback for background. Confirm the vendor page before you change a tenant."
+    },
+    {
+      "title": "Call centre",
+      "url": "https://en.wikipedia.org/wiki/Call_centre",
+      "kind": "wikipedia",
+      "lastChecked": "2026-10",
+      "status": "ok",
+      "note": "Wikipedia fallback for background. Confirm the vendor page before you change a tenant."
+    },
+    {
+      "title": "Microsoft Teams blog index",
+      "url": "https://techcommunity.microsoft.com/category/microsoftteams/blog/microsoftteamsblog",
+      "kind": "community",
+      "lastChecked": "2026-10",
+      "status": "ok",
+      "note": "Community index for the Microsoft Teams blog. This is the index, not a claim that a post discusses this room."
+    }
+  ]
+}

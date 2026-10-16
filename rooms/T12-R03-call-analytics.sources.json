@@ -1,0 +1,40 @@
+{
+  "room": "T12-R03-call-analytics.html",
+  "lesson": "t12-analytics",
+  "title": "Call Analytics",
+  "checked": "2026-10",
+  "sources": [
+    {
+      "title": "Use Call Analytics",
+      "url": "https://learn.microsoft.com/en-us/microsoftteams/use-call-analytics-to-troubleshoot-poor-call-quality",
+      "kind": "learn",
+      "lastChecked": "2026-10",
+      "status": "ok",
+      "note": ""
+    },
+    {
+      "title": "RFC 3261",
+      "url": "https://www.rfc-editor.org/rfc/rfc3261",
+      "kind": "rfc",
+      "lastChecked": "2026-10",
+      "status": "ok",
+      "note": ""
+    },
+    {
+      "title": "Session Initiation Protocol",
+      "url": "https://en.wikipedia.org/wiki/Session_Initiation_Protocol",
+      "kind": "wikipedia",
+      "lastChecked": "2026-10",
+      "status": "ok",
+      "note": "Wikipedia fallback for background. Confirm the vendor page before you change a tenant."
+    },
+    {
+      "title": "Microsoft Teams blog index",
+      "url": "https://techcommunity.microsoft.com/category/microsoftteams/blog/microsoftteamsblog",
+      "kind": "community",
+      "lastChecked": "2026-10",
+      "status": "ok",
+      "note": "Community index for the Microsoft Teams blog. This is the index, not a claim that a post discusses this room."
+    }
+  ]
+}

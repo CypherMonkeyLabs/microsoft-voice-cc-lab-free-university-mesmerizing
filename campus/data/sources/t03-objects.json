@@ -1,0 +1,48 @@
+{
+  "room": "T03-R02-objects-you-will-actually-get.html",
+  "lesson": "t03-objects",
+  "title": "Objects you will actually get",
+  "checked": "2026-10",
+  "sources": [
+    {
+      "title": "Manage voice routing policies",
+      "url": "https://learn.microsoft.com/en-us/microsoftteams/manage-voice-routing-policies",
+      "kind": "learn",
+      "lastChecked": "2026-10",
+      "status": "ok",
+      "note": ""
+    },
+    {
+      "title": "Create and manage dial plans",
+      "url": "https://learn.microsoft.com/en-us/microsoftteams/create-and-manage-dial-plans",
+      "kind": "learn",
+      "lastChecked": "2026-10",
+      "status": "ok",
+      "note": ""
+    },
+    {
+      "title": "Plan Direct Routing",
+      "url": "https://learn.microsoft.com/en-us/microsoftteams/direct-routing-plan",
+      "kind": "learn",
+      "lastChecked": "2026-10",
+      "status": "ok",
+      "note": ""
+    },
+    {
+      "title": "PowerShell",
+      "url": "https://en.wikipedia.org/wiki/PowerShell",
+      "kind": "wikipedia",
+      "lastChecked": "2026-10",
+      "status": "ok",
+      "note": "Wikipedia fallback for background. Confirm the vendor page before you change a tenant."
+    },
+    {
+      "title": "Microsoft Teams blog index",
+      "url": "https://techcommunity.microsoft.com/category/microsoftteams/blog/microsoftteamsblog",
+      "kind": "community",
+      "lastChecked": "2026-10",
+      "status": "ok",
+      "note": "Community index for the Microsoft Teams blog. This is the index, not a claim that a post discusses this room."
+    }
+  ]
+}

@@ -1,0 +1,37 @@
+{
+  "checked": "2026-10",
+  "sources": [
+    {
+      "title": "Create and manage dial plans",
+      "url": "https://learn.microsoft.com/en-us/microsoftteams/create-and-manage-dial-plans",
+      "kind": "learn",
+      "lastChecked": "2026-10",
+      "status": "ok",
+      "note": ""
+    },
+    {
+      "title": "RFC 3966",
+      "url": "https://www.rfc-editor.org/rfc/rfc3966",
+      "kind": "rfc",
+      "lastChecked": "2026-10",
+      "status": "ok",
+      "note": ""
+    },
+    {
+      "title": "E.164",
+      "url": "https://en.wikipedia.org/wiki/E.164",
+      "kind": "wikipedia",
+      "lastChecked": "2026-10",
+      "status": "ok",
+      "note": "Wikipedia fallback for background. Confirm the vendor page before you change a tenant."
+    },
+    {
+      "title": "Microsoft Teams blog index",
+      "url": "https://techcommunity.microsoft.com/category/microsoftteams/blog/microsoftteamsblog",
+      "kind": "community",
+      "lastChecked": "2026-10",
+      "status": "ok",
+      "note": "Community index for the Microsoft Teams blog. This is the index, not a claim that a post discusses this room."
+    }
+  ]
+}

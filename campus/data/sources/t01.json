@@ -1,0 +1,113 @@
+{
+  "track": "t01",
+  "title": "Foundations",
+  "checked": "2026-10",
+  "rooms": [
+    {
+      "room": "T01-R01-the-tenant-boundary.html",
+      "sourcesFile": "../../rooms/T01-R01-the-tenant-boundary.sources.json"
+    },
+    {
+      "room": "T01-R02-entra-id-accounts-voice-will-use.html",
+      "sourcesFile": "../../rooms/T01-R02-entra-id-accounts-voice-will-use.sources.json"
+    },
+    {
+      "room": "T01-R03-roles-that-can-change-voice.html",
+      "sourcesFile": "../../rooms/T01-R03-roles-that-can-change-voice.sources.json"
+    },
+    {
+      "room": "T01-R04-the-admin-center-map.html",
+      "sourcesFile": "../../rooms/T01-R04-the-admin-center-map.sources.json"
+    },
+    {
+      "room": "T01-R05-exchange-and-cloud-voicemail.html",
+      "sourcesFile": "../../rooms/T01-R05-exchange-and-cloud-voicemail.sources.json"
+    },
+    {
+      "room": "T01-R06-what-homed-online-means.html",
+      "sourcesFile": "../../rooms/T01-R06-what-homed-online-means.sources.json"
+    }
+  ],
+  "sources": [
+    {
+      "title": "Plan Direct Routing",
+      "url": "https://learn.microsoft.com/en-us/microsoftteams/direct-routing-plan",
+      "kind": "learn",
+      "lastChecked": "2026-10",
+      "status": "ok",
+      "note": ""
+    },
+    {
+      "title": "Use Teams admin roles",
+      "url": "https://learn.microsoft.com/en-us/microsoftteams/using-admin-roles",
+      "kind": "learn",
+      "lastChecked": "2026-10",
+      "status": "ok",
+      "note": ""
+    },
+    {
+      "title": "Microsoft 365",
+      "url": "https://en.wikipedia.org/wiki/Microsoft_365",
+      "kind": "wikipedia",
+      "lastChecked": "2026-10",
+      "status": "ok",
+      "note": "Wikipedia fallback for background. Confirm the vendor page before you change a tenant."
+    },
+    {
+      "title": "Microsoft Teams",
+      "url": "https://en.wikipedia.org/wiki/Microsoft_Teams",
+      "kind": "wikipedia",
+      "lastChecked": "2026-10",
+      "status": "ok",
+      "note": "Wikipedia fallback for background. Confirm the vendor page before you change a tenant."
+    },
+    {
+      "title": "Microsoft Teams blog index",
+      "url": "https://techcommunity.microsoft.com/category/microsoftteams/blog/microsoftteamsblog",
+      "kind": "community",
+      "lastChecked": "2026-10",
+      "status": "ok",
+      "note": "Community index for the Microsoft Teams blog. This is the index, not a claim that a post discusses this room."
+    },
+    {
+      "title": "Manage resource accounts",
+      "url": "https://learn.microsoft.com/en-us/microsoftteams/aa-cq-manage-resource-accounts",
+      "kind": "learn",
+      "lastChecked": "2026-10",
+      "status": "ok",
+      "note": ""
+    },
+    {
+      "title": "Security, Compliance, and Identity Fundamentals",
+      "url": "https://learn.microsoft.com/en-us/credentials/certifications/security-compliance-and-identity-fundamentals/",
+      "kind": "learn",
+      "lastChecked": "2026-10",
+      "status": "ok",
+      "note": ""
+    },
+    {
+      "title": "Set up Teams Phone",
+      "url": "https://learn.microsoft.com/en-us/microsoftteams/setting-up-your-phone-system",
+      "kind": "learn",
+      "lastChecked": "2026-10",
+      "status": "ok",
+      "note": ""
+    },
+    {
+      "title": "Cloud Voicemail",
+      "url": "https://learn.microsoft.com/en-us/microsoftteams/cloud-voicemail",
+      "kind": "learn",
+      "lastChecked": "2026-10",
+      "status": "confirm",
+      "note": "HTTP 404"
+    },
+    {
+      "title": "Set up Cloud Voicemail - Microsoft Teams | Microsoft Learn",
+      "url": "https://learn.microsoft.com/en-us/microsoftteams/set-up-phone-system-voicemail",
+      "kind": "learn",
+      "lastChecked": "2026-10",
+      "status": "ok",
+      "note": "Opened in place of https://learn.microsoft.com/en-us/microsoftteams/cloud-voicemail, which did not open. The title is the page that opened."
+    }
+  ]
+}

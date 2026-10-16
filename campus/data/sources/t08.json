@@ -1,0 +1,89 @@
+{
+  "track": "t08",
+  "title": "Emergency, LBR, survivability",
+  "checked": "2026-10",
+  "rooms": [
+    {
+      "room": "T08-R01-emergency-calling-is-a-design-gate.html",
+      "sourcesFile": "../../rooms/T08-R01-emergency-calling-is-a-design-gate.sources.json"
+    },
+    {
+      "room": "T08-R02-dynamic-location.html",
+      "sourcesFile": "../../rooms/T08-R02-dynamic-location.sources.json"
+    },
+    {
+      "room": "T08-R03-calling-plans-versus-direct-routing-emergency.html",
+      "sourcesFile": "../../rooms/T08-R03-calling-plans-versus-direct-routing-emergency.sources.json"
+    },
+    {
+      "room": "T08-R04-location-based-routing.html",
+      "sourcesFile": "../../rooms/T08-R04-location-based-routing.sources.json"
+    },
+    {
+      "room": "T08-R05-survivable-branch-appliance.html",
+      "sourcesFile": "../../rooms/T08-R05-survivable-branch-appliance.sources.json"
+    },
+    {
+      "room": "T08-R06-notification-and-the-test-call.html",
+      "sourcesFile": "../../rooms/T08-R06-notification-and-the-test-call.sources.json"
+    }
+  ],
+  "sources": [
+    {
+      "title": "Emergency locations, addresses, and routing",
+      "url": "https://learn.microsoft.com/en-us/microsoftteams/what-are-emergency-locations-addresses-and-call-routing",
+      "kind": "learn",
+      "lastChecked": "2026-10",
+      "status": "ok",
+      "note": ""
+    },
+    {
+      "title": "Plan Direct Routing",
+      "url": "https://learn.microsoft.com/en-us/microsoftteams/direct-routing-plan",
+      "kind": "learn",
+      "lastChecked": "2026-10",
+      "status": "ok",
+      "note": ""
+    },
+    {
+      "title": "Emergency telephone number",
+      "url": "https://en.wikipedia.org/wiki/Emergency_telephone_number",
+      "kind": "wikipedia",
+      "lastChecked": "2026-10",
+      "status": "ok",
+      "note": "Wikipedia fallback for background. Confirm the vendor page before you change a tenant."
+    },
+    {
+      "title": "Microsoft Teams blog index",
+      "url": "https://techcommunity.microsoft.com/category/microsoftteams/blog/microsoftteamsblog",
+      "kind": "community",
+      "lastChecked": "2026-10",
+      "status": "ok",
+      "note": "Community index for the Microsoft Teams blog. This is the index, not a claim that a post discusses this room."
+    },
+    {
+      "title": "Calling Plans",
+      "url": "https://learn.microsoft.com/en-us/microsoftteams/calling-plans-for-office-365",
+      "kind": "learn",
+      "lastChecked": "2026-10",
+      "status": "ok",
+      "note": ""
+    },
+    {
+      "title": "Location-based routing",
+      "url": "https://learn.microsoft.com/en-us/microsoftteams/location-based-routing-plan",
+      "kind": "learn",
+      "lastChecked": "2026-10",
+      "status": "ok",
+      "note": ""
+    },
+    {
+      "title": "Survivable Branch Appliance",
+      "url": "https://learn.microsoft.com/en-us/microsoftteams/direct-routing-survivable-branch-appliance",
+      "kind": "learn",
+      "lastChecked": "2026-10",
+      "status": "ok",
+      "note": ""
+    }
+  ]
+}

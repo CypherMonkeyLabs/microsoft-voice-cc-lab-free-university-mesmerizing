@@ -1,0 +1,129 @@
+{
+  "track": "t07",
+  "title": "Attendants and queues",
+  "checked": "2026-10",
+  "rooms": [
+    {
+      "room": "T07-R01-resource-accounts-for-voice-apps.html",
+      "sourcesFile": "../../rooms/T07-R01-resource-accounts-for-voice-apps.sources.json"
+    },
+    {
+      "room": "T07-R02-auto-attendant-design.html",
+      "sourcesFile": "../../rooms/T07-R02-auto-attendant-design.sources.json"
+    },
+    {
+      "room": "T07-R03-queue-routing-methods.html",
+      "sourcesFile": "../../rooms/T07-R03-queue-routing-methods.sources.json"
+    },
+    {
+      "room": "T07-R04-timeout-overflow-and-outbound-funding.html",
+      "sourcesFile": "../../rooms/T07-R04-timeout-overflow-and-outbound-funding.sources.json"
+    },
+    {
+      "room": "T07-R05-nested-voice-apps.html",
+      "sourcesFile": "../../rooms/T07-R05-nested-voice-apps.sources.json"
+    },
+    {
+      "room": "T07-R06-numbers-on-voice-apps.html",
+      "sourcesFile": "../../rooms/T07-R06-numbers-on-voice-apps.sources.json"
+    }
+  ],
+  "sources": [
+    {
+      "title": "Manage resource accounts",
+      "url": "https://learn.microsoft.com/en-us/microsoftteams/aa-cq-manage-resource-accounts",
+      "kind": "learn",
+      "lastChecked": "2026-10",
+      "status": "ok",
+      "note": ""
+    },
+    {
+      "title": "Voice app prerequisites and licensing",
+      "url": "https://learn.microsoft.com/en-us/microsoftteams/aa-cq-reference-prerequisites-licensing",
+      "kind": "learn",
+      "lastChecked": "2026-10",
+      "status": "ok",
+      "note": ""
+    },
+    {
+      "title": "Teams Phone Resource Account licenses",
+      "url": "https://learn.microsoft.com/en-us/microsoftteams/teams-add-on-licensing/virtual-user",
+      "kind": "learn",
+      "lastChecked": "2026-10",
+      "status": "ok",
+      "note": ""
+    },
+    {
+      "title": "Automatic call distributor",
+      "url": "https://en.wikipedia.org/wiki/Automatic_call_distributor",
+      "kind": "wikipedia",
+      "lastChecked": "2026-10",
+      "status": "ok",
+      "note": "Wikipedia fallback for background. Confirm the vendor page before you change a tenant."
+    },
+    {
+      "title": "Interactive voice response",
+      "url": "https://en.wikipedia.org/wiki/Interactive_voice_response",
+      "kind": "wikipedia",
+      "lastChecked": "2026-10",
+      "status": "ok",
+      "note": "Wikipedia fallback for background. Confirm the vendor page before you change a tenant."
+    },
+    {
+      "title": "Microsoft Teams blog index",
+      "url": "https://techcommunity.microsoft.com/category/microsoftteams/blog/microsoftteamsblog",
+      "kind": "community",
+      "lastChecked": "2026-10",
+      "status": "ok",
+      "note": "Community index for the Microsoft Teams blog. This is the index, not a claim that a post discusses this room."
+    },
+    {
+      "title": "Set up an auto attendant",
+      "url": "https://learn.microsoft.com/en-us/microsoftteams/create-a-phone-system-auto-attendant",
+      "kind": "learn",
+      "lastChecked": "2026-10",
+      "status": "ok",
+      "note": ""
+    },
+    {
+      "title": "Set up a call queue",
+      "url": "https://learn.microsoft.com/en-us/microsoftteams/create-a-phone-system-call-queue",
+      "kind": "learn",
+      "lastChecked": "2026-10",
+      "status": "ok",
+      "note": ""
+    },
+    {
+      "title": "Cloud Voicemail",
+      "url": "https://learn.microsoft.com/en-us/microsoftteams/cloud-voicemail",
+      "kind": "learn",
+      "lastChecked": "2026-10",
+      "status": "confirm",
+      "note": "HTTP 404"
+    },
+    {
+      "title": "Set up Cloud Voicemail - Microsoft Teams | Microsoft Learn",
+      "url": "https://learn.microsoft.com/en-us/microsoftteams/set-up-phone-system-voicemail",
+      "kind": "learn",
+      "lastChecked": "2026-10",
+      "status": "ok",
+      "note": "Opened in place of https://learn.microsoft.com/en-us/microsoftteams/cloud-voicemail, which did not open. The title is the page that opened."
+    },
+    {
+      "title": "Set up Teams Phone",
+      "url": "https://learn.microsoft.com/en-us/microsoftteams/setting-up-your-phone-system",
+      "kind": "learn",
+      "lastChecked": "2026-10",
+      "status": "ok",
+      "note": ""
+    },
+    {
+      "title": "PSTN connectivity options",
+      "url": "https://learn.microsoft.com/en-us/microsoftteams/pstn-connectivity",
+      "kind": "learn",
+      "lastChecked": "2026-10",
+      "status": "ok",
+      "note": ""
+    }
+  ]
+}

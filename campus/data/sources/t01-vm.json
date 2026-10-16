@@ -1,0 +1,48 @@
+{
+  "room": "T01-R05-exchange-and-cloud-voicemail.html",
+  "lesson": "t01-vm",
+  "title": "Exchange and Cloud Voicemail",
+  "checked": "2026-10",
+  "sources": [
+    {
+      "title": "Cloud Voicemail",
+      "url": "https://learn.microsoft.com/en-us/microsoftteams/cloud-voicemail",
+      "kind": "learn",
+      "lastChecked": "2026-10",
+      "status": "confirm",
+      "note": "HTTP 404"
+    },
+    {
+      "title": "Set up Cloud Voicemail - Microsoft Teams | Microsoft Learn",
+      "url": "https://learn.microsoft.com/en-us/microsoftteams/set-up-phone-system-voicemail",
+      "kind": "learn",
+      "lastChecked": "2026-10",
+      "status": "ok",
+      "note": "Opened in place of https://learn.microsoft.com/en-us/microsoftteams/cloud-voicemail, which did not open. The title is the page that opened."
+    },
+    {
+      "title": "Microsoft 365",
+      "url": "https://en.wikipedia.org/wiki/Microsoft_365",
+      "kind": "wikipedia",
+      "lastChecked": "2026-10",
+      "status": "ok",
+      "note": "Wikipedia fallback for background. Confirm the vendor page before you change a tenant."
+    },
+    {
+      "title": "Microsoft Teams",
+      "url": "https://en.wikipedia.org/wiki/Microsoft_Teams",
+      "kind": "wikipedia",
+      "lastChecked": "2026-10",
+      "status": "ok",
+      "note": "Wikipedia fallback for background. Confirm the vendor page before you change a tenant."
+    },
+    {
+      "title": "Microsoft Teams blog index",
+      "url": "https://techcommunity.microsoft.com/category/microsoftteams/blog/microsoftteamsblog",
+      "kind": "community",
+      "lastChecked": "2026-10",
+      "status": "ok",
+      "note": "Community index for the Microsoft Teams blog. This is the index, not a claim that a post discusses this room."
+    }
+  ]
+}

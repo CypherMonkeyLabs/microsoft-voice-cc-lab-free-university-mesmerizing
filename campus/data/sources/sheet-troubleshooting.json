@@ -1,0 +1,37 @@
+{
+  "checked": "2026-10",
+  "sources": [
+    {
+      "title": "What is Call Quality Dashboard",
+      "url": "https://learn.microsoft.com/en-us/microsoftteams/cqd-what-is-call-quality-dashboard",
+      "kind": "learn",
+      "lastChecked": "2026-10",
+      "status": "ok",
+      "note": ""
+    },
+    {
+      "title": "Use Call Analytics",
+      "url": "https://learn.microsoft.com/en-us/microsoftteams/use-call-analytics-to-troubleshoot-poor-call-quality",
+      "kind": "learn",
+      "lastChecked": "2026-10",
+      "status": "ok",
+      "note": ""
+    },
+    {
+      "title": "QoS in Microsoft Teams",
+      "url": "https://learn.microsoft.com/en-us/microsoftteams/qos-in-teams",
+      "kind": "learn",
+      "lastChecked": "2026-10",
+      "status": "ok",
+      "note": ""
+    },
+    {
+      "title": "Microsoft Teams blog index",
+      "url": "https://techcommunity.microsoft.com/category/microsoftteams/blog/microsoftteamsblog",
+      "kind": "community",
+      "lastChecked": "2026-10",
+      "status": "ok",
+      "note": "Community index for the Microsoft Teams blog. This is the index, not a claim that a post discusses this room."
+    }
+  ]
+}

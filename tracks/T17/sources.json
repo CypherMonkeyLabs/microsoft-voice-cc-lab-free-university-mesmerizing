@@ -1,0 +1,217 @@
+{
+  "track": "t17",
+  "title": "Ecosystem",
+  "checked": "2026-10",
+  "rooms": [
+    {
+      "room": "T17-R01-voice-is-not-a-closed-box.html",
+      "sourcesFile": "../../rooms/T17-R01-voice-is-not-a-closed-box.sources.json"
+    },
+    {
+      "room": "T17-R02-how-to-use-the-glossary.html",
+      "sourcesFile": "../../rooms/T17-R02-how-to-use-the-glossary.sources.json"
+    },
+    {
+      "room": "T17-R03-the-mind-map.html",
+      "sourcesFile": "../../rooms/T17-R03-the-mind-map.sources.json"
+    },
+    {
+      "room": "T17-R04-compliance-recording-and-quality-management.html",
+      "sourcesFile": "../../rooms/T17-R04-compliance-recording-and-quality-management.sources.json"
+    },
+    {
+      "room": "T17-R05-workforce-management.html",
+      "sourcesFile": "../../rooms/T17-R05-workforce-management.sources.json"
+    },
+    {
+      "room": "T17-R06-e911-as-a-system-of-record.html",
+      "sourcesFile": "../../rooms/T17-R06-e911-as-a-system-of-record.sources.json"
+    },
+    {
+      "room": "T17-R07-analytics-and-power-bi.html",
+      "sourcesFile": "../../rooms/T17-R07-analytics-and-power-bi.sources.json"
+    },
+    {
+      "room": "T17-R08-crm-and-screen-pop.html",
+      "sourcesFile": "../../rooms/T17-R08-crm-and-screen-pop.sources.json"
+    },
+    {
+      "room": "T17-R09-ai-agents-beside-the-queue.html",
+      "sourcesFile": "../../rooms/T17-R09-ai-agents-beside-the-queue.sources.json"
+    },
+    {
+      "room": "T17-R10-integration-maps.html",
+      "sourcesFile": "../../rooms/T17-R10-integration-maps.sources.json"
+    },
+    {
+      "room": "T17-R11-cross-platform-bridges.html",
+      "sourcesFile": "../../rooms/T17-R11-cross-platform-bridges.sources.json"
+    },
+    {
+      "room": "T17-R12-future-integration-hooks.html",
+      "sourcesFile": "../../rooms/T17-R12-future-integration-hooks.sources.json"
+    },
+    {
+      "room": "T17-R13-configuring-an-ecosystem-change.html",
+      "sourcesFile": "../../rooms/T17-R13-configuring-an-ecosystem-change.sources.json"
+    },
+    {
+      "room": "T17-R14-troubleshooting-across-a-vendor-boundary.html",
+      "sourcesFile": "../../rooms/T17-R14-troubleshooting-across-a-vendor-boundary.sources.json"
+    }
+  ],
+  "sources": [
+    {
+      "title": "Introduction to Teams recording",
+      "url": "https://learn.microsoft.com/en-us/microsoftteams/teams-recording-policy",
+      "kind": "learn",
+      "lastChecked": "2026-10",
+      "status": "ok",
+      "note": ""
+    },
+    {
+      "title": "What is Call Quality Dashboard",
+      "url": "https://learn.microsoft.com/en-us/microsoftteams/cqd-what-is-call-quality-dashboard",
+      "kind": "learn",
+      "lastChecked": "2026-10",
+      "status": "ok",
+      "note": ""
+    },
+    {
+      "title": "Emergency locations, addresses, and routing",
+      "url": "https://learn.microsoft.com/en-us/microsoftteams/what-are-emergency-locations-addresses-and-call-routing",
+      "kind": "learn",
+      "lastChecked": "2026-10",
+      "status": "ok",
+      "note": ""
+    },
+    {
+      "title": "Dynamics 365 Contact Center",
+      "url": "https://learn.microsoft.com/en-us/dynamics365/contact-center/",
+      "kind": "learn",
+      "lastChecked": "2026-10",
+      "status": "ok",
+      "note": ""
+    },
+    {
+      "title": "Microsoft Teams",
+      "url": "https://en.wikipedia.org/wiki/Microsoft_Teams",
+      "kind": "wikipedia",
+      "lastChecked": "2026-10",
+      "status": "ok",
+      "note": "Wikipedia fallback for background. Confirm the vendor page before you change a tenant."
+    },
+    {
+      "title": "Call centre",
+      "url": "https://en.wikipedia.org/wiki/Call_centre",
+      "kind": "wikipedia",
+      "lastChecked": "2026-10",
+      "status": "ok",
+      "note": "Wikipedia fallback for background. Confirm the vendor page before you change a tenant."
+    },
+    {
+      "title": "Microsoft Teams blog index",
+      "url": "https://techcommunity.microsoft.com/category/microsoftteams/blog/microsoftteamsblog",
+      "kind": "community",
+      "lastChecked": "2026-10",
+      "status": "ok",
+      "note": "Community index for the Microsoft Teams blog. This is the index, not a claim that a post discusses this room."
+    },
+    {
+      "title": "Plan Direct Routing",
+      "url": "https://learn.microsoft.com/en-us/microsoftteams/direct-routing-plan",
+      "kind": "learn",
+      "lastChecked": "2026-10",
+      "status": "ok",
+      "note": ""
+    },
+    {
+      "title": "Teams contact center integration models",
+      "url": "https://learn.microsoft.com/en-us/microsoftteams/teams-contact-center",
+      "kind": "learn",
+      "lastChecked": "2026-10",
+      "status": "ok",
+      "note": ""
+    },
+    {
+      "title": "Set up compliance recording",
+      "url": "https://learn.microsoft.com/en-us/microsoftteams/teams-compliance-recording-setup",
+      "kind": "learn",
+      "lastChecked": "2026-10",
+      "status": "ok",
+      "note": ""
+    },
+    {
+      "title": "New-CsTeamsComplianceRecordingPolicy",
+      "url": "https://learn.microsoft.com/en-us/powershell/module/teams/new-csteamscompliancerecordingpolicy?view=teams-ps",
+      "kind": "learn",
+      "lastChecked": "2026-10",
+      "status": "ok",
+      "note": ""
+    },
+    {
+      "title": "Location-based routing",
+      "url": "https://learn.microsoft.com/en-us/microsoftteams/location-based-routing-plan",
+      "kind": "learn",
+      "lastChecked": "2026-10",
+      "status": "ok",
+      "note": ""
+    },
+    {
+      "title": "Use Call Analytics",
+      "url": "https://learn.microsoft.com/en-us/microsoftteams/use-call-analytics-to-troubleshoot-poor-call-quality",
+      "kind": "learn",
+      "lastChecked": "2026-10",
+      "status": "ok",
+      "note": ""
+    },
+    {
+      "title": "Study guide AB-250",
+      "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/ab-250",
+      "kind": "learn",
+      "lastChecked": "2026-10",
+      "status": "ok",
+      "note": ""
+    },
+    {
+      "title": "Copilot Studio overview",
+      "url": "https://learn.microsoft.com/en-us/microsoft-copilot-studio/fundamentals-what-is-copilot-studio",
+      "kind": "learn",
+      "lastChecked": "2026-10",
+      "status": "ok",
+      "note": ""
+    },
+    {
+      "title": "Azure Communication Services Call Automation",
+      "url": "https://learn.microsoft.com/en-us/azure/communication-services/concepts/call-automation/call-automation",
+      "kind": "learn",
+      "lastChecked": "2026-10",
+      "status": "ok",
+      "note": ""
+    },
+    {
+      "title": "Azure AI Foundry documentation",
+      "url": "https://learn.microsoft.com/en-us/azure/ai-foundry/",
+      "kind": "learn",
+      "lastChecked": "2026-10",
+      "status": "ok",
+      "note": ""
+    },
+    {
+      "title": "Survivable Branch Appliance",
+      "url": "https://learn.microsoft.com/en-us/microsoftteams/direct-routing-survivable-branch-appliance",
+      "kind": "learn",
+      "lastChecked": "2026-10",
+      "status": "ok",
+      "note": ""
+    },
+    {
+      "title": "Cisco Unified Border Element",
+      "url": "https://www.cisco.com/c/en/us/products/unified-communications/unified-border-element/index.html",
+      "kind": "vendor",
+      "lastChecked": "2026-10",
+      "status": "ok",
+      "note": ""
+    }
+  ]
+}

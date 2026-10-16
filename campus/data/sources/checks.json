@@ -1,0 +1,602 @@
+{
+  "https://en.wikipedia.org/wiki/Automatic_call_distributor": {
+    "url": "https://en.wikipedia.org/wiki/Automatic_call_distributor",
+    "status": "ok",
+    "http": 200,
+    "final": "https://en.wikipedia.org/wiki/Automatic_call_distributor",
+    "title": "Automatic call distributor - Wikipedia",
+    "note": ""
+  },
+  "https://en.wikipedia.org/wiki/Emergency_telephone_number": {
+    "url": "https://en.wikipedia.org/wiki/Emergency_telephone_number",
+    "status": "ok",
+    "http": 200,
+    "final": "https://en.wikipedia.org/wiki/Emergency_telephone_number",
+    "title": "Emergency telephone number - Wikipedia",
+    "note": ""
+  },
+  "https://en.wikipedia.org/wiki/E.164": {
+    "url": "https://en.wikipedia.org/wiki/E.164",
+    "status": "ok",
+    "http": 200,
+    "final": "https://en.wikipedia.org/wiki/E.164",
+    "title": "E.164 - Wikipedia",
+    "note": ""
+  },
+  "https://en.wikipedia.org/wiki/Microsoft_365": {
+    "url": "https://en.wikipedia.org/wiki/Microsoft_365",
+    "status": "ok",
+    "http": 200,
+    "final": "https://en.wikipedia.org/wiki/Microsoft_365",
+    "title": "Microsoft 365 - Wikipedia",
+    "note": ""
+  },
+  "https://en.wikipedia.org/wiki/Microsoft_Teams": {
+    "url": "https://en.wikipedia.org/wiki/Microsoft_Teams",
+    "status": "ok",
+    "http": 200,
+    "final": "https://en.wikipedia.org/wiki/Microsoft_Teams",
+    "title": "Microsoft Teams - Wikipedia",
+    "note": ""
+  },
+  "https://docs.oracle.com/en/industries/communications/session-border-controller/index.html": {
+    "url": "https://docs.oracle.com/en/industries/communications/session-border-controller/index.html",
+    "status": "ok",
+    "http": 200,
+    "final": "https://docs.oracle.com/en/industries/communications/session-border-controller/index.html",
+    "title": "Session Border Controller Documentation - Home",
+    "note": ""
+  },
+  "https://en.wikipedia.org/wiki/PowerShell": {
+    "url": "https://en.wikipedia.org/wiki/PowerShell",
+    "status": "ok",
+    "http": 200,
+    "final": "https://en.wikipedia.org/wiki/PowerShell",
+    "title": "PowerShell - Wikipedia",
+    "note": ""
+  },
+  "https://en.wikipedia.org/wiki/Public_switched_telephone_network": {
+    "url": "https://en.wikipedia.org/wiki/Public_switched_telephone_network",
+    "status": "ok",
+    "http": 200,
+    "final": "https://en.wikipedia.org/wiki/Public_switched_telephone_network",
+    "title": "Public switched telephone network - Wikipedia",
+    "note": ""
+  },
+  "https://en.wikipedia.org/wiki/Quality_of_service": {
+    "url": "https://en.wikipedia.org/wiki/Quality_of_service",
+    "status": "ok",
+    "http": 200,
+    "final": "https://en.wikipedia.org/wiki/Quality_of_service",
+    "title": "Quality of service - Wikipedia",
+    "note": ""
+  },
+  "https://en.wikipedia.org/wiki/Session_Initiation_Protocol": {
+    "url": "https://en.wikipedia.org/wiki/Session_Initiation_Protocol",
+    "status": "ok",
+    "http": 200,
+    "final": "https://en.wikipedia.org/wiki/Session_Initiation_Protocol",
+    "title": "Session Initiation Protocol - Wikipedia",
+    "note": ""
+  },
+  "https://en.wikipedia.org/wiki/Interactive_voice_response": {
+    "url": "https://en.wikipedia.org/wiki/Interactive_voice_response",
+    "status": "ok",
+    "http": 200,
+    "final": "https://en.wikipedia.org/wiki/Interactive_voice_response",
+    "title": "Interactive voice response - Wikipedia",
+    "note": ""
+  },
+  "https://en.wikipedia.org/wiki/Transport_Layer_Security": {
+    "url": "https://en.wikipedia.org/wiki/Transport_Layer_Security",
+    "status": "ok",
+    "http": 200,
+    "final": "https://en.wikipedia.org/wiki/Transport_Layer_Security",
+    "title": "Transport Layer Security - Wikipedia",
+    "note": ""
+  },
+  "https://en.wikipedia.org/wiki/Call_centre": {
+    "url": "https://en.wikipedia.org/wiki/Call_centre",
+    "status": "ok",
+    "http": 200,
+    "final": "https://en.wikipedia.org/wiki/Call_centre",
+    "title": "Call centre - Wikipedia",
+    "note": ""
+  },
+  "https://en.wikipedia.org/wiki/Session_border_controller": {
+    "url": "https://en.wikipedia.org/wiki/Session_border_controller",
+    "status": "ok",
+    "http": 200,
+    "final": "https://en.wikipedia.org/wiki/Session_border_controller",
+    "title": "Session border controller - Wikipedia",
+    "note": ""
+  },
+  "https://learn.microsoft.com/en-us/azure/communication-services/concepts/interop/tpe/teams-phone-extensibility-overview": {
+    "url": "https://learn.microsoft.com/en-us/azure/communication-services/concepts/interop/tpe/teams-phone-extensibility-overview",
+    "status": "ok",
+    "http": 200,
+    "final": "https://learn.microsoft.com/en-us/azure/communication-services/concepts/interop/tpe/teams-phone-extensibility-overview",
+    "title": "Teams Phone extensibility overview - An Azure Communication Services article | Microsoft Learn",
+    "note": ""
+  },
+  "https://learn.microsoft.com/en-us/azure/ai-services/speech-service/overview": {
+    "url": "https://learn.microsoft.com/en-us/azure/ai-services/speech-service/overview",
+    "status": "ok",
+    "http": 200,
+    "final": "https://learn.microsoft.com/en-us/azure/ai-services/speech-service/overview",
+    "title": "What Is Azure Speech? - Foundry Tools | Microsoft Learn",
+    "note": ""
+  },
+  "https://learn.microsoft.com/en-us/credentials/certifications/azure-fundamentals/": {
+    "url": "https://learn.microsoft.com/en-us/credentials/certifications/azure-fundamentals/",
+    "status": "ok",
+    "http": 200,
+    "final": "https://learn.microsoft.com/en-us/credentials/certifications/azure-fundamentals/",
+    "title": "Microsoft Certified: Azure Fundamentals - Certifications | Microsoft Learn",
+    "note": ""
+  },
+  "https://learn.microsoft.com/en-us/azure/ai-foundry/": {
+    "url": "https://learn.microsoft.com/en-us/azure/ai-foundry/",
+    "status": "ok",
+    "http": 200,
+    "final": "https://learn.microsoft.com/en-us/azure/foundry/",
+    "title": "Microsoft Foundry documentation | Microsoft Learn",
+    "note": ""
+  },
+  "https://learn.microsoft.com/en-us/credentials/certifications/m365-teams-administrator-associate/": {
+    "url": "https://learn.microsoft.com/en-us/credentials/certifications/m365-teams-administrator-associate/",
+    "status": "ok",
+    "http": 200,
+    "final": "https://learn.microsoft.com/en-us/credentials/certifications/m365-teams-administrator-associate/",
+    "title": "Microsoft 365 Certified: Teams Administrator Associate - Certifications | Microsoft Learn",
+    "note": ""
+  },
+  "https://learn.microsoft.com/en-us/azure/communication-services/concepts/call-automation/call-automation": {
+    "url": "https://learn.microsoft.com/en-us/azure/communication-services/concepts/call-automation/call-automation",
+    "status": "ok",
+    "http": 200,
+    "final": "https://learn.microsoft.com/en-us/azure/communication-services/concepts/call-automation/call-automation",
+    "title": "Call Automation overview - An Azure Communication Services concept document | Microsoft Learn",
+    "note": ""
+  },
+  "https://learn.microsoft.com/en-us/credentials/certifications/d365-contact-center-ai-engineer-associate/": {
+    "url": "https://learn.microsoft.com/en-us/credentials/certifications/d365-contact-center-ai-engineer-associate/",
+    "status": "ok",
+    "http": 200,
+    "final": "https://learn.microsoft.com/en-us/credentials/certifications/d365-contact-center-ai-engineer-associate/",
+    "title": "Microsoft Certified: Dynamics 365 Contact Center AI Engineer Associate - Certifications | Microsoft Learn",
+    "note": ""
+  },
+  "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/ab-250": {
+    "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/ab-250",
+    "status": "ok",
+    "http": 200,
+    "final": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/ab-250",
+    "title": "Study guide for Exam AB-250: Transforming Contact Center Experiences with AI in Dynamics 365 | Microsoft Learn",
+    "note": ""
+  },
+  "https://learn.microsoft.com/en-us/credentials/certifications/security-compliance-and-identity-fundamentals/": {
+    "url": "https://learn.microsoft.com/en-us/credentials/certifications/security-compliance-and-identity-fundamentals/",
+    "status": "ok",
+    "http": 200,
+    "final": "https://learn.microsoft.com/en-us/credentials/certifications/security-compliance-and-identity-fundamentals/",
+    "title": "Microsoft Certified: Security, Compliance, and Identity Fundamentals - Certifications | Microsoft Learn",
+    "note": ""
+  },
+  "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/ms-700": {
+    "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/ms-700",
+    "status": "ok",
+    "http": 200,
+    "final": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/ms-700",
+    "title": "Study guide for Exam MS-700: Managing Microsoft Teams | Microsoft Learn",
+    "note": ""
+  },
+  "https://learn.microsoft.com/en-us/credentials/support/retired-certification-exams": {
+    "url": "https://learn.microsoft.com/en-us/credentials/support/retired-certification-exams",
+    "status": "ok",
+    "http": 200,
+    "final": "https://learn.microsoft.com/en-us/credentials/support/retired-certification-exams",
+    "title": "Exam and assessment lab retirement | Microsoft Learn",
+    "note": ""
+  },
+  "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/mb-280": {
+    "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/mb-280",
+    "status": "ok",
+    "http": 200,
+    "final": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/mb-280",
+    "title": "Study guide for Exam MB-280: Microsoft Dynamics 365 Customer Experience Analyst | Microsoft Learn",
+    "note": ""
+  },
+  "https://learn.microsoft.com/en-us/dynamics365/contact-center/": {
+    "url": "https://learn.microsoft.com/en-us/dynamics365/contact-center/",
+    "status": "ok",
+    "http": 200,
+    "final": "https://learn.microsoft.com/en-us/dynamics365/contact-center/",
+    "title": "Dynamics 365 Contact Center | Microsoft Learn",
+    "note": ""
+  },
+  "https://learn.microsoft.com/en-us/microsoftteams/calling-plans-for-office-365": {
+    "url": "https://learn.microsoft.com/en-us/microsoftteams/calling-plans-for-office-365",
+    "status": "ok",
+    "http": 200,
+    "final": "https://learn.microsoft.com/en-us/microsoftteams/calling-plans-for-office-365",
+    "title": "Microsoft Teams Calling Plans - Microsoft Teams | Microsoft Learn",
+    "note": ""
+  },
+  "https://learn.microsoft.com/en-us/microsoftteams/cqd-what-is-call-quality-dashboard": {
+    "url": "https://learn.microsoft.com/en-us/microsoftteams/cqd-what-is-call-quality-dashboard",
+    "status": "ok",
+    "http": 200,
+    "final": "https://learn.microsoft.com/en-us/microsoftteams/cqd-what-is-call-quality-dashboard",
+    "title": "What is Call Quality Dashboard (CQD)? - Microsoft Teams | Microsoft Learn",
+    "note": ""
+  },
+  "https://learn.microsoft.com/en-us/microsoftteams/cloud-voicemail": {
+    "url": "https://learn.microsoft.com/en-us/microsoftteams/cloud-voicemail",
+    "status": "confirm",
+    "http": 404,
+    "final": "https://learn.microsoft.com/en-us/microsoftteams/cloud-voicemail",
+    "title": "",
+    "note": "HTTP 404"
+  },
+  "https://learn.microsoft.com/en-us/microsoftteams/aa-cq-reference-prerequisites-licensing": {
+    "url": "https://learn.microsoft.com/en-us/microsoftteams/aa-cq-reference-prerequisites-licensing",
+    "status": "ok",
+    "http": 200,
+    "final": "https://learn.microsoft.com/en-us/microsoftteams/aa-cq-reference-prerequisites-licensing",
+    "title": "Reference - Voice applications prerequisites and licensing - Microsoft Teams | Microsoft Learn",
+    "note": ""
+  },
+  "https://learn.microsoft.com/en-us/microsoftteams/aa-cq-manage-resource-accounts": {
+    "url": "https://learn.microsoft.com/en-us/microsoftteams/aa-cq-manage-resource-accounts",
+    "status": "ok",
+    "http": 200,
+    "final": "https://learn.microsoft.com/en-us/microsoftteams/aa-cq-manage-resource-accounts",
+    "title": "Manage - Resource accounts for voice applications - Microsoft Teams | Microsoft Learn",
+    "note": ""
+  },
+  "https://learn.microsoft.com/en-us/microsoft-copilot-studio/fundamentals-what-is-copilot-studio": {
+    "url": "https://learn.microsoft.com/en-us/microsoft-copilot-studio/fundamentals-what-is-copilot-studio",
+    "status": "ok",
+    "http": 200,
+    "final": "https://learn.microsoft.com/en-us/microsoft-copilot-studio/fundamentals-what-is-copilot-studio",
+    "title": "Overview - Microsoft Copilot Studio | Microsoft Learn",
+    "note": ""
+  },
+  "https://learn.microsoft.com/en-us/microsoftteams/direct-routing-plan": {
+    "url": "https://learn.microsoft.com/en-us/microsoftteams/direct-routing-plan",
+    "status": "ok",
+    "http": 200,
+    "final": "https://learn.microsoft.com/en-us/microsoftteams/direct-routing-plan",
+    "title": "Plan Direct Routing - Microsoft Teams | Microsoft Learn",
+    "note": ""
+  },
+  "https://learn.microsoft.com/en-us/microsoftteams/create-and-manage-dial-plans": {
+    "url": "https://learn.microsoft.com/en-us/microsoftteams/create-and-manage-dial-plans",
+    "status": "ok",
+    "http": 200,
+    "final": "https://learn.microsoft.com/en-us/microsoftteams/create-and-manage-dial-plans",
+    "title": "Create and manage dial plans - Microsoft Teams | Microsoft Learn",
+    "note": ""
+  },
+  "https://learn.microsoft.com/en-us/microsoftteams/create-a-phone-system-call-queue": {
+    "url": "https://learn.microsoft.com/en-us/microsoftteams/create-a-phone-system-call-queue",
+    "status": "ok",
+    "http": 200,
+    "final": "https://learn.microsoft.com/en-us/microsoftteams/aa-cq-setup-call-queue",
+    "title": "Setup - Call Queue - Microsoft Teams | Microsoft Learn",
+    "note": ""
+  },
+  "https://learn.microsoft.com/en-us/microsoftteams/create-a-phone-system-auto-attendant": {
+    "url": "https://learn.microsoft.com/en-us/microsoftteams/create-a-phone-system-auto-attendant",
+    "status": "ok",
+    "http": 200,
+    "final": "https://learn.microsoft.com/en-us/microsoftteams/aa-cq-setup-auto-attendant",
+    "title": "Setup - Auto Attendant - Microsoft Teams | Microsoft Learn",
+    "note": ""
+  },
+  "https://learn.microsoft.com/en-us/microsoftteams/location-based-routing-plan": {
+    "url": "https://learn.microsoft.com/en-us/microsoftteams/location-based-routing-plan",
+    "status": "ok",
+    "http": 200,
+    "final": "https://learn.microsoft.com/en-us/microsoftteams/location-based-routing-plan",
+    "title": "Plan Location-Based Routing for Direct Routing - Microsoft Teams | Microsoft Learn",
+    "note": ""
+  },
+  "https://learn.microsoft.com/en-us/microsoftteams/direct-routing-border-controllers": {
+    "url": "https://learn.microsoft.com/en-us/microsoftteams/direct-routing-border-controllers",
+    "status": "ok",
+    "http": 200,
+    "final": "https://learn.microsoft.com/en-us/microsoftteams/direct-routing-border-controllers",
+    "title": "Session Border Controllers certified for Direct Routing - Microsoft Teams | Microsoft Learn",
+    "note": ""
+  },
+  "https://learn.microsoft.com/en-us/microsoftteams/manage-voice-routing-policies": {
+    "url": "https://learn.microsoft.com/en-us/microsoftteams/manage-voice-routing-policies",
+    "status": "ok",
+    "http": 200,
+    "final": "https://learn.microsoft.com/en-us/microsoftteams/manage-voice-routing-policies",
+    "title": "Manage call routing policies for Direct Routing - Microsoft Teams | Microsoft Learn",
+    "note": ""
+  },
+  "https://learn.microsoft.com/en-us/microsoftteams/direct-routing-survivable-branch-appliance": {
+    "url": "https://learn.microsoft.com/en-us/microsoftteams/direct-routing-survivable-branch-appliance",
+    "status": "ok",
+    "http": 200,
+    "final": "https://learn.microsoft.com/en-us/microsoftteams/direct-routing-survivable-branch-appliance",
+    "title": "Direct Routing SBA - Microsoft Teams | Microsoft Learn",
+    "note": ""
+  },
+  "https://learn.microsoft.com/en-us/microsoftteams/pstn-connectivity": {
+    "url": "https://learn.microsoft.com/en-us/microsoftteams/pstn-connectivity",
+    "status": "ok",
+    "http": 200,
+    "final": "https://learn.microsoft.com/en-us/microsoftteams/pstn-connectivity",
+    "title": "PSTN connectivity options - Microsoft Teams | Microsoft Learn",
+    "note": ""
+  },
+  "https://learn.microsoft.com/en-us/microsoftteams/operator-connect-plan": {
+    "url": "https://learn.microsoft.com/en-us/microsoftteams/operator-connect-plan",
+    "status": "ok",
+    "http": 200,
+    "final": "https://learn.microsoft.com/en-us/microsoftteams/operator-connect-plan",
+    "title": "Plan for Operator Connect - Microsoft Teams | Microsoft Learn",
+    "note": ""
+  },
+  "https://learn.microsoft.com/en-us/microsoftteams/operator-connect-mobile-plan": {
+    "url": "https://learn.microsoft.com/en-us/microsoftteams/operator-connect-mobile-plan",
+    "status": "ok",
+    "http": 200,
+    "final": "https://learn.microsoft.com/en-us/microsoftteams/operator-connect-mobile-plan",
+    "title": "Plan for Teams Phone Mobile - Microsoft Teams | Microsoft Learn",
+    "note": ""
+  },
+  "https://learn.microsoft.com/en-us/microsoftteams/set-up-phone-system-voicemail": {
+    "url": "https://learn.microsoft.com/en-us/microsoftteams/set-up-phone-system-voicemail",
+    "status": "ok",
+    "http": 200,
+    "final": "https://learn.microsoft.com/en-us/microsoftteams/set-up-phone-system-voicemail",
+    "title": "Set up Cloud Voicemail - Microsoft Teams | Microsoft Learn",
+    "note": ""
+  },
+  "https://learn.microsoft.com/en-us/microsoftteams/qos-in-teams": {
+    "url": "https://learn.microsoft.com/en-us/microsoftteams/qos-in-teams",
+    "status": "ok",
+    "http": 200,
+    "final": "https://learn.microsoft.com/en-us/microsoftteams/qos-in-teams",
+    "title": "Implement Quality of Service in Microsoft Teams - Microsoft Teams | Microsoft Learn",
+    "note": ""
+  },
+  "https://learn.microsoft.com/en-us/microsoftteams/teams-add-on-licensing/microsoft-teams-add-on-licensing": {
+    "url": "https://learn.microsoft.com/en-us/microsoftteams/teams-add-on-licensing/microsoft-teams-add-on-licensing",
+    "status": "ok",
+    "http": 200,
+    "final": "https://learn.microsoft.com/en-us/microsoftteams/teams-add-on-licensing/microsoft-teams-add-on-licensing",
+    "title": "Microsoft Teams add-on licenses - Microsoft Teams | Microsoft Learn",
+    "note": ""
+  },
+  "https://learn.microsoft.com/en-us/microsoftteams/prepare-network": {
+    "url": "https://learn.microsoft.com/en-us/microsoftteams/prepare-network",
+    "status": "ok",
+    "http": 200,
+    "final": "https://learn.microsoft.com/en-us/microsoftteams/prepare-network",
+    "title": "Prepare your organization's network for Teams - Microsoft Teams | Microsoft Learn",
+    "note": ""
+  },
+  "https://learn.microsoft.com/en-us/microsoftteams/teams-contact-center": {
+    "url": "https://learn.microsoft.com/en-us/microsoftteams/teams-contact-center",
+    "status": "ok",
+    "http": 200,
+    "final": "https://learn.microsoft.com/en-us/microsoftteams/teams-contact-center",
+    "title": "Teams Contact Center - Microsoft Teams | Microsoft Learn",
+    "note": ""
+  },
+  "https://learn.microsoft.com/en-us/microsoftteams/teams-add-on-licensing/virtual-user": {
+    "url": "https://learn.microsoft.com/en-us/microsoftteams/teams-add-on-licensing/virtual-user",
+    "status": "ok",
+    "http": 200,
+    "final": "https://learn.microsoft.com/en-us/microsoftteams/teams-add-on-licensing/virtual-user",
+    "title": "Microsoft Teams Phone Resource Account licenses - Microsoft Teams | Microsoft Learn",
+    "note": ""
+  },
+  "https://learn.microsoft.com/en-us/microsoftteams/setting-up-your-phone-system": {
+    "url": "https://learn.microsoft.com/en-us/microsoftteams/setting-up-your-phone-system",
+    "status": "ok",
+    "http": 200,
+    "final": "https://learn.microsoft.com/en-us/microsoftteams/setting-up-your-phone-system",
+    "title": "Set up Teams Phone in your organization - Microsoft Teams | Microsoft Learn",
+    "note": ""
+  },
+  "https://learn.microsoft.com/en-us/microsoftteams/teams-compliance-recording-setup": {
+    "url": "https://learn.microsoft.com/en-us/microsoftteams/teams-compliance-recording-setup",
+    "status": "ok",
+    "http": 200,
+    "final": "https://learn.microsoft.com/en-us/microsoftteams/teams-compliance-recording-setup",
+    "title": "Set up compliance recording in Microsoft Teams - Microsoft Teams | Microsoft Learn",
+    "note": ""
+  },
+  "https://learn.microsoft.com/en-us/microsoftteams/teams-phone-mobile-plan": {
+    "url": "https://learn.microsoft.com/en-us/microsoftteams/teams-phone-mobile-plan",
+    "status": "confirm",
+    "http": 404,
+    "final": "https://learn.microsoft.com/en-us/microsoftteams/teams-phone-mobile-plan",
+    "title": "",
+    "note": "HTTP 404"
+  },
+  "https://learn.microsoft.com/en-us/microsoftteams/teams-recording-policy": {
+    "url": "https://learn.microsoft.com/en-us/microsoftteams/teams-recording-policy",
+    "status": "ok",
+    "http": 200,
+    "final": "https://learn.microsoft.com/en-us/microsoftteams/teams-recording-policy",
+    "title": "Introduction to recording Microsoft Teams calls, meetings, and events - Microsoft Teams | Microsoft Learn",
+    "note": ""
+  },
+  "https://learn.microsoft.com/en-us/microsoftteams/teams-phone-licensing": {
+    "url": "https://learn.microsoft.com/en-us/microsoftteams/teams-phone-licensing",
+    "status": "ok",
+    "http": 200,
+    "final": "https://learn.microsoft.com/en-us/microsoftteams/teams-phone-licensing",
+    "title": "Teams Phone licensing - Microsoft Teams | Microsoft Learn",
+    "note": ""
+  },
+  "https://learn.microsoft.com/en-us/microsoftteams/sip-gateway-plan": {
+    "url": "https://learn.microsoft.com/en-us/microsoftteams/sip-gateway-plan",
+    "status": "ok",
+    "http": 200,
+    "final": "https://learn.microsoft.com/en-us/microsoftteams/devices/sip-gateway-plan",
+    "title": "Plan SIP Gateway - Microsoft Teams | Microsoft Learn",
+    "note": ""
+  },
+  "https://learn.microsoft.com/en-us/microsoftteams/use-call-analytics-to-troubleshoot-poor-call-quality": {
+    "url": "https://learn.microsoft.com/en-us/microsoftteams/use-call-analytics-to-troubleshoot-poor-call-quality",
+    "status": "ok",
+    "http": 200,
+    "final": "https://learn.microsoft.com/en-us/microsoftteams/use-call-analytics-to-troubleshoot-poor-call-quality",
+    "title": "Use Call Analytics to troubleshoot poor call quality - Microsoft Teams | Microsoft Learn",
+    "note": ""
+  },
+  "https://learn.microsoft.com/en-us/partner-center/announcements/2026-july": {
+    "url": "https://learn.microsoft.com/en-us/partner-center/announcements/2026-july",
+    "status": "ok",
+    "http": 200,
+    "final": "https://learn.microsoft.com/en-us/partner-center/announcements/2026-july",
+    "title": "July 2026 announcements - Partner Center announcements | Microsoft Learn",
+    "note": ""
+  },
+  "https://learn.microsoft.com/en-us/microsoftteams/what-are-emergency-locations-addresses-and-call-routing": {
+    "url": "https://learn.microsoft.com/en-us/microsoftteams/what-are-emergency-locations-addresses-and-call-routing",
+    "status": "ok",
+    "http": 200,
+    "final": "https://learn.microsoft.com/en-us/microsoftteams/what-are-emergency-locations-addresses-and-call-routing",
+    "title": "Plan and manage emergency calling - Microsoft Teams | Microsoft Learn",
+    "note": ""
+  },
+  "https://ribboncommunications.com/": {
+    "url": "https://ribboncommunications.com/",
+    "status": "ok",
+    "http": 200,
+    "final": "https://ribboncommunications.com/",
+    "title": "IP Optical Networking and Communications | Ribbon",
+    "note": ""
+  },
+  "https://learn.microsoft.com/en-us/powershell/module/teams/new-csteamscompliancerecordingpolicy?view=teams-ps": {
+    "url": "https://learn.microsoft.com/en-us/powershell/module/teams/new-csteamscompliancerecordingpolicy?view=teams-ps",
+    "status": "ok",
+    "http": 200,
+    "final": "https://learn.microsoft.com/en-us/powershell/module/microsoftteams/new-csteamscompliancerecordingpolicy?view=teams-ps",
+    "title": "New-CsTeamsComplianceRecordingPolicy (MicrosoftTeams) | Microsoft Learn",
+    "note": ""
+  },
+  "https://www.oracle.com/communications/session-border-controller/": {
+    "url": "https://www.oracle.com/communications/session-border-controller/",
+    "status": "confirm",
+    "http": 403,
+    "final": "https://www.oracle.com/communications/session-border-controller/",
+    "title": "",
+    "note": "HTTP 403"
+  },
+  "https://learn.microsoft.com/en-us/microsoftteams/using-admin-roles": {
+    "url": "https://learn.microsoft.com/en-us/microsoftteams/using-admin-roles",
+    "status": "ok",
+    "http": 200,
+    "final": "https://learn.microsoft.com/en-us/microsoftteams/using-admin-roles",
+    "title": "Use Microsoft Teams administrator roles to manage Teams - Microsoft Teams | Microsoft Learn",
+    "note": ""
+  },
+  "https://www.rfc-editor.org/rfc/rfc3261": {
+    "url": "https://www.rfc-editor.org/rfc/rfc3261",
+    "status": "ok",
+    "http": 200,
+    "final": "https://www.rfc-editor.org/info/rfc3261/",
+    "title": "RFC 3261: SIP: Session Initiation Protocol | RFC Editor",
+    "note": ""
+  },
+  "https://www.cisco.com/c/en/us/products/unified-communications/unified-border-element/index.html": {
+    "url": "https://www.cisco.com/c/en/us/products/unified-communications/unified-border-element/index.html",
+    "status": "ok",
+    "http": 200,
+    "final": "https://www.cisco.com/c/en/us/products/unified-communications/unified-border-element/index.html",
+    "title": "Cisco Unified Border Element - Cisco",
+    "note": ""
+  },
+  "https://www.rfc-editor.org/rfc/rfc3711": {
+    "url": "https://www.rfc-editor.org/rfc/rfc3711",
+    "status": "ok",
+    "http": 200,
+    "final": "https://www.rfc-editor.org/info/rfc3711/",
+    "title": "RFC 3711: The Secure Real-time Transport Protocol (SRTP) | RFC Editor",
+    "note": ""
+  },
+  "https://www.rfc-editor.org/rfc/rfc3550": {
+    "url": "https://www.rfc-editor.org/rfc/rfc3550",
+    "status": "ok",
+    "http": 200,
+    "final": "https://www.rfc-editor.org/info/rfc3550/",
+    "title": "RFC 3550: RTP: A Transport Protocol for Real-Time Applications | RFC Editor",
+    "note": ""
+  },
+  "https://www.rfc-editor.org/rfc/rfc3966": {
+    "url": "https://www.rfc-editor.org/rfc/rfc3966",
+    "status": "ok",
+    "http": 200,
+    "final": "https://www.rfc-editor.org/info/rfc3966/",
+    "title": "RFC 3966: The tel URI for Telephone Numbers | RFC Editor",
+    "note": ""
+  },
+  "https://www.rfc-editor.org/rfc/rfc8446": {
+    "url": "https://www.rfc-editor.org/rfc/rfc8446",
+    "status": "ok",
+    "http": 200,
+    "final": "https://www.rfc-editor.org/info/rfc8446/",
+    "title": "RFC 8446: The Transport Layer Security (TLS) Protocol Version 1.3 | RFC Editor",
+    "note": ""
+  },
+  "https://www.rfc-editor.org/rfc/rfc4566": {
+    "url": "https://www.rfc-editor.org/rfc/rfc4566",
+    "status": "ok",
+    "http": 200,
+    "final": "https://www.rfc-editor.org/info/rfc4566/",
+    "title": "RFC 4566: SDP: Session Description Protocol | RFC Editor",
+    "note": ""
+  },
+  "https://www.audiocodes.com/products/session-border-controllers-sbcs": {
+    "url": "https://www.audiocodes.com/products/session-border-controllers-sbcs",
+    "status": "ok",
+    "http": 200,
+    "final": "https://www.audiocodes.com/products/session-border-controllers-sbcs",
+    "title": "Session Border Controllers (SBCs) | | AudioCodes",
+    "note": ""
+  },
+  "https://www.audiocodes.com/solutions-products/products/session-border-controllers": {
+    "url": "https://www.audiocodes.com/solutions-products/products/session-border-controllers",
+    "status": "confirm",
+    "http": 404,
+    "final": "https://www.audiocodes.com/solutions-products/products/session-border-controllers",
+    "title": "",
+    "note": "HTTP 404"
+  },
+  "https://techcommunity.microsoft.com/blog/skills-hub-blog/new-microsoft-certified-dynamics-365-contact-center-ai-engineer-associate-certif/4494119": {
+    "url": "https://techcommunity.microsoft.com/blog/skills-hub-blog/new-microsoft-certified-dynamics-365-contact-center-ai-engineer-associate-certif/4494119",
+    "status": "ok",
+    "http": 200,
+    "final": "https://techcommunity.microsoft.com/blog/skills-hub-blog/new-microsoft-certified-dynamics-365-contact-center-ai-engineer-associate-certif/4494119",
+    "title": "New Microsoft Certified: Dynamics 365 Contact Center AI Engineer Associate Certification | Microsoft Community Hub",
+    "note": ""
+  },
+  "https://techcommunity.microsoft.com/blog/microsoftteamsblog/streamline-your-contact-center-telephony-with-teams-phone-extensibility/4450515": {
+    "url": "https://techcommunity.microsoft.com/blog/microsoftteamsblog/streamline-your-contact-center-telephony-with-teams-phone-extensibility/4450515",
+    "status": "ok",
+    "http": 200,
+    "final": "https://techcommunity.microsoft.com/blog/microsoftteamsblog/streamline-your-contact-center-telephony-with-teams-phone-extensibility/4450515",
+    "title": "Streamline your contact center telephony with Teams Phone extensibility | Microsoft Community Hub",
+    "note": ""
+  },
+  "https://techcommunity.microsoft.com/category/microsoftteams/blog/microsoftteamsblog": {
+    "url": "https://techcommunity.microsoft.com/category/microsoftteams/blog/microsoftteamsblog",
+    "status": "ok",
+    "http": 200,
+    "final": "https://techcommunity.microsoft.com/category/microsoftteams/blog/microsoftteamsblog",
+    "title": "Microsoft Teams Blog | Microsoft Community Hub",
+    "note": ""
+  }
+}

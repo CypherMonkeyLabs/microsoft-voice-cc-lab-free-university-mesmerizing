@@ -21,16 +21,12 @@ OUT = CAMPUS / "downloads"
 FONT = Path("/usr/share/fonts/truetype/macos/Inter-Regular.ttf")
 FONT_B = Path("/usr/share/fonts/truetype/macos/Inter-Bold.ttf")
 REPO = "https://github.com/CypherMonkeyLabs/microsoft-voice-cc-lab-free-university-mesmerizing"
-OLD_REPO = "https://github.com/cipher0x9/microsoft-voice-cc-lab-free-university-mesmerizing"
 FOOT = (
-    "CypherMonkey · https://cyphermonkeylabs.com · https://github.com/cipher0x9 · "
-    "https://github.com/CypherMonkeyLabs · "
-    + OLD_REPO
-    + " · "
+    "CypherMonkey Labs · https://cyphermonkeylabs.com · "
+    "https://github.com/CypherMonkeyLabs · https://linktr.ee/cypherMonkey · "
     + REPO
-    + " · https://x.com/Cypher0x9 · https://huggingface.co/Cypher0x9 · "
-    "(c) 2026 CypherMonkeyLabs. Independent educational project, not affiliated with or endorsed by any vendor. "
-    "Trademarks belong to their owners. MIT code, CC BY-NC-SA content. No email."
+    + " · (c) 2026 CypherMonkeyLabs. Independent educational project, not affiliated with or endorsed by any vendor. "
+    "Trademarks belong to their owners. MIT code, CC BY-NC-SA content. Contact https://cyphermonkeylabs.com/#contact."
 )
 
 TRACKS = {
@@ -194,14 +190,11 @@ def wrap_lines(lines: list[str], width: int = 92) -> list[str]:
 
 def footer_html() -> str:
     return (
-        "<footer><p><strong>CypherMonkey</strong></p><p>"
-        '<a href="https://github.com/cipher0x9">Visit my GitHub</a> · '
-        '<a href="https://github.com/CypherMonkeyLabs">Visit the Labs org</a> · '
-        '<a href="https://cyphermonkeylabs.com">Visit Cypher Monkey Labs</a> · '
-        '<a href="https://x.com/Cypher0x9">X</a> · '
-        '<a href="https://huggingface.co/Cypher0x9">Hugging Face</a></p>'
+        "<footer><p><strong>CypherMonkey Labs</strong></p><p>"
+        '<a href="https://cyphermonkeylabs.com">Website</a> · '
+        '<a href="https://github.com/CypherMonkeyLabs">GitHub</a> · '
+        '<a href="https://linktr.ee/cypherMonkey">Linktree</a></p>'
         "<p>Repo: "
-        f'<a href="{html.escape(OLD_REPO)}">github.com/cipher0x9/microsoft-voice-cc-lab-free-university-mesmerizing</a> · '
         f'<a href="{html.escape(REPO)}">github.com/CypherMonkeyLabs/microsoft-voice-cc-lab-free-university-mesmerizing</a></p>'
         "<p>© 2026 CypherMonkeyLabs 🐒</p>"
         "<p>Independent educational project, not affiliated with or endorsed by any vendor. "
@@ -271,7 +264,6 @@ def write_pdf(path: Path, title: str, lines: list[str]) -> None:
     pages = []
     chunk: list[str] = []
     wrapped = wrap_lines([title, ""] + lines + ["", FOOT], 92)
-    wrapped.append(OLD_REPO)
     for line in wrapped:
         chunk.append(line)
         if len(chunk) == 46:

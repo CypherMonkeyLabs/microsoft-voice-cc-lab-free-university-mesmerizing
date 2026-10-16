@@ -1,0 +1,56 @@
+{
+  "room": "T05-R01-four-ways-to-reach-the-pstn.html",
+  "lesson": "t05-four",
+  "title": "Four ways to reach the PSTN",
+  "checked": "2026-10",
+  "sources": [
+    {
+      "title": "PSTN connectivity options",
+      "url": "https://learn.microsoft.com/en-us/microsoftteams/pstn-connectivity",
+      "kind": "learn",
+      "lastChecked": "2026-10",
+      "status": "ok",
+      "note": ""
+    },
+    {
+      "title": "Plan Direct Routing",
+      "url": "https://learn.microsoft.com/en-us/microsoftteams/direct-routing-plan",
+      "kind": "learn",
+      "lastChecked": "2026-10",
+      "status": "ok",
+      "note": ""
+    },
+    {
+      "title": "RFC 3261",
+      "url": "https://www.rfc-editor.org/rfc/rfc3261",
+      "kind": "rfc",
+      "lastChecked": "2026-10",
+      "status": "ok",
+      "note": ""
+    },
+    {
+      "title": "Public switched telephone network",
+      "url": "https://en.wikipedia.org/wiki/Public_switched_telephone_network",
+      "kind": "wikipedia",
+      "lastChecked": "2026-10",
+      "status": "ok",
+      "note": "Wikipedia fallback for background. Confirm the vendor page before you change a tenant."
+    },
+    {
+      "title": "Session Initiation Protocol",
+      "url": "https://en.wikipedia.org/wiki/Session_Initiation_Protocol",
+      "kind": "wikipedia",
+      "lastChecked": "2026-10",
+      "status": "ok",
+      "note": "Wikipedia fallback for background. Confirm the vendor page before you change a tenant."
+    },
+    {
+      "title": "Microsoft Teams blog index",
+      "url": "https://techcommunity.microsoft.com/category/microsoftteams/blog/microsoftteamsblog",
+      "kind": "community",
+      "lastChecked": "2026-10",
+      "status": "ok",
+      "note": "Community index for the Microsoft Teams blog. This is the index, not a claim that a post discusses this room."
+    }
+  ]
+}

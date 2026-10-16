@@ -1,0 +1,878 @@
+{
+  "ports": {
+    "checked": "2026-10",
+    "sources": [
+      {
+        "title": "QoS in Microsoft Teams",
+        "url": "https://learn.microsoft.com/en-us/microsoftteams/qos-in-teams",
+        "kind": "learn",
+        "lastChecked": "2026-10",
+        "status": "ok",
+        "note": ""
+      },
+      {
+        "title": "Prepare the network for Teams",
+        "url": "https://learn.microsoft.com/en-us/microsoftteams/prepare-network",
+        "kind": "learn",
+        "lastChecked": "2026-10",
+        "status": "ok",
+        "note": ""
+      },
+      {
+        "title": "RFC 3550",
+        "url": "https://www.rfc-editor.org/rfc/rfc3550",
+        "kind": "rfc",
+        "lastChecked": "2026-10",
+        "status": "ok",
+        "note": ""
+      },
+      {
+        "title": "Quality of service",
+        "url": "https://en.wikipedia.org/wiki/Quality_of_service",
+        "kind": "wikipedia",
+        "lastChecked": "2026-10",
+        "status": "ok",
+        "note": "Wikipedia fallback for background. Confirm the vendor page before you change a tenant."
+      },
+      {
+        "title": "Microsoft Teams blog index",
+        "url": "https://techcommunity.microsoft.com/category/microsoftteams/blog/microsoftteamsblog",
+        "kind": "community",
+        "lastChecked": "2026-10",
+        "status": "ok",
+        "note": "Community index for the Microsoft Teams blog. This is the index, not a claim that a post discusses this room."
+      }
+    ]
+  },
+  "bridges": {
+    "checked": "2026-10",
+    "sources": [
+      {
+        "title": "Plan Direct Routing",
+        "url": "https://learn.microsoft.com/en-us/microsoftteams/direct-routing-plan",
+        "kind": "learn",
+        "lastChecked": "2026-10",
+        "status": "ok",
+        "note": ""
+      },
+      {
+        "title": "Teams contact center integration models",
+        "url": "https://learn.microsoft.com/en-us/microsoftteams/teams-contact-center",
+        "kind": "learn",
+        "lastChecked": "2026-10",
+        "status": "ok",
+        "note": ""
+      },
+      {
+        "title": "Cisco Unified Border Element",
+        "url": "https://www.cisco.com/c/en/us/products/unified-communications/unified-border-element/index.html",
+        "kind": "vendor",
+        "lastChecked": "2026-10",
+        "status": "ok",
+        "note": ""
+      },
+      {
+        "title": "RFC 3261",
+        "url": "https://www.rfc-editor.org/rfc/rfc3261",
+        "kind": "rfc",
+        "lastChecked": "2026-10",
+        "status": "ok",
+        "note": ""
+      },
+      {
+        "title": "Session border controller",
+        "url": "https://en.wikipedia.org/wiki/Session_border_controller",
+        "kind": "wikipedia",
+        "lastChecked": "2026-10",
+        "status": "ok",
+        "note": "Wikipedia fallback for background. Confirm the vendor page before you change a tenant."
+      },
+      {
+        "title": "Session Initiation Protocol",
+        "url": "https://en.wikipedia.org/wiki/Session_Initiation_Protocol",
+        "kind": "wikipedia",
+        "lastChecked": "2026-10",
+        "status": "ok",
+        "note": "Wikipedia fallback for background. Confirm the vendor page before you change a tenant."
+      },
+      {
+        "title": "Microsoft Teams blog index",
+        "url": "https://techcommunity.microsoft.com/category/microsoftteams/blog/microsoftteamsblog",
+        "kind": "community",
+        "lastChecked": "2026-10",
+        "status": "ok",
+        "note": "Community index for the Microsoft Teams blog. This is the index, not a claim that a post discusses this room."
+      }
+    ]
+  },
+  "sbc-checklist": {
+    "checked": "2026-10",
+    "sources": [
+      {
+        "title": "Plan Direct Routing",
+        "url": "https://learn.microsoft.com/en-us/microsoftteams/direct-routing-plan",
+        "kind": "learn",
+        "lastChecked": "2026-10",
+        "status": "ok",
+        "note": ""
+      },
+      {
+        "title": "Certified SBCs for Direct Routing",
+        "url": "https://learn.microsoft.com/en-us/microsoftteams/direct-routing-border-controllers",
+        "kind": "learn",
+        "lastChecked": "2026-10",
+        "status": "ok",
+        "note": ""
+      },
+      {
+        "title": "RFC 3261",
+        "url": "https://www.rfc-editor.org/rfc/rfc3261",
+        "kind": "rfc",
+        "lastChecked": "2026-10",
+        "status": "ok",
+        "note": ""
+      },
+      {
+        "title": "Session border controller",
+        "url": "https://en.wikipedia.org/wiki/Session_border_controller",
+        "kind": "wikipedia",
+        "lastChecked": "2026-10",
+        "status": "ok",
+        "note": "Wikipedia fallback for background. Confirm the vendor page before you change a tenant."
+      },
+      {
+        "title": "Microsoft Teams blog index",
+        "url": "https://techcommunity.microsoft.com/category/microsoftteams/blog/microsoftteamsblog",
+        "kind": "community",
+        "lastChecked": "2026-10",
+        "status": "ok",
+        "note": "Community index for the Microsoft Teams blog. This is the index, not a claim that a post discusses this room."
+      }
+    ]
+  },
+  "dial-plan": {
+    "checked": "2026-10",
+    "sources": [
+      {
+        "title": "Create and manage dial plans",
+        "url": "https://learn.microsoft.com/en-us/microsoftteams/create-and-manage-dial-plans",
+        "kind": "learn",
+        "lastChecked": "2026-10",
+        "status": "ok",
+        "note": ""
+      },
+      {
+        "title": "RFC 3966",
+        "url": "https://www.rfc-editor.org/rfc/rfc3966",
+        "kind": "rfc",
+        "lastChecked": "2026-10",
+        "status": "ok",
+        "note": ""
+      },
+      {
+        "title": "E.164",
+        "url": "https://en.wikipedia.org/wiki/E.164",
+        "kind": "wikipedia",
+        "lastChecked": "2026-10",
+        "status": "ok",
+        "note": "Wikipedia fallback for background. Confirm the vendor page before you change a tenant."
+      },
+      {
+        "title": "Microsoft Teams blog index",
+        "url": "https://techcommunity.microsoft.com/category/microsoftteams/blog/microsoftteamsblog",
+        "kind": "community",
+        "lastChecked": "2026-10",
+        "status": "ok",
+        "note": "Community index for the Microsoft Teams blog. This is the index, not a claim that a post discusses this room."
+      }
+    ]
+  },
+  "cutover": {
+    "checked": "2026-10",
+    "sources": [
+      {
+        "title": "Plan Direct Routing",
+        "url": "https://learn.microsoft.com/en-us/microsoftteams/direct-routing-plan",
+        "kind": "learn",
+        "lastChecked": "2026-10",
+        "status": "ok",
+        "note": ""
+      },
+      {
+        "title": "What is Call Quality Dashboard",
+        "url": "https://learn.microsoft.com/en-us/microsoftteams/cqd-what-is-call-quality-dashboard",
+        "kind": "learn",
+        "lastChecked": "2026-10",
+        "status": "ok",
+        "note": ""
+      },
+      {
+        "title": "Microsoft Teams blog index",
+        "url": "https://techcommunity.microsoft.com/category/microsoftteams/blog/microsoftteamsblog",
+        "kind": "community",
+        "lastChecked": "2026-10",
+        "status": "ok",
+        "note": "Community index for the Microsoft Teams blog. This is the index, not a claim that a post discusses this room."
+      }
+    ]
+  },
+  "career": {
+    "checked": "2026-10",
+    "sources": [
+      {
+        "title": "Teams Administrator Associate",
+        "url": "https://learn.microsoft.com/en-us/credentials/certifications/m365-teams-administrator-associate/",
+        "kind": "learn",
+        "lastChecked": "2026-10",
+        "status": "ok",
+        "note": ""
+      },
+      {
+        "title": "Study guide MS-700",
+        "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/ms-700",
+        "kind": "learn",
+        "lastChecked": "2026-10",
+        "status": "ok",
+        "note": ""
+      },
+      {
+        "title": "Azure Fundamentals",
+        "url": "https://learn.microsoft.com/en-us/credentials/certifications/azure-fundamentals/",
+        "kind": "learn",
+        "lastChecked": "2026-10",
+        "status": "ok",
+        "note": ""
+      },
+      {
+        "title": "Security, Compliance, and Identity Fundamentals",
+        "url": "https://learn.microsoft.com/en-us/credentials/certifications/security-compliance-and-identity-fundamentals/",
+        "kind": "learn",
+        "lastChecked": "2026-10",
+        "status": "ok",
+        "note": ""
+      },
+      {
+        "title": "Study guide MB-280",
+        "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/mb-280",
+        "kind": "learn",
+        "lastChecked": "2026-10",
+        "status": "ok",
+        "note": ""
+      },
+      {
+        "title": "Study guide AB-250",
+        "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/ab-250",
+        "kind": "learn",
+        "lastChecked": "2026-10",
+        "status": "ok",
+        "note": ""
+      },
+      {
+        "title": "Retired certification exams",
+        "url": "https://learn.microsoft.com/en-us/credentials/support/retired-certification-exams",
+        "kind": "learn",
+        "lastChecked": "2026-10",
+        "status": "ok",
+        "note": ""
+      },
+      {
+        "title": "Microsoft Teams blog index",
+        "url": "https://techcommunity.microsoft.com/category/microsoftteams/blog/microsoftteamsblog",
+        "kind": "community",
+        "lastChecked": "2026-10",
+        "status": "ok",
+        "note": "Community index for the Microsoft Teams blog. This is the index, not a claim that a post discusses this room."
+      }
+    ]
+  },
+  "whats-new": {
+    "checked": "2026-10",
+    "sources": [
+      {
+        "title": "Partner Center July 2026 announcements",
+        "url": "https://learn.microsoft.com/en-us/partner-center/announcements/2026-july",
+        "kind": "learn",
+        "lastChecked": "2026-10",
+        "status": "ok",
+        "note": ""
+      },
+      {
+        "title": "Retired certification exams",
+        "url": "https://learn.microsoft.com/en-us/credentials/support/retired-certification-exams",
+        "kind": "learn",
+        "lastChecked": "2026-10",
+        "status": "ok",
+        "note": ""
+      },
+      {
+        "title": "Study guide MS-700",
+        "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/ms-700",
+        "kind": "learn",
+        "lastChecked": "2026-10",
+        "status": "ok",
+        "note": ""
+      },
+      {
+        "title": "Microsoft Teams blog index",
+        "url": "https://techcommunity.microsoft.com/category/microsoftteams/blog/microsoftteamsblog",
+        "kind": "community",
+        "lastChecked": "2026-10",
+        "status": "ok",
+        "note": "Community index for the Microsoft Teams blog. This is the index, not a claim that a post discusses this room."
+      }
+    ]
+  },
+  "migration": {
+    "checked": "2026-10",
+    "sources": [
+      {
+        "title": "Plan Direct Routing",
+        "url": "https://learn.microsoft.com/en-us/microsoftteams/direct-routing-plan",
+        "kind": "learn",
+        "lastChecked": "2026-10",
+        "status": "ok",
+        "note": ""
+      },
+      {
+        "title": "Teams contact center integration models",
+        "url": "https://learn.microsoft.com/en-us/microsoftteams/teams-contact-center",
+        "kind": "learn",
+        "lastChecked": "2026-10",
+        "status": "ok",
+        "note": ""
+      },
+      {
+        "title": "RFC 3261",
+        "url": "https://www.rfc-editor.org/rfc/rfc3261",
+        "kind": "rfc",
+        "lastChecked": "2026-10",
+        "status": "ok",
+        "note": ""
+      },
+      {
+        "title": "Microsoft Teams blog index",
+        "url": "https://techcommunity.microsoft.com/category/microsoftteams/blog/microsoftteamsblog",
+        "kind": "community",
+        "lastChecked": "2026-10",
+        "status": "ok",
+        "note": "Community index for the Microsoft Teams blog. This is the index, not a claim that a post discusses this room."
+      }
+    ]
+  },
+  "troubleshooting": {
+    "checked": "2026-10",
+    "sources": [
+      {
+        "title": "What is Call Quality Dashboard",
+        "url": "https://learn.microsoft.com/en-us/microsoftteams/cqd-what-is-call-quality-dashboard",
+        "kind": "learn",
+        "lastChecked": "2026-10",
+        "status": "ok",
+        "note": ""
+      },
+      {
+        "title": "Use Call Analytics",
+        "url": "https://learn.microsoft.com/en-us/microsoftteams/use-call-analytics-to-troubleshoot-poor-call-quality",
+        "kind": "learn",
+        "lastChecked": "2026-10",
+        "status": "ok",
+        "note": ""
+      },
+      {
+        "title": "QoS in Microsoft Teams",
+        "url": "https://learn.microsoft.com/en-us/microsoftteams/qos-in-teams",
+        "kind": "learn",
+        "lastChecked": "2026-10",
+        "status": "ok",
+        "note": ""
+      },
+      {
+        "title": "Microsoft Teams blog index",
+        "url": "https://techcommunity.microsoft.com/category/microsoftteams/blog/microsoftteamsblog",
+        "kind": "community",
+        "lastChecked": "2026-10",
+        "status": "ok",
+        "note": "Community index for the Microsoft Teams blog. This is the index, not a claim that a post discusses this room."
+      }
+    ]
+  },
+  "config-checklist": {
+    "checked": "2026-10",
+    "sources": [
+      {
+        "title": "Plan Direct Routing",
+        "url": "https://learn.microsoft.com/en-us/microsoftteams/direct-routing-plan",
+        "kind": "learn",
+        "lastChecked": "2026-10",
+        "status": "ok",
+        "note": ""
+      },
+      {
+        "title": "Create and manage dial plans",
+        "url": "https://learn.microsoft.com/en-us/microsoftteams/create-and-manage-dial-plans",
+        "kind": "learn",
+        "lastChecked": "2026-10",
+        "status": "ok",
+        "note": ""
+      },
+      {
+        "title": "Manage resource accounts",
+        "url": "https://learn.microsoft.com/en-us/microsoftteams/aa-cq-manage-resource-accounts",
+        "kind": "learn",
+        "lastChecked": "2026-10",
+        "status": "ok",
+        "note": ""
+      },
+      {
+        "title": "Microsoft Teams blog index",
+        "url": "https://techcommunity.microsoft.com/category/microsoftteams/blog/microsoftteamsblog",
+        "kind": "community",
+        "lastChecked": "2026-10",
+        "status": "ok",
+        "note": "Community index for the Microsoft Teams blog. This is the index, not a claim that a post discusses this room."
+      }
+    ]
+  },
+  "call-flows": {
+    "checked": "2026-10",
+    "sources": [
+      {
+        "title": "RFC 3261",
+        "url": "https://www.rfc-editor.org/rfc/rfc3261",
+        "kind": "rfc",
+        "lastChecked": "2026-10",
+        "status": "ok",
+        "note": ""
+      },
+      {
+        "title": "Session Initiation Protocol",
+        "url": "https://en.wikipedia.org/wiki/Session_Initiation_Protocol",
+        "kind": "wikipedia",
+        "lastChecked": "2026-10",
+        "status": "ok",
+        "note": "Wikipedia fallback for background. Confirm the vendor page before you change a tenant."
+      },
+      {
+        "title": "Plan Direct Routing",
+        "url": "https://learn.microsoft.com/en-us/microsoftteams/direct-routing-plan",
+        "kind": "learn",
+        "lastChecked": "2026-10",
+        "status": "ok",
+        "note": ""
+      },
+      {
+        "title": "Microsoft Teams blog index",
+        "url": "https://techcommunity.microsoft.com/category/microsoftteams/blog/microsoftteamsblog",
+        "kind": "community",
+        "lastChecked": "2026-10",
+        "status": "ok",
+        "note": "Community index for the Microsoft Teams blog. This is the index, not a claim that a post discusses this room."
+      }
+    ]
+  },
+  "glossary": {
+    "checked": "2026-10",
+    "sources": [
+      {
+        "title": "Plan Direct Routing",
+        "url": "https://learn.microsoft.com/en-us/microsoftteams/direct-routing-plan",
+        "kind": "learn",
+        "lastChecked": "2026-10",
+        "status": "ok",
+        "note": ""
+      },
+      {
+        "title": "Use Teams admin roles",
+        "url": "https://learn.microsoft.com/en-us/microsoftteams/using-admin-roles",
+        "kind": "learn",
+        "lastChecked": "2026-10",
+        "status": "ok",
+        "note": ""
+      },
+      {
+        "title": "Manage resource accounts",
+        "url": "https://learn.microsoft.com/en-us/microsoftteams/aa-cq-manage-resource-accounts",
+        "kind": "learn",
+        "lastChecked": "2026-10",
+        "status": "ok",
+        "note": ""
+      },
+      {
+        "title": "Cloud Voicemail",
+        "url": "https://learn.microsoft.com/en-us/microsoftteams/cloud-voicemail",
+        "kind": "learn",
+        "lastChecked": "2026-10",
+        "status": "confirm",
+        "note": "HTTP 404"
+      },
+      {
+        "title": "Teams Phone licensing",
+        "url": "https://learn.microsoft.com/en-us/microsoftteams/teams-phone-licensing",
+        "kind": "learn",
+        "lastChecked": "2026-10",
+        "status": "ok",
+        "note": ""
+      },
+      {
+        "title": "Calling Plans",
+        "url": "https://learn.microsoft.com/en-us/microsoftteams/calling-plans-for-office-365",
+        "kind": "learn",
+        "lastChecked": "2026-10",
+        "status": "ok",
+        "note": ""
+      },
+      {
+        "title": "Teams add-on licensing",
+        "url": "https://learn.microsoft.com/en-us/microsoftteams/teams-add-on-licensing/microsoft-teams-add-on-licensing",
+        "kind": "learn",
+        "lastChecked": "2026-10",
+        "status": "ok",
+        "note": ""
+      },
+      {
+        "title": "Teams Phone Resource Account licenses",
+        "url": "https://learn.microsoft.com/en-us/microsoftteams/teams-add-on-licensing/virtual-user",
+        "kind": "learn",
+        "lastChecked": "2026-10",
+        "status": "ok",
+        "note": ""
+      },
+      {
+        "title": "Voice app prerequisites and licensing",
+        "url": "https://learn.microsoft.com/en-us/microsoftteams/aa-cq-reference-prerequisites-licensing",
+        "kind": "learn",
+        "lastChecked": "2026-10",
+        "status": "ok",
+        "note": ""
+      },
+      {
+        "title": "Security, Compliance, and Identity Fundamentals",
+        "url": "https://learn.microsoft.com/en-us/credentials/certifications/security-compliance-and-identity-fundamentals/",
+        "kind": "learn",
+        "lastChecked": "2026-10",
+        "status": "ok",
+        "note": ""
+      },
+      {
+        "title": "Prepare the network for Teams",
+        "url": "https://learn.microsoft.com/en-us/microsoftteams/prepare-network",
+        "kind": "learn",
+        "lastChecked": "2026-10",
+        "status": "ok",
+        "note": ""
+      },
+      {
+        "title": "QoS in Microsoft Teams",
+        "url": "https://learn.microsoft.com/en-us/microsoftteams/qos-in-teams",
+        "kind": "learn",
+        "lastChecked": "2026-10",
+        "status": "ok",
+        "note": ""
+      },
+      {
+        "title": "Plan Operator Connect",
+        "url": "https://learn.microsoft.com/en-us/microsoftteams/operator-connect-plan",
+        "kind": "learn",
+        "lastChecked": "2026-10",
+        "status": "ok",
+        "note": ""
+      },
+      {
+        "title": "Plan Teams Phone Mobile",
+        "url": "https://learn.microsoft.com/en-us/microsoftteams/teams-phone-mobile-plan",
+        "kind": "learn",
+        "lastChecked": "2026-10",
+        "status": "confirm",
+        "note": "HTTP 404"
+      },
+      {
+        "title": "Create and manage dial plans",
+        "url": "https://learn.microsoft.com/en-us/microsoftteams/create-and-manage-dial-plans",
+        "kind": "learn",
+        "lastChecked": "2026-10",
+        "status": "ok",
+        "note": ""
+      },
+      {
+        "title": "Manage voice routing policies",
+        "url": "https://learn.microsoft.com/en-us/microsoftteams/manage-voice-routing-policies",
+        "kind": "learn",
+        "lastChecked": "2026-10",
+        "status": "ok",
+        "note": ""
+      },
+      {
+        "title": "Emergency locations, addresses, and routing",
+        "url": "https://learn.microsoft.com/en-us/microsoftteams/what-are-emergency-locations-addresses-and-call-routing",
+        "kind": "learn",
+        "lastChecked": "2026-10",
+        "status": "ok",
+        "note": ""
+      },
+      {
+        "title": "Set up an auto attendant",
+        "url": "https://learn.microsoft.com/en-us/microsoftteams/create-a-phone-system-auto-attendant",
+        "kind": "learn",
+        "lastChecked": "2026-10",
+        "status": "ok",
+        "note": ""
+      },
+      {
+        "title": "Set up a call queue",
+        "url": "https://learn.microsoft.com/en-us/microsoftteams/create-a-phone-system-call-queue",
+        "kind": "learn",
+        "lastChecked": "2026-10",
+        "status": "ok",
+        "note": ""
+      },
+      {
+        "title": "Location-based routing",
+        "url": "https://learn.microsoft.com/en-us/microsoftteams/location-based-routing-plan",
+        "kind": "learn",
+        "lastChecked": "2026-10",
+        "status": "ok",
+        "note": ""
+      },
+      {
+        "title": "Survivable Branch Appliance",
+        "url": "https://learn.microsoft.com/en-us/microsoftteams/direct-routing-survivable-branch-appliance",
+        "kind": "learn",
+        "lastChecked": "2026-10",
+        "status": "ok",
+        "note": ""
+      },
+      {
+        "title": "SIP Gateway",
+        "url": "https://learn.microsoft.com/en-us/microsoftteams/sip-gateway-plan",
+        "kind": "learn",
+        "lastChecked": "2026-10",
+        "status": "ok",
+        "note": ""
+      },
+      {
+        "title": "Use Call Analytics",
+        "url": "https://learn.microsoft.com/en-us/microsoftteams/use-call-analytics-to-troubleshoot-poor-call-quality",
+        "kind": "learn",
+        "lastChecked": "2026-10",
+        "status": "ok",
+        "note": ""
+      },
+      {
+        "title": "What is Call Quality Dashboard",
+        "url": "https://learn.microsoft.com/en-us/microsoftteams/cqd-what-is-call-quality-dashboard",
+        "kind": "learn",
+        "lastChecked": "2026-10",
+        "status": "ok",
+        "note": ""
+      },
+      {
+        "title": "Dynamics 365 Contact Center",
+        "url": "https://learn.microsoft.com/en-us/dynamics365/contact-center/",
+        "kind": "learn",
+        "lastChecked": "2026-10",
+        "status": "ok",
+        "note": ""
+      },
+      {
+        "title": "Study guide AB-250",
+        "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/ab-250",
+        "kind": "learn",
+        "lastChecked": "2026-10",
+        "status": "ok",
+        "note": ""
+      },
+      {
+        "title": "Teams contact center integration models",
+        "url": "https://learn.microsoft.com/en-us/microsoftteams/teams-contact-center",
+        "kind": "learn",
+        "lastChecked": "2026-10",
+        "status": "ok",
+        "note": ""
+      },
+      {
+        "title": "Teams Phone extensibility",
+        "url": "https://learn.microsoft.com/en-us/azure/communication-services/concepts/interop/tpe/teams-phone-extensibility-overview",
+        "kind": "learn",
+        "lastChecked": "2026-10",
+        "status": "ok",
+        "note": ""
+      },
+      {
+        "title": "Cisco Unified Border Element",
+        "url": "https://www.cisco.com/c/en/us/products/unified-communications/unified-border-element/index.html",
+        "kind": "vendor",
+        "lastChecked": "2026-10",
+        "status": "ok",
+        "note": ""
+      },
+      {
+        "title": "Azure Communication Services Call Automation",
+        "url": "https://learn.microsoft.com/en-us/azure/communication-services/concepts/call-automation/call-automation",
+        "kind": "learn",
+        "lastChecked": "2026-10",
+        "status": "ok",
+        "note": ""
+      },
+      {
+        "title": "Azure AI Speech overview",
+        "url": "https://learn.microsoft.com/en-us/azure/ai-services/speech-service/overview",
+        "kind": "learn",
+        "lastChecked": "2026-10",
+        "status": "ok",
+        "note": ""
+      },
+      {
+        "title": "Copilot Studio overview",
+        "url": "https://learn.microsoft.com/en-us/microsoft-copilot-studio/fundamentals-what-is-copilot-studio",
+        "kind": "learn",
+        "lastChecked": "2026-10",
+        "status": "ok",
+        "note": ""
+      },
+      {
+        "title": "Azure AI Foundry documentation",
+        "url": "https://learn.microsoft.com/en-us/azure/ai-foundry/",
+        "kind": "learn",
+        "lastChecked": "2026-10",
+        "status": "ok",
+        "note": ""
+      },
+      {
+        "title": "Study guide MS-700",
+        "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/ms-700",
+        "kind": "learn",
+        "lastChecked": "2026-10",
+        "status": "ok",
+        "note": ""
+      },
+      {
+        "title": "Retired certification exams",
+        "url": "https://learn.microsoft.com/en-us/credentials/support/retired-certification-exams",
+        "kind": "learn",
+        "lastChecked": "2026-10",
+        "status": "ok",
+        "note": ""
+      },
+      {
+        "title": "Partner Center July 2026 announcements",
+        "url": "https://learn.microsoft.com/en-us/partner-center/announcements/2026-july",
+        "kind": "learn",
+        "lastChecked": "2026-10",
+        "status": "ok",
+        "note": ""
+      },
+      {
+        "title": "Azure Fundamentals",
+        "url": "https://learn.microsoft.com/en-us/credentials/certifications/azure-fundamentals/",
+        "kind": "learn",
+        "lastChecked": "2026-10",
+        "status": "ok",
+        "note": ""
+      },
+      {
+        "title": "Introduction to Teams recording",
+        "url": "https://learn.microsoft.com/en-us/microsoftteams/teams-recording-policy",
+        "kind": "learn",
+        "lastChecked": "2026-10",
+        "status": "ok",
+        "note": ""
+      },
+      {
+        "title": "Set up compliance recording",
+        "url": "https://learn.microsoft.com/en-us/microsoftteams/teams-compliance-recording-setup",
+        "kind": "learn",
+        "lastChecked": "2026-10",
+        "status": "ok",
+        "note": ""
+      },
+      {
+        "title": "New-CsTeamsComplianceRecordingPolicy",
+        "url": "https://learn.microsoft.com/en-us/powershell/module/teams/new-csteamscompliancerecordingpolicy?view=teams-ps",
+        "kind": "learn",
+        "lastChecked": "2026-10",
+        "status": "ok",
+        "note": ""
+      },
+      {
+        "title": "AudioCodes session border controllers",
+        "url": "https://www.audiocodes.com/solutions-products/products/session-border-controllers",
+        "kind": "vendor",
+        "lastChecked": "2026-10",
+        "status": "confirm",
+        "note": "HTTP 404"
+      },
+      {
+        "title": "Ribbon Communications",
+        "url": "https://ribboncommunications.com/",
+        "kind": "vendor",
+        "lastChecked": "2026-10",
+        "status": "ok",
+        "note": ""
+      },
+      {
+        "title": "Oracle Session Border Controller",
+        "url": "https://www.oracle.com/communications/session-border-controller/",
+        "kind": "vendor",
+        "lastChecked": "2026-10",
+        "status": "confirm",
+        "note": "HTTP 403"
+      },
+      {
+        "title": "Certified SBCs for Direct Routing",
+        "url": "https://learn.microsoft.com/en-us/microsoftteams/direct-routing-border-controllers",
+        "kind": "learn",
+        "lastChecked": "2026-10",
+        "status": "ok",
+        "note": ""
+      },
+      {
+        "title": "PSTN connectivity options",
+        "url": "https://learn.microsoft.com/en-us/microsoftteams/pstn-connectivity",
+        "kind": "learn",
+        "lastChecked": "2026-10",
+        "status": "ok",
+        "note": ""
+      },
+      {
+        "title": "Set up Teams Phone",
+        "url": "https://learn.microsoft.com/en-us/microsoftteams/setting-up-your-phone-system",
+        "kind": "learn",
+        "lastChecked": "2026-10",
+        "status": "ok",
+        "note": ""
+      },
+      {
+        "title": "Teams Administrator Associate",
+        "url": "https://learn.microsoft.com/en-us/credentials/certifications/m365-teams-administrator-associate/",
+        "kind": "learn",
+        "lastChecked": "2026-10",
+        "status": "ok",
+        "note": ""
+      },
+      {
+        "title": "Microsoft Teams",
+        "url": "https://en.wikipedia.org/wiki/Microsoft_Teams",
+        "kind": "wikipedia",
+        "lastChecked": "2026-10",
+        "status": "ok",
+        "note": "Wikipedia fallback for background. Confirm the vendor page before you change a tenant."
+      },
+      {
+        "title": "RFC 3261",
+        "url": "https://www.rfc-editor.org/rfc/rfc3261",
+        "kind": "rfc",
+        "lastChecked": "2026-10",
+        "status": "ok",
+        "note": ""
+      },
+      {
+        "title": "Microsoft Teams blog index",
+        "url": "https://techcommunity.microsoft.com/category/microsoftteams/blog/microsoftteamsblog",
+        "kind": "community",
+        "lastChecked": "2026-10",
+        "status": "ok",
+        "note": "Community index for the Microsoft Teams blog. This is the index, not a claim that a post discusses this room."
+      }
+    ]
+  }
+}

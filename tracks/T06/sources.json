@@ -1,0 +1,89 @@
+{
+  "track": "t06",
+  "title": "Routing and dial plans",
+  "checked": "2026-10",
+  "rooms": [
+    {
+      "room": "T06-R01-normalize-then-route.html",
+      "sourcesFile": "../../rooms/T06-R01-normalize-then-route.sources.json"
+    },
+    {
+      "room": "T06-R02-dial-plans-and-first-match.html",
+      "sourcesFile": "../../rooms/T06-R02-dial-plans-and-first-match.sources.json"
+    },
+    {
+      "room": "T06-R03-pstn-usages-are-the-permission.html",
+      "sourcesFile": "../../rooms/T06-R03-pstn-usages-are-the-permission.sources.json"
+    },
+    {
+      "room": "T06-R04-voice-routes-and-gateways.html",
+      "sourcesFile": "../../rooms/T06-R04-voice-routes-and-gateways.sources.json"
+    },
+    {
+      "room": "T06-R05-a-london-worked-example.html",
+      "sourcesFile": "../../rooms/T06-R05-a-london-worked-example.sources.json"
+    },
+    {
+      "room": "T06-R06-islands-mode-and-other-hard-stops.html",
+      "sourcesFile": "../../rooms/T06-R06-islands-mode-and-other-hard-stops.sources.json"
+    }
+  ],
+  "sources": [
+    {
+      "title": "Create and manage dial plans",
+      "url": "https://learn.microsoft.com/en-us/microsoftteams/create-and-manage-dial-plans",
+      "kind": "learn",
+      "lastChecked": "2026-10",
+      "status": "ok",
+      "note": ""
+    },
+    {
+      "title": "Manage voice routing policies",
+      "url": "https://learn.microsoft.com/en-us/microsoftteams/manage-voice-routing-policies",
+      "kind": "learn",
+      "lastChecked": "2026-10",
+      "status": "ok",
+      "note": ""
+    },
+    {
+      "title": "RFC 3966",
+      "url": "https://www.rfc-editor.org/rfc/rfc3966",
+      "kind": "rfc",
+      "lastChecked": "2026-10",
+      "status": "ok",
+      "note": ""
+    },
+    {
+      "title": "E.164",
+      "url": "https://en.wikipedia.org/wiki/E.164",
+      "kind": "wikipedia",
+      "lastChecked": "2026-10",
+      "status": "ok",
+      "note": "Wikipedia fallback for background. Confirm the vendor page before you change a tenant."
+    },
+    {
+      "title": "Microsoft Teams blog index",
+      "url": "https://techcommunity.microsoft.com/category/microsoftteams/blog/microsoftteamsblog",
+      "kind": "community",
+      "lastChecked": "2026-10",
+      "status": "ok",
+      "note": "Community index for the Microsoft Teams blog. This is the index, not a claim that a post discusses this room."
+    },
+    {
+      "title": "Plan Direct Routing",
+      "url": "https://learn.microsoft.com/en-us/microsoftteams/direct-routing-plan",
+      "kind": "learn",
+      "lastChecked": "2026-10",
+      "status": "ok",
+      "note": ""
+    },
+    {
+      "title": "Emergency locations, addresses, and routing",
+      "url": "https://learn.microsoft.com/en-us/microsoftteams/what-are-emergency-locations-addresses-and-call-routing",
+      "kind": "learn",
+      "lastChecked": "2026-10",
+      "status": "ok",
+      "note": ""
+    }
+  ]
+}

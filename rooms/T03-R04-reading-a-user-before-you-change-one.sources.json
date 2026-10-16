@@ -1,0 +1,40 @@
+{
+  "room": "T03-R04-reading-a-user-before-you-change-one.html",
+  "lesson": "t03-readuser",
+  "title": "Reading a user before you change one",
+  "checked": "2026-10",
+  "sources": [
+    {
+      "title": "Manage voice routing policies",
+      "url": "https://learn.microsoft.com/en-us/microsoftteams/manage-voice-routing-policies",
+      "kind": "learn",
+      "lastChecked": "2026-10",
+      "status": "ok",
+      "note": ""
+    },
+    {
+      "title": "Use Teams admin roles",
+      "url": "https://learn.microsoft.com/en-us/microsoftteams/using-admin-roles",
+      "kind": "learn",
+      "lastChecked": "2026-10",
+      "status": "ok",
+      "note": ""
+    },
+    {
+      "title": "PowerShell",
+      "url": "https://en.wikipedia.org/wiki/PowerShell",
+      "kind": "wikipedia",
+      "lastChecked": "2026-10",
+      "status": "ok",
+      "note": "Wikipedia fallback for background. Confirm the vendor page before you change a tenant."
+    },
+    {
+      "title": "Microsoft Teams blog index",
+      "url": "https://techcommunity.microsoft.com/category/microsoftteams/blog/microsoftteamsblog",
+      "kind": "community",
+      "lastChecked": "2026-10",
+      "status": "ok",
+      "note": "Community index for the Microsoft Teams blog. This is the index, not a claim that a post discusses this room."
+    }
+  ]
+}

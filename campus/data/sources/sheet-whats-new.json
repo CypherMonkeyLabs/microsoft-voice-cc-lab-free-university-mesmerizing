@@ -1,0 +1,37 @@
+{
+  "checked": "2026-10",
+  "sources": [
+    {
+      "title": "Partner Center July 2026 announcements",
+      "url": "https://learn.microsoft.com/en-us/partner-center/announcements/2026-july",
+      "kind": "learn",
+      "lastChecked": "2026-10",
+      "status": "ok",
+      "note": ""
+    },
+    {
+      "title": "Retired certification exams",
+      "url": "https://learn.microsoft.com/en-us/credentials/support/retired-certification-exams",
+      "kind": "learn",
+      "lastChecked": "2026-10",
+      "status": "ok",
+      "note": ""
+    },
+    {
+      "title": "Study guide MS-700",
+      "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/ms-700",
+      "kind": "learn",
+      "lastChecked": "2026-10",
+      "status": "ok",
+      "note": ""
+    },
+    {
+      "title": "Microsoft Teams blog index",
+      "url": "https://techcommunity.microsoft.com/category/microsoftteams/blog/microsoftteamsblog",
+      "kind": "community",
+      "lastChecked": "2026-10",
+      "status": "ok",
+      "note": "Community index for the Microsoft Teams blog. This is the index, not a claim that a post discusses this room."
+    }
+  ]
+}

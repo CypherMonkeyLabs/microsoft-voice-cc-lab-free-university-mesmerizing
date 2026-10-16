@@ -1,0 +1,48 @@
+{
+  "room": "T02-R06-a-license-set-you-can-defend.html",
+  "lesson": "t02-defend",
+  "title": "A license set you can defend",
+  "checked": "2026-10",
+  "sources": [
+    {
+      "title": "Teams Phone licensing",
+      "url": "https://learn.microsoft.com/en-us/microsoftteams/teams-phone-licensing",
+      "kind": "learn",
+      "lastChecked": "2026-10",
+      "status": "ok",
+      "note": ""
+    },
+    {
+      "title": "Teams add-on licensing",
+      "url": "https://learn.microsoft.com/en-us/microsoftteams/teams-add-on-licensing/microsoft-teams-add-on-licensing",
+      "kind": "learn",
+      "lastChecked": "2026-10",
+      "status": "ok",
+      "note": ""
+    },
+    {
+      "title": "Teams Phone Resource Account licenses",
+      "url": "https://learn.microsoft.com/en-us/microsoftteams/teams-add-on-licensing/virtual-user",
+      "kind": "learn",
+      "lastChecked": "2026-10",
+      "status": "ok",
+      "note": ""
+    },
+    {
+      "title": "Microsoft 365",
+      "url": "https://en.wikipedia.org/wiki/Microsoft_365",
+      "kind": "wikipedia",
+      "lastChecked": "2026-10",
+      "status": "ok",
+      "note": "Wikipedia fallback for background. Confirm the vendor page before you change a tenant."
+    },
+    {
+      "title": "Microsoft Teams blog index",
+      "url": "https://techcommunity.microsoft.com/category/microsoftteams/blog/microsoftteamsblog",
+      "kind": "community",
+      "lastChecked": "2026-10",
+      "status": "ok",
+      "note": "Community index for the Microsoft Teams blog. This is the index, not a claim that a post discusses this room."
+    }
+  ]
+}
