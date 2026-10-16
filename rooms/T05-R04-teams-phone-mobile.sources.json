@@ -6,7 +6,7 @@
   "sources": [
     {
       "title": "Plan Teams Phone Mobile",
-      "url": "https://learn.microsoft.com/en-us/microsoftteams/teams-phone-mobile-plan",
+      "url": "",
       "kind": "learn",
       "lastChecked": "2026-10",
       "status": "confirm",
@@ -18,7 +18,7 @@
       "kind": "learn",
       "lastChecked": "2026-10",
       "status": "ok",
-      "note": "Opened in place of https://learn.microsoft.com/en-us/microsoftteams/teams-phone-mobile-plan, which did not open. This is the page that opened, not proof it equals the old slug."
+      "note": "Opened in place of a page that did not open when checked. This is the page that opened, not proof it equals the old slug."
     },
     {
       "title": "RFC 3261",

@@ -6,7 +6,7 @@
   "sources": [
     {
       "title": "Cloud Voicemail",
-      "url": "https://learn.microsoft.com/en-us/microsoftteams/cloud-voicemail",
+      "url": "",
       "kind": "learn",
       "lastChecked": "2026-10",
       "status": "confirm",
@@ -18,7 +18,7 @@
       "kind": "learn",
       "lastChecked": "2026-10",
       "status": "ok",
-      "note": "Opened in place of https://learn.microsoft.com/en-us/microsoftteams/cloud-voicemail, which did not open. The title is the page that opened."
+      "note": "Opened in place of a page that did not open when checked. The title is the page that opened."
     },
     {
       "title": "Microsoft 365",

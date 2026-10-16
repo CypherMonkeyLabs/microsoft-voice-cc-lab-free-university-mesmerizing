@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import html
 import json
+import re
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -34,19 +35,27 @@ def kind_label(kind: str) -> str:
     return KIND_LABEL.get(kind or "", "Docs")
 
 
+def public_note(note: str) -> str:
+    """Drop unopenable URLs from a note. A confirm row never prints a link."""
+    text = re.sub(r"https?://\S+", "", note or "")
+    text = re.sub(r"\s+", " ", text).strip(" .,;")
+    text = text.replace("Opened in place of ,", "Opened in place of a page")
+    text = text.replace("Opened in place of which", "Opened in place of a page which")
+    return text
+
+
 def item_html(source: dict) -> str:
-    title = esc(source.get("title") or source.get("url") or "Untitled")
+    title = esc(source.get("title") or "Untitled")
     url = esc(source.get("url") or "")
     checked = esc(source.get("lastChecked") or CHECKED)
-    note = esc(source.get("note") or "")
-    if source.get("status") != "ok":
-        extra = f" {note}" if note else ""
+    note = public_note(source.get("note") or "")
+    if source.get("status") != "ok" or not url:
+        extra = f" {esc(note)}." if note else ""
         return (
             f'<li class="is-confirm" style="{CONFIRM_STYLE}"><strong>{title}</strong>'
-            f" — confirm — last checked {checked}."
-            f' <a href="{url}">{url}</a> did not open when checked.{extra}</li>'
+            f" — confirm — last checked {checked}. Did not open when checked.{extra}</li>"
         )
-    tail = f" {note}" if note else ""
+    tail = f" {esc(note)}" if note else ""
     return (
         f'<li><a href="{url}">{title}</a> — {esc(kind_label(source.get("kind")))}'
         f" — last checked {checked}.{tail}</li>"

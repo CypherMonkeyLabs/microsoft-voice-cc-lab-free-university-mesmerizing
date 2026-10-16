@@ -467,13 +467,23 @@ function sourceItems(sources) {
   return sources.map(function (source) {
     var checked = source.lastChecked || (source.accessed ? String(source.accessed).slice(0, 7) : "2026-10");
     var kind = sourceKindLabel(source.kind || "learn");
-    var title = esc(source.title || source.url);
+    var title = esc(source.title || (source.status === "confirm" ? "Untitled" : source.url) || "Untitled");
     var url = esc(source.url || "");
     var note = source.note ? " " + esc(source.note) : "";
-    if (source.status === "confirm") {
-      return "<li class=\"is-confirm\"><strong>" + title + "</strong> — confirm — last checked " + esc(checked) + ". <a href=\"" + url + "\">" + url + "</a> did not open when checked." + note + "</li>";
+    function quietNote(value) {
+      return value
+        .replace(/Opened in place of https?:\/\/\S+, which did not open/g, "Opened in place of a page that did not open when checked")
+        .replace(/https?:\/\/\S+/g, "")
+        .replace(/\s+/g, " ")
+        .trim();
     }
-    return "<li><a href=\"" + url + "\">" + title + "</a> — " + kind + " — last checked " + esc(checked) + "." + note + "</li>";
+    if (source.status === "confirm" || !url) {
+      var quiet = quietNote(note);
+      return "<li class=\"is-confirm\"><strong>" + title + "</strong> — confirm — last checked " + esc(checked) + ". Did not open when checked." + (quiet ? " " + quiet : "") + "</li>";
+    }
+    var openedNote = quietNote(note);
+    openedNote = openedNote ? " " + openedNote : "";
+    return "<li><a href=\"" + url + "\">" + title + "</a> — " + kind + " — last checked " + esc(checked) + "." + openedNote + "</li>";
   }).join("");
 }
 
@@ -1932,8 +1942,10 @@ function renderSources() {
   if (window.MVCC_SOURCES) {
     Object.keys(window.MVCC_SOURCES).forEach(function (id) {
       (window.MVCC_SOURCES[id].sources || []).forEach(function (source) {
-        if (!source.url || seen[source.url]) return;
-        seen[source.url] = true;
+        var key = source.url || ("confirm:" + (source.title || id));
+        if (!key || seen[key]) return;
+        if (source.status !== "confirm" && !source.url) return;
+        seen[key] = true;
         bag.push(source);
       });
     });
@@ -1992,7 +2004,15 @@ function paintFaults() {
     "<p><strong>Cause. </strong>" + esc(fault.cause) + "</p>" +
     "<p><strong>Fix. </strong>" + esc(fault.fix) + "</p>" +
     "<p><strong>Check. </strong>" + esc(fault.check) + "</p>" +
-    '<p class="tiny"><a href="' + esc(fault.url) + '">' + esc(fault.source) + "</a> · accessed " + esc(fault.accessed) + "</p></article>"
+    (function () {
+      var closedName = typeof UNOPENED_SOURCE !== "undefined" && UNOPENED_SOURCE[fault.url];
+      var linkable = typeof fault.url === "string" && /^https?:\/\//.test(fault.url) && !closedName;
+      if (!linkable) {
+        return '<p class="tiny"><strong>' + esc(closedName || fault.source || "Source") + "</strong> — confirm — last checked 2026-10. Did not open when checked.</p>";
+      }
+      return '<p class="tiny"><a href="' + esc(fault.url) + '">' + esc(fault.source) + "</a> · accessed " + esc(fault.accessed) + "</p>";
+    })() +
+    "</article>"
   )).join("");
 }
 

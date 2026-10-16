@@ -6,11 +6,11 @@
   "sources": [
     {
       "title": "Cisco Unified Border Element",
-      "url": "https://www.cisco.com/c/en/us/products/unified-communications/unified-border-element/index.html",
+      "url": "",
       "kind": "vendor",
       "lastChecked": "2026-10",
-      "status": "ok",
-      "note": ""
+      "status": "confirm",
+      "note": "Did not open when checked."
     },
     {
       "title": "Plan Direct Routing",

@@ -111,10 +111,7 @@
   /* Offline copy of assets/data/socials.json. Append a network in both places. */
   var SOCIALS = [];
   var BRAND = {
-    github: '<svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 .5A11.5 11.5 0 0 0 .5 12.3c0 5.22 3.38 9.65 8.07 11.22.59.12.8-.26.8-.57v-2.02c-3.28.73-3.97-1.42-3.97-1.42-.53-1.38-1.3-1.75-1.3-1.75-1.07-.75.08-.73.08-.73 1.18.08 1.8 1.24 1.8 1.24 1.05 1.84 2.76 1.31 3.43.99.1-.78.41-1.31.75-1.61-2.62-.31-5.37-1.34-5.37-5.98 0-1.32.46-2.4 1.22-3.25-.12-.3-.53-1.53.12-3.18 0 0 1-.33 3.3 1.25a11.3 11.3 0 0 1 6 0c2.3-1.58 3.3-1.25 3.3-1.25.65 1.65.24 2.88.12 3.18.76.85 1.22 1.93 1.22 3.25 0 4.65-2.76 5.66-5.39 5.96.42.38.8 1.12.8 2.26v3.35c0 .31.21.7.81.57A11.52 11.52 0 0 0 23.5 12.3 11.5 11.5 0 0 0 12 .5z"/></svg>',
-    x: '<svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M14.6 3h3.2l-7 8L19.2 21h-3.3l-5.1-6.2L6.4 21H3.2l7.4-8.5L4.4 3h3.4l4.6 5.7L14.6 3zm-1.1 16.2h1.8L7.6 4.7H5.8l7.7 14.5z"/></svg>',
-    linkedin: '<svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M4.7 3.3a1.8 1.8 0 1 0 0 3.6 1.8 1.8 0 0 0 0-3.6zM3.2 8.4h3v12.2h-3zM10 8.4h2.9v1.7h.1c.4-.8 1.4-1.7 3-1.7 3.2 0 3.8 2.1 3.8 4.8v7.4h-3v-6.6c0-1.6 0-3.6-2.2-3.6s-2.5 1.7-2.5 3.5v6.7H10z"/></svg>',
-    huggingface: '<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10" fill="#FFD21F"/><circle cx="8.2" cy="10.2" r="1.35" fill="#1c1917"/><circle cx="15.8" cy="10.2" r="1.35" fill="#1c1917"/><path d="M8 14.7c1.1 1.4 2.4 2.1 4 2.1s2.9-.7 4-2.1" fill="none" stroke="#1c1917" stroke-width="1.4" stroke-linecap="round"/></svg>'
+    github: '<svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 .5A11.5 11.5 0 0 0 .5 12.3c0 5.22 3.38 9.65 8.07 11.22.59.12.8-.26.8-.57v-2.02c-3.28.73-3.97-1.42-3.97-1.42-.53-1.38-1.3-1.75-1.3-1.75-1.07-.75.08-.73.08-.73 1.18.08 1.8 1.24 1.8 1.24 1.05 1.84 2.76 1.31 3.43.99.1-.78.41-1.31.75-1.61-2.62-.31-5.37-1.34-5.37-5.98 0-1.32.46-2.4 1.22-3.25-.12-.3-.53-1.53.12-3.18 0 0 1-.33 3.3 1.25a11.3 11.3 0 0 1 6 0c2.3-1.58 3.3-1.25 3.3-1.25.65 1.65.24 2.88.12 3.18.76.85 1.22 1.93 1.22 3.25 0 4.65-2.76 5.66-5.39 5.96.42.38.8 1.12.8 2.26v3.35c0 .31.21.7.81.57A11.52 11.52 0 0 0 23.5 12.3 11.5 11.5 0 0 0 12 .5z"/></svg>'
   };
   function brandIcon(id) {
     return BRAND[id] || svg("globe");
@@ -371,9 +368,17 @@
     });
   }
 
+  function brandOnly(href) {
+    var host = "";
+    try { host = new URL(href, location.href).hostname.replace(/^www\./, "").toLowerCase(); }
+    catch (err) { return false; }
+    if (host === "linkedin.com" || host === "x.com" || host === "twitter.com" || host === "huggingface.co") return false;
+    return host === "cyphermonkeylabs.com" || host === "github.com" || host === "linktr.ee";
+  }
   function renderSocials(list, panel) {
     panel.innerHTML = list.map(function (item) {
-      if (!item || !item.href || !item.label) return "";
+      if (!item || !item.href || !item.label || !brandOnly(item.href)) return "";
+      if (item.id === "x" || item.id === "linkedin" || item.id === "huggingface") return "";
       return '<a href="' + esc(item.href) + '" target="_blank" rel="noopener noreferrer">' +
         brandIcon(item.id) + "<span>" + esc(item.label) + "</span></a>";
     }).join("");

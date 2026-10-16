@@ -184,11 +184,34 @@
     if (box.bottom > window.innerHeight - margin) card.style.top = Math.max(margin, window.innerHeight - margin - box.height) + "px";
     box = card.getBoundingClientRect();
     var spotBox = spot.getBoundingClientRect();
-    var overlaps = box.left < spotBox.right && box.right > spotBox.left && box.top < spotBox.bottom && box.bottom > spotBox.top;
+    function hits(a, b) {
+      return a.left < b.right && a.right > b.left && a.top < b.bottom && a.bottom > b.top;
+    }
+    var overlaps = hits(box, spotBox);
     if (overlaps) {
       var above = spotBox.top - 14 - box.height;
       if (above >= margin) card.style.top = above + "px";
       else card.style.top = Math.min(spotBox.bottom + 14, Math.max(margin, window.innerHeight - margin - box.height)) + "px";
+    }
+    var heads = document.querySelectorAll("h1");
+    var head = null;
+    for (var h = 0; h < heads.length; h++) {
+      var headRect = shownBox(heads[h]);
+      if (headRect) { head = headRect; break; }
+    }
+    if (head) {
+      box = card.getBoundingClientRect();
+      if (hits(box, head)) {
+        var under = head.bottom + 16;
+        var floor = window.innerHeight - bottomReserve - box.height;
+        if (under <= floor) card.style.top = under + "px";
+        else {
+          var over = head.top - 16 - box.height;
+          card.style.top = (over >= margin ? over : under) + "px";
+        }
+        box = card.getBoundingClientRect();
+        if (hits(box, head)) card.style.top = (head.bottom + 16) + "px";
+      }
     }
     tourLayer.querySelector("[data-tour-back]").disabled = tourAt === 0;
     tourLayer.querySelector("[data-tour-next]").textContent = tourAt === TOUR.length - 1 ? "Finish" : "Next";
