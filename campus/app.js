@@ -2361,7 +2361,7 @@ function renderHome() {
     '<p class="kicker">Free offline campus · firewall prefixes checked 15 October 2026</p>' +
     '<p class="lede">A study bench for the engineer who has to explain a Teams call, a queue, a recorder, and a contact-center route without guessing. No account. No key. No network after this file is open.</p>' +
     '<article class="panel" id="about-lucky"><h2>Who keeps this bench</h2>' +
-    '<p>Lucky is a lifelong student and an AI enthusiast. The path runs from systems, networking, voice, and contact center work into AI omni-channel agents. This campus is the study bench for that path.</p>' +
+    '<p>This campus is a free study bench. Confirm every product claim on the cited page before you rely on it.</p>' +
     '<p class="tiny">© 2026 CypherMonkeyLabs 🐒</p></article>' +
     '<p class="callout">' + esc(DATA.examFact || "") + "</p>" +
     '<div class="hero-actions row">' +
@@ -4202,11 +4202,9 @@ function navHtml() {
     { href: "#/sources", route: "sources", icon: "source", label: "Sources", desc: "The vendor pages this campus cites." }
   ];
   const brands = [
-    { href: "https://github.com/cipher0x9", icon: "github", label: "Visit my GitHub", desc: "github.com/cipher0x9" },
-    { href: "https://github.com/CypherMonkeyLabs", icon: "github", label: "Visit the Labs org", desc: "github.com/CypherMonkeyLabs" },
-    { href: "https://cyphermonkeylabs.com", icon: "globe", label: "Visit Cypher Monkey Labs", desc: "cyphermonkeylabs.com" },
-    { href: "https://x.com/Cypher0x9", icon: "x", label: "X", desc: "x.com/Cypher0x9" },
-    { href: "https://huggingface.co/Cypher0x9", icon: "hf", label: "Hugging Face", desc: "huggingface.co/Cypher0x9" }
+    { href: "https://cyphermonkeylabs.com", icon: "globe", label: "Website", desc: "cyphermonkeylabs.com" },
+    { href: "https://github.com/CypherMonkeyLabs", icon: "github", label: "GitHub", desc: "github.com/CypherMonkeyLabs" },
+    { href: "https://linktr.ee/cypherMonkey", icon: "globe", label: "Linktree", desc: "linktr.ee/cypherMonkey" }
   ];
   const trackCards = DATA.tracks.map((track) => {
     const why = String(track.why || "").replace(/\s+/g, " ").trim();

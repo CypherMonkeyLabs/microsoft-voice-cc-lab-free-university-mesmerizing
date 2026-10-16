@@ -104,14 +104,9 @@ def main() -> None:
         if theme_name not in css:
             fail(f"missing theme {theme_name}")
     for needle in (
-        "https://github.com/cipher0x9",
         "https://github.com/CypherMonkeyLabs",
         "https://cyphermonkeylabs.com",
-        "https://huggingface.co/Cypher0x9",
-        "https://x.com/Cypher0x9",
-        "Visit my GitHub",
-        "Visit the Labs org",
-        "Visit Cypher Monkey Labs",
+        "https://linktr.ee/cypherMonkey",
         "favicon.svg",
         "favicon.ico",
         "Guide Bot",
@@ -123,8 +118,9 @@ def main() -> None:
         if needle not in html:
             fail(f"chrome missing {needle}")
     lowered_shell = html.lower()
-    if "linktr.ee" in lowered_shell or "linkedin" in lowered_shell or "mailto:" in lowered_shell:
-        fail("shell contains a banned contact")
+    for banned in ("x.com/cypher0x9", "huggingface.co", "linkedin.com", "github.com/cipher0x9", "mailto:"):
+        if banned in lowered_shell:
+            fail(f"shell contains a banned contact: {banned}")
     sheet = CAMPUS / "downloads" / "ports-protocols.html"
     if not sheet.exists():
         fail("ports cheat sheet missing")
@@ -356,17 +352,18 @@ def main() -> None:
     ):
         if f"https://cyphermonkeylabs.com/{repo}/" not in html:
             fail(f"sibling url {repo}")
-    if "https://cipher0x9.github.io/gemini-gems-free-gallery/" not in html:
-        fail("sibling url gemini-gems-free-gallery")
+    if "https://cipher0x9.github.io/gemini-gems-free-gallery/" in html:
+        fail("gemini gallery link is not a brand link")
     sheets = []
     for sheet in (CAMPUS / "downloads").glob("*.html"):
         body = sheet.read_text(encoding="utf-8", errors="ignore")
         lowered_sheet = body.lower()
-        if "linktr.ee" in lowered_sheet or "linkedin" in lowered_sheet or "mailto:" in lowered_sheet:
-            fail(f"sheet contact {sheet.name}")
+        for banned in ("x.com/cypher0x9", "huggingface.co", "linkedin.com", "github.com/cipher0x9", "mailto:"):
+            if banned in lowered_sheet:
+                fail(f"sheet contact {sheet.name} {banned}")
         if all(bit in body for bit in (
             "https://cyphermonkeylabs.com",
-            "https://github.com/cipher0x9/microsoft-voice-cc-lab-free-university-mesmerizing",
+            "https://linktr.ee/cypherMonkey",
             "https://github.com/CypherMonkeyLabs/microsoft-voice-cc-lab-free-university-mesmerizing",
             "favicon.svg",
             "MIT code, CC BY-NC-SA content",
@@ -381,10 +378,10 @@ def main() -> None:
     if not pdf_path.exists():
         fail("ports pdf missing")
     pdf_bytes = pdf_path.read_bytes()
-    if b"github.com/cipher0x9/microsoft-voice-cc-lab-free-university-mesmerizing" not in pdf_bytes:
-        fail("pdf missing original cipher0x9 repo link")
-    if b"linktr.ee" in pdf_bytes.lower():
-        fail("pdf still links linktree")
+    if b"linktr.ee/cypherMonkey" not in pdf_bytes and b"linktr.ee/cyphermonkey" not in pdf_bytes.lower():
+        fail("pdf missing Linktree")
+    if b"cipher0x9" in pdf_bytes or b"huggingface" in pdf_bytes.lower() or b"x.com" in pdf_bytes:
+        fail("pdf still has a retired brand link")
     if not (CAMPUS / "favicon.svg").exists() or not (CAMPUS / "favicon.ico").exists():
         fail("favicon missing")
     hero_src = (CAMPUS / "studios" / "hero.js").read_text(encoding="utf-8")
