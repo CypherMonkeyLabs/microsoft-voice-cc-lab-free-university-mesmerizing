@@ -1,7 +1,7 @@
 {
   "title": "Microsoft Voice & Contact Center Lab flashcards",
   "checked": "2026-10-14",
-  "footer": "CypherMonkey Labs \u00b7 https://cyphermonkeylabs.com \u00b7 https://github.com/CypherMonkeyLabs \u00b7 https://linktr.ee/cypherMonkey \u00b7 https://github.com/CypherMonkeyLabs/microsoft-voice-cc-lab-free-university-mesmerizing \u00b7 (c) 2026 CypherMonkeyLabs. Independent educational project, not affiliated with or endorsed by any vendor. Trademarks belong to their owners. MIT code, CC BY-NC-SA content. Contact https://cyphermonkeylabs.com/#contact.",
+  "footer": "CypherMonkey Labs \u00b7 https://cyphermonkeylabs.com \u00b7 https://github.com/CypherMonkeyLabs \u00b7 https://linktr.ee/cypherMonkey \u00b7 https://github.com/CypherMonkeyLabs/microsoft-voice-cc-lab-free-university-mesmerizing \u00b7 (c) 2026 CypherMonkeyLabs. Independent educational project, not affiliated with or endorsed by any vendor. Comparison notes describe only public pages this lab opened. They do not rank vendors. Trademarks belong to their owners. MIT code, CC BY-NC-SA content. Contact https://cyphermonkeylabs.com/#contact.",
   "source": "Generated from the campus glossary. Not a copy of a vendor document.",
   "cards": [
     {
@@ -2743,6 +2743,66 @@
       "track": "t16",
       "front": "Checked date",
       "back": "14 October 2026 is when this campus was compared with Learn. It is not a promise the page stays still. Why it matters: Say the date when you quote a retirement."
+    },
+    {
+      "track": "t18",
+      "front": "Computer telephony integration",
+      "back": "Wikipedia\u2019s opened page says computer-telephony integration, also computer\u2013telephone integration or CTI, is a general term for technologies that coordinate interactions between telephones and computers. Why it matters: The next sentence on that page is marked citation needed. This lab does not use it."
+    },
+    {
+      "track": "t18",
+      "front": "Dynamics 365 voice channel",
+      "back": "The voice-channel page says it applies to Dynamics 365 Contact Center embedded, Contact Center standalone, and Customer Service. It provides native PSTN calling in Dynamics and says the channel is built on Azure Communication Services. Why it matters: Voice is routed with unified routing in the same way the page describes for an incoming chat."
+    },
+    {
+      "track": "t18",
+      "front": "Teams Phone in the voice channel",
+      "back": "The configure-Teams-Phone page says PSTN connectivity can be a Teams Calling Plan (service numbers only), Operator Connect, or Direct Routing, and that a Teams resource account is required for every number used with Dynamics 365 Contact Center. Why it matters: Representatives receive the call notification in the Copilot Service workspace app, on that page."
+    },
+    {
+      "track": "t18",
+      "front": "Salesforce Voice",
+      "back": "The help page Connect Voice from a Partner Contact Center says Salesforce Voice with Telephony Providers, formerly Service Cloud Voice, is now part of Partner Contact Center. Why it matters: That note still names Salesforce Voice with Amazon Connect, Partner Telephony, and Partner Telephony from Amazon Connect."
+    },
+    {
+      "track": "t18",
+      "front": "Partner Contact Center",
+      "back": "The Salesforce help page titled Connect Voice from a Partner Contact Center says Salesforce Voice with Telephony Providers, formerly Service Cloud Voice, is now part of Partner Contact Center. Why it matters: The same note still names Salesforce Voice with Amazon Connect, Partner Telephony, and Partner Telephony from Amazon Connect, and points to Agentforce Contact Center Voice for built-in telephony."
+    },
+    {
+      "track": "t19",
+      "front": "Amazon Connect Customer",
+      "back": "Amazon\u2019s opened guide says Amazon Connect Customer is the current name for the product previously called Amazon Connect, and that this guide covers Amazon Connect Customer. Why it matters: The same page says Amazon Connect is now a set of agentic AI solutions for different business functions."
+    },
+    {
+      "track": "t19",
+      "front": "CCAI Platform",
+      "back": "The opened Google Cloud page is titled Contact Center AI Platform. It says CCAI Platform is a contact-center service built natively on Google Cloud, uses other Gemini Enterprise for Customer Experience products, and is purpose-built to work alongside CRMs. Why it matters: The page names queuing and routing across voice and digital channels, and names Virtual Agent, Agent Assist, and Insights."
+    },
+    {
+      "track": "t19",
+      "front": "Gemini Enterprise for Customer Experience",
+      "back": "Google\u2019s legal change log records this line: Updated name of Customer Engagement Suite and Contact Center AI to Gemini Enterprise for Customer Experience (GECX). Why it matters: A different change-log line says the CCAI Platform service-terms summary was renamed toward Google Cloud Contact Center as a Service. That is not the same sentence as the GECX line."
+    },
+    {
+      "track": "t20",
+      "front": "Least active assignment",
+      "back": "The assignment-methods page says least active is available for voice and messaging only, and is the default selection when you create a voice or messaging queue. Why it matters: It uses the time since last capacity is released for a voice or messaging conversation, and the Block capacity for wrap-up setting on the workstream."
+    },
+    {
+      "track": "t20",
+      "front": "Quality evaluation plan",
+      "back": "The quality and coaching page, which applies to Dynamics 365 Contact Center only, says an evaluation plan sets the criteria, the conversations, the timing, and the actions. Why it matters: Frequency on that page is In real time or On conversation close. Sampling is a percentage of matching conversations."
+    },
+    {
+      "track": "t20",
+      "front": "Quality guardrail",
+      "back": "On the quality and coaching page, a guardrail defines a required or prohibited behavior. Guardrails are evaluated for violations rather than assigned numeric scores, and each has a priority. Why it matters: Indicators are the scored questions. A guardrail is not an indicator."
+    },
+    {
+      "track": "t20",
+      "front": "Short-term forecast",
+      "back": "The forecasting overview says a short-term scenario predicts volume and average handle time in 15-minute intervals for a horizon of up to six weeks (42 days), using a linear trend on internal or external data. Why it matters: Volume on that page excludes conversations that AI agents handle with no representative joining. Forecasting then feeds capacity planning, which drives scheduling."
     },
     {
       "track": "t04",

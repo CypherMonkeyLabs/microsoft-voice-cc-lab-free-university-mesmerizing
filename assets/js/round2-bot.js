@@ -91,7 +91,7 @@
 
   /* Tour */
   var TOUR = [
-    { sel: ".brand, a.section-chip[href$='index.html']", title: "1. Home", text: "Home is the front door. Seventeen tracks, then a room." },
+    { sel: ".brand, a.section-chip[href$='index.html']", title: "1. Home", text: "Home is the front door. The track list, then a room." },
     { sel: "[data-tour='menu']", title: "2. Menu", text: "Menu opens the drawer. Each row is an icon, a name, and one line. Esc closes it." },
     { sel: "[data-tour='learn'], a[href$='start.html']", title: "3. Learn", text: "Learn opens the study path: tenant, license, dial plan, then contact center." },
     { sel: "[data-tour='diagrams'], a[href*='diagrams.html']", title: "4. Diagrams", text: "Diagrams are drawings. Every one has a download button." },

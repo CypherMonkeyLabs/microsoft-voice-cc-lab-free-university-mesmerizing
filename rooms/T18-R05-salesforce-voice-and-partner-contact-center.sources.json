@@ -1,0 +1,32 @@
+{
+  "room": "T18-R05-salesforce-voice-and-partner-contact-center.html",
+  "lesson": "t18-sf-name",
+  "title": "Salesforce Voice and Partner Contact Center",
+  "checked": "2026-10",
+  "sources": [
+    {
+      "title": "Salesforce Voice with Telephony Providers implementation guide",
+      "url": "https://developer.salesforce.com/docs/atlas.en-us.voice_developer_guide.meta/voice_developer_guide/voice_intro.htm",
+      "kind": "docs",
+      "lastChecked": "2026-10",
+      "status": "confirm",
+      "note": "HTTP 403"
+    },
+    {
+      "title": "Connect Voice from a Partner Contact Center",
+      "url": "https://help.salesforce.com/s/articleView?id=service.voice_about.htm&language=en_US&type=5",
+      "kind": "vendor",
+      "lastChecked": "2026-10",
+      "status": "ok",
+      "note": ""
+    },
+    {
+      "title": "Microsoft Teams",
+      "url": "https://en.wikipedia.org/wiki/Microsoft_Teams",
+      "kind": "wikipedia",
+      "lastChecked": "2026-10",
+      "status": "ok",
+      "note": "Wikipedia fallback for background. Confirm the vendor page before you change a tenant."
+    }
+  ]
+}

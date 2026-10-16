@@ -108,3 +108,23 @@ Plattformübergreifende Brücken
 Haken für künftige Integration
 Eine Ökosystemänderung konfigurieren
 Fehler über eine Herstellergrenze hinweg
+Was CTI benennt
+Der Dynamics-Sprachkanal
+Teams Phone im Sprachkanal
+Ressourcenkonto und Rufnummer
+Salesforce Voice und Partner Contact Center
+Amazon Connect und Partner-Telefonie
+Die Naht von Anruf zu Datensatz
+Ein Vergleich ohne Sieger
+Was die Microsoft-Seiten benennen
+Amazon Connect Customer
+CCAI Platform und die GECX-Umbenennung
+Nur dokumentierte Unterschiede
+Was diese Seiten nicht entscheiden
+Klassifikation, dann Zuweisung
+Sprach-Workstreams und Sprachwarteschlangen
+Höchste Kapazität, Round Robin, am wenigsten aktiv
+Prognose, Kapazität und Schicht
+Indikatoren und Leitplanken
+Zwei Aufzeichnungssteuerungen
+Welche Steuerung ausfiel

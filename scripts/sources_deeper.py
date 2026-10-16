@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Open lab source URLs and write a Sources and go deeper block onto every room, chapter, sheet, diagram, and card."""
+"""Open lab source URLs and write a Sources and go deeper block onto every room, chapter, sheet, diagram, card, and shell page."""
 
 from __future__ import annotations
 
@@ -172,6 +172,111 @@ SHEET_KEYS = {
         COMMUNITY_URL,
     ],
 }
+
+# Shell pages. Every URL here is also opened because a lesson, glossary row, or sheet already cites it.
+ROOT_PAGES = {
+    "index.html": [
+        "https://learn.microsoft.com/en-us/microsoftteams/pstn-connectivity",
+        "https://learn.microsoft.com/en-us/dynamics365/customer-service/administer/voice-channel",
+        "https://learn.microsoft.com/en-us/microsoftteams/teams-contact-center",
+        "https://docs.aws.amazon.com/connect/latest/adminguide/what-is-amazon-connect.html",
+        "https://docs.cloud.google.com/contact-center/ccai-platform/docs",
+        "https://cloud.google.com/legal-change-log",
+        "https://help.salesforce.com/s/articleView?id=service.voice_about.htm&language=en_US&type=5",
+        "https://learn.microsoft.com/en-us/dynamics365/customer-service/administer/overview-unified-routing",
+        "https://learn.microsoft.com/en-us/dynamics365/contact-center/use/workforce-management-forecast-overview",
+        "https://learn.microsoft.com/en-us/dynamics365/contact-center/administer/configure-quality-coach",
+        "https://en.wikipedia.org/wiki/Computer_telephony_integration",
+    ],
+    "start.html": [
+        "https://learn.microsoft.com/en-us/microsoftteams/pstn-connectivity",
+        "https://learn.microsoft.com/en-us/dynamics365/customer-service/administer/voice-channel",
+        "https://learn.microsoft.com/en-us/microsoftteams/teams-contact-center",
+        "https://docs.aws.amazon.com/connect/latest/adminguide/what-is-amazon-connect.html",
+        "https://docs.cloud.google.com/contact-center/ccai-platform/docs",
+        "https://cloud.google.com/legal-change-log",
+        "https://help.salesforce.com/s/articleView?id=service.voice_about.htm&language=en_US&type=5",
+        "https://learn.microsoft.com/en-us/dynamics365/customer-service/administer/overview-unified-routing",
+        "https://learn.microsoft.com/en-us/dynamics365/contact-center/use/workforce-management-forecast-overview",
+        "https://learn.microsoft.com/en-us/dynamics365/contact-center/administer/configure-quality-coach",
+        "https://en.wikipedia.org/wiki/Computer_telephony_integration",
+    ],
+    "ecosystem.html": [
+        "https://learn.microsoft.com/en-us/microsoftteams/teams-recording-policy",
+        "https://learn.microsoft.com/en-us/microsoftteams/cqd-what-is-call-quality-dashboard",
+        "https://learn.microsoft.com/en-us/microsoftteams/what-are-emergency-locations-addresses-and-call-routing",
+        "https://learn.microsoft.com/en-us/dynamics365/contact-center/",
+        "https://learn.microsoft.com/en-us/microsoftteams/teams-contact-center",
+        "https://learn.microsoft.com/en-us/microsoftteams/direct-routing-plan",
+    ],
+    "diagrams.html": [
+        "https://learn.microsoft.com/en-us/microsoftteams/direct-routing-plan",
+        "https://learn.microsoft.com/en-us/microsoftteams/qos-in-teams",
+    ],
+    "flows.html": [
+        "https://learn.microsoft.com/en-us/microsoftteams/direct-routing-plan",
+    ],
+    "charts.html": [
+        "https://learn.microsoft.com/en-us/microsoftteams/qos-in-teams",
+        "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/ab-250",
+    ],
+    "downloads.html": [
+        "https://learn.microsoft.com/en-us/microsoftteams/pstn-connectivity",
+        "https://learn.microsoft.com/en-us/microsoftteams/direct-routing-plan",
+    ],
+    "labs.html": [
+        "https://learn.microsoft.com/en-us/microsoftteams/pstn-connectivity",
+        "https://learn.microsoft.com/en-us/microsoftteams/direct-routing-plan",
+    ],
+    "help.html": [
+        "https://learn.microsoft.com/en-us/microsoftteams/pstn-connectivity",
+        "https://learn.microsoft.com/en-us/microsoftteams/direct-routing-plan",
+    ],
+    "legal.html": [
+        "https://learn.microsoft.com/en-us/microsoftteams/pstn-connectivity",
+        "https://learn.microsoft.com/en-us/microsoftteams/direct-routing-plan",
+    ],
+    "glossary.html": [
+        "https://en.wikipedia.org/wiki/Computer_telephony_integration",
+        "https://learn.microsoft.com/en-us/dynamics365/customer-service/administer/voice-channel",
+        "https://help.salesforce.com/s/articleView?id=service.voice_about.htm&language=en_US&type=5",
+    ],
+    "quizzes.html": [
+        "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/ms-700",
+        "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/ab-250",
+    ],
+    "careers.html": [
+        "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/ms-700",
+        "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/ab-250",
+    ],
+    "play.html": [
+        "https://learn.microsoft.com/en-us/microsoftteams/qos-in-teams",
+    ],
+    "troubleshooting.html": [
+        "https://learn.microsoft.com/en-us/microsoftteams/cqd-what-is-call-quality-dashboard",
+        "https://learn.microsoft.com/en-us/microsoftteams/use-call-analytics-to-troubleshoot-poor-call-quality",
+    ],
+    "bridges.html": [
+        "https://learn.microsoft.com/en-us/microsoftteams/teams-contact-center",
+        "https://learn.microsoft.com/en-us/microsoftteams/direct-routing-plan",
+        "https://www.cisco.com/c/en/us/products/unified-communications/unified-border-element/index.html",
+    ],
+}
+
+CAMPUS_SHELL = [
+    "https://learn.microsoft.com/en-us/microsoftteams/pstn-connectivity",
+    "https://learn.microsoft.com/en-us/dynamics365/customer-service/administer/voice-channel",
+    "https://learn.microsoft.com/en-us/dynamics365/contact-center/administer/configure-teams-phone-in-voice-channel",
+    "https://help.salesforce.com/s/articleView?id=service.voice_about.htm&language=en_US&type=5",
+    "https://docs.aws.amazon.com/connect/latest/adminguide/what-is-amazon-connect.html",
+    "https://docs.cloud.google.com/contact-center/ccai-platform/docs",
+    "https://cloud.google.com/legal-change-log",
+    "https://learn.microsoft.com/en-us/dynamics365/customer-service/administer/overview-unified-routing",
+    "https://learn.microsoft.com/en-us/dynamics365/contact-center/use/workforce-management-forecast-overview",
+    "https://learn.microsoft.com/en-us/dynamics365/contact-center/administer/configure-quality-coach",
+    "https://en.wikipedia.org/wiki/Computer_telephony_integration",
+    "https://learn.microsoft.com/en-us/microsoftteams/teams-contact-center",
+]
 
 CAMPUS_SHEET = {
     "ports-protocols.html": "ports",
@@ -394,6 +499,9 @@ def patch_room(path: Path, block: str) -> None:
 
 
 def patch_before_footer(path: Path, block: str) -> None:
+    if not path.exists():
+        print("skip missing", path)
+        return
     text = strip_old(path.read_text(encoding="utf-8"))
     if "<footer" not in text:
         raise SystemExit(f"no footer in {path}")
@@ -466,9 +574,8 @@ def load_lessons():
     manifest = json.loads((DATA / "manifest.json").read_text(encoding="utf-8"))
     tracks = []
     lessons = []
-    for index in range(1, 18):
-        blob = json.loads((DATA / "tracks" / f"t{index:02d}.json").read_text(encoding="utf-8"))
-        meta = next(item for item in manifest["tracks"] if item["id"] == blob["id"])
+    for meta in manifest["tracks"]:
+        blob = json.loads((DATA / "tracks" / f"{meta['id']}.json").read_text(encoding="utf-8"))
         blob["meta"] = meta
         tracks.append(blob)
         for number, lesson in enumerate(blob["lessons"], start=1):
@@ -496,6 +603,9 @@ def main() -> None:
             urls.add(extra_url(token))
     for listed in SHEET_KEYS.values():
         urls.update(listed)
+    for listed in ROOT_PAGES.values():
+        urls.update(listed)
+    urls.update(CAMPUS_SHELL)
     urls.add(wiki_url("Microsoft_Teams"))
 
     print(f"opening {len(urls)} urls")
@@ -648,6 +758,20 @@ def main() -> None:
 
     payload = "window.MVCC_SOURCES = " + json.dumps(mvcc, ensure_ascii=False) + ";\n"
     (ROOT / "campus" / "sources-deeper.js").write_text(payload, encoding="utf-8")
+
+    shell_note = "Opened 2026-10. A row marked confirm did not open."
+    for name, listed in ROOT_PAGES.items():
+        rows = pick(listed, checks, catalog)
+        if len(rows) != len(listed):
+            raise SystemExit(f"shell page {name} lost a source: wanted {len(listed)} got {len(rows)}")
+        patch_before_footer(ROOT / name, sources_render.section_html(rows, note=shell_note))
+    campus_rows = pick(CAMPUS_SHELL, checks, catalog)
+    if len(campus_rows) != len(CAMPUS_SHELL):
+        raise SystemExit(f"campus shell lost a source: wanted {len(CAMPUS_SHELL)} got {len(campus_rows)}")
+    patch_before_footer(
+        ROOT / "campus" / "index.html",
+        sources_render.section_html(campus_rows, note=shell_note),
+    )
     ok = sum(1 for row in checks.values() if row["status"] == "ok")
     bad = sum(1 for row in checks.values() if row["status"] != "ok")
     print(f"checked {len(checks)} ok {ok} confirm {bad} rooms {len(lessons)} diagrams {len(diagrams)}")

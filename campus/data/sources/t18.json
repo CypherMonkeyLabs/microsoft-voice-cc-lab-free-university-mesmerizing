@@ -1,0 +1,109 @@
+{
+  "track": "t18",
+  "title": "CRM and CTI",
+  "checked": "2026-10",
+  "rooms": [
+    {
+      "room": "T18-R01-what-cti-names.html",
+      "sourcesFile": "../../rooms/T18-R01-what-cti-names.sources.json"
+    },
+    {
+      "room": "T18-R02-the-dynamics-voice-channel.html",
+      "sourcesFile": "../../rooms/T18-R02-the-dynamics-voice-channel.sources.json"
+    },
+    {
+      "room": "T18-R03-teams-phone-into-the-voice-channel.html",
+      "sourcesFile": "../../rooms/T18-R03-teams-phone-into-the-voice-channel.sources.json"
+    },
+    {
+      "room": "T18-R04-the-resource-account-and-the-number.html",
+      "sourcesFile": "../../rooms/T18-R04-the-resource-account-and-the-number.sources.json"
+    },
+    {
+      "room": "T18-R05-salesforce-voice-and-partner-contact-center.html",
+      "sourcesFile": "../../rooms/T18-R05-salesforce-voice-and-partner-contact-center.sources.json"
+    },
+    {
+      "room": "T18-R06-amazon-connect-and-partner-telephony.html",
+      "sourcesFile": "../../rooms/T18-R06-amazon-connect-and-partner-telephony.sources.json"
+    },
+    {
+      "room": "T18-R07-the-call-to-record-seam.html",
+      "sourcesFile": "../../rooms/T18-R07-the-call-to-record-seam.sources.json"
+    }
+  ],
+  "sources": [
+    {
+      "title": "Computer telephony integration",
+      "url": "https://en.wikipedia.org/wiki/Computer_telephony_integration",
+      "kind": "wikipedia",
+      "lastChecked": "2026-10",
+      "status": "ok",
+      "note": "Wikipedia fallback for background. Confirm the vendor page before you change a tenant."
+    },
+    {
+      "title": "Introduction to the voice channel",
+      "url": "https://learn.microsoft.com/en-us/dynamics365/customer-service/administer/voice-channel",
+      "kind": "learn",
+      "lastChecked": "2026-10",
+      "status": "ok",
+      "note": ""
+    },
+    {
+      "title": "Connect Voice from a Partner Contact Center",
+      "url": "https://help.salesforce.com/s/articleView?id=service.voice_about.htm&language=en_US&type=5",
+      "kind": "vendor",
+      "lastChecked": "2026-10",
+      "status": "ok",
+      "note": ""
+    },
+    {
+      "title": "Overview of unified routing",
+      "url": "https://learn.microsoft.com/en-us/dynamics365/customer-service/administer/overview-unified-routing",
+      "kind": "learn",
+      "lastChecked": "2026-10",
+      "status": "ok",
+      "note": ""
+    },
+    {
+      "title": "Microsoft Teams",
+      "url": "https://en.wikipedia.org/wiki/Microsoft_Teams",
+      "kind": "wikipedia",
+      "lastChecked": "2026-10",
+      "status": "ok",
+      "note": "Wikipedia fallback for background. Confirm the vendor page before you change a tenant."
+    },
+    {
+      "title": "Configure Teams Phone in the voice channel",
+      "url": "https://learn.microsoft.com/en-us/dynamics365/contact-center/administer/configure-teams-phone-in-voice-channel",
+      "kind": "learn",
+      "lastChecked": "2026-10",
+      "status": "ok",
+      "note": ""
+    },
+    {
+      "title": "Create and manage workstreams",
+      "url": "https://learn.microsoft.com/en-us/dynamics365/customer-service/administer/create-workstreams",
+      "kind": "learn",
+      "lastChecked": "2026-10",
+      "status": "ok",
+      "note": ""
+    },
+    {
+      "title": "Salesforce Voice with Telephony Providers implementation guide",
+      "url": "https://developer.salesforce.com/docs/atlas.en-us.voice_developer_guide.meta/voice_developer_guide/voice_intro.htm",
+      "kind": "docs",
+      "lastChecked": "2026-10",
+      "status": "confirm",
+      "note": "HTTP 403"
+    },
+    {
+      "title": "Teams contact center integration models",
+      "url": "https://learn.microsoft.com/en-us/microsoftteams/teams-contact-center",
+      "kind": "learn",
+      "lastChecked": "2026-10",
+      "status": "ok",
+      "note": ""
+    }
+  ]
+}

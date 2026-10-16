@@ -327,4 +327,57 @@ TIPS: dict[str, dict[str, object]] = {
             "Agent       answer, then a human escape"
         ),
     },
+    "t18": {
+        "tips": [
+            "The Dynamics voice channel page says the channel is built on Azure Communication Services. The representative notification it describes is the Copilot Service workspace, not the Teams client.",
+            "The Salesforce help page that opened says Salesforce Voice with Telephony Providers, formerly Service Cloud Voice, is now part of Partner Contact Center.",
+        ],
+        "traps": [
+            "Treating a Teams resource account as proof that the representative answers in the Teams client.",
+            "Using a remembered application ID. The Teams Phone page prints one. Copy it from the current page.",
+        ],
+        "sheet": (
+            "CTI          telephone coordinated with a computer\n"
+            "Dynamics     ACS voice channel, unified routing\n"
+            "Teams number resource account, then Sync from Teams\n"
+            "Calling Plan service numbers only, on that page\n"
+            "Salesforce   Voice, formerly Service Cloud Voice\n"
+            "Record       the id you store, not a matching name"
+        ),
+    },
+    "t19": {
+        "tips": [
+            "Quote the product name the opened page uses. Amazon’s guide says Amazon Connect Customer is the current name of the product previously called Amazon Connect.",
+            "Google’s legal change log records a rename to Gemini Enterprise for Customer Experience. The CCAI Platform docs page opened for this track still uses Contact Center AI Platform.",
+        ],
+        "traps": [
+            "Ranking vendors, or copying a price, a market share, or a certification list this track did not open.",
+            "Saying the CCAI Platform docs page was renamed away because a change-log line exists.",
+        ],
+        "sheet": (
+            "Microsoft    voice channel, plus Connect Extend Unify\n"
+            "Amazon       Connect Customer, this guide\n"
+            "Google docs  Contact Center AI Platform\n"
+            "Change log   GECX rename is a separate page\n"
+            "No rank      equal bars mean pages opened"
+        ),
+    },
+    "t20": {
+        "tips": [
+            "Unified routing has two stages on its overview page: classification, then assignment. A voice workstream is push mode only.",
+            "A short-term forecast on the forecasting overview is 15-minute intervals for a horizon of up to six weeks (42 days). A long-term forecast is daily, up to three years (1,096 days).",
+        ],
+        "traps": [
+            "Using a quality score or a forecast for employment decisions. Both pages say not to.",
+            "Treating the Dynamics recording announcement and a Teams compliance-recording policy as one switch.",
+        ],
+        "sheet": (
+            "Classify    rules and ML models add information\n"
+            "Assign      highest capacity, round robin, least active\n"
+            "Voice queue least active is the default on that page\n"
+            "Forecast    volume and AHT, then capacity, then shifts\n"
+            "Quality     indicators score, guardrails do not\n"
+            "Not for     compensation, seniority, or rewards"
+        ),
+    },
 }

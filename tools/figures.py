@@ -593,6 +593,9 @@ TRY_LAB = {
     "t15": "acs-flow",
     "t16": "exam-map",
     "t17": "hook-plan",
+    "t18": "integrate-map",
+    "t19": "hook-plan",
+    "t20": "routing-designer",
 }
 
 

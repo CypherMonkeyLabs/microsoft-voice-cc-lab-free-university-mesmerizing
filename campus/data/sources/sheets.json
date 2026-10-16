@@ -65,11 +65,11 @@
       },
       {
         "title": "Cisco Unified Border Element",
-        "url": "",
+        "url": "https://www.cisco.com/c/en/us/products/unified-communications/unified-border-element/index.html",
         "kind": "vendor",
         "lastChecked": "2026-10",
-        "status": "confirm",
-        "note": "Did not open when checked."
+        "status": "ok",
+        "note": ""
       },
       {
         "title": "RFC 3261",
@@ -499,7 +499,7 @@
       },
       {
         "title": "Cloud Voicemail",
-        "url": "",
+        "url": "https://learn.microsoft.com/en-us/microsoftteams/cloud-voicemail",
         "kind": "learn",
         "lastChecked": "2026-10",
         "status": "confirm",
@@ -579,7 +579,7 @@
       },
       {
         "title": "Plan Teams Phone Mobile",
-        "url": "",
+        "url": "https://learn.microsoft.com/en-us/microsoftteams/teams-phone-mobile-plan",
         "kind": "learn",
         "lastChecked": "2026-10",
         "status": "confirm",
@@ -699,11 +699,11 @@
       },
       {
         "title": "Cisco Unified Border Element",
-        "url": "",
+        "url": "https://www.cisco.com/c/en/us/products/unified-communications/unified-border-element/index.html",
         "kind": "vendor",
         "lastChecked": "2026-10",
-        "status": "confirm",
-        "note": "Did not open when checked."
+        "status": "ok",
+        "note": ""
       },
       {
         "title": "Azure Communication Services Call Automation",
@@ -795,7 +795,7 @@
       },
       {
         "title": "AudioCodes session border controllers",
-        "url": "",
+        "url": "https://www.audiocodes.com/solutions-products/products/session-border-controllers",
         "kind": "vendor",
         "lastChecked": "2026-10",
         "status": "confirm",
@@ -811,7 +811,7 @@
       },
       {
         "title": "Oracle Session Border Controller",
-        "url": "",
+        "url": "https://www.oracle.com/communications/session-border-controller/",
         "kind": "vendor",
         "lastChecked": "2026-10",
         "status": "confirm",
@@ -844,6 +844,86 @@
       {
         "title": "Teams Administrator Associate",
         "url": "https://learn.microsoft.com/en-us/credentials/certifications/m365-teams-administrator-associate/",
+        "kind": "learn",
+        "lastChecked": "2026-10",
+        "status": "ok",
+        "note": ""
+      },
+      {
+        "title": "Computer telephony integration",
+        "url": "https://en.wikipedia.org/wiki/Computer_telephony_integration",
+        "kind": "wikipedia",
+        "lastChecked": "2026-10",
+        "status": "ok",
+        "note": "Wikipedia fallback for background. Confirm the vendor page before you change a tenant."
+      },
+      {
+        "title": "Introduction to the voice channel",
+        "url": "https://learn.microsoft.com/en-us/dynamics365/customer-service/administer/voice-channel",
+        "kind": "learn",
+        "lastChecked": "2026-10",
+        "status": "ok",
+        "note": ""
+      },
+      {
+        "title": "Configure Teams Phone in the voice channel",
+        "url": "https://learn.microsoft.com/en-us/dynamics365/contact-center/administer/configure-teams-phone-in-voice-channel",
+        "kind": "learn",
+        "lastChecked": "2026-10",
+        "status": "ok",
+        "note": ""
+      },
+      {
+        "title": "Connect Voice from a Partner Contact Center",
+        "url": "https://help.salesforce.com/s/articleView?id=service.voice_about.htm&language=en_US&type=5",
+        "kind": "vendor",
+        "lastChecked": "2026-10",
+        "status": "ok",
+        "note": ""
+      },
+      {
+        "title": "What is Amazon Connect Customer",
+        "url": "https://docs.aws.amazon.com/connect/latest/adminguide/what-is-amazon-connect.html",
+        "kind": "docs",
+        "lastChecked": "2026-10",
+        "status": "ok",
+        "note": ""
+      },
+      {
+        "title": "Contact Center AI Platform",
+        "url": "https://docs.cloud.google.com/contact-center/ccai-platform/docs",
+        "kind": "docs",
+        "lastChecked": "2026-10",
+        "status": "ok",
+        "note": ""
+      },
+      {
+        "title": "Google Cloud legal change log",
+        "url": "https://cloud.google.com/legal-change-log",
+        "kind": "vendor",
+        "lastChecked": "2026-10",
+        "status": "ok",
+        "note": ""
+      },
+      {
+        "title": "Assignment methods for unified routing",
+        "url": "https://learn.microsoft.com/en-us/dynamics365/customer-service/administer/assignment-methods",
+        "kind": "learn",
+        "lastChecked": "2026-10",
+        "status": "ok",
+        "note": ""
+      },
+      {
+        "title": "Configure quality and coaching",
+        "url": "https://learn.microsoft.com/en-us/dynamics365/contact-center/administer/configure-quality-coach",
+        "kind": "learn",
+        "lastChecked": "2026-10",
+        "status": "ok",
+        "note": ""
+      },
+      {
+        "title": "Overview of forecasting",
+        "url": "https://learn.microsoft.com/en-us/dynamics365/contact-center/use/workforce-management-forecast-overview",
         "kind": "learn",
         "lastChecked": "2026-10",
         "status": "ok",

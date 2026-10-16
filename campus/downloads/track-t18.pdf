@@ -1,0 +1,68 @@
+%PDF-1.4
+1 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica >>
+endobj
+2 0 obj
+<< /Length 1818 >>
+stream
+BT
+/F1 11 Tf
+50 780 Td
+14 TL
+(18 CRM and CTI) Tj
+T* () Tj
+T* (18 CRM and CTI) Tj
+T* () Tj
+T* (Pro tips) Tj
+T* (? The Dynamics voice channel page says the channel is built on Azure Communication Services.) Tj
+T* (The representative notification it describes is the Copilot Service workspace, not the Teams) Tj
+T* (client.) Tj
+T* (? The Salesforce help page that opened says Salesforce Voice with Telephony Providers,) Tj
+T* (formerly Service Cloud Voice, is now part of Partner Contact Center.) Tj
+T* () Tj
+T* (Interview traps) Tj
+T* (? Treating a Teams resource account as proof that the representative answers in the Teams) Tj
+T* (client.) Tj
+T* (? Using a remembered application ID. The Teams Phone page prints one. Copy it from the) Tj
+T* (current page.) Tj
+T* () Tj
+T* (Cheat sheet) Tj
+T* (CTI          telephone coordinated with a computer) Tj
+T* (Dynamics     ACS voice channel, unified routing) Tj
+T* (Teams number resource account, then Sync from Teams) Tj
+T* (Calling Plan service numbers only, on that page) Tj
+T* (Salesforce   Voice, formerly Service Cloud Voice) Tj
+T* (Record       the id you store, not a matching name) Tj
+T* () Tj
+T* (Facts in the long lessons were checked 14 October 2026. This sheet is a memory aid.) Tj
+T* () Tj
+T* (CypherMonkey Labs ? https://cyphermonkeylabs.com ? https://github.com/CypherMonkeyLabs ?) Tj
+T* (https://linktr.ee/cypherMonkey ? https://github.com/CypherMonkeyLabs/microsoft-voice-cc-lab-) Tj
+T* (free-university-mesmerizing ? \(c\) 2026 CypherMonkeyLabs. Independent educational project,) Tj
+T* (not affiliated with or endorsed by any vendor. Comparison notes describe only public pages) Tj
+T* (this lab opened. They do not rank vendors. Trademarks belong to their owners. MIT code, CC) Tj
+T* (BY-NC-SA content. Contact https://cyphermonkeylabs.com/#contact.) Tj
+ET
+endstream
+endobj
+3 0 obj
+<< /Type /Page /Parent 4 0 R /MediaBox [0 0 612 792] /Contents 2 0 R /Resources << /Font << /F1 1 0 R >> >> >>
+endobj
+4 0 obj
+<< /Type /Pages /Count 1 /Kids [3 0 R] >>
+endobj
+5 0 obj
+<< /Type /Catalog /Pages 4 0 R >>
+endobj
+xref
+0 6
+0000000000 65535 f 
+0000000009 00000 n 
+0000000079 00000 n 
+0000001949 00000 n 
+0000002075 00000 n 
+0000002132 00000 n 
+trailer << /Size 6 /Root 5 0 R >>
+startxref
+2181
+%%EOF

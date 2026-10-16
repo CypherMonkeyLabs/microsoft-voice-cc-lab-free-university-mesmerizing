@@ -108,3 +108,23 @@ CRM とスクリーンポップ
 将来の統合フック
 エコシステムの変更を構成する
 ベンダー境界をまたぐ障害切り分け
+CTI が名指すもの
+Dynamics の音声チャネル
+音声チャネルの Teams Phone
+リソースアカウントと番号
+Salesforce Voice と Partner Contact Center
+Amazon Connect とパートナー電話
+通話とレコードの接合
+勝者のない比較
+Microsoft のページが名指すもの
+Amazon Connect Customer
+CCAI Platform と GECX への改称
+文書化された違いだけ
+これらのページが決めないこと
+分類、それから割り当て
+音声ワークストリームと音声キュー
+最大空き容量、ラウンドロビン、最少アクティブ
+予測、キャパシティ、シフト
+指標とガードレール
+二つの録音制御
+どの制御が失敗したか

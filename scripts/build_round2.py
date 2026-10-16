@@ -46,14 +46,17 @@ GH = """<svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d=
 LT = """<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="9.2" y="1.2" width="5.6" height="3.1" rx="1.55" fill="currentColor"/><rect x="1.4" y="6.1" width="7.2" height="3.1" rx="1.55" fill="currentColor"/><rect x="15.4" y="6.1" width="7.2" height="3.1" rx="1.55" fill="currentColor"/><rect x="3.2" y="11.1" width="6.2" height="3" rx="1.5" fill="currentColor"/><rect x="14.6" y="11.1" width="6.2" height="3" rx="1.5" fill="currentColor"/><rect x="10.15" y="4.2" width="3.7" height="16.4" rx="1.7" fill="currentColor"/></svg>"""
 
 SECTIONS = [
-    ("Home", "index.html", "Seventeen tracks for Teams Phone."),
+    ("Home", "index.html", "Tracks for Teams Phone."),
     ("Start", "start.html", "Tenant, license, then a dial plan."),
     ("Diagrams", "diagrams.html", "Drawings as SVG, PNG, and HTML."),
     ("Flows", "flows.html", "Animated call paths."),
     ("Charts", "charts.html", "Counts from this repository."),
     ("Cheat Codes", "downloads.html", "Sheets, cards, and a zip."),
     ("Play", "play.html", "A port game in this browser."),
-    ("Ecosystem", "ecosystem.html", "Sisters around the call."),
+    ("Ecosystem", "ecosystem.html", "Glossary, mind map, sister technologies, integration maps, bridges, and future hooks."),
+    ("CRM and CTI", "tracks/T18/index.html", "Dynamics 365 voice and Salesforce Voice, and how each bridge reaches the record."),
+    ("Comparison", "tracks/T19/index.html", "Microsoft, Amazon Connect Customer, and Google CCAI, cited and not ranked."),
+    ("Routing, WFM, QM", "tracks/T20/index.html", "Assignment, forecasting, and quality evaluation are three controls."),
     ("Bridges", "bridges.html", "CUCM, Webex, and UCCE."),
     ("Downloads", "downloads.html#library", "Every export, with the disclaimer."),
     ("Careers", "careers.html", "Study paths, not job offers."),
@@ -138,6 +141,7 @@ def footer(prefix: str) -> str:
 <aside class="disclaimer-panel" aria-labelledby="disc-title"><span class="disclaimer-ico" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 2.5 4.5 5.5v5.8c0 4.6 3.1 8.6 7.5 10.2 4.4-1.6 7.5-5.6 7.5-10.2V5.5z" fill="currentColor" opacity=".18" stroke="currentColor" stroke-width="1.6"/></svg></span>
 <div><h2 id="disc-title">A note from the student behind this lab</h2>
 <p>This is an <strong>independent, free, learning-only student project</strong>. It respects every company and vendor. Trademarks belong to their owners. It is <strong>not affiliated with or endorsed by</strong> any of them.</p>
+<p>Comparison notes describe only public pages this lab opened. They do not rank vendors.</p>
 <p>If anyone has a concern, the content will be removed or corrected promptly via the contact form at <a href="{CONTACT}">{CONTACT}</a>. Nothing here is sold. Happy to volunteer for any organization.</p>
 </div></aside>
 <p class="footer-brand">CypherMonkey Labs</p>
@@ -187,6 +191,8 @@ def shell(rel: str, title: str, body: str, desc: str) -> str:
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>{esc(title)}</title>
 <meta name="description" content="{esc(desc)}">
+<meta name="lab-rooms" content="{ROOM_COUNT}">
+<meta name="lab-tracks" content="{TRACK_COUNT}">
 <link rel="icon" href="{prefix}favicon.svg" type="image/svg+xml">
 <link rel="manifest" href="{prefix}manifest.webmanifest">
 {links}
@@ -223,13 +229,16 @@ def write(rel: str, title: str, body: str, desc: str) -> None:
     path.write_text(shell(rel, title, body, desc), encoding="utf-8")
 
 
+ROOM_COUNT = "0"
+TRACK_COUNT = "0"
+
+
 def load():
     manifest = json.loads((DATA / "manifest.json").read_text())
     tracks = []
     lessons = []
-    for i in range(1, 18):
-        blob = json.loads((DATA / "tracks" / f"t{i:02d}.json").read_text())
-        meta = next(t for t in manifest["tracks"] if t["id"] == blob["id"])
+    for meta in manifest["tracks"]:
+        blob = json.loads((DATA / "tracks" / f"{meta['id']}.json").read_text())
         blob["meta"] = meta
         tracks.append(blob)
         for n, lesson in enumerate(blob["lessons"], start=1):
@@ -369,7 +378,11 @@ def bridge_html(source_url: str) -> str:
 
 
 def build():
+    global ROOM_COUNT, TRACK_COUNT
     manifest, tracks, lessons, quiz, glossary, cards = load()
+    ROOM_COUNT = str(len(lessons))
+    TRACK_COUNT = str(len(tracks))
+    SECTIONS[0] = ("Home", "index.html", f"{len(tracks)} tracks for Teams Phone.")
     t14 = next(t for t in tracks if t["id"] == "t14")
     t14_source = (t14["lessons"][0].get("sources") or [{"url": "https://learn.microsoft.com/en-us/microsoftteams/direct-routing-plan"}])[0]["url"]
     diagrams = pick_figures(lessons)
@@ -550,7 +563,7 @@ def build():
     write("start.html", "Start here · Teams Phone Lab",
           '''<h1>Start here</h1>
 <section id="five" data-read><h2>Finish in 10 minutes</h2><ol><li><a href="rooms/T01-R01-the-tenant-boundary.html">The tenant boundary</a></li><li><a href="tracks/T05/index.html">PSTN connectivity</a></li><li><a href="bridges.html">Bridges</a></li><li><a href="quizzes.html">Three questions</a></li></ol></section>
-<section id="full" data-read><h2>Full course</h2><p class="read-sent">Foundations, licensing, PowerShell, and the network. Then PSTN, dial plans, attendants, emergency, devices, SBCs, and TLS. Then Dynamics 365 Contact Center, coexistence, ACS, Speech, Copilot, exams, and the ecosystem.</p></section>
+<section id="full" data-read><h2>Full course</h2><p class="read-sent">Foundations, licensing, PowerShell, and the network. Then PSTN, dial plans, attendants, emergency, devices, SBCs, and TLS. Then Dynamics 365 Contact Center, coexistence, ACS, Speech, Copilot, exams, and the ecosystem. Then CRM and CTI, a cited comparison, and routing, workforce management, and quality evaluation.</p></section>
 <p><a class="dl-btn" href="downloads.html">Just download</a></p>''',
           "A short path and the full course.")
 
@@ -558,9 +571,10 @@ def build():
           f'<h1>Bridges</h1><p class="lede">CUCM, Webex, and UCCE next to Teams Phone. Sentences that are a design reading, not a vendor matrix, say confirm before relying.</p>{dl_row([("HTML", "downloads/sheets/bridges.html"), ("DOCX", "downloads/templates/bridges.docx"), ("PDF", "downloads/templates/bridges.pdf")])}<section id="five" data-read><h2>Learn it in 5 minutes</h2><p class="read-sent">The SBC is the usual voice bridge. The contact-center brain does not move just because the number moved.</p></section><section id="visual"><h2>Visual</h2>{bridge_html(t14_source)}</section>',
           "CUCM, Webex, and UCCE bridges.")
 
+    eco = next(track for track in tracks if track["id"] == "t17")
     write("ecosystem.html", "Ecosystem · Teams Phone Lab",
-          f'<h1>Ecosystem</h1><section id="five" data-read><h2>Learn it in 5 minutes</h2><p class="read-sent">Teams Phone gets a number to a person or a voice app. Recording, staffing, location, analytics, CRM, and agents sit around that call.</p></section><section id="visual"><h2>Mind map</h2>{bar_chart(tracks[-1]["meta"].get("chart") or {"title": "Around the call", "bars": [{"label": "Phone", "value": 1, "display": "Teams"}, {"label": "Record", "value": 2, "display": "Compliance"}, {"label": "Queue", "value": 3, "display": "Contact center"}, {"label": "CRM", "value": 4, "display": "Screen pop"}]})}</section><section id="eco"><h2>Bridges</h2>{bridge_html(t14_source)}<p><a href="glossary.html">Glossary</a> · <a href="bridges.html">Integration map</a></p></section>',
-          "Systems around a Teams call.")
+          f'<h1>Ecosystem</h1><section id="five" data-read><h2>Learn it in 5 minutes</h2><p class="read-sent">Glossary, mind map, sister technologies, integration maps, bridges, and future hooks. Teams Phone gets a number to a person or a voice app. Recording, staffing, location, analytics, CRM, and agents sit on those edges.</p></section><section id="visual"><h2>Mind map</h2>{bar_chart(eco["meta"].get("chart") or {"title": "Around the call", "bars": [{"label": "Phone", "value": 1, "display": "Teams"}, {"label": "Record", "value": 2, "display": "Compliance"}, {"label": "Queue", "value": 3, "display": "Contact center"}, {"label": "CRM", "value": 4, "display": "Screen pop"}]})}</section><section id="eco"><h2>Open the pieces</h2><ul><li><a href="glossary.html">Glossary</a></li><li><a href="campus/index.html#/lesson/t17-map">Mind map</a></li><li><a href="campus/index.html#/lesson/t17-why">Sister technologies</a></li><li><a href="campus/index.html#/lesson/t17-maps">Integration maps</a></li><li><a href="bridges.html">Bridges</a></li><li><a href="campus/index.html#/lesson/t17-hooks">Future hooks</a></li></ul>{bridge_html(t14_source)}</section>',
+          "Glossary, mind map, sisters, maps, bridges, and hooks.")
 
     write("diagrams.html", "Diagrams · Teams Phone Lab",
           diagram_index(diagrams, "Diagrams", False), "Diagram library.")

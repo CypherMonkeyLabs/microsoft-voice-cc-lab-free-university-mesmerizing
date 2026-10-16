@@ -1,0 +1,24 @@
+{
+  "room": "T20-R04-forecast-capacity-and-schedule.html",
+  "lesson": "t20-wfm",
+  "title": "Forecast, capacity, and schedule",
+  "checked": "2026-10",
+  "sources": [
+    {
+      "title": "Overview of forecasting",
+      "url": "https://learn.microsoft.com/en-us/dynamics365/contact-center/use/workforce-management-forecast-overview",
+      "kind": "learn",
+      "lastChecked": "2026-10",
+      "status": "ok",
+      "note": ""
+    },
+    {
+      "title": "Microsoft Teams",
+      "url": "https://en.wikipedia.org/wiki/Microsoft_Teams",
+      "kind": "wikipedia",
+      "lastChecked": "2026-10",
+      "status": "ok",
+      "note": "Wikipedia fallback for background. Confirm the vendor page before you change a tenant."
+    }
+  ]
+}

@@ -1,0 +1,24 @@
+{
+  "room": "T20-R05-indicators-and-guardrails.html",
+  "lesson": "t20-qm",
+  "title": "Indicators and guardrails",
+  "checked": "2026-10",
+  "sources": [
+    {
+      "title": "Configure quality and coaching",
+      "url": "https://learn.microsoft.com/en-us/dynamics365/contact-center/administer/configure-quality-coach",
+      "kind": "learn",
+      "lastChecked": "2026-10",
+      "status": "ok",
+      "note": ""
+    },
+    {
+      "title": "Microsoft Teams",
+      "url": "https://en.wikipedia.org/wiki/Microsoft_Teams",
+      "kind": "wikipedia",
+      "lastChecked": "2026-10",
+      "status": "ok",
+      "note": "Wikipedia fallback for background. Confirm the vendor page before you change a tenant."
+    }
+  ]
+}
