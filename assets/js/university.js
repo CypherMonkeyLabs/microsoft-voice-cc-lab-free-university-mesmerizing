@@ -267,6 +267,15 @@
   var guideJs = document.createElement("script");
   guideJs.src = rootPrefix + "assets/js/round2-bot.js";
   document.body.appendChild(guideJs);
+  if (!document.querySelector('link[href*="assets/css/round3.css"]')) {
+    var round3Css = document.createElement("link");
+    round3Css.rel = "stylesheet";
+    round3Css.href = rootPrefix + "assets/css/round3.css";
+    document.head.appendChild(round3Css);
+  }
+  var round3Js = document.createElement("script");
+  round3Js.src = rootPrefix + "assets/js/round3.js";
+  document.body.appendChild(round3Js);
 
   document.dispatchEvent(new CustomEvent("university-ready"));
 })();

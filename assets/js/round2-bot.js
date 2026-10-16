@@ -390,13 +390,37 @@
     });
     setPose("wave");
   }
-  function sentences() {
-    var nodes = document.querySelectorAll("main .read-sent");
-    if (nodes.length) return Array.prototype.slice.call(nodes);
+  function splitPlain(el) {
+    if (el.closest(".disclaimer-panel, .site-footer, .mvcc-bot, .room-dl, .quiz")) return [];
+    if (el.querySelector("a, button, code, .read-sent")) {
+      return [{ section: el.closest("section") || el, span: el }];
+    }
+    var text = (el.textContent || "").trim();
+    if (!text) return [];
+    var parts = text.split(/(?<=[.!?])\s+/).filter(Boolean);
+    if (parts.length < 2) return [{ section: el.closest("section") || el, span: el }];
+    el.textContent = "";
     var made = [];
-    document.querySelectorAll("main p").forEach(function (p) {
-      if (p.closest(".disclaimer-panel, .site-footer")) return;
-      made.push(p);
+    parts.forEach(function (part, index) {
+      var span = document.createElement("span");
+      span.className = "read-sent";
+      span.textContent = part;
+      el.appendChild(span);
+      if (index < parts.length - 1) el.appendChild(document.createTextNode(" "));
+      made.push({ section: el.closest("section") || el, span: span });
+    });
+    return made;
+  }
+  function sentences() {
+    var ready = document.querySelectorAll("main .read-sent");
+    if (ready.length) {
+      return Array.prototype.map.call(ready, function (span) {
+        return { section: span.closest("section") || span, span: span };
+      });
+    }
+    var made = [];
+    document.querySelectorAll("main p, main li").forEach(function (el) {
+      made = made.concat(splitPlain(el));
     });
     return made;
   }
@@ -410,25 +434,26 @@
     var i = 0;
     function next() {
       if (!reading || i >= nodes.length) { stopRead(); return; }
-      var node = nodes[i];
+      var item = nodes[i];
       i += 1;
       document.querySelectorAll(".is-spoken, .is-reading").forEach(function (n) { n.classList.remove("is-spoken", "is-reading"); });
-      node.classList.add("is-spoken");
-      var section = node.closest("section");
-      if (section) {
+      item.span.classList.add("is-spoken");
+      var section = item.section;
+      if (section && section.classList) {
         section.classList.add("is-reading");
         var id = section.id;
         if (id) {
-          document.querySelectorAll(".toc a").forEach(function (a) {
-            var on = a.getAttribute("href") === "#" + id;
+          document.querySelectorAll(".toc a, .section-rail a").forEach(function (a) {
+            var href = a.getAttribute("href") || "";
+            var on = href === "#" + id || href.indexOf("#" + id) === href.length - ("#" + id).length;
             a.classList.toggle("is-current", on);
             if (on) a.setAttribute("aria-current", "true");
             else a.removeAttribute("aria-current");
           });
         }
       }
-      node.scrollIntoView({ block: "center", behavior: reduceMotion() ? "auto" : "smooth" });
-      var utter = new SpeechSynthesisUtterance(node.textContent);
+      item.span.scrollIntoView({ block: "center", behavior: reduceMotion() ? "auto" : "smooth" });
+      var utter = new SpeechSynthesisUtterance(item.span.textContent);
       if (chosen) utter.voice = chosen;
       utter.rate = Number(bot.querySelector("[data-rate]").value) || 0.95;
       utter.pitch = Number(bot.querySelector("[data-pitch]").value) || 1;

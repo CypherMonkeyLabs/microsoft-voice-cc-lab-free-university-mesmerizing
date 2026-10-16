@@ -172,7 +172,7 @@ def shell(rel: str, title: str, body: str, desc: str) -> str:
         'var ink=localStorage.getItem("canon-ink");if(ink&&/^#[0-9a-f]{6}$/i.test(ink))document.documentElement.style.setProperty("--ink",ink);'
         '}catch(e){document.documentElement.dataset.theme="bloom";}</script>'
     )
-    css = ["canon", "shell", "wow", "frame", "polish", "footer", "university", "round2"]
+    css = ["canon", "shell", "wow", "frame", "polish", "footer", "university", "round2", "round3"]
     links = "\n".join(f'<link rel="stylesheet" href="{prefix}assets/css/{name}.css">' for name in css)
     return f'''<!DOCTYPE html>
 <html lang="en">

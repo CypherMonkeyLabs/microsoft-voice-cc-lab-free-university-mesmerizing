@@ -2397,8 +2397,13 @@ function renderHome() {
     '<li><a href="#/lab/dial-plan">Normalization tester</a></li>' +
     '<li><a href="#/lab/route-match">Voice-routing matcher</a></li>' +
     '<li><a href="#/lesson/t17-map">The ecosystem mind map</a></li>' +
-    "</ol><p><a href=\"#/exam\">Exam status board</a> · <a href=\"#/glossary\">Glossary</a> · <a href=\"#/sources\">Sources</a></p></article></div>"
+    "</ol><p><a href=\"#/exam\">Exam status board</a> · <a href=\"#/glossary\">Glossary</a> · <a href=\"#/sources\">Sources</a></p></article></div>" +
+    sectionDl("t01")
   );
+}
+
+function sectionDl(trackId) {
+  return '<p class="section-dl"><a class="dl-btn" href="downloads/track-' + esc(trackId) + '.html" download>Download this section</a> <a class="dl-btn" href="downloads/microsoft-voice-contact-center-lab.zip" download>Zip</a></p>';
 }
 
 function callRibbon() {
@@ -2447,7 +2452,8 @@ function renderTrack(id) {
       );
     }).join("") +
     "</div>" +
-    (labs.length ? "<h2>Labs on this track</h2><div class=\"lab-grid\">" + labs.map(labCard).join("") + "</div>" : "")
+    (labs.length ? "<h2>Labs on this track</h2><div class=\"lab-grid\">" + labs.map(labCard).join("") + "</div>" : "") +
+    sectionDl(id)
   );
 }
 
@@ -2604,6 +2610,7 @@ function renderLesson(id) {
     (lesson.lab && lesson.lab !== lesson.tryLab ? '<a class="ghost" href="#/lab/' + esc(lesson.lab) + '">Open the lab</a>' : "") +
     "</div>" +
     audioFor(lesson.track) +
+    sectionDl(lesson.track) +
     "<h2>Sources</h2>" + sourceList(lesson.sources) +
     '<div class="row">' +
     '<button class="primary" id="mark" type="button">' + (on ? "Completed in this browser" : "Mark complete") + "</button>" +
@@ -4333,7 +4340,47 @@ function setListenText(text) {
   const dock = $("#listen");
   const bar = $("#bottom-listen");
   if (dock) dock.textContent = text;
-  if (bar) bar.textContent = text === "Stop" ? "Stop" : "Listen";
+  if (bar) {
+    const label = bar.querySelector("span");
+    if (label) label.textContent = text === "Stop" ? "Stop" : "Listen";
+    else bar.textContent = text === "Stop" ? "Stop" : "Listen";
+  }
+}
+
+function clearReadMarks() {
+  document.querySelectorAll(".is-spoken, .is-reading").forEach((node) => {
+    node.classList.remove("is-spoken", "is-reading");
+  });
+}
+
+function readItems() {
+  const root = document.getElementById("view") || document.getElementById("main");
+  const items = [];
+  if (!root) return items;
+  root.querySelectorAll("p, li").forEach((el) => {
+    if (el.closest(".site-foot, .guide, .dock, .disclaimer-panel")) return;
+    if (el.querySelector("a, button, code, .read-sentence")) {
+      if ((el.textContent || "").trim()) items.push(el);
+      return;
+    }
+    const text = (el.textContent || "").trim();
+    if (!text) return;
+    const parts = text.split(/(?<=[.!?])\s+/).filter(Boolean);
+    if (parts.length < 2) {
+      items.push(el);
+      return;
+    }
+    el.textContent = "";
+    parts.forEach((part, index) => {
+      const span = document.createElement("span");
+      span.className = "read-sentence";
+      span.textContent = part;
+      el.appendChild(span);
+      if (index < parts.length - 1) el.appendChild(document.createTextNode(" "));
+      items.push(span);
+    });
+  });
+  return items;
 }
 
 async function toggleListen() {
@@ -4349,6 +4396,7 @@ async function toggleListen() {
   if (speaking) {
     synth.cancel();
     speaking = false;
+    clearReadMarks();
     setListenText("Listen");
     return;
   }
@@ -4359,18 +4407,46 @@ async function toggleListen() {
     setListenText("Pick a voice");
     return;
   }
-  const utterance = new SpeechSynthesisUtterance(text);
-  utterance.rate = Number(state.rate || $("#rate").value || 1);
-  utterance.voice = voice;
-  utterance.onend = function () { speaking = false; setListenText(listenLabel()); };
-  utterance.onerror = function () { speaking = false; setListenText(listenLabel()); };
+  const nodes = readItems();
+  const queue = nodes.length ? nodes : [null];
+  let index = 0;
+  const reduce = document.documentElement.dataset.motion === "reduce"
+    || (document.documentElement.dataset.motion !== "full" && window.matchMedia("(prefers-reduced-motion: reduce)").matches);
+  function finish() {
+    speaking = false;
+    clearReadMarks();
+    setListenText(listenLabel());
+  }
+  function step() {
+    if (!speaking) return;
+    clearReadMarks();
+    if (index >= queue.length) {
+      finish();
+      return;
+    }
+    const node = queue[index];
+    index += 1;
+    const spoken = node ? node.textContent : text;
+    if (node) {
+      node.classList.add("is-spoken");
+      const section = node.closest("section, article, .prose, .callout, .panel") || node.parentElement;
+      if (section) section.classList.add("is-reading");
+      node.scrollIntoView({ block: "center", behavior: reduce ? "auto" : "smooth" });
+    }
+    const utterance = new SpeechSynthesisUtterance(spoken || "");
+    utterance.rate = Number(state.rate || $("#rate").value || 1);
+    utterance.voice = voice;
+    utterance.onend = step;
+    utterance.onerror = step;
+    synth.speak(utterance);
+  }
   speaking = true;
   setListenText("Stop");
   synth.cancel();
   window.setTimeout(() => {
     if (!speaking) return;
     if (synth.paused) synth.resume();
-    synth.speak(utterance);
+    step();
   }, 60);
 }
 
