@@ -113,9 +113,9 @@ AB-250 is the Dynamics 365 Contact Center exam; confirm the live seat. AZ-900 an
 
 ## Sister projects
 
-- [UC Lab](https://cipher0x9.github.io/uc-lab-free-university-mesmerizing/)
-- [AI Lab](https://cipher0x9.github.io/ai-lab-free-university-mesmerizing/)
-- [Webex](https://cipher0x9.github.io/webex-lab-free-university-mesmerizing/)
+- [UC Lab](https://cyphermonkeylabs.com/uc-lab-free-university-mesmerizing/)
+- [AI Lab](https://cyphermonkeylabs.com/ai-lab-free-university-mesmerizing/)
+- [Webex](https://cyphermonkeylabs.com/webex-lab-free-university-mesmerizing/)
 - Design reference: [Gemini Gems gallery](https://cipher0x9.github.io/gemini-gems-free-gallery/)
 
 ## License
