@@ -200,6 +200,7 @@ def shell(rel: str, title: str, body: str, desc: str) -> str:
 <button type="button" data-listen data-tour="listen">Listen</button>
 </nav>
 </div></header>
+<div class="stage-banner" aria-hidden="true"><div class="stage-grid"></div><div class="stage-orb"></div><p class="stage-kicker">Teams Phone · in color</p></div>
 <main id="main" class="wrap">
 {body}
 </main>

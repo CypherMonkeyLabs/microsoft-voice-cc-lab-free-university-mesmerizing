@@ -26,7 +26,12 @@
     0 0 0 1px rgba(255, 255, 255, 0.55) inset,
     0 0 28px rgba(34, 211, 238, 0.45);
 }
-.topbar .bar-inner { padding: 6px 10px; }
+.topbar .bar-inner {
+  display: flex;
+  align-items: center;
+  min-height: 56px;
+  padding: 6px 10px;
+}
 .topbar .nav-icon,
 .topbar button[data-listen] {
   min-height: 40px;
@@ -79,6 +84,10 @@
   }
 }
 @media (min-width: 721px) {
+  body:has(.mvcc-bot.is-open) .hero-band,
+  body:has(.mvcc-bot.is-open) main h1 {
+    padding-right: 360px;
+  }
   .phone-dock {
     display: grid !important;
     grid-template-columns: repeat(6, minmax(0, 1fr)) !important;
@@ -96,6 +105,10 @@
   .mvcc-bot { bottom: 18px; z-index: 82; }
 }
 
+.stage-banner {
+  min-height: 112px !important;
+  max-height: 128px;
+}
 .hero-band {
   position: relative;
   isolation: isolate;
@@ -260,6 +273,13 @@ html[data-motion="reduce"] .track-card:hover,
 html[data-motion="reduce"] .nav-icon:hover { transform: none; }
 
 @media (max-width: 720px) {
-  .hero-band { padding-right: 108px; }
   .v4-stage > .topbar { margin: 8px 8px 8px; top: 8px; }
+  .stage-banner { display: none !important; }
+  main p:not(:has(.dl-btn)),
+  main li {
+    padding-right: 116px;
+  }
+  .hero-band p:has(.dl-btn),
+  .hero-band .kicker { padding-right: 0; }
+  .hero-band .stat-row { padding-right: 112px; }
 }
