@@ -587,38 +587,11 @@
     ambientNodes = osc;
   });
 
-  /* Drag */
+  /* Drag, edge snap, tilt and reset live in assets/js/dragbot.js */
   var dragged = false;
-  var drag = null;
-  launch.addEventListener("pointerdown", function (event) {
-    if (!greet.hidden) return;
-    drag = { x: event.clientX, y: event.clientY, left: bot.offsetLeft, top: bot.offsetTop, moved: false };
-    launch.setPointerCapture(event.pointerId);
-  });
-  launch.addEventListener("pointermove", function (event) {
-    if (!drag) return;
-    var dx = event.clientX - drag.x;
-    var dy = event.clientY - drag.y;
-    if (Math.abs(dx) + Math.abs(dy) < 4) return;
-    drag.moved = true;
-    dragged = true;
-    var phone = window.matchMedia("(max-width: 720px)").matches;
-    var reserve = phone ? 96 : 8;
-    var maxTop = Math.max(0, window.innerHeight - bot.offsetHeight - reserve);
-    var maxLeft = Math.max(0, window.innerWidth - bot.offsetWidth - 8);
-    bot.style.left = Math.min(maxLeft, Math.max(0, drag.left + dx)) + "px";
-    bot.style.top = Math.min(maxTop, Math.max(0, drag.top + dy)) + "px";
-    bot.style.right = "auto";
-    bot.style.bottom = "auto";
-  });
-  launch.addEventListener("pointerup", function () {
-    if (drag && drag.moved) {
-      var bag = loadBag();
-      bag.pos = { left: bot.style.left, top: bot.style.top };
-      saveBag(bag);
-    }
-    drag = null;
-  });
+  var botScript = document.createElement("script");
+  botScript.src = rootPrefix + "assets/js/dragbot.js";
+  document.body.appendChild(botScript);
 
   function greetOnce() {
     var bag = loadBag();
@@ -669,12 +642,6 @@
     ensureInkControl();
     quick();
     var bag = loadBag();
-    if (bag.pos && bag.pos.left) {
-      bot.style.left = bag.pos.left;
-      bot.style.top = bag.pos.top;
-      bot.style.right = "auto";
-      bot.style.bottom = "auto";
-    }
     var mode = shot();
     if (mode === "menu") {
       var opener = document.querySelector(".phone-menu-btn");
