@@ -456,3 +456,20 @@ html[data-theme="bloom"] main { color: #1e1b4b; }
 .stat-row { display: flex; flex-wrap: wrap; gap: 10px 16px; min-height: 48px; }
 .stat-row b { font-size: 1.4rem; }
 .callout { padding: 12px 14px; border-radius: 16px; background: color-mix(in srgb, var(--accent, #22d3ee) 12%, #fff); }
+
+/* Draggable bot: bounce snap, lift, reset button, hidden under the full-screen menu. */
+.mvcc-bot.is-snapping { transition: left .5s cubic-bezier(.34,1.56,.64,1), top .5s cubic-bezier(.34,1.56,.64,1) !important; }
+.bot-reset {
+  position: fixed; z-index: 2147483000; width: 32px; height: 32px; min-height: 32px; padding: 0; border-radius: 50%;
+  border: 2px solid #22d3ee; background: #fff; color: #1b1340; font: 800 16px/1 system-ui, sans-serif; cursor: pointer;
+  display: inline-flex; align-items: center; justify-content: center; box-shadow: 0 2px 8px rgba(0,0,0,.3);
+}
+.bot-reset[hidden] { display: none; }
+.bot-reset:focus-visible { outline: 3px solid #082f49; outline-offset: 2px; }
+@media (max-width: 800px) { .bot-reset { width: 36px; height: 36px; min-height: 36px; } }
+@media (prefers-reduced-motion: reduce) { .mvcc-bot.is-snapping { transition: none !important; } }
+html[data-motion="reduce"] .mvcc-bot.is-snapping { transition: none !important; }
+body.phone-menu-open .mvcc-bot, body.phone-menu-open .bot-reset { visibility: hidden; }
+.mvcc-bot[data-x="left"] .bot-panel { right: auto; left: 0; }
+.mvcc-bot[data-y="top"] .bot-panel { bottom: auto; top: 196px; }
+@media (max-width: 720px) { .mvcc-bot[data-x] .bot-panel { right: 8px; left: 8px; } .mvcc-bot[data-y] .bot-panel { top: auto; bottom: calc(var(--dock, 78px) + 10px); } }
