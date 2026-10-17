@@ -665,7 +665,8 @@
     window.addEventListener("resize", function () {
       if (!tourLayer.hidden) placeTour();
     });
-    if (!bag.tour && !mode) window.setTimeout(startTour, 400);
+    // The campus app has none of the tour anchors, so it goes straight to the greeting.
+    if (!bag.tour && !mode && document.querySelector("[data-tour='menu']")) window.setTimeout(startTour, 400);
     else if (!mode) greetOnce();
     scheduleNudge();
   }
