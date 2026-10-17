@@ -22,7 +22,8 @@ KIND_LABEL = {
 
 SECTION_STYLE = (
     "margin:18px 0;padding:14px 16px;border:2px solid #0f766e;"
-    "border-radius:16px;background:#ecfdf5;color:#052e2b"
+    "border-radius:16px;background:#ecfdf5;color:#052e2b;overflow-wrap:anywhere;"
+    "box-sizing:border-box;max-width:100%"
 )
 CONFIRM_STYLE = "border-left:4px solid #b45309;padding-left:8px;margin:8px 0"
 

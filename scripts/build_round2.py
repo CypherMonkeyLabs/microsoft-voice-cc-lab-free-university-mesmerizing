@@ -15,7 +15,9 @@ import zipfile
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
+sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "tools"))
 import sources_render
+from lab_menu import DIAGRAM_STYLE, FOOTER_CSS, SHEET_STYLE, VIEWPORT, lab_menu_html
 
 ROOT = Path(__file__).resolve().parents[1]
 DATA = ROOT / "campus" / "data"
@@ -128,16 +130,6 @@ def dl_row(items: list[tuple[str, str]]) -> str:
 
 
 def footer(prefix: str) -> str:
-    labs = [
-        ("UC Lab", WEB + "/uc-lab-free-university-mesmerizing/"),
-        ("Webex Lab", WEB + "/webex-lab-free-university-mesmerizing/"),
-        ("AI Lab", WEB + "/ai-lab-free-university-mesmerizing/"),
-        ("SIP Universe", WEB + "/sip-universe-lab-free-university-mesmerizing/"),
-    ]
-    cards = "".join(
-        f'<a class="lab-card" style="--c:#6366f1" href="{esc(href)}"><span class="lab-card-copy"><strong>{esc(name)}</strong><small>Another free lab on the same site.</small></span></a>'
-        for name, href in labs
-    )
     return f'''<footer class="site-footer lab-footer wrap" data-canon-footer>
 <aside class="disclaimer-panel" aria-labelledby="disc-title"><span class="disclaimer-ico" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 2.5 4.5 5.5v5.8c0 4.6 3.1 8.6 7.5 10.2 4.4-1.6 7.5-5.6 7.5-10.2V5.5z" fill="currentColor" opacity=".18" stroke="currentColor" stroke-width="1.6"/></svg></span>
 <div><h2 id="disc-title">A note from the student behind this lab</h2>
@@ -152,7 +144,7 @@ def footer(prefix: str) -> str:
 <a class="brand-icon brand-lt" href="{TREE}" aria-label="Linktree">{LT}</a>
 </nav>
 <p class="site-copy">© 2026 CypherMonkeyLabs 🐒</p>
-<nav class="next-labs" aria-label="More labs"><div class="lab-cards">{cards}</div></nav>
+{lab_menu_html()}
 <p class="footer-license">MIT code. CC BY-NC-SA content. <a href="{prefix}legal.html">Legal and credits</a>.</p>
 </footer>'''
 
@@ -303,14 +295,17 @@ def write_diagram_files(diagrams):
             note=f"Same checked list as {room_file}.",
             download_href=f"../../rooms/{room_file[:-5]}.sources.json",
         ) if sources_render.sources_named(f"{lesson['id']}.json") else ""
-        page = f'''<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><title>{esc(fig["title"])}</title>
-<style>body{{margin:0;font:16px/1.45 system-ui,sans-serif;background:#0b1020;color:#e2e8f0}} svg{{width:100%;height:auto;display:block}} .box{{margin:16px;padding:16px;border:2px solid #0f766e;border-radius:16px;background:#ecfdf5;color:#0b1f2a}} .box a{{color:#0b3a8f;font-weight:800}}</style>
+        page = f'''<!DOCTYPE html><html lang="en"><head><meta charset="utf-8">{VIEWPORT}<title>{esc(fig["title"])}</title>
+<link rel="icon" href="../../favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="{FOOTER_CSS}">
+{DIAGRAM_STYLE}
 </head><body>{baked}<div class="box"><h1>{esc(fig["title"])}</h1><p>{esc(fig.get("caption") or "")}</p>
 {diagram_sources}
 <p>Independent, free, learning-only student project. Trademarks belong to their owners. Not affiliated or endorsed. Removal via <a href="{CONTACT}">{CONTACT}</a>. Nothing is sold.</p>
 <p>CypherMonkey Labs</p>
 <p><a href="{WEB}">Website</a> · <a href="{ORG}">GitHub</a> · <a href="{TREE}">Linktree</a></p>
-<p>© 2026 CypherMonkeyLabs 🐒</p></div></body></html>'''
+<p>© 2026 CypherMonkeyLabs 🐒</p>
+{lab_menu_html()}</div></body></html>'''
         (OUT_DL / "diagrams" / f"{stem}.html").write_text(page, encoding="utf-8")
         (OUT_DL / "diagrams" / f"{stem}.svg").write_text(baked, encoding="utf-8")
         try:
@@ -769,9 +764,9 @@ def sheet_sources(key: str) -> str:
 
 
 def standalone_sheet(title: str, inner: str, sources: str = "") -> str:
-    return f'''<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><title>{esc(title)}</title>
-<link rel="stylesheet" href="../../assets/css/footer.css">
-<style>body{{margin:24px auto;max-width:880px;font:17px/1.5 system-ui,sans-serif;color:#0f172a;background:#f8fafc}} h1{{font-size:1.8rem}} a{{color:#0b3a8f;font-weight:800}} .disclaimer-panel a{{color:#0b3a8f}} .sources-deeper a{{color:#0b3a8f}}</style>
+    return f'''<!DOCTYPE html><html lang="en"><head><meta charset="utf-8">{VIEWPORT}<title>{esc(title)}</title>
+<link rel="stylesheet" href="{FOOTER_CSS}">
+{SHEET_STYLE}
 </head><body><h1>{esc(title)}</h1>{inner}
 {sources}
 <footer class="site-footer standalone-footer" data-canon-footer>
@@ -782,6 +777,7 @@ def standalone_sheet(title: str, inner: str, sources: str = "") -> str:
 <a class="brand-icon brand-gh" href="{ORG}" aria-label="GitHub">{GH}</a>
 <a class="brand-icon brand-lt" href="{TREE}" aria-label="Linktree">{LT}</a></nav>
 <p class="site-copy">© 2026 CypherMonkeyLabs 🐒</p>
+{lab_menu_html()}
 </footer></body></html>'''
 
 

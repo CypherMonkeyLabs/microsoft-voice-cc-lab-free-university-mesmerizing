@@ -13,6 +13,14 @@ from pathlib import Path
 from PIL import Image, ImageDraw, ImageFont
 
 from glossary_core import EXTRA, ROWS
+from lab_menu import (
+    CAMPUS_FLASH_STYLE,
+    CAMPUS_GLOSSARY_STYLE,
+    CAMPUS_STYLE,
+    FOOTER_CSS,
+    VIEWPORT,
+    lab_menu_html,
+)
 from tips import TIPS
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -206,7 +214,8 @@ def footer_html() -> str:
         "Trademarks belong to their owners. MIT code, CC BY-NC-SA content.</p>"
         "<p>Report a concern and work with us: "
         '<a href="https://cyphermonkeylabs.com/#contact">cyphermonkeylabs.com contact form</a>. '
-        "No email on this sheet.</p></footer>"
+        "No email on this sheet.</p>"
+        f"{lab_menu_html()}</footer>"
     )
 
 
@@ -216,18 +225,12 @@ def write_html(path: Path, title: str, lines: list[str]) -> None:
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+{VIEWPORT}
 <title>{html.escape(title)}</title>
 <link rel="icon" href="../favicon.ico" sizes="any">
 <link rel="icon" href="../favicon.svg" type="image/svg+xml">
-<style>
-  body {{ margin: 24px auto; max-width: 820px; font: 16px/1.45 Inter, Segoe UI, sans-serif; color: #142033; background: #f7f4ea; }}
-  h1 {{ font-size: 28px; letter-spacing: -0.03em; }}
-  p {{ margin: 0 0 6px; }}
-  footer {{ margin-top: 28px; border-top: 2px solid #123; padding-top: 12px; font-size: 13px; }}
-  a {{ color: #123; }}
-  @media print {{ body {{ background: #fff; }} }}
-</style>
+<link rel="stylesheet" href="{FOOTER_CSS}">
+{CAMPUS_STYLE}
 </head>
 <body>
 <h1>{html.escape(title)}</h1>
@@ -394,17 +397,10 @@ def write_flashcards() -> None:
             + "</p></article>"
         )
     doc = f"""<!DOCTYPE html>
-<html lang="en"><head><meta charset="utf-8"><title>Flashcards</title>
-<style>
-  body {{ font: 15px/1.4 Inter, Segoe UI, sans-serif; margin: 16px; color: #142033; background: #fff; }}
-  .grid {{ display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }}
-  .card {{ break-inside: avoid; border: 1px solid #123; border-radius: 10px; padding: 10px 12px; }}
-  h2 {{ font-size: 16px; margin: 0 0 6px; }}
-  p {{ margin: 0; }}
-  .meta {{ color: #475569; margin-top: 6px; font-size: 12px; }}
-  footer {{ margin-top: 18px; font-size: 12px; }}
-  @media print {{ .card {{ break-inside: avoid; }} }}
-</style></head><body>
+<html lang="en"><head><meta charset="utf-8">{VIEWPORT}<title>Flashcards</title>
+<link rel="icon" href="../favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="{FOOTER_CSS}">
+{CAMPUS_FLASH_STYLE}</head><body>
 <h1>Flashcards</h1>
 <p>{len(cards)} cards from the campus glossary. Print and fold, or use the JSON deck offline.</p>
 <div class="grid">{''.join(blocks)}</div>
@@ -418,11 +414,10 @@ def write_flashcards() -> None:
 def write_full_glossary(rows: list[tuple]) -> None:
     lines = [f"<li><strong>{html.escape(row[0])}</strong> — {html.escape(row[2])}</li>" for row in rows]
     doc = f"""<!DOCTYPE html>
-<html lang="en"><head><meta charset="utf-8"><title>Glossary</title>
-<style>
-  body {{ margin: 24px auto; max-width: 820px; font: 16px/1.45 Inter, Segoe UI, sans-serif; color: #142033; }}
-  footer {{ margin-top: 24px; font-size: 13px; }}
-</style></head><body>
+<html lang="en"><head><meta charset="utf-8">{VIEWPORT}<title>Glossary</title>
+<link rel="icon" href="../favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="{FOOTER_CSS}">
+{CAMPUS_GLOSSARY_STYLE}</head><body>
 <h1>Glossary</h1>
 <p>Core terms from this campus. Each in-app entry also has a config note and a fault. Accessed 14 October 2026.</p>
 <ul>
