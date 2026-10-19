@@ -20,6 +20,13 @@ LABS: tuple[tuple[str, str, str, str, str], ...] = (
 
 VIEWPORT = '<meta name="viewport" content="width=device-width, initial-scale=1">'
 
+CSP_META = (
+    '<meta http-equiv="Content-Security-Policy" content="default-src \'self\'; '
+    "script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; "
+    "media-src 'self' blob: data:; font-src 'self' data:; connect-src 'self'; "
+    "worker-src 'self' blob:; object-src 'none'; base-uri 'self'; form-action 'self'\">"
+)
+
 SHEET_STYLE = (
     "<style>"
     "html{box-sizing:border-box}"

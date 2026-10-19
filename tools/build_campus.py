@@ -10,6 +10,7 @@ from pathlib import Path
 
 from build_atlas import main as build_atlas
 from curriculum import build_payload
+from lab_menu import CSP_META
 from tips import TIPS
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -211,6 +212,10 @@ def main() -> None:
         "./vendor/rough.esm.js",
         "./vendor/d3.min.js",
         "./vendor/confetti.browser.js",
+        "./theme-boot.js",
+        "./home-flag.js",
+        "./header-size.js",
+        "./cert-match.js",
     ]
     for track in payload["tracks"]:
         precache.append(f"./data/tracks/{track['id']}.json")
@@ -227,7 +232,7 @@ def main() -> None:
     sw = SW_TEMPLATE.format(version=version, precache=json.dumps(precache, indent=2))
     (CAMPUS / "sw.js").write_text(sw, encoding="utf-8")
 
-    html = HTML_TEMPLATE.format(css_href="app.css", checked=CHECKED)
+    html = HTML_TEMPLATE.format(css_href="app.css", checked=CHECKED, csp=CSP_META)
     (CAMPUS / "index.html").write_text(html, encoding="utf-8")
 
     shell = (
@@ -255,6 +260,7 @@ HTML_TEMPLATE = """<!DOCTYPE html>
 <html lang="en" data-theme="neon">
 <head>
 <meta charset="utf-8">
+{csp}
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="icon" href="favicon.ico" sizes="any">
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
@@ -274,31 +280,10 @@ HTML_TEMPLATE = """<!DOCTYPE html>
 <meta name="twitter:image:alt" content="Microsoft Voice and Contact Center Lab card.">
 <link rel="stylesheet" href="{css_href}">
 <link rel="stylesheet" href="chrome.css">
-<script type="importmap">
-{{"imports":{{"three":"./vendor/three.module.min.js"}}}}
-</script>
-<script>
-try {{
-  var saved = JSON.parse(localStorage.getItem("mvcc-lab-v1") || "{{}}");
-  var theme = saved.theme || "neon";
-  document.documentElement.dataset.theme = theme;
-  if (saved.lang === "ar") document.documentElement.dir = "rtl";
-  if (saved.lang) document.documentElement.lang = saved.lang;
-  document.documentElement.dataset.font = saved.font || "md";
-  var motion = saved.reduceMotion || "system";
-  var reduce = motion === "reduce" || (motion !== "full" && window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches);
-  document.documentElement.dataset.motion = reduce ? "reduce" : "full";
-}} catch (err) {{}}
-</script>
+<script src="theme-boot.js"></script>
 </head>
 <body>
-<script>
-(function () {{
-  var hash = location.hash || "";
-  var home = !hash || hash === "#" || hash === "#/";
-  document.body.dataset.home = home ? "1" : "0";
-}})();
-</script>
+<script src="home-flag.js"></script>
 <a class="skip" href="#main">Skip to content</a>
 <div class="readbar" id="readbar" aria-hidden="true"></div>
 <header class="top">
@@ -372,12 +357,7 @@ try {{
   </div>
   </div>
 </header>
-<script>
-(function () {{
-  var bar = document.querySelector(".top");
-  if (bar) document.documentElement.style.setProperty("--header-h", bar.offsetHeight + "px");
-}})();
-</script>
+<script src="header-size.js"></script>
 <div id="theme-pop" class="theme-pop" hidden role="dialog" aria-label="Theme"></div>
 <div class="shell">
   <nav id="nav" class="nav" aria-label="Campus"></nav>

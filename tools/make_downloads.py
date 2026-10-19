@@ -17,6 +17,7 @@ from lab_menu import (
     CAMPUS_FLASH_STYLE,
     CAMPUS_GLOSSARY_STYLE,
     CAMPUS_STYLE,
+    CSP_META,
     FOOTER_CSS,
     VIEWPORT,
     lab_menu_html,
@@ -225,6 +226,7 @@ def write_html(path: Path, title: str, lines: list[str]) -> None:
 <html lang="en">
 <head>
 <meta charset="utf-8">
+{CSP_META}
 {VIEWPORT}
 <title>{html.escape(title)}</title>
 <link rel="icon" href="../favicon.ico" sizes="any">
@@ -397,7 +399,7 @@ def write_flashcards() -> None:
             + "</p></article>"
         )
     doc = f"""<!DOCTYPE html>
-<html lang="en"><head><meta charset="utf-8">{VIEWPORT}<title>Flashcards</title>
+<html lang="en"><head><meta charset="utf-8">{CSP_META}{VIEWPORT}<title>Flashcards</title>
 <link rel="icon" href="../favicon.svg" type="image/svg+xml">
 <link rel="stylesheet" href="{FOOTER_CSS}">
 {CAMPUS_FLASH_STYLE}</head><body>
@@ -414,7 +416,7 @@ def write_flashcards() -> None:
 def write_full_glossary(rows: list[tuple]) -> None:
     lines = [f"<li><strong>{html.escape(row[0])}</strong> — {html.escape(row[2])}</li>" for row in rows]
     doc = f"""<!DOCTYPE html>
-<html lang="en"><head><meta charset="utf-8">{VIEWPORT}<title>Glossary</title>
+<html lang="en"><head><meta charset="utf-8">{CSP_META}{VIEWPORT}<title>Glossary</title>
 <link rel="icon" href="../favicon.svg" type="image/svg+xml">
 <link rel="stylesheet" href="{FOOTER_CSS}">
 {CAMPUS_GLOSSARY_STYLE}</head><body>
