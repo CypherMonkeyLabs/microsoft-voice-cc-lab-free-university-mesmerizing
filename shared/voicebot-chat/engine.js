@@ -308,6 +308,13 @@ function injection(raw) {
     /\bunrestricted assistant\b/,
     /\bhidden instructions\b/,
     /\byour prompt\b/,
+    /\b(reply|respond)\s+with\b/,
+    /\brepeat\s+after\s+me\b/,
+    /\b(say|repeat|print|output)\s+exactly\b/,
+    /\b(print|output)\s+the\s+following\b/,
+    /\b(print|output)\s+the\s+string\b/,
+    /\b(say|repeat)\s+(the\s+word|this\s+phrase|only)\b/,
+    /\b(say|repeat|print|output)\s+[a-z0-9]{3,16}(?:\s+now|\s+please)?\s*$/,
   ];
   return patterns.some((pattern) => pattern.test(q) || pattern.test(original));
 }
@@ -360,6 +367,7 @@ function typoKind(word, domain, syn, pool, freq) {
 
 const NEIGHBOUR = new Set("freepbx avaya asterisk kamailio twilio five9 ringcentral pandas numpy django flask kubernetes bitcoin pizza zoomphone talkdesk dialpad mitel alcatel 3cx genesyscloud freeswitch wordpress grandstream yeastar".split(" "));
 const SOFT_SURFACE = new Set("island java theme themes extension extensions name names naming named dog dogs pet pets puppy puppies cat cats kitten kittens horror movie movies film films cinema song songs music novel novels actor actress netflix hobby".split(" "));
+const FUNCTION = new Set("which whose whom while whilst whether whatever whenever wherever however although though because since until unless being above again against below both during each every few more most other same such these those through under very your yours our ours their theirs them they she him her his its would could should shall can may might must doing done also even still back much many well here then than this that have been were will does did just only".split(" "));
 const CURATED = STRONG_WORDS;
 
 function curatedHit(word, syn) {
@@ -532,7 +540,49 @@ export function createRetriever(index) {
   });
   const freq = new Map(df);
   tdf.forEach((count, term) => freq.set(term, (freq.get(term) || 0) + count));
-  const domain = buildDomain(df, index && index.seeds);
+  const lexicon = new Set();
+  const strongSet = new Set();
+  const lexSkip = (term) => !term || STOP.has(term) || FILLER.has(term) || AMBIGUOUS.has(term) || GENERIC_ENGLISH.has(term) || SOFT_SURFACE.has(term) || FUNCTION.has(term) || /^\d+$/.test(term);
+  const addLex = (term) => {
+    if (lexSkip(term)) return;
+    if (term.length < 5 && !STRONG_WORDS.has(term)) return;
+    lexicon.add(term);
+    const stemmed = stem(term);
+    if (stemmed !== term && !lexSkip(stemmed) && (stemmed.length >= 5 || STRONG_WORDS.has(stemmed))) lexicon.add(stemmed);
+  };
+  const addStrong = (term) => {
+    if (!term || lexSkip(term)) return;
+    strongSet.add(term);
+    const stemmed = stem(term);
+    if (stemmed && stemmed !== term && !lexSkip(stemmed)) strongSet.add(stemmed);
+  };
+  for (const word of STRONG_WORDS) {
+    addLex(word);
+    addStrong(word);
+  }
+  for (const doc of docs) {
+    if (doc.k !== "lesson") continue;
+    for (const term of normalize(doc.ti).split(" ")) addLex(term);
+    for (const term of doc.title || []) addLex(term);
+  }
+  for (const doc of docs) {
+    if (doc.k !== "glossary") continue;
+    const terms = [...normalize(doc.ti).split(" "), ...(doc.title || [])];
+    for (const term of terms) {
+      if (lexicon.has(term) || lexicon.has(stem(term)) || STRONG_WORDS.has(term)) addLex(term);
+    }
+  }
+  for (const [key, value] of Object.entries(syn)) {
+    if (lexicon.has(value) || lexicon.has(stem(value))) addLex(key);
+    if (strongSet.has(value) || strongSet.has(stem(value))) addStrong(key);
+  }
+  const strongPool = [...strongSet].filter((term) => term.length >= 4);
+  const titlePhrases = [];
+  for (const doc of docs) {
+    if (doc.k !== "lesson" && doc.k !== "glossary") continue;
+    const phrase = normalize(doc.ti);
+    if (phrase.split(" ").filter(Boolean).length >= 2) titlePhrases.push(phrase);
+  }
   const seeds = Array.isArray(index && index.seeds) ? index.seeds : [];
   const seedPool = [];
   const seedSeen = new Set();
@@ -1070,11 +1120,41 @@ export function createRetriever(index) {
     return best;
   }
 
+  function hasLexiconTerm(text) {
+    const normalized = normalize(text);
+    const parts = normalized.split(" ").filter((word) => word && word.length >= 2 && !STOP.has(word) && !FILLER.has(word));
+    if (!parts.length) return false;
+    for (const word of parts) {
+      if (NEIGHBOUR.has(word) || NEIGHBOUR.has(stem(word))) return false;
+    }
+    const padded = ` ${normalized} `;
+    if (titlePhrases.some((phrase) => padded.includes(` ${phrase} `))) return true;
+    let hit = false;
+    for (const word of parts) {
+      if (SOFT_SURFACE.has(word) || AMBIGUOUS.has(word) || GENERIC_ENGLISH.has(word) || FUNCTION.has(word)) continue;
+      const forms = [word, stem(word)];
+      const canonical = canon(word, syn);
+      if (canonical) forms.push(canonical);
+      if (forms.some((form) => lexicon.has(form))) {
+        hit = true;
+        continue;
+      }
+      if (word.length < 4) continue;
+      const fix = fuzzy(word, strongPool, word.length >= 7 ? 2 : 1, freq);
+      if (!fix || !strongSet.has(fix)) continue;
+      const prefix = sharedPrefix(word, fix);
+      if (prefix < 2) continue;
+      if (word.length === fix.length && prefix < 4) continue;
+      hit = true;
+    }
+    return hit;
+  }
+
   function ask(raw, host) {
     const limited = String(raw || "").slice(0, 400);
     const routed = route(limited, host || {});
     if (!routed.searchText) return routed;
-    if (!hasDomainTerm(routed.searchText, domain, syn, pool, freq)) return fallbackAnswer([], routed.followMode, true);
+    if (!hasLexiconTerm(routed.searchText)) return fallbackAnswer([], routed.followMode, true);
     const seed = matchSeed(routed.searchText);
     if (seed) return fromSeed(seed, limited);
     const qTerms = queryTokens(routed.searchText, syn, pool, knownSet, seedPool, freq);
