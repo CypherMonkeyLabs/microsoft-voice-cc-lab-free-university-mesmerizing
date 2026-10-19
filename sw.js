@@ -29,6 +29,8 @@ var SHELL = [
   "./assets/css/round2.css",
   "./assets/css/round3.css",
   "./assets/js/university.js",
+  "./assets/js/theme-boot.js",
+  "./assets/js/port-game.js",
   "./assets/js/frame.js",
   "./assets/js/phone-nav.js",
   "./assets/js/wow.js",

@@ -17,7 +17,7 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "tools"))
 import sources_render
-from lab_menu import DIAGRAM_STYLE, FOOTER_CSS, SHEET_STYLE, VIEWPORT, lab_menu_html
+from lab_menu import CSP_META, DIAGRAM_STYLE, FOOTER_CSS, SHEET_STYLE, VIEWPORT, lab_menu_html
 
 ROOT = Path(__file__).resolve().parents[1]
 DATA = ROOT / "campus" / "data"
@@ -165,22 +165,15 @@ def chips(prefix: str) -> str:
 def shell(rel: str, title: str, body: str, desc: str) -> str:
     depth = rel.count("/")
     prefix = "../" * depth
-    boot = (
-        '<script>try{var t=localStorage.getItem("canon-theme");'
-        'if(["bloom","aurora","futuristic","gaming","neon","sunset","paper","holographic","cyberpunk","contrast"].indexOf(t)<0)t="bloom";'
-        'document.documentElement.dataset.theme=t||"bloom";'
-        'var f=localStorage.getItem("canon-font");if(f==="sm"||f==="md"||f==="lg")document.documentElement.dataset.font=f;'
-        'var m=localStorage.getItem("canon-motion");if(m==="reduce"||m==="full")document.documentElement.dataset.motion=m;'
-        'var ink=localStorage.getItem("canon-ink");if(ink&&/^#[0-9a-f]{6}$/i.test(ink))document.documentElement.style.setProperty("--ink",ink);'
-        '}catch(e){document.documentElement.dataset.theme="bloom";}</script>'
-    )
+    boot = f'<script src="{prefix}assets/js/theme-boot.js"></script>'
     css = ["canon", "shell", "wow", "frame", "polish", "footer", "university", "round2", "round3"]
     links = "\n".join(f'<link rel="stylesheet" href="{prefix}assets/css/{name}.css">' for name in css)
     return f'''<!DOCTYPE html>
 <html lang="en">
 <head>
-{boot}
 <meta charset="utf-8">
+{CSP_META}
+{boot}
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>{esc(title)}</title>
 <meta name="description" content="{esc(desc)}">
@@ -295,7 +288,7 @@ def write_diagram_files(diagrams):
             note=f"Same checked list as {room_file}.",
             download_href=f"../../rooms/{room_file[:-5]}.sources.json",
         ) if sources_render.sources_named(f"{lesson['id']}.json") else ""
-        page = f'''<!DOCTYPE html><html lang="en"><head><meta charset="utf-8">{VIEWPORT}<title>{esc(fig["title"])}</title>
+        page = f'''<!DOCTYPE html><html lang="en"><head><meta charset="utf-8">{CSP_META}{VIEWPORT}<title>{esc(fig["title"])}</title>
 <link rel="icon" href="../../favicon.svg" type="image/svg+xml">
 <link rel="stylesheet" href="{FOOTER_CSS}">
 {DIAGRAM_STYLE}
@@ -665,7 +658,30 @@ def diagram_index(diagrams, title, flows_only: bool) -> str:
     return f'<h1>{title}</h1><p class="read-sent">{kind} {len(diagrams)} files. Reduced motion still shows every hop.</p><section id="visual">{"".join(cards)}</section>'
 
 
+def write_port_game() -> None:
+    pairs = json.dumps([{"code": code, "label": label} for code, label, _ in PORTS])
+    script = (
+        "(function () {\n"
+        f"  var pairs = {pairs};\n"
+        "  var i = 0;\n"
+        "  function ask() {\n"
+        '    document.getElementById("port-prompt").textContent = "Which label matches " + pairs[i].code + "?";\n'
+        "  }\n"
+        '  document.getElementById("port-choices").addEventListener("click", function (ev) {\n'
+        '    var btn = ev.target.closest("[data-port]");\n'
+        "    if (!btn) return;\n"
+        '    var ok = btn.getAttribute("data-port") === pairs[i].code;\n'
+        '    document.getElementById("port-result").textContent = ok ? "Yes. That matches the sheet." : "Not that one. Read the sheet under the game.";\n'
+        "    if (ok) { i = (i + 1) % pairs.length; ask(); }\n"
+        "  });\n"
+        "  ask();\n"
+        "})();\n"
+    )
+    (ROOT / "assets/js/port-game.js").write_text(script, encoding="utf-8")
+
+
 def play_html() -> str:
+    write_port_game()
     buttons = "".join(
         f'<button type="button" class="choice" data-port="{esc(code)}">{esc(label)}</button>' for code, label, _ in PORTS
     )
@@ -681,23 +697,7 @@ def play_html() -> str:
 <p>Source notes checked {CHECKED}. Confirm the current list in Microsoft’s Direct Routing plan before you build a firewall.</p>
 {dl_row([("Ports HTML", "downloads/sheets/ports-protocols.html"), ("Ports PDF", "downloads/sheets/ports-protocols.pdf")])}
 </section>
-<script>
-(function(){{
-  var pairs = {json.dumps([{"code": a, "label": b} for a, b, _ in PORTS])};
-  var i = 0;
-  function ask(){{
-    document.getElementById("port-prompt").textContent = "Which label matches " + pairs[i].code + "?";
-  }}
-  document.getElementById("port-choices").addEventListener("click", function(ev){{
-    var btn = ev.target.closest("[data-port]");
-    if(!btn) return;
-    var ok = btn.getAttribute("data-port") === pairs[i].code;
-    document.getElementById("port-result").textContent = ok ? "Yes. That matches the sheet." : "Not that one. Read the sheet under the game.";
-    if(ok){{ i = (i + 1) % pairs.length; ask(); }}
-  }});
-  ask();
-}})();
-</script>'''
+<script src="assets/js/port-game.js"></script>'''
 
 
 def downloads_body(diagrams, tracks) -> str:
@@ -764,7 +764,7 @@ def sheet_sources(key: str) -> str:
 
 
 def standalone_sheet(title: str, inner: str, sources: str = "") -> str:
-    return f'''<!DOCTYPE html><html lang="en"><head><meta charset="utf-8">{VIEWPORT}<title>{esc(title)}</title>
+    return f'''<!DOCTYPE html><html lang="en"><head><meta charset="utf-8">{CSP_META}{VIEWPORT}<title>{esc(title)}</title>
 <link rel="stylesheet" href="{FOOTER_CSS}">
 {SHEET_STYLE}
 </head><body><h1>{esc(title)}</h1>{inner}

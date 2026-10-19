@@ -1,7 +1,7 @@
 // Vendored from three.js r160 examples/jsm (MIT). https://github.com/mrdoob/three.js/tree/r160/examples/jsm
 import {
 	Color
-} from 'three';
+} from '../three.module.min.js';
 
 /**
  * Luminosity
