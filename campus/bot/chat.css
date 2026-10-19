@@ -205,6 +205,26 @@
   .py-mic,
   .py-chat-form input { min-height: 40px; }
 }
+@media (max-width: 800px) and (max-height: 520px) {
+  body:has(#guide-panel:not([hidden])) .top,
+  body:has(#guide-panel:not([hidden])) .readbar,
+  body:has(#guide-panel:not([hidden])) .bottom-nav { display: none; }
+  body:has(#guide-panel:not([hidden])) .shell {
+    flex: 0 1 auto;
+    max-height: 22dvh;
+  }
+  body:has(#guide-panel:not([hidden])) .guide,
+  body:has(#guide-panel:not([hidden])) .guide-panel.has-voicebot {
+    flex: 1 1 auto;
+    max-height: none;
+    min-height: 0;
+  }
+  body:has(#guide-panel:not([hidden])) .py-chat-log {
+    flex: 1 1 120px;
+    min-height: 120px;
+    max-height: none;
+  }
+}
 @media (prefers-reduced-motion: reduce) {
   .bot-panel { animation: none; }
   .py-chat-log { scroll-behavior: auto; }

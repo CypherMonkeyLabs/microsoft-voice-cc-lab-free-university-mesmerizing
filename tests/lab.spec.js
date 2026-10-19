@@ -47,6 +47,29 @@ test("home, lesson, and guide chat", async ({ page }, info) => {
   await page.screenshot({ path: `docs/screenshots/lesson-${info.project.name}.png` });
 });
 
+test("short phone keeps answers readable and off-topic unlinked", async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 430 });
+  await page.goto("/campus/");
+  await page.locator("#guide-open").click();
+  const input = page.locator("#py-chat-input");
+  const send = page.locator(".py-chat-form button[type=submit]");
+  async function ask(text) {
+    await input.fill(text);
+    await send.click();
+    return page.locator(".py-msg-bot").last();
+  }
+  const dog = await ask("name for my dog");
+  await expect(dog).toContainText("I don't have that yet");
+  await expect(dog.locator("a")).toHaveCount(0);
+  const movie = await ask("Recommend a horror movie");
+  await expect(movie).toContainText("I don't have that yet");
+  await expect(movie.locator("a")).toHaveCount(0);
+  await ask("What is Direct Routing?");
+  const log = page.locator(".py-chat-log");
+  const height = await log.evaluate((el) => el.getBoundingClientRect().height);
+  expect(height).toBeGreaterThanOrEqual(120);
+});
+
 test("offline reload, lesson, and chat", async ({ page, context }) => {
   await waitForWorker(page);
   await context.setOffline(true);
