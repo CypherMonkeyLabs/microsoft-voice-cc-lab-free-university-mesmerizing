@@ -1,0 +1,388 @@
+{
+  "sources": [
+    {
+      "id": "audiocodes-com-solutions-products-products-session-border-controllers",
+      "title": "AudioCodes session border controllers",
+      "url": "https://www.audiocodes.com/solutions-products/products/session-border-controllers",
+      "accessed": "2026-10-14"
+    },
+    {
+      "id": "cisco-com-c-en-us-products-unified-communications-unified-border-element-index-html",
+      "title": "Cisco Unified Border Element",
+      "url": "https://www.cisco.com/c/en/us/products/unified-communications/unified-border-element/index.html",
+      "accessed": "2026-10-14"
+    },
+    {
+      "id": "cloud-google-com-legal-change-log",
+      "title": "Google Cloud legal change log",
+      "url": "https://cloud.google.com/legal-change-log",
+      "accessed": "2026-10-14"
+    },
+    {
+      "id": "developer-salesforce-com-docs-atlas-en-us-voice-developer-guide-meta-voice-developer-guide-voice",
+      "title": "Salesforce Voice with Telephony Providers implementation guide",
+      "url": "https://developer.salesforce.com/docs/atlas.en-us.voice_developer_guide.meta/voice_developer_guide/voice_intro.htm",
+      "accessed": "2026-10-14"
+    },
+    {
+      "id": "docs-aws-amazon-com-connect-latest-adminguide-what-is-amazon-connect-html",
+      "title": "What is Amazon Connect Customer",
+      "url": "https://docs.aws.amazon.com/connect/latest/adminguide/what-is-amazon-connect.html",
+      "accessed": "2026-10-14"
+    },
+    {
+      "id": "docs-cloud-google-com-contact-center-ccai-platform-docs",
+      "title": "Contact Center AI Platform",
+      "url": "https://docs.cloud.google.com/contact-center/ccai-platform/docs",
+      "accessed": "2026-10-14"
+    },
+    {
+      "id": "en-wikipedia-org-wiki-computer-telephony-integration",
+      "title": "Computer telephony integration",
+      "url": "https://en.wikipedia.org/wiki/Computer_telephony_integration",
+      "accessed": "2026-10-14"
+    },
+    {
+      "id": "help-salesforce-com-s-articleview",
+      "title": "Connect Voice from a Partner Contact Center",
+      "url": "https://help.salesforce.com/s/articleView?id=service.voice_about.htm&language=en_US&type=5",
+      "accessed": "2026-10-14"
+    },
+    {
+      "id": "learn-microsoft-com-en-us-azure-ai-foundry",
+      "title": "Azure AI Foundry documentation",
+      "url": "https://learn.microsoft.com/en-us/azure/ai-foundry/",
+      "accessed": "2026-10-14"
+    },
+    {
+      "id": "learn-microsoft-com-en-us-azure-ai-services-speech-service-overview",
+      "title": "Azure AI Speech overview",
+      "url": "https://learn.microsoft.com/en-us/azure/ai-services/speech-service/overview",
+      "accessed": "2026-10-14"
+    },
+    {
+      "id": "learn-microsoft-com-en-us-azure-communication-services-concepts-call-automation-call-automation",
+      "title": "Azure Communication Services Call Automation",
+      "url": "https://learn.microsoft.com/en-us/azure/communication-services/concepts/call-automation/call-automation",
+      "accessed": "2026-10-14"
+    },
+    {
+      "id": "learn-microsoft-com-en-us-azure-communication-services-concepts-interop-tpe-teams-phone-extensib",
+      "title": "Teams Phone extensibility",
+      "url": "https://learn.microsoft.com/en-us/azure/communication-services/concepts/interop/tpe/teams-phone-extensibility-overview",
+      "accessed": "2026-10-14"
+    },
+    {
+      "id": "learn-microsoft-com-en-us-credentials-certifications-azure-fundamentals",
+      "title": "Azure Fundamentals",
+      "url": "https://learn.microsoft.com/en-us/credentials/certifications/azure-fundamentals/",
+      "accessed": "2026-10-14"
+    },
+    {
+      "id": "learn-microsoft-com-en-us-credentials-certifications-d365-contact-center-ai-engineer-associate",
+      "title": "Dynamics 365 Contact Center AI Engineer Associate",
+      "url": "https://learn.microsoft.com/en-us/credentials/certifications/d365-contact-center-ai-engineer-associate/",
+      "accessed": "2026-10-14"
+    },
+    {
+      "id": "learn-microsoft-com-en-us-credentials-certifications-m365-teams-administrator-associate",
+      "title": "Teams Administrator Associate",
+      "url": "https://learn.microsoft.com/en-us/credentials/certifications/m365-teams-administrator-associate/",
+      "accessed": "2026-10-14"
+    },
+    {
+      "id": "learn-microsoft-com-en-us-credentials-certifications-resources-study-guides-ab-250",
+      "title": "Study guide AB-250",
+      "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/ab-250",
+      "accessed": "2026-10-14"
+    },
+    {
+      "id": "learn-microsoft-com-en-us-credentials-certifications-resources-study-guides-mb-280",
+      "title": "Study guide MB-280",
+      "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/mb-280",
+      "accessed": "2026-10-14"
+    },
+    {
+      "id": "learn-microsoft-com-en-us-credentials-certifications-resources-study-guides-ms-700",
+      "title": "Study guide MS-700",
+      "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/ms-700",
+      "accessed": "2026-10-14"
+    },
+    {
+      "id": "learn-microsoft-com-en-us-credentials-certifications-security-compliance-and-identity-fundamenta",
+      "title": "Security, Compliance, and Identity Fundamentals",
+      "url": "https://learn.microsoft.com/en-us/credentials/certifications/security-compliance-and-identity-fundamentals/",
+      "accessed": "2026-10-14"
+    },
+    {
+      "id": "learn-microsoft-com-en-us-credentials-support-retired-certification-exams",
+      "title": "Retired certification exams",
+      "url": "https://learn.microsoft.com/en-us/credentials/support/retired-certification-exams",
+      "accessed": "2026-10-14"
+    },
+    {
+      "id": "learn-microsoft-com-en-us-dynamics365-contact-center",
+      "title": "Dynamics 365 Contact Center",
+      "url": "https://learn.microsoft.com/en-us/dynamics365/contact-center/",
+      "accessed": "2026-10-14"
+    },
+    {
+      "id": "learn-microsoft-com-en-us-dynamics365-contact-center-administer-configure-quality-coach",
+      "title": "Configure quality and coaching",
+      "url": "https://learn.microsoft.com/en-us/dynamics365/contact-center/administer/configure-quality-coach",
+      "accessed": "2026-10-14"
+    },
+    {
+      "id": "learn-microsoft-com-en-us-dynamics365-contact-center-administer-configure-teams-phone-in-voice-c",
+      "title": "Configure Teams Phone in the voice channel",
+      "url": "https://learn.microsoft.com/en-us/dynamics365/contact-center/administer/configure-teams-phone-in-voice-channel",
+      "accessed": "2026-10-14"
+    },
+    {
+      "id": "learn-microsoft-com-en-us-dynamics365-contact-center-use-workforce-management-forecast-overview",
+      "title": "Overview of forecasting",
+      "url": "https://learn.microsoft.com/en-us/dynamics365/contact-center/use/workforce-management-forecast-overview",
+      "accessed": "2026-10-14"
+    },
+    {
+      "id": "learn-microsoft-com-en-us-dynamics365-customer-service-administer-assignment-methods",
+      "title": "Assignment methods for unified routing",
+      "url": "https://learn.microsoft.com/en-us/dynamics365/customer-service/administer/assignment-methods",
+      "accessed": "2026-10-14"
+    },
+    {
+      "id": "learn-microsoft-com-en-us-dynamics365-customer-service-administer-create-workstreams",
+      "title": "Create and manage workstreams",
+      "url": "https://learn.microsoft.com/en-us/dynamics365/customer-service/administer/create-workstreams",
+      "accessed": "2026-10-14"
+    },
+    {
+      "id": "learn-microsoft-com-en-us-dynamics365-customer-service-administer-overview-unified-routing",
+      "title": "Overview of unified routing",
+      "url": "https://learn.microsoft.com/en-us/dynamics365/customer-service/administer/overview-unified-routing",
+      "accessed": "2026-10-14"
+    },
+    {
+      "id": "learn-microsoft-com-en-us-dynamics365-customer-service-administer-voice-channel",
+      "title": "Introduction to the voice channel",
+      "url": "https://learn.microsoft.com/en-us/dynamics365/customer-service/administer/voice-channel",
+      "accessed": "2026-10-14"
+    },
+    {
+      "id": "learn-microsoft-com-en-us-microsoft-copilot-studio-fundamentals-what-is-copilot-studio",
+      "title": "Copilot Studio overview",
+      "url": "https://learn.microsoft.com/en-us/microsoft-copilot-studio/fundamentals-what-is-copilot-studio",
+      "accessed": "2026-10-14"
+    },
+    {
+      "id": "learn-microsoft-com-en-us-microsoftteams-aa-cq-manage-resource-accounts",
+      "title": "Manage resource accounts",
+      "url": "https://learn.microsoft.com/en-us/microsoftteams/aa-cq-manage-resource-accounts",
+      "accessed": "2026-10-14"
+    },
+    {
+      "id": "learn-microsoft-com-en-us-microsoftteams-aa-cq-reference-prerequisites-licensing",
+      "title": "Voice app prerequisites and licensing",
+      "url": "https://learn.microsoft.com/en-us/microsoftteams/aa-cq-reference-prerequisites-licensing",
+      "accessed": "2026-10-14"
+    },
+    {
+      "id": "learn-microsoft-com-en-us-microsoftteams-calling-plans-for-office-365",
+      "title": "Calling Plans",
+      "url": "https://learn.microsoft.com/en-us/microsoftteams/calling-plans-for-office-365",
+      "accessed": "2026-10-14"
+    },
+    {
+      "id": "learn-microsoft-com-en-us-microsoftteams-cloud-voicemail",
+      "title": "Cloud Voicemail",
+      "url": "https://learn.microsoft.com/en-us/microsoftteams/cloud-voicemail",
+      "accessed": "2026-10-14"
+    },
+    {
+      "id": "learn-microsoft-com-en-us-microsoftteams-cqd-what-is-call-quality-dashboard",
+      "title": "What is Call Quality Dashboard",
+      "url": "https://learn.microsoft.com/en-us/microsoftteams/cqd-what-is-call-quality-dashboard",
+      "accessed": "2026-10-14"
+    },
+    {
+      "id": "learn-microsoft-com-en-us-microsoftteams-create-a-phone-system-auto-attendant",
+      "title": "Set up an auto attendant",
+      "url": "https://learn.microsoft.com/en-us/microsoftteams/create-a-phone-system-auto-attendant",
+      "accessed": "2026-10-14"
+    },
+    {
+      "id": "learn-microsoft-com-en-us-microsoftteams-create-a-phone-system-call-queue",
+      "title": "Set up a call queue",
+      "url": "https://learn.microsoft.com/en-us/microsoftteams/create-a-phone-system-call-queue",
+      "accessed": "2026-10-14"
+    },
+    {
+      "id": "learn-microsoft-com-en-us-microsoftteams-create-and-manage-dial-plans",
+      "title": "Create and manage dial plans",
+      "url": "https://learn.microsoft.com/en-us/microsoftteams/create-and-manage-dial-plans",
+      "accessed": "2026-10-14"
+    },
+    {
+      "id": "learn-microsoft-com-en-us-microsoftteams-direct-routing-border-controllers",
+      "title": "Certified SBCs for Direct Routing",
+      "url": "https://learn.microsoft.com/en-us/microsoftteams/direct-routing-border-controllers",
+      "accessed": "2026-10-14"
+    },
+    {
+      "id": "learn-microsoft-com-en-us-microsoftteams-direct-routing-plan",
+      "title": "Plan Direct Routing",
+      "url": "https://learn.microsoft.com/en-us/microsoftteams/direct-routing-plan",
+      "accessed": "2026-10-14"
+    },
+    {
+      "id": "learn-microsoft-com-en-us-microsoftteams-direct-routing-survivable-branch-appliance",
+      "title": "Survivable Branch Appliance",
+      "url": "https://learn.microsoft.com/en-us/microsoftteams/direct-routing-survivable-branch-appliance",
+      "accessed": "2026-10-14"
+    },
+    {
+      "id": "learn-microsoft-com-en-us-microsoftteams-location-based-routing-plan",
+      "title": "Location-based routing",
+      "url": "https://learn.microsoft.com/en-us/microsoftteams/location-based-routing-plan",
+      "accessed": "2026-10-14"
+    },
+    {
+      "id": "learn-microsoft-com-en-us-microsoftteams-manage-voice-routing-policies",
+      "title": "Manage voice routing policies",
+      "url": "https://learn.microsoft.com/en-us/microsoftteams/manage-voice-routing-policies",
+      "accessed": "2026-10-14"
+    },
+    {
+      "id": "learn-microsoft-com-en-us-microsoftteams-operator-connect-plan",
+      "title": "Plan Operator Connect",
+      "url": "https://learn.microsoft.com/en-us/microsoftteams/operator-connect-plan",
+      "accessed": "2026-10-14"
+    },
+    {
+      "id": "learn-microsoft-com-en-us-microsoftteams-prepare-network",
+      "title": "Prepare the network for Teams",
+      "url": "https://learn.microsoft.com/en-us/microsoftteams/prepare-network",
+      "accessed": "2026-10-14"
+    },
+    {
+      "id": "learn-microsoft-com-en-us-microsoftteams-pstn-connectivity",
+      "title": "PSTN connectivity options",
+      "url": "https://learn.microsoft.com/en-us/microsoftteams/pstn-connectivity",
+      "accessed": "2026-10-14"
+    },
+    {
+      "id": "learn-microsoft-com-en-us-microsoftteams-qos-in-teams",
+      "title": "QoS in Microsoft Teams",
+      "url": "https://learn.microsoft.com/en-us/microsoftteams/qos-in-teams",
+      "accessed": "2026-10-14"
+    },
+    {
+      "id": "learn-microsoft-com-en-us-microsoftteams-setting-up-your-phone-system",
+      "title": "Set up Teams Phone",
+      "url": "https://learn.microsoft.com/en-us/microsoftteams/setting-up-your-phone-system",
+      "accessed": "2026-10-14"
+    },
+    {
+      "id": "learn-microsoft-com-en-us-microsoftteams-sip-gateway-plan",
+      "title": "SIP Gateway",
+      "url": "https://learn.microsoft.com/en-us/microsoftteams/sip-gateway-plan",
+      "accessed": "2026-10-14"
+    },
+    {
+      "id": "learn-microsoft-com-en-us-microsoftteams-teams-add-on-licensing-microsoft-teams-add-on-licensing",
+      "title": "Teams add-on licensing",
+      "url": "https://learn.microsoft.com/en-us/microsoftteams/teams-add-on-licensing/microsoft-teams-add-on-licensing",
+      "accessed": "2026-10-14"
+    },
+    {
+      "id": "learn-microsoft-com-en-us-microsoftteams-teams-add-on-licensing-virtual-user",
+      "title": "Teams Phone Resource Account licenses",
+      "url": "https://learn.microsoft.com/en-us/microsoftteams/teams-add-on-licensing/virtual-user",
+      "accessed": "2026-10-14"
+    },
+    {
+      "id": "learn-microsoft-com-en-us-microsoftteams-teams-compliance-recording-setup",
+      "title": "Set up compliance recording",
+      "url": "https://learn.microsoft.com/en-us/microsoftteams/teams-compliance-recording-setup",
+      "accessed": "2026-10-14"
+    },
+    {
+      "id": "learn-microsoft-com-en-us-microsoftteams-teams-contact-center",
+      "title": "Teams contact center integration models",
+      "url": "https://learn.microsoft.com/en-us/microsoftteams/teams-contact-center",
+      "accessed": "2026-10-14"
+    },
+    {
+      "id": "learn-microsoft-com-en-us-microsoftteams-teams-phone-licensing",
+      "title": "Teams Phone licensing",
+      "url": "https://learn.microsoft.com/en-us/microsoftteams/teams-phone-licensing",
+      "accessed": "2026-10-14"
+    },
+    {
+      "id": "learn-microsoft-com-en-us-microsoftteams-teams-phone-mobile-plan",
+      "title": "Plan Teams Phone Mobile",
+      "url": "https://learn.microsoft.com/en-us/microsoftteams/teams-phone-mobile-plan",
+      "accessed": "2026-10-14"
+    },
+    {
+      "id": "learn-microsoft-com-en-us-microsoftteams-teams-recording-policy",
+      "title": "Introduction to Teams recording",
+      "url": "https://learn.microsoft.com/en-us/microsoftteams/teams-recording-policy",
+      "accessed": "2026-10-14"
+    },
+    {
+      "id": "learn-microsoft-com-en-us-microsoftteams-use-call-analytics-to-troubleshoot-poor-call-quality",
+      "title": "Use Call Analytics",
+      "url": "https://learn.microsoft.com/en-us/microsoftteams/use-call-analytics-to-troubleshoot-poor-call-quality",
+      "accessed": "2026-10-14"
+    },
+    {
+      "id": "learn-microsoft-com-en-us-microsoftteams-using-admin-roles",
+      "title": "Use Teams admin roles",
+      "url": "https://learn.microsoft.com/en-us/microsoftteams/using-admin-roles",
+      "accessed": "2026-10-14"
+    },
+    {
+      "id": "learn-microsoft-com-en-us-microsoftteams-what-are-emergency-locations-addresses-and-call-routing",
+      "title": "Emergency locations, addresses, and routing",
+      "url": "https://learn.microsoft.com/en-us/microsoftteams/what-are-emergency-locations-addresses-and-call-routing",
+      "accessed": "2026-10-14"
+    },
+    {
+      "id": "learn-microsoft-com-en-us-partner-center-announcements-2026-july",
+      "title": "Partner Center July 2026 announcements",
+      "url": "https://learn.microsoft.com/en-us/partner-center/announcements/2026-july",
+      "accessed": "2026-10-14"
+    },
+    {
+      "id": "learn-microsoft-com-en-us-powershell-module-teams-new-csteamscompliancerecordingpolicy",
+      "title": "New-CsTeamsComplianceRecordingPolicy",
+      "url": "https://learn.microsoft.com/en-us/powershell/module/teams/new-csteamscompliancerecordingpolicy?view=teams-ps",
+      "accessed": "2026-10-14"
+    },
+    {
+      "id": "oracle-com-communications-session-border-controller",
+      "title": "Oracle Session Border Controller",
+      "url": "https://www.oracle.com/communications/session-border-controller/",
+      "accessed": "2026-10-14"
+    },
+    {
+      "id": "ribboncommunications-com",
+      "title": "Ribbon Communications",
+      "url": "https://ribboncommunications.com/",
+      "accessed": "2026-10-14"
+    },
+    {
+      "id": "techcommunity-microsoft-com-blog-microsoftteamsblog-streamline-your-contact-center-telephony-wit",
+      "title": "Teams Phone extensibility announcement",
+      "url": "https://techcommunity.microsoft.com/blog/microsoftteamsblog/streamline-your-contact-center-telephony-with-teams-phone-extensibility/4450515",
+      "accessed": "2026-10-14"
+    },
+    {
+      "id": "techcommunity-microsoft-com-blog-skills-hub-blog-new-microsoft-certified-dynamics-365-contact-ce",
+      "title": "AB-250 certification announcement",
+      "url": "https://techcommunity.microsoft.com/blog/skills-hub-blog/new-microsoft-certified-dynamics-365-contact-center-ai-engineer-associate-certif/4494119",
+      "accessed": "2026-10-14"
+    }
+  ]
+}

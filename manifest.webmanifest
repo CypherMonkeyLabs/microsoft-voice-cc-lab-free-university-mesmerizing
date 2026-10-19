@@ -1,12 +1,14 @@
 {
   "name": "Microsoft Voice and Contact Center Lab",
-  "short_name": "Teams Phone Lab",
+  "short_name": "Voice Lab",
   "start_url": "./index.html",
   "scope": "./",
   "display": "standalone",
   "background_color": "#0b1020",
-  "theme_color": "#4f46e5",
+  "theme_color": "#0f766e",
   "icons": [
-    { "src": "favicon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" }
+    { "src": "assets/icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "assets/icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "assets/icons/icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
   ]
 }

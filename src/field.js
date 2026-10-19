@@ -605,7 +605,7 @@ function renderCareer() {
     "<li>Separate a CQD building from a Call Analytics user.</li>" +
     "<li>Refuse Islands mode for Direct Routing without a speech.</li>" +
     "</ol><p><a href=\"#/tips\">Tips and traps</a> · <a href=\"#/boss\">Boss exams</a> · <a href=\"#/lesson/t16-paths\">Learning paths that match the job</a></p></article>" +
-    '<p class="tiny">MB-280 retired 31 July 2026. AB-210 is its successor and is in beta. AB-210 is not the contact-center exam and it does not replace MS-700. <span class="tag warn">Unverified</span>: salary bands, visa rules, and which employer requires which exam.</p>'
+    '<p class="tiny">MB-280 retired 31 July 2026. AB-210 is its successor and is in beta. AB-210 is not the contact-center exam and it does not replace MS-700. <span class="tag warn">Unverified</span>: visa rules, and which employer requires which exam.</p>'
   );
 }
 

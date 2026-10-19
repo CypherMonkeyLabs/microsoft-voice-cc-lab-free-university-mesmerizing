@@ -1,0 +1,1721 @@
+{
+  "lessons": [
+    {
+      "key": "t01/t01-tenant",
+      "title": "The tenant boundary",
+      "level": 1,
+      "outcomes": [
+        "Every later object, from a dial plan to a recorder, lives in one tenant. Pairing an SBC in the wrong tenant is a different phone system."
+      ],
+      "sources": [
+        "learn-microsoft-com-en-us-microsoftteams-direct-routing-plan",
+        "learn-microsoft-com-en-us-microsoftteams-using-admin-roles"
+      ],
+      "last_verified": "2026-10-14"
+    },
+    {
+      "key": "t01/t01-entra",
+      "title": "Entra ID accounts voice will use",
+      "level": 1,
+      "outcomes": [
+        "Licenses and policies attach to Entra objects. A queue that nobody can find in the directory cannot be licensed."
+      ],
+      "sources": [
+        "learn-microsoft-com-en-us-microsoftteams-aa-cq-manage-resource-accounts",
+        "learn-microsoft-com-en-us-microsoftteams-using-admin-roles"
+      ],
+      "last_verified": "2026-10-14"
+    },
+    {
+      "key": "t01/t01-roles",
+      "title": "Roles that can change voice",
+      "level": 1,
+      "outcomes": [
+        "Global Administrator is not a voice habit. The role you use decides what an audit can prove later."
+      ],
+      "sources": [
+        "learn-microsoft-com-en-us-microsoftteams-using-admin-roles",
+        "learn-microsoft-com-en-us-credentials-certifications-security-compliance-and-identity-fundamenta"
+      ],
+      "last_verified": "2026-10-14"
+    },
+    {
+      "key": "t01/t01-center",
+      "title": "The admin-center map",
+      "level": 1,
+      "outcomes": [
+        "Voice objects are split across the Teams admin center, the Microsoft 365 admin center, and PowerShell. Hunting in one pane wastes the outage."
+      ],
+      "sources": [
+        "learn-microsoft-com-en-us-microsoftteams-setting-up-your-phone-system",
+        "learn-microsoft-com-en-us-microsoftteams-using-admin-roles"
+      ],
+      "last_verified": "2026-10-14"
+    },
+    {
+      "key": "t01/t01-vm",
+      "title": "Exchange and Cloud Voicemail",
+      "level": 1,
+      "outcomes": [
+        "Voicemail is an Exchange dependency. A clean SBC trace can still mean a lost message."
+      ],
+      "sources": [
+        "learn-microsoft-com-en-us-microsoftteams-cloud-voicemail"
+      ],
+      "last_verified": "2026-10-14"
+    },
+    {
+      "key": "t01/t01-homed",
+      "title": "What homed online means",
+      "level": 1,
+      "outcomes": [
+        "A license on a user who is still homed on a legacy registrar will not produce Direct Routing calls."
+      ],
+      "sources": [
+        "learn-microsoft-com-en-us-microsoftteams-direct-routing-plan"
+      ],
+      "last_verified": "2026-10-14"
+    },
+    {
+      "key": "t02/t02-stack",
+      "title": "The license stack",
+      "level": 1,
+      "outcomes": [
+        "The wrong SKU looks like a routing bug and survives every SBC reboot."
+      ],
+      "sources": [
+        "learn-microsoft-com-en-us-microsoftteams-teams-phone-licensing",
+        "learn-microsoft-com-en-us-microsoftteams-setting-up-your-phone-system",
+        "learn-microsoft-com-en-us-microsoftteams-calling-plans-for-office-365"
+      ],
+      "last_verified": "2026-10-14"
+    },
+    {
+      "key": "t02/t02-plans",
+      "title": "Calling Plan flavors",
+      "level": 1,
+      "outcomes": [
+        "Domestic, international, and pay-as-you-go are different purchases. The country list is part of the product."
+      ],
+      "sources": [
+        "learn-microsoft-com-en-us-microsoftteams-calling-plans-for-office-365",
+        "learn-microsoft-com-en-us-microsoftteams-pstn-connectivity"
+      ],
+      "last_verified": "2026-10-14"
+    },
+    {
+      "key": "t02/t02-premium",
+      "title": "Teams Premium is not PSTN",
+      "level": 1,
+      "outcomes": [
+        "Premium is a meeting add-on. Treating it as the phone license produces a design that cannot dial."
+      ],
+      "sources": [
+        "learn-microsoft-com-en-us-microsoftteams-teams-add-on-licensing-microsoft-teams-add-on-licensing",
+        "learn-microsoft-com-en-us-microsoftteams-teams-phone-licensing"
+      ],
+      "last_verified": "2026-10-14"
+    },
+    {
+      "key": "t02/t02-resource",
+      "title": "Resource account licenses",
+      "level": 1,
+      "outcomes": [
+        "Attendants and queues fail closed when the resource account has the wrong SKU, or had the right SKU removed in two steps."
+      ],
+      "sources": [
+        "learn-microsoft-com-en-us-microsoftteams-teams-add-on-licensing-virtual-user",
+        "learn-microsoft-com-en-us-microsoftteams-aa-cq-reference-prerequisites-licensing",
+        "learn-microsoft-com-en-us-microsoftteams-aa-cq-manage-resource-accounts"
+      ],
+      "last_verified": "2026-10-14"
+    },
+    {
+      "key": "t02/t02-rooms",
+      "title": "Rooms, common area, and shared calling",
+      "level": 1,
+      "outcomes": [
+        "Devices and shared numbers have their own license sentences. Copying a user bundle onto a hallway phone wastes money and still may not work."
+      ],
+      "sources": [
+        "learn-microsoft-com-en-us-microsoftteams-teams-phone-licensing",
+        "learn-microsoft-com-en-us-microsoftteams-direct-routing-plan"
+      ],
+      "last_verified": "2026-10-14"
+    },
+    {
+      "key": "t02/t02-defend",
+      "title": "A license set you can defend",
+      "level": 1,
+      "outcomes": [
+        "Interviews and design reviews both ask for the set, not a brand name."
+      ],
+      "sources": [
+        "learn-microsoft-com-en-us-microsoftteams-teams-phone-licensing",
+        "learn-microsoft-com-en-us-microsoftteams-teams-add-on-licensing-microsoft-teams-add-on-licensing",
+        "learn-microsoft-com-en-us-microsoftteams-teams-add-on-licensing-virtual-user"
+      ],
+      "last_verified": "2026-10-14"
+    },
+    {
+      "key": "t03/t03-module",
+      "title": "The module and the session",
+      "level": 2,
+      "outcomes": [
+        "The shell is how you read effective policy and how you assign compliance recording. The portal will not show you every object."
+      ],
+      "sources": [
+        "learn-microsoft-com-en-us-microsoftteams-direct-routing-plan",
+        "learn-microsoft-com-en-us-powershell-module-teams-new-csteamscompliancerecordingpolicy"
+      ],
+      "last_verified": "2026-10-14"
+    },
+    {
+      "key": "t03/t03-objects",
+      "title": "Objects you will actually get",
+      "level": 2,
+      "outcomes": [
+        "Voice routing is a handful of objects. If you can draw them, the cmdlets are spelling."
+      ],
+      "sources": [
+        "learn-microsoft-com-en-us-microsoftteams-manage-voice-routing-policies",
+        "learn-microsoft-com-en-us-microsoftteams-create-and-manage-dial-plans",
+        "learn-microsoft-com-en-us-microsoftteams-direct-routing-plan"
+      ],
+      "last_verified": "2026-10-14"
+    },
+    {
+      "key": "t03/t03-grant",
+      "title": "Grant, set, and new",
+      "level": 2,
+      "outcomes": [
+        "New creates, set changes, grant assigns. Mixing them up is how a policy is edited and never reaches the user."
+      ],
+      "sources": [
+        "learn-microsoft-com-en-us-microsoftteams-manage-voice-routing-policies",
+        "learn-microsoft-com-en-us-powershell-module-teams-new-csteamscompliancerecordingpolicy"
+      ],
+      "last_verified": "2026-10-14"
+    },
+    {
+      "key": "t03/t03-readuser",
+      "title": "Reading a user before you change one",
+      "level": 2,
+      "outcomes": [
+        "The pilot user is often not the user you think. Group assignment hides the policy you just edited."
+      ],
+      "sources": [
+        "learn-microsoft-com-en-us-microsoftteams-manage-voice-routing-policies",
+        "learn-microsoft-com-en-us-microsoftteams-using-admin-roles"
+      ],
+      "last_verified": "2026-10-14"
+    },
+    {
+      "key": "t03/t03-disagree",
+      "title": "When the portal and the shell disagree",
+      "level": 2,
+      "outcomes": [
+        "The toast is not the directory. The directory is what the next call will use."
+      ],
+      "sources": [
+        "learn-microsoft-com-en-us-microsoftteams-using-admin-roles"
+      ],
+      "last_verified": "2026-10-14"
+    },
+    {
+      "key": "t03/t03-safety",
+      "title": "Safety on a lab tenant",
+      "level": 2,
+      "outcomes": [
+        "Certificate and routing experiments belong where a mistake cannot take the company\u2019s numbers away."
+      ],
+      "sources": [
+        "learn-microsoft-com-en-us-microsoftteams-direct-routing-plan"
+      ],
+      "last_verified": "2026-10-14"
+    },
+    {
+      "key": "t04/t04-path",
+      "title": "Shortest path, no media proxy",
+      "level": 2,
+      "outcomes": [
+        "Teams media hates hairpins and proxies. Bandwidth is the expensive way to hide a bad path."
+      ],
+      "sources": [
+        "learn-microsoft-com-en-us-microsoftteams-qos-in-teams",
+        "learn-microsoft-com-en-us-microsoftteams-prepare-network"
+      ],
+      "last_verified": "2026-10-14"
+    },
+    {
+      "key": "t04/t04-table",
+      "title": "The port and DSCP table",
+      "level": 2,
+      "outcomes": [
+        "This table is the QoS interview. It is also the ACL."
+      ],
+      "sources": [
+        "learn-microsoft-com-en-us-microsoftteams-qos-in-teams"
+      ],
+      "last_verified": "2026-10-14"
+    },
+    {
+      "key": "t04/t04-vpn",
+      "title": "VPN and the split tunnel",
+      "level": 2,
+      "outcomes": [
+        "A full-tunnel VPN adds delay and hides the office subnet from emergency location and from CQD."
+      ],
+      "sources": [
+        "learn-microsoft-com-en-us-microsoftteams-qos-in-teams",
+        "learn-microsoft-com-en-us-microsoftteams-what-are-emergency-locations-addresses-and-call-routing"
+      ],
+      "last_verified": "2026-10-14"
+    },
+    {
+      "key": "t04/t04-bw",
+      "title": "Bandwidth you can calculate",
+      "level": 2,
+      "outcomes": [
+        "64 kbit/s is the payload. The link carries headers too."
+      ],
+      "sources": [
+        "learn-microsoft-com-en-us-microsoftteams-qos-in-teams",
+        "learn-microsoft-com-en-us-microsoftteams-direct-routing-plan"
+      ],
+      "last_verified": "2026-10-14"
+    },
+    {
+      "key": "t04/t04-prove",
+      "title": "Proving the mark survived",
+      "level": 2,
+      "outcomes": [
+        "A client policy that the WAN undoes is not QoS."
+      ],
+      "sources": [
+        "learn-microsoft-com-en-us-microsoftteams-qos-in-teams"
+      ],
+      "last_verified": "2026-10-14"
+    },
+    {
+      "key": "t04/t04-er",
+      "title": "ExpressRoute is not the requirement",
+      "level": 2,
+      "outcomes": [
+        "A private circuit is a purchasing choice. It is not the Teams network requirement."
+      ],
+      "sources": [
+        "learn-microsoft-com-en-us-microsoftteams-prepare-network",
+        "learn-microsoft-com-en-us-microsoftteams-qos-in-teams"
+      ],
+      "last_verified": "2026-10-14"
+    },
+    {
+      "key": "t05/t05-four",
+      "title": "Four ways to reach the PSTN",
+      "level": 3,
+      "outcomes": [
+        "The connectivity option decides who operates the carrier, who you call at 2 a.m., and which license you buy."
+      ],
+      "sources": [
+        "learn-microsoft-com-en-us-microsoftteams-pstn-connectivity",
+        "learn-microsoft-com-en-us-microsoftteams-direct-routing-plan"
+      ],
+      "last_verified": "2026-10-14"
+    },
+    {
+      "key": "t05/t05-cp",
+      "title": "Calling Plans in practice",
+      "level": 3,
+      "outcomes": [
+        "This is the option with the least SBC work and the least control."
+      ],
+      "sources": [
+        "learn-microsoft-com-en-us-microsoftteams-calling-plans-for-office-365",
+        "learn-microsoft-com-en-us-microsoftteams-what-are-emergency-locations-addresses-and-call-routing"
+      ],
+      "last_verified": "2026-10-14"
+    },
+    {
+      "key": "t05/t05-oc",
+      "title": "Operator Connect",
+      "level": 3,
+      "outcomes": [
+        "You keep a carrier relationship without operating the SBC."
+      ],
+      "sources": [
+        "learn-microsoft-com-en-us-microsoftteams-operator-connect-plan",
+        "learn-microsoft-com-en-us-microsoftteams-pstn-connectivity"
+      ],
+      "last_verified": "2026-10-14"
+    },
+    {
+      "key": "t05/t05-mobile",
+      "title": "Teams Phone Mobile",
+      "level": 3,
+      "outcomes": [
+        "The SIM number and the Teams number are the same number. That is a gift for frontline staff and a trap for a reception queue."
+      ],
+      "sources": [
+        "learn-microsoft-com-en-us-microsoftteams-teams-phone-mobile-plan"
+      ],
+      "last_verified": "2026-10-14"
+    },
+    {
+      "key": "t05/t05-dr",
+      "title": "Direct Routing",
+      "level": 3,
+      "outcomes": [
+        "This is the option when you still own trunks, a PBX, analog devices, or a contact-center SBC."
+      ],
+      "sources": [
+        "learn-microsoft-com-en-us-microsoftteams-direct-routing-plan",
+        "learn-microsoft-com-en-us-microsoftteams-direct-routing-border-controllers"
+      ],
+      "last_verified": "2026-10-14"
+    },
+    {
+      "key": "t05/t05-mix",
+      "title": "Mixing them in one tenant",
+      "level": 3,
+      "outcomes": [
+        "The plan page\u2019s own example puts knowledge workers on Operator Connect, frontline on Teams Phone Mobile, contact centers on Direct Routing, and a small office on Calling Plans."
+      ],
+      "sources": [
+        "learn-microsoft-com-en-us-microsoftteams-direct-routing-plan",
+        "learn-microsoft-com-en-us-microsoftteams-pstn-connectivity"
+      ],
+      "last_verified": "2026-10-14"
+    },
+    {
+      "key": "t06/t06-norm",
+      "title": "Normalize, then route",
+      "level": 3,
+      "outcomes": [
+        "Routes match the number after the dial plan. A perfect route that expects E.164 will never see a local habit."
+      ],
+      "sources": [
+        "learn-microsoft-com-en-us-microsoftteams-create-and-manage-dial-plans",
+        "learn-microsoft-com-en-us-microsoftteams-manage-voice-routing-policies"
+      ],
+      "last_verified": "2026-10-14"
+    },
+    {
+      "key": "t06/t06-plans",
+      "title": "Dial plans and first match",
+      "level": 3,
+      "outcomes": [
+        "A branch that dials differently needs its own plan. Editing the global plan does not change a user who has a more specific one."
+      ],
+      "sources": [
+        "learn-microsoft-com-en-us-microsoftteams-create-and-manage-dial-plans"
+      ],
+      "last_verified": "2026-10-14"
+    },
+    {
+      "key": "t06/t06-usage",
+      "title": "PSTN usages are the permission",
+      "level": 3,
+      "outcomes": [
+        "A route without a usage on the user\u2019s policy is invisible. A usage on the wrong policy is an international bill."
+      ],
+      "sources": [
+        "learn-microsoft-com-en-us-microsoftteams-manage-voice-routing-policies"
+      ],
+      "last_verified": "2026-10-14"
+    },
+    {
+      "key": "t06/t06-route",
+      "title": "Voice routes and gateways",
+      "level": 3,
+      "outcomes": [
+        "The route is a regular expression plus an ordered list of SBCs. CUCM wildcards will not work here."
+      ],
+      "sources": [
+        "learn-microsoft-com-en-us-microsoftteams-manage-voice-routing-policies",
+        "learn-microsoft-com-en-us-microsoftteams-direct-routing-plan"
+      ],
+      "last_verified": "2026-10-14"
+    },
+    {
+      "key": "t06/t06-london",
+      "title": "A London worked example",
+      "level": 3,
+      "outcomes": [
+        "One concrete walk is worth a page of definitions."
+      ],
+      "sources": [
+        "learn-microsoft-com-en-us-microsoftteams-manage-voice-routing-policies",
+        "learn-microsoft-com-en-us-microsoftteams-create-and-manage-dial-plans",
+        "learn-microsoft-com-en-us-microsoftteams-what-are-emergency-locations-addresses-and-call-routing"
+      ],
+      "last_verified": "2026-10-14"
+    },
+    {
+      "key": "t06/t06-islands",
+      "title": "Islands mode and other hard stops",
+      "level": 3,
+      "outcomes": [
+        "Some failures are not routing tweaks. They are unsupported states."
+      ],
+      "sources": [
+        "learn-microsoft-com-en-us-microsoftteams-direct-routing-plan"
+      ],
+      "last_verified": "2026-10-14"
+    },
+    {
+      "key": "t07/t07-ra",
+      "title": "Resource accounts for voice apps",
+      "level": 4,
+      "outcomes": [
+        "The attendant and the queue are not callable until an account represents them."
+      ],
+      "sources": [
+        "learn-microsoft-com-en-us-microsoftteams-aa-cq-manage-resource-accounts",
+        "learn-microsoft-com-en-us-microsoftteams-aa-cq-reference-prerequisites-licensing",
+        "learn-microsoft-com-en-us-microsoftteams-teams-add-on-licensing-virtual-user"
+      ],
+      "last_verified": "2026-10-14"
+    },
+    {
+      "key": "t07/t07-aa",
+      "title": "Auto attendant design",
+      "level": 4,
+      "outcomes": [
+        "The published company number is usually this object. A sloppy menu is a public defect."
+      ],
+      "sources": [
+        "learn-microsoft-com-en-us-microsoftteams-create-a-phone-system-auto-attendant",
+        "learn-microsoft-com-en-us-microsoftteams-aa-cq-reference-prerequisites-licensing"
+      ],
+      "last_verified": "2026-10-14"
+    },
+    {
+      "key": "t07/t07-queue",
+      "title": "Queue routing methods",
+      "level": 4,
+      "outcomes": [
+        "Attendant, serial, round robin, and longest idle are different promises to the people answering."
+      ],
+      "sources": [
+        "learn-microsoft-com-en-us-microsoftteams-create-a-phone-system-call-queue"
+      ],
+      "last_verified": "2026-10-14"
+    },
+    {
+      "key": "t07/t07-overflow",
+      "title": "Timeout, overflow, and outbound funding",
+      "level": 4,
+      "outcomes": [
+        "A queue without overflow is a waiting room with a locked door."
+      ],
+      "sources": [
+        "learn-microsoft-com-en-us-microsoftteams-create-a-phone-system-call-queue",
+        "learn-microsoft-com-en-us-microsoftteams-aa-cq-reference-prerequisites-licensing",
+        "learn-microsoft-com-en-us-microsoftteams-cloud-voicemail"
+      ],
+      "last_verified": "2026-10-14"
+    },
+    {
+      "key": "t07/t07-nest",
+      "title": "Nested voice apps",
+      "level": 4,
+      "outcomes": [
+        "Real companies are a tree: one attendant, a few queues, an overflow attendant. The tree needs a picture."
+      ],
+      "sources": [
+        "learn-microsoft-com-en-us-microsoftteams-create-a-phone-system-auto-attendant",
+        "learn-microsoft-com-en-us-microsoftteams-create-a-phone-system-call-queue"
+      ],
+      "last_verified": "2026-10-14"
+    },
+    {
+      "key": "t07/t07-numbers",
+      "title": "Numbers on voice apps",
+      "level": 4,
+      "outcomes": [
+        "The number\u2019s owner decides whether the company keeps it when a human leaves."
+      ],
+      "sources": [
+        "learn-microsoft-com-en-us-microsoftteams-setting-up-your-phone-system",
+        "learn-microsoft-com-en-us-microsoftteams-aa-cq-manage-resource-accounts",
+        "learn-microsoft-com-en-us-microsoftteams-pstn-connectivity"
+      ],
+      "last_verified": "2026-10-14"
+    },
+    {
+      "key": "t08/t08-gate",
+      "title": "Emergency calling is a design gate",
+      "level": 4,
+      "outcomes": [
+        "A phone system that cannot reach emergency services is not ready, even if every other demo looks good."
+      ],
+      "sources": [
+        "learn-microsoft-com-en-us-microsoftteams-what-are-emergency-locations-addresses-and-call-routing",
+        "learn-microsoft-com-en-us-microsoftteams-direct-routing-plan"
+      ],
+      "last_verified": "2026-10-14"
+    },
+    {
+      "key": "t08/t08-dynamic",
+      "title": "Dynamic location",
+      "level": 4,
+      "outcomes": [
+        "A laptop moves. The address you shouted at install time does not."
+      ],
+      "sources": [
+        "learn-microsoft-com-en-us-microsoftteams-what-are-emergency-locations-addresses-and-call-routing"
+      ],
+      "last_verified": "2026-10-14"
+    },
+    {
+      "key": "t08/t08-who",
+      "title": "Calling Plans versus Direct Routing emergency",
+      "level": 4,
+      "outcomes": [
+        "The client is Teams in both designs. The carrier is not."
+      ],
+      "sources": [
+        "learn-microsoft-com-en-us-microsoftteams-what-are-emergency-locations-addresses-and-call-routing",
+        "learn-microsoft-com-en-us-microsoftteams-calling-plans-for-office-365",
+        "learn-microsoft-com-en-us-microsoftteams-direct-routing-plan"
+      ],
+      "last_verified": "2026-10-14"
+    },
+    {
+      "key": "t08/t08-lbr",
+      "title": "Location-based routing",
+      "level": 4,
+      "outcomes": [
+        "Some countries treat toll bypass as a regulatory problem. Location-based routing is the Teams control."
+      ],
+      "sources": [
+        "learn-microsoft-com-en-us-microsoftteams-location-based-routing-plan",
+        "learn-microsoft-com-en-us-microsoftteams-direct-routing-plan"
+      ],
+      "last_verified": "2026-10-14"
+    },
+    {
+      "key": "t08/t08-sba",
+      "title": "Survivable Branch Appliance",
+      "level": 4,
+      "outcomes": [
+        "A WAN cut should not remove the ability to place a local PSTN call, including emergency."
+      ],
+      "sources": [
+        "learn-microsoft-com-en-us-microsoftteams-direct-routing-survivable-branch-appliance",
+        "learn-microsoft-com-en-us-microsoftteams-direct-routing-plan"
+      ],
+      "last_verified": "2026-10-14"
+    },
+    {
+      "key": "t08/t08-notify",
+      "title": "Notification and the test call",
+      "level": 4,
+      "outcomes": [
+        "Responders at the wrong door, and a test that called the real emergency service, are both failures."
+      ],
+      "sources": [
+        "learn-microsoft-com-en-us-microsoftteams-what-are-emergency-locations-addresses-and-call-routing"
+      ],
+      "last_verified": "2026-10-14"
+    },
+    {
+      "key": "t09/t09-phones",
+      "title": "Certified phones",
+      "level": 5,
+      "outcomes": [
+        "A bargain SIP phone is not a Teams client. The certified list is the product boundary."
+      ],
+      "sources": [
+        "learn-microsoft-com-en-us-microsoftteams-sip-gateway-plan",
+        "learn-microsoft-com-en-us-microsoftteams-qos-in-teams"
+      ],
+      "last_verified": "2026-10-14"
+    },
+    {
+      "key": "t09/t09-rooms",
+      "title": "Teams Rooms",
+      "level": 5,
+      "outcomes": [
+        "A room account with a user license and a strict Conditional Access policy is a dark screen at the start of a meeting."
+      ],
+      "sources": [
+        "learn-microsoft-com-en-us-microsoftteams-teams-phone-licensing",
+        "learn-microsoft-com-en-us-microsoftteams-qos-in-teams"
+      ],
+      "last_verified": "2026-10-14"
+    },
+    {
+      "key": "t09/t09-analog",
+      "title": "SIP Gateway and analog",
+      "level": 5,
+      "outcomes": [
+        "Elevators, door phones, and fax machines do not run the Teams client."
+      ],
+      "sources": [
+        "learn-microsoft-com-en-us-microsoftteams-sip-gateway-plan",
+        "learn-microsoft-com-en-us-microsoftteams-direct-routing-survivable-branch-appliance"
+      ],
+      "last_verified": "2026-10-14"
+    },
+    {
+      "key": "t09/t09-bypass",
+      "title": "Media bypass",
+      "level": 5,
+      "outcomes": [
+        "Bypass changes where RTP flows. It does not change where SIP flows."
+      ],
+      "sources": [
+        "learn-microsoft-com-en-us-microsoftteams-direct-routing-plan",
+        "learn-microsoft-com-en-us-microsoftteams-location-based-routing-plan"
+      ],
+      "last_verified": "2026-10-14"
+    },
+    {
+      "key": "t09/t09-lmo",
+      "title": "Local media optimization",
+      "level": 5,
+      "outcomes": [
+        "A branch SBC with one public interface can still hairpin local users out and back."
+      ],
+      "sources": [
+        "learn-microsoft-com-en-us-microsoftteams-direct-routing-plan"
+      ],
+      "last_verified": "2026-10-14"
+    },
+    {
+      "key": "t09/t09-cap",
+      "title": "Common area phones, again, as devices",
+      "level": 5,
+      "outcomes": [
+        "The license sentence and the device sentence meet at the hallway."
+      ],
+      "sources": [
+        "learn-microsoft-com-en-us-microsoftteams-direct-routing-plan",
+        "learn-microsoft-com-en-us-microsoftteams-teams-phone-licensing"
+      ],
+      "last_verified": "2026-10-14"
+    },
+    {
+      "key": "t10/t10-cert",
+      "title": "What certification buys you",
+      "level": 5,
+      "outcomes": [
+        "Microsoft supports Direct Routing on certified SBCs. Everything else can be refused."
+      ],
+      "sources": [
+        "learn-microsoft-com-en-us-microsoftteams-direct-routing-border-controllers",
+        "learn-microsoft-com-en-us-microsoftteams-direct-routing-plan"
+      ],
+      "last_verified": "2026-10-14"
+    },
+    {
+      "key": "t10/t10-audio",
+      "title": "AudioCodes pattern",
+      "level": 5,
+      "outcomes": [
+        "Mediant SBCs are common in Teams designs. The pattern is still the shared gate, plus their guide."
+      ],
+      "sources": [
+        "audiocodes-com-solutions-products-products-session-border-controllers",
+        "learn-microsoft-com-en-us-microsoftteams-direct-routing-border-controllers",
+        "learn-microsoft-com-en-us-microsoftteams-direct-routing-plan"
+      ],
+      "last_verified": "2026-10-14"
+    },
+    {
+      "key": "t10/t10-ribbon",
+      "title": "Ribbon pattern",
+      "level": 5,
+      "outcomes": [
+        "Ribbon Core and software editions differ. The brand is not the release."
+      ],
+      "sources": [
+        "ribboncommunications-com",
+        "learn-microsoft-com-en-us-microsoftteams-direct-routing-plan"
+      ],
+      "last_verified": "2026-10-14"
+    },
+    {
+      "key": "t10/t10-oracle",
+      "title": "Oracle Communications SBC",
+      "level": 5,
+      "outcomes": [
+        "Oracle\u2019s session border controller is a Direct Routing option only on the releases Microsoft lists."
+      ],
+      "sources": [
+        "oracle-com-communications-session-border-controller",
+        "learn-microsoft-com-en-us-microsoftteams-direct-routing-border-controllers"
+      ],
+      "last_verified": "2026-10-14"
+    },
+    {
+      "key": "t10/t10-cube",
+      "title": "Cisco CUBE for Teams",
+      "level": 5,
+      "outcomes": [
+        "CUBE is the usual bridge when CUCM is still in the building. It is still an SBC."
+      ],
+      "sources": [
+        "cisco-com-c-en-us-products-unified-communications-unified-border-element-index-html",
+        "learn-microsoft-com-en-us-microsoftteams-direct-routing-plan"
+      ],
+      "last_verified": "2026-10-14"
+    },
+    {
+      "key": "t10/t10-support",
+      "title": "The support boundary",
+      "level": 5,
+      "outcomes": [
+        "Knowing who you call is part of the design."
+      ],
+      "sources": [
+        "learn-microsoft-com-en-us-microsoftteams-direct-routing-border-controllers",
+        "learn-microsoft-com-en-us-microsoftteams-direct-routing-plan"
+      ],
+      "last_verified": "2026-10-14"
+    },
+    {
+      "key": "t11/t11-profile",
+      "title": "The certificate profile",
+      "level": 6,
+      "outcomes": [
+        "SIP never starts if TLS fails. Dial-plan debates can wait."
+      ],
+      "sources": [
+        "learn-microsoft-com-en-us-microsoftteams-direct-routing-plan"
+      ],
+      "last_verified": "2026-10-14"
+    },
+    {
+      "key": "t11/t11-name",
+      "title": "Names, wildcards, and the paired FQDN",
+      "level": 6,
+      "outcomes": [
+        "A certificate can be valid and still be the wrong name."
+      ],
+      "sources": [
+        "learn-microsoft-com-en-us-microsoftteams-direct-routing-plan"
+      ],
+      "last_verified": "2026-10-14"
+    },
+    {
+      "key": "t11/t11-proxies",
+      "title": "Three SIP proxies and failover",
+      "level": 6,
+      "outcomes": [
+        "The service tells the SBC which proxy is nearest and fails between them. Your firewall has to allow all of them."
+      ],
+      "sources": [
+        "learn-microsoft-com-en-us-microsoftteams-direct-routing-plan"
+      ],
+      "last_verified": "2026-10-14"
+    },
+    {
+      "key": "t11/t11-options",
+      "title": "SIP OPTIONS",
+      "level": 6,
+      "outcomes": [
+        "OPTIONS are how Teams decides the trunk is willing. A dial plan cannot heal a trunk that does not answer."
+      ],
+      "sources": [
+        "learn-microsoft-com-en-us-microsoftteams-direct-routing-plan"
+      ],
+      "last_verified": "2026-10-14"
+    },
+    {
+      "key": "t11/t11-codecs",
+      "title": "Codecs and SRTP",
+      "level": 6,
+      "outcomes": [
+        "An empty codec list is a 488. Missing media ports is silence after a 200."
+      ],
+      "sources": [
+        "learn-microsoft-com-en-us-microsoftteams-direct-routing-plan"
+      ],
+      "last_verified": "2026-10-14"
+    },
+    {
+      "key": "t11/t11-rehearse",
+      "title": "Failover you can rehearse",
+      "level": 6,
+      "outcomes": [
+        "The outage should not be the first test of the second proxy or the second SBC."
+      ],
+      "sources": [
+        "learn-microsoft-com-en-us-microsoftteams-direct-routing-plan"
+      ],
+      "last_verified": "2026-10-14"
+    },
+    {
+      "key": "t12/t12-hypothesis",
+      "title": "One hypothesis",
+      "level": 6,
+      "outcomes": [
+        "Bundled changes teach nothing and make rollback impossible."
+      ],
+      "sources": [
+        "learn-microsoft-com-en-us-microsoftteams-use-call-analytics-to-troubleshoot-poor-call-quality",
+        "learn-microsoft-com-en-us-microsoftteams-cqd-what-is-call-quality-dashboard"
+      ],
+      "last_verified": "2026-10-14"
+    },
+    {
+      "key": "t12/t12-ladder",
+      "title": "Reading a ladder",
+      "level": 6,
+      "outcomes": [
+        "The response code is the branch. A story without codes is not a diagnosis."
+      ],
+      "sources": [
+        "learn-microsoft-com-en-us-microsoftteams-direct-routing-plan"
+      ],
+      "last_verified": "2026-10-14"
+    },
+    {
+      "key": "t12/t12-analytics",
+      "title": "Call Analytics",
+      "level": 6,
+      "outcomes": [
+        "One user, one call. That is the scope of this tool."
+      ],
+      "sources": [
+        "learn-microsoft-com-en-us-microsoftteams-use-call-analytics-to-troubleshoot-poor-call-quality"
+      ],
+      "last_verified": "2026-10-14"
+    },
+    {
+      "key": "t12/t12-cqd",
+      "title": "Call Quality Dashboard",
+      "level": 6,
+      "outcomes": [
+        "CQD is how you see a subnet. It is only as honest as the building map."
+      ],
+      "sources": [
+        "learn-microsoft-com-en-us-microsoftteams-cqd-what-is-call-quality-dashboard",
+        "learn-microsoft-com-en-us-microsoftteams-qos-in-teams"
+      ],
+      "last_verified": "2026-10-14"
+    },
+    {
+      "key": "t12/t12-trunk",
+      "title": "Trunk health",
+      "level": 6,
+      "outcomes": [
+        "A down trunk is not a dial-plan problem."
+      ],
+      "sources": [
+        "learn-microsoft-com-en-us-microsoftteams-direct-routing-plan"
+      ],
+      "last_verified": "2026-10-14"
+    },
+    {
+      "key": "t12/t12-catalog",
+      "title": "A fault catalog",
+      "level": 6,
+      "outcomes": [
+        "Naming the fault is the skill. The tools are how you prove the name."
+      ],
+      "sources": [
+        "learn-microsoft-com-en-us-microsoftteams-direct-routing-plan",
+        "learn-microsoft-com-en-us-microsoftteams-cqd-what-is-call-quality-dashboard",
+        "learn-microsoft-com-en-us-microsoftteams-what-are-emergency-locations-addresses-and-call-routing"
+      ],
+      "last_verified": "2026-10-14"
+    },
+    {
+      "key": "t13/t13-what",
+      "title": "Customer Service and Contact Center",
+      "level": 7,
+      "outcomes": [
+        "Dynamics 365 Contact Center is Microsoft\u2019s CCaaS. Customer Service is not automatically that product."
+      ],
+      "sources": [
+        "learn-microsoft-com-en-us-dynamics365-contact-center",
+        "learn-microsoft-com-en-us-credentials-certifications-resources-study-guides-ab-250",
+        "learn-microsoft-com-en-us-credentials-support-retired-certification-exams"
+      ],
+      "last_verified": "2026-10-14"
+    },
+    {
+      "key": "t13/t13-channels",
+      "title": "Channels",
+      "level": 7,
+      "outcomes": [
+        "AB-250 weights channel implementation at about 30 to 35 percent, the largest published slice."
+      ],
+      "sources": [
+        "learn-microsoft-com-en-us-credentials-certifications-resources-study-guides-ab-250",
+        "learn-microsoft-com-en-us-dynamics365-contact-center"
+      ],
+      "last_verified": "2026-10-14"
+    },
+    {
+      "key": "t13/t13-routing",
+      "title": "Unified routing",
+      "level": 7,
+      "outcomes": [
+        "Work items do not magically find experts. Classification and capacity do that, or fail to."
+      ],
+      "sources": [
+        "learn-microsoft-com-en-us-credentials-certifications-resources-study-guides-ab-250",
+        "learn-microsoft-com-en-us-dynamics365-contact-center"
+      ],
+      "last_verified": "2026-10-14"
+    },
+    {
+      "key": "t13/t13-rep",
+      "title": "Representative experience and Copilot",
+      "level": 7,
+      "outcomes": [
+        "The person answering needs a console, a role, and assistance that quotes sources you trust."
+      ],
+      "sources": [
+        "learn-microsoft-com-en-us-credentials-certifications-resources-study-guides-ab-250",
+        "learn-microsoft-com-en-us-dynamics365-contact-center"
+      ],
+      "last_verified": "2026-10-14"
+    },
+    {
+      "key": "t13/t13-voice",
+      "title": "Voice on ACS",
+      "level": 7,
+      "outcomes": [
+        "The contact-center voice channel is not a Teams call queue with a different logo."
+      ],
+      "sources": [
+        "learn-microsoft-com-en-us-dynamics365-contact-center",
+        "learn-microsoft-com-en-us-azure-communication-services-concepts-call-automation-call-automation",
+        "learn-microsoft-com-en-us-azure-communication-services-concepts-interop-tpe-teams-phone-extensib",
+        "techcommunity-microsoft-com-blog-microsoftteamsblog-streamline-your-contact-center-telephony-wit"
+      ],
+      "last_verified": "2026-10-14"
+    },
+    {
+      "key": "t13/t13-exam",
+      "title": "The AB-250 map",
+      "level": 7,
+      "outcomes": [
+        "The published weights tell you where to spend the week."
+      ],
+      "sources": [
+        "learn-microsoft-com-en-us-credentials-certifications-resources-study-guides-ab-250",
+        "learn-microsoft-com-en-us-credentials-certifications-d365-contact-center-ai-engineer-associate",
+        "techcommunity-microsoft-com-blog-skills-hub-blog-new-microsoft-certified-dynamics-365-contact-ce"
+      ],
+      "last_verified": "2026-10-14"
+    },
+    {
+      "key": "t14/t14-models",
+      "title": "Connect, Extend, and Unify",
+      "level": 7,
+      "outcomes": [
+        "The model decides the media path and the licenses. The sales adjective does not."
+      ],
+      "sources": [
+        "learn-microsoft-com-en-us-microsoftteams-teams-contact-center",
+        "learn-microsoft-com-en-us-azure-communication-services-concepts-interop-tpe-teams-phone-extensib"
+      ],
+      "last_verified": "2026-10-14"
+    },
+    {
+      "key": "t14/t14-ext",
+      "title": "Teams Phone extensibility",
+      "level": 7,
+      "outcomes": [
+        "It is how a contact center uses the Teams Phone you already paid for, instead of a second PBX."
+      ],
+      "sources": [
+        "learn-microsoft-com-en-us-azure-communication-services-concepts-interop-tpe-teams-phone-extensib",
+        "techcommunity-microsoft-com-blog-microsoftteamsblog-streamline-your-contact-center-telephony-wit",
+        "learn-microsoft-com-en-us-microsoftteams-teams-contact-center"
+      ],
+      "last_verified": "2026-10-14"
+    },
+    {
+      "key": "t14/t14-cucm",
+      "title": "CUCM and CUBE",
+      "level": 7,
+      "outcomes": [
+        "Most Teams migrations in a Cisco estate are a dual-run, not a weekend miracle."
+      ],
+      "sources": [
+        "cisco-com-c-en-us-products-unified-communications-unified-border-element-index-html",
+        "learn-microsoft-com-en-us-microsoftteams-create-and-manage-dial-plans",
+        "learn-microsoft-com-en-us-microsoftteams-manage-voice-routing-policies"
+      ],
+      "last_verified": "2026-10-14"
+    },
+    {
+      "key": "t14/t14-webex",
+      "title": "Webex calling interop",
+      "level": 7,
+      "outcomes": [
+        "A split estate needs a voice bridge. Chat federation is a different project."
+      ],
+      "sources": [
+        "cisco-com-c-en-us-products-unified-communications-unified-border-element-index-html",
+        "learn-microsoft-com-en-us-microsoftteams-pstn-connectivity"
+      ],
+      "last_verified": "2026-10-14"
+    },
+    {
+      "key": "t14/t14-ucce",
+      "title": "UCCE during a move",
+      "level": 7,
+      "outcomes": [
+        "Contact-center agents and knowledge workers should not be forced through the same weekend."
+      ],
+      "sources": [
+        "cisco-com-c-en-us-products-unified-communications-unified-border-element-index-html",
+        "learn-microsoft-com-en-us-microsoftteams-teams-contact-center"
+      ],
+      "last_verified": "2026-10-14"
+    },
+    {
+      "key": "t14/t14-others",
+      "title": "Genesys and Amazon Connect",
+      "level": 7,
+      "outcomes": [
+        "Both appear in real estates. Neither is \u2018a Microsoft feature\u2019 you can assume."
+      ],
+      "sources": [
+        "learn-microsoft-com-en-us-microsoftteams-teams-contact-center",
+        "learn-microsoft-com-en-us-microsoftteams-direct-routing-plan"
+      ],
+      "last_verified": "2026-10-14"
+    },
+    {
+      "key": "t15/t15-auto",
+      "title": "Calling SDK versus Call Automation",
+      "level": 8,
+      "outcomes": [
+        "One is a person in a browser. The other is your service answering the call."
+      ],
+      "sources": [
+        "learn-microsoft-com-en-us-azure-communication-services-concepts-call-automation-call-automation"
+      ],
+      "last_verified": "2026-10-14"
+    },
+    {
+      "key": "t15/t15-interop",
+      "title": "Teams interop from ACS",
+      "level": 8,
+      "outcomes": [
+        "A bot that can dial the PSTN and cannot reach a Teams expert is half an IVR."
+      ],
+      "sources": [
+        "learn-microsoft-com-en-us-azure-communication-services-concepts-call-automation-call-automation",
+        "learn-microsoft-com-en-us-azure-communication-services-concepts-interop-tpe-teams-phone-extensib"
+      ],
+      "last_verified": "2026-10-14"
+    },
+    {
+      "key": "t15/t15-events",
+      "title": "An IVR as events",
+      "level": 8,
+      "outcomes": [
+        "The call is a sequence of events. If you cannot name them, you cannot debug them."
+      ],
+      "sources": [
+        "learn-microsoft-com-en-us-azure-communication-services-concepts-call-automation-call-automation",
+        "learn-microsoft-com-en-us-microsoft-copilot-studio-fundamentals-what-is-copilot-studio"
+      ],
+      "last_verified": "2026-10-14"
+    },
+    {
+      "key": "t15/t15-speech",
+      "title": "Azure AI Speech",
+      "level": 8,
+      "outcomes": [
+        "Speech-to-text and text-to-speech are services with their own language, voice, and approval rules."
+      ],
+      "sources": [
+        "learn-microsoft-com-en-us-azure-ai-services-speech-service-overview"
+      ],
+      "last_verified": "2026-10-14"
+    },
+    {
+      "key": "t15/t15-studio",
+      "title": "Copilot Studio voice",
+      "level": 8,
+      "outcomes": [
+        "The agent people mean is often a Copilot Studio bot on the contact-center voice channel."
+      ],
+      "sources": [
+        "learn-microsoft-com-en-us-microsoft-copilot-studio-fundamentals-what-is-copilot-studio",
+        "learn-microsoft-com-en-us-dynamics365-contact-center"
+      ],
+      "last_verified": "2026-10-14"
+    },
+    {
+      "key": "t15/t15-foundry",
+      "title": "Foundry, and what not to invent",
+      "level": 8,
+      "outcomes": [
+        "Azure AI Foundry is where you evaluate a model. It does not route PSTN, and it used to be called Azure AI Studio."
+      ],
+      "sources": [
+        "learn-microsoft-com-en-us-azure-ai-foundry",
+        "learn-microsoft-com-en-us-microsoft-copilot-studio-fundamentals-what-is-copilot-studio"
+      ],
+      "last_verified": "2026-10-14"
+    },
+    {
+      "key": "t16/t16-ms700",
+      "title": "MS-700 on 14 October 2026",
+      "level": 8,
+      "outcomes": [
+        "MS-700 is still live, with a skills update on Oct 27 2026; it is NOT retired and has no replacement."
+      ],
+      "sources": [
+        "learn-microsoft-com-en-us-credentials-certifications-resources-study-guides-ms-700",
+        "learn-microsoft-com-en-us-credentials-certifications-m365-teams-administrator-associate"
+      ],
+      "last_verified": "2026-10-14"
+    },
+    {
+      "key": "t16/t16-mb",
+      "title": "MB-280, AB-210, and AB-250",
+      "level": 8,
+      "outcomes": [
+        "These three numbers get swapped in job posts. Only one of them is the contact-center exam."
+      ],
+      "sources": [
+        "learn-microsoft-com-en-us-credentials-support-retired-certification-exams",
+        "learn-microsoft-com-en-us-partner-center-announcements-2026-july",
+        "learn-microsoft-com-en-us-credentials-certifications-resources-study-guides-ab-250",
+        "learn-microsoft-com-en-us-credentials-certifications-resources-study-guides-mb-280"
+      ],
+      "last_verified": "2026-10-14"
+    },
+    {
+      "key": "t16/t16-fund",
+      "title": "AZ-900 and SC-900",
+      "level": 8,
+      "outcomes": [
+        "Fundamentals help with Azure and identity vocabulary. They do not make you a voice engineer."
+      ],
+      "sources": [
+        "learn-microsoft-com-en-us-credentials-certifications-azure-fundamentals",
+        "learn-microsoft-com-en-us-credentials-certifications-security-compliance-and-identity-fundamenta",
+        "learn-microsoft-com-en-us-credentials-support-retired-certification-exams"
+      ],
+      "last_verified": "2026-10-14"
+    },
+    {
+      "key": "t16/t16-paths",
+      "title": "Learning paths that match the job",
+      "level": 8,
+      "outcomes": [
+        "A random trail of modules will not assemble a dial plan in your head."
+      ],
+      "sources": [
+        "learn-microsoft-com-en-us-microsoftteams-setting-up-your-phone-system",
+        "learn-microsoft-com-en-us-credentials-certifications-resources-study-guides-ms-700",
+        "learn-microsoft-com-en-us-credentials-certifications-resources-study-guides-ab-250"
+      ],
+      "last_verified": "2026-10-14"
+    },
+    {
+      "key": "t16/t16-board",
+      "title": "The status board",
+      "level": 8,
+      "outcomes": [
+        "Dates are the part that makes a certification answer true or false."
+      ],
+      "sources": [
+        "learn-microsoft-com-en-us-credentials-support-retired-certification-exams",
+        "learn-microsoft-com-en-us-credentials-certifications-resources-study-guides-ms-700",
+        "learn-microsoft-com-en-us-credentials-certifications-security-compliance-and-identity-fundamenta",
+        "learn-microsoft-com-en-us-partner-center-announcements-2026-july"
+      ],
+      "last_verified": "2026-10-14"
+    },
+    {
+      "key": "t16/t16-ready",
+      "title": "How to use the readiness map",
+      "level": 8,
+      "outcomes": [
+        "A self-rating is useful only if a low score points at a lesson."
+      ],
+      "sources": [
+        "learn-microsoft-com-en-us-credentials-certifications-resources-study-guides-ms-700",
+        "learn-microsoft-com-en-us-credentials-certifications-resources-study-guides-ab-250"
+      ],
+      "last_verified": "2026-10-14"
+    },
+    {
+      "key": "t17/t17-why",
+      "title": "Voice is not a closed box",
+      "level": 9,
+      "outcomes": [
+        "The call is not finished when it rings. Recording, staffing, location, analytics, CRM, and agents are part of the same job."
+      ],
+      "sources": [
+        "learn-microsoft-com-en-us-microsoftteams-teams-recording-policy",
+        "learn-microsoft-com-en-us-microsoftteams-cqd-what-is-call-quality-dashboard",
+        "learn-microsoft-com-en-us-microsoftteams-what-are-emergency-locations-addresses-and-call-routing",
+        "learn-microsoft-com-en-us-dynamics365-contact-center"
+      ],
+      "last_verified": "2026-10-14"
+    },
+    {
+      "key": "t17/t17-glossary",
+      "title": "How to use the glossary",
+      "level": 9,
+      "outcomes": [
+        "The glossary is the shared language for the map. Interviews punish fuzzy words."
+      ],
+      "sources": [
+        "learn-microsoft-com-en-us-microsoftteams-teams-recording-policy",
+        "learn-microsoft-com-en-us-microsoftteams-direct-routing-plan"
+      ],
+      "last_verified": "2026-10-14"
+    },
+    {
+      "key": "t17/t17-map",
+      "title": "The mind map",
+      "level": 9,
+      "outcomes": [
+        "A picture of the estate stops you from buying a second phone system by accident."
+      ],
+      "sources": [
+        "learn-microsoft-com-en-us-microsoftteams-direct-routing-plan",
+        "learn-microsoft-com-en-us-microsoftteams-teams-contact-center",
+        "learn-microsoft-com-en-us-microsoftteams-teams-recording-policy"
+      ],
+      "last_verified": "2026-10-14"
+    },
+    {
+      "key": "t17/t17-rec",
+      "title": "Compliance recording and quality management",
+      "level": 9,
+      "outcomes": [
+        "Regulated desks need a recorder the user cannot stop. Convenience recording is not that recorder."
+      ],
+      "sources": [
+        "learn-microsoft-com-en-us-microsoftteams-teams-recording-policy",
+        "learn-microsoft-com-en-us-microsoftteams-teams-compliance-recording-setup",
+        "learn-microsoft-com-en-us-powershell-module-teams-new-csteamscompliancerecordingpolicy"
+      ],
+      "last_verified": "2026-10-14"
+    },
+    {
+      "key": "t17/t17-wfm",
+      "title": "Workforce management",
+      "level": 9,
+      "outcomes": [
+        "A queue without a staffing model is a guess. Teams user reports will not staff next Tuesday."
+      ],
+      "sources": [
+        "learn-microsoft-com-en-us-dynamics365-contact-center",
+        "learn-microsoft-com-en-us-microsoftteams-cqd-what-is-call-quality-dashboard"
+      ],
+      "last_verified": "2026-10-14"
+    },
+    {
+      "key": "t17/t17-e911",
+      "title": "E911 as a system of record",
+      "level": 9,
+      "outcomes": [
+        "Location is data you operate, shared with routing and with quality maps."
+      ],
+      "sources": [
+        "learn-microsoft-com-en-us-microsoftteams-what-are-emergency-locations-addresses-and-call-routing",
+        "learn-microsoft-com-en-us-microsoftteams-location-based-routing-plan",
+        "learn-microsoft-com-en-us-microsoftteams-cqd-what-is-call-quality-dashboard"
+      ],
+      "last_verified": "2026-10-14"
+    },
+    {
+      "key": "t17/t17-pbi",
+      "title": "Analytics and Power BI",
+      "level": 9,
+      "outcomes": [
+        "A dashboard is a view. Call Analytics, CQD, and contact-center analytics are different grains of truth."
+      ],
+      "sources": [
+        "learn-microsoft-com-en-us-microsoftteams-cqd-what-is-call-quality-dashboard",
+        "learn-microsoft-com-en-us-microsoftteams-use-call-analytics-to-troubleshoot-poor-call-quality",
+        "learn-microsoft-com-en-us-credentials-certifications-resources-study-guides-ab-250"
+      ],
+      "last_verified": "2026-10-14"
+    },
+    {
+      "key": "t17/t17-crm",
+      "title": "CRM and screen pop",
+      "level": 9,
+      "outcomes": [
+        "The case is where the business remembers the call. Teams will not open Dynamics for an ordinary PSTN call by itself."
+      ],
+      "sources": [
+        "learn-microsoft-com-en-us-dynamics365-contact-center",
+        "learn-microsoft-com-en-us-microsoftteams-teams-contact-center",
+        "learn-microsoft-com-en-us-microsoftteams-teams-recording-policy"
+      ],
+      "last_verified": "2026-10-14"
+    },
+    {
+      "key": "t17/t17-ai",
+      "title": "AI agents beside the queue",
+      "level": 9,
+      "outcomes": [
+        "A bot is a front door with a failure mode, not a headcount reduction you can assume."
+      ],
+      "sources": [
+        "learn-microsoft-com-en-us-microsoft-copilot-studio-fundamentals-what-is-copilot-studio",
+        "learn-microsoft-com-en-us-azure-communication-services-concepts-call-automation-call-automation",
+        "learn-microsoft-com-en-us-azure-ai-foundry"
+      ],
+      "last_verified": "2026-10-14"
+    },
+    {
+      "key": "t17/t17-maps",
+      "title": "Integration maps",
+      "level": 9,
+      "outcomes": [
+        "A goal implies a set of systems. Naming them prevents a tool from being asked to do a job it does not have."
+      ],
+      "sources": [
+        "learn-microsoft-com-en-us-microsoftteams-teams-recording-policy",
+        "learn-microsoft-com-en-us-dynamics365-contact-center",
+        "learn-microsoft-com-en-us-microsoftteams-direct-routing-survivable-branch-appliance",
+        "learn-microsoft-com-en-us-microsoftteams-cqd-what-is-call-quality-dashboard"
+      ],
+      "last_verified": "2026-10-14"
+    },
+    {
+      "key": "t17/t17-bridges",
+      "title": "Cross-platform bridges",
+      "level": 9,
+      "outcomes": [
+        "CUCM, Webex, UCCE, Genesys, and Amazon Connect all show up next to Teams. The bridge is an SBC and a rule, not a slogan."
+      ],
+      "sources": [
+        "cisco-com-c-en-us-products-unified-communications-unified-border-element-index-html",
+        "learn-microsoft-com-en-us-microsoftteams-teams-contact-center",
+        "learn-microsoft-com-en-us-microsoftteams-direct-routing-plan"
+      ],
+      "last_verified": "2026-10-14"
+    },
+    {
+      "key": "t17/t17-hooks",
+      "title": "Future-integration hooks",
+      "level": 9,
+      "outcomes": [
+        "A seam you name now is cheap. A rewrite after go-live is not. These hooks use products that exist today."
+      ],
+      "sources": [
+        "learn-microsoft-com-en-us-microsoftteams-teams-recording-policy",
+        "learn-microsoft-com-en-us-microsoftteams-what-are-emergency-locations-addresses-and-call-routing",
+        "learn-microsoft-com-en-us-microsoftteams-cqd-what-is-call-quality-dashboard",
+        "learn-microsoft-com-en-us-microsoftteams-teams-contact-center"
+      ],
+      "last_verified": "2026-10-14"
+    },
+    {
+      "key": "t17/t17-change",
+      "title": "Configuring an ecosystem change",
+      "level": 9,
+      "outcomes": [
+        "A voice change that ignores the sisters will pass a test call and fail the business."
+      ],
+      "sources": [
+        "learn-microsoft-com-en-us-microsoftteams-direct-routing-plan",
+        "learn-microsoft-com-en-us-microsoftteams-teams-recording-policy",
+        "learn-microsoft-com-en-us-microsoftteams-what-are-emergency-locations-addresses-and-call-routing",
+        "learn-microsoft-com-en-us-dynamics365-contact-center"
+      ],
+      "last_verified": "2026-10-14"
+    },
+    {
+      "key": "t17/t17-boundary",
+      "title": "Troubleshooting across a vendor boundary",
+      "level": 9,
+      "outcomes": [
+        "The fault is usually on one side of a boundary. The argument is usually on both."
+      ],
+      "sources": [
+        "learn-microsoft-com-en-us-microsoftteams-direct-routing-plan",
+        "learn-microsoft-com-en-us-microsoftteams-teams-recording-policy",
+        "learn-microsoft-com-en-us-microsoftteams-cqd-what-is-call-quality-dashboard",
+        "learn-microsoft-com-en-us-dynamics365-contact-center"
+      ],
+      "last_verified": "2026-10-14"
+    },
+    {
+      "key": "t18/t18-cti",
+      "title": "What CTI names",
+      "level": 9,
+      "outcomes": [
+        "The name is older than any of the products in this track. The vendor page still has to say what the product actually does."
+      ],
+      "sources": [
+        "en-wikipedia-org-wiki-computer-telephony-integration",
+        "learn-microsoft-com-en-us-dynamics365-customer-service-administer-voice-channel",
+        "help-salesforce-com-s-articleview"
+      ],
+      "last_verified": "2026-10-14"
+    },
+    {
+      "key": "t18/t18-d365-voice",
+      "title": "The Dynamics voice channel",
+      "level": 9,
+      "outcomes": [
+        "The voice channel is the Dynamics page that says where PSTN calling lives, and which app the representative uses."
+      ],
+      "sources": [
+        "learn-microsoft-com-en-us-dynamics365-customer-service-administer-voice-channel",
+        "learn-microsoft-com-en-us-dynamics365-customer-service-administer-overview-unified-routing"
+      ],
+      "last_verified": "2026-10-14"
+    },
+    {
+      "key": "t18/t18-teams-bridge",
+      "title": "Teams Phone into the voice channel",
+      "level": 9,
+      "outcomes": [
+        "A Teams number can be the PSTN path. The page that allows it also limits which Calling Plan numbers qualify."
+      ],
+      "sources": [
+        "learn-microsoft-com-en-us-dynamics365-contact-center-administer-configure-teams-phone-in-voice-c"
+      ],
+      "last_verified": "2026-10-14"
+    },
+    {
+      "key": "t18/t18-resource",
+      "title": "The resource account and the number",
+      "level": 9,
+      "outcomes": [
+        "The number does not appear in Dynamics until the resource account exists and someone runs Sync from Teams."
+      ],
+      "sources": [
+        "learn-microsoft-com-en-us-dynamics365-contact-center-administer-configure-teams-phone-in-voice-c",
+        "learn-microsoft-com-en-us-dynamics365-customer-service-administer-create-workstreams"
+      ],
+      "last_verified": "2026-10-14"
+    },
+    {
+      "key": "t18/t18-sf-name",
+      "title": "Salesforce Voice and Partner Contact Center",
+      "level": 9,
+      "outcomes": [
+        "The old name is still in product screens. The pages opened for this room say what the current name is."
+      ],
+      "sources": [
+        "developer-salesforce-com-docs-atlas-en-us-voice-developer-guide-meta-voice-developer-guide-voice",
+        "help-salesforce-com-s-articleview"
+      ],
+      "last_verified": "2026-10-14"
+    },
+    {
+      "key": "t18/t18-sf-telephony",
+      "title": "Amazon Connect and partner telephony",
+      "level": 9,
+      "outcomes": [
+        "The help page does not collapse the telephony models into one setup path."
+      ],
+      "sources": [
+        "help-salesforce-com-s-articleview",
+        "developer-salesforce-com-docs-atlas-en-us-voice-developer-guide-meta-voice-developer-guide-voice"
+      ],
+      "last_verified": "2026-10-14"
+    },
+    {
+      "key": "t18/t18-seam",
+      "title": "The call-to-record seam",
+      "level": 9,
+      "outcomes": [
+        "The bridge fails when the call and the CRM record do not share an identifier you stored."
+      ],
+      "sources": [
+        "learn-microsoft-com-en-us-microsoftteams-teams-contact-center",
+        "learn-microsoft-com-en-us-dynamics365-contact-center-administer-configure-teams-phone-in-voice-c",
+        "learn-microsoft-com-en-us-dynamics365-customer-service-administer-voice-channel",
+        "help-salesforce-com-s-articleview"
+      ],
+      "last_verified": "2026-10-14"
+    },
+    {
+      "key": "t19/t19-method",
+      "title": "A comparison with no winner",
+      "level": 10,
+      "outcomes": [
+        "A comparison is a set of sentences you can point at. A ranking is a sentence these pages do not contain."
+      ],
+      "sources": [
+        "learn-microsoft-com-en-us-microsoftteams-teams-contact-center",
+        "docs-aws-amazon-com-connect-latest-adminguide-what-is-amazon-connect-html",
+        "docs-cloud-google-com-contact-center-ccai-platform-docs",
+        "help-salesforce-com-s-articleview"
+      ],
+      "last_verified": "2026-10-14"
+    },
+    {
+      "key": "t19/t19-microsoft",
+      "title": "What the Microsoft pages name",
+      "level": 10,
+      "outcomes": [
+        "Microsoft publishes more than one voice path. The page you cite has to be the path you mean."
+      ],
+      "sources": [
+        "learn-microsoft-com-en-us-dynamics365-customer-service-administer-voice-channel",
+        "learn-microsoft-com-en-us-dynamics365-contact-center-administer-configure-teams-phone-in-voice-c",
+        "learn-microsoft-com-en-us-microsoftteams-teams-contact-center"
+      ],
+      "last_verified": "2026-10-14"
+    },
+    {
+      "key": "t19/t19-amazon",
+      "title": "Amazon Connect Customer",
+      "level": 10,
+      "outcomes": [
+        "The admin guide opened for this room uses a current product name that is not the old title."
+      ],
+      "sources": [
+        "docs-aws-amazon-com-connect-latest-adminguide-what-is-amazon-connect-html",
+        "help-salesforce-com-s-articleview"
+      ],
+      "last_verified": "2026-10-14"
+    },
+    {
+      "key": "t19/t19-google",
+      "title": "CCAI Platform and the GECX rename",
+      "level": 10,
+      "outcomes": [
+        "The docs page and the legal change log do not print the same product title. Both were opened."
+      ],
+      "sources": [
+        "docs-cloud-google-com-contact-center-ccai-platform-docs",
+        "cloud-google-com-legal-change-log"
+      ],
+      "last_verified": "2026-10-14"
+    },
+    {
+      "key": "t19/t19-table",
+      "title": "Documented differences only",
+      "level": 10,
+      "outcomes": [
+        "A table is safe when every cell comes from a page you can reopen."
+      ],
+      "sources": [
+        "learn-microsoft-com-en-us-dynamics365-customer-service-administer-voice-channel",
+        "learn-microsoft-com-en-us-microsoftteams-teams-contact-center",
+        "docs-aws-amazon-com-connect-latest-adminguide-what-is-amazon-connect-html",
+        "docs-cloud-google-com-contact-center-ccai-platform-docs",
+        "cloud-google-com-legal-change-log",
+        "help-salesforce-com-s-articleview"
+      ],
+      "last_verified": "2026-10-14"
+    },
+    {
+      "key": "t19/t19-gaps",
+      "title": "What these pages do not decide",
+      "level": 10,
+      "outcomes": [
+        "The honest end of a comparison is the list of questions the opened pages do not answer."
+      ],
+      "sources": [
+        "docs-aws-amazon-com-connect-latest-adminguide-what-is-amazon-connect-html",
+        "learn-microsoft-com-en-us-microsoftteams-teams-contact-center",
+        "docs-cloud-google-com-contact-center-ccai-platform-docs"
+      ],
+      "last_verified": "2026-10-14"
+    },
+    {
+      "key": "t20/t20-routing",
+      "title": "Classification, then assignment",
+      "level": 10,
+      "outcomes": [
+        "Unified routing is two stages. Mixing them makes the wrong control look broken."
+      ],
+      "sources": [
+        "learn-microsoft-com-en-us-dynamics365-customer-service-administer-overview-unified-routing"
+      ],
+      "last_verified": "2026-10-14"
+    },
+    {
+      "key": "t20/t20-queues",
+      "title": "Voice workstreams and voice queues",
+      "level": 10,
+      "outcomes": [
+        "A voice workstream will not offer pick mode. The page says push only, and the choice cannot be edited later."
+      ],
+      "sources": [
+        "learn-microsoft-com-en-us-dynamics365-customer-service-administer-create-workstreams",
+        "learn-microsoft-com-en-us-dynamics365-customer-service-administer-assignment-methods"
+      ],
+      "last_verified": "2026-10-14"
+    },
+    {
+      "key": "t20/t20-assign",
+      "title": "Highest capacity, round robin, least active",
+      "level": 10,
+      "outcomes": [
+        "The assignment method is a choice on the queue. The page defines three out-of-the-box methods this room can repeat."
+      ],
+      "sources": [
+        "learn-microsoft-com-en-us-dynamics365-customer-service-administer-assignment-methods",
+        "learn-microsoft-com-en-us-dynamics365-customer-service-administer-create-workstreams"
+      ],
+      "last_verified": "2026-10-14"
+    },
+    {
+      "key": "t20/t20-wfm",
+      "title": "Forecast, capacity, and schedule",
+      "level": 10,
+      "outcomes": [
+        "Workforce management in this stack starts as a forecast of volume and handle time. It is not a Teams calling policy."
+      ],
+      "sources": [
+        "learn-microsoft-com-en-us-dynamics365-contact-center-use-workforce-management-forecast-overview"
+      ],
+      "last_verified": "2026-10-14"
+    },
+    {
+      "key": "t20/t20-qm",
+      "title": "Indicators and guardrails",
+      "level": 10,
+      "outcomes": [
+        "A quality indicator produces a score. A guardrail produces a violation. The page treats them as different objects."
+      ],
+      "sources": [
+        "learn-microsoft-com-en-us-dynamics365-contact-center-administer-configure-quality-coach"
+      ],
+      "last_verified": "2026-10-14"
+    },
+    {
+      "key": "t20/t20-recording",
+      "title": "Two recording controls",
+      "level": 10,
+      "outcomes": [
+        "Dynamics can play a recording announcement on the voice channel. Teams compliance recording is a separate policy."
+      ],
+      "sources": [
+        "learn-microsoft-com-en-us-dynamics365-contact-center-administer-configure-teams-phone-in-voice-c",
+        "learn-microsoft-com-en-us-dynamics365-customer-service-administer-voice-channel",
+        "learn-microsoft-com-en-us-microsoftteams-teams-recording-policy",
+        "learn-microsoft-com-en-us-microsoftteams-teams-compliance-recording-setup"
+      ],
+      "last_verified": "2026-10-14"
+    },
+    {
+      "key": "t20/t20-order",
+      "title": "Which control failed",
+      "level": 10,
+      "outcomes": [
+        "Routing, forecasting, and quality fail in different places. The first control you change should be the one the evidence names."
+      ],
+      "sources": [
+        "learn-microsoft-com-en-us-dynamics365-customer-service-administer-overview-unified-routing",
+        "learn-microsoft-com-en-us-dynamics365-customer-service-administer-assignment-methods",
+        "learn-microsoft-com-en-us-dynamics365-contact-center-use-workforce-management-forecast-overview",
+        "learn-microsoft-com-en-us-dynamics365-contact-center-administer-configure-quality-coach",
+        "learn-microsoft-com-en-us-dynamics365-contact-center-administer-configure-teams-phone-in-voice-c"
+      ],
+      "last_verified": "2026-10-14"
+    }
+  ]
+}

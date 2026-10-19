@@ -1,0 +1,13 @@
+{
+  "name": "microsoft-voice-cc-lab",
+  "private": true,
+  "scripts": {
+    "index:bot": "node pipeline/build_voicebot_index.mjs",
+    "eval:bot": "node tests/voicebot-eval.mjs",
+    "test": "playwright test"
+  },
+  "devDependencies": {
+    "@playwright/test": "1.56.1"
+  },
+  "type": "module"
+}

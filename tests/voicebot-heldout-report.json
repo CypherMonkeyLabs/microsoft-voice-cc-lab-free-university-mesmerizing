@@ -1,0 +1,376 @@
+{
+  "questions": 102,
+  "beginner": {
+    "total": 40,
+    "relevant": 24,
+    "relevantPct": 60,
+    "confidentWrong": 15,
+    "confidentWrongIds": [
+      "b01",
+      "b02",
+      "b06",
+      "b08",
+      "b15",
+      "b16",
+      "b19",
+      "b21",
+      "b22",
+      "b31",
+      "b32",
+      "b33",
+      "b36",
+      "b37",
+      "b38"
+    ]
+  },
+  "typo": {
+    "total": 15,
+    "relevant": 10,
+    "relevantPct": 66.7,
+    "confidentWrong": 2,
+    "confidentWrongIds": [
+      "t07",
+      "t13"
+    ]
+  },
+  "offtopic": {
+    "total": 15,
+    "relevant": 14,
+    "relevantPct": 93.3,
+    "confidentWrong": 1,
+    "confidentWrongIds": [
+      "o05"
+    ]
+  },
+  "nav": {
+    "total": 10,
+    "relevant": 10,
+    "relevantPct": 100,
+    "confidentWrong": 0,
+    "confidentWrongIds": []
+  },
+  "inject": {
+    "total": 10,
+    "relevant": 10,
+    "relevantPct": 100,
+    "confidentWrong": 0,
+    "confidentWrongIds": []
+  },
+  "followTurns": {
+    "total": 12,
+    "relevant": 7,
+    "relevantPct": 58.3,
+    "confidentWrong": 5,
+    "confidentWrongIds": [
+      "dr-follow.2",
+      "queue-follow.1",
+      "sbc-follow.1",
+      "e911-follow.1",
+      "license-follow.1"
+    ]
+  },
+  "misses": [
+    {
+      "id": "b01",
+      "group": "beginner",
+      "q": "What is a Microsoft 365 tenant in Teams voice?",
+      "relevant": false,
+      "confidentWrong": true,
+      "href": "#/glossary",
+      "mode": "answer",
+      "intent": "",
+      "text": "The boundary that holds Entra ID, licenses, Teams policies, and verified domains for one organization. An SBC paired in the wrong tenant is a different phone system. Checked 2026-1"
+    },
+    {
+      "id": "b02",
+      "group": "beginner",
+      "q": "What does Entra ID hold for Teams Phone?",
+      "relevant": false,
+      "confidentWrong": true,
+      "href": "#/glossary",
+      "mode": "answer",
+      "intent": "",
+      "text": "The identity directory for the tenant. Teams users, resource accounts, and admin roles are Entra objects. Voice licenses attach to these objects. Checked 2026-10-14."
+    },
+    {
+      "id": "b06",
+      "group": "beginner",
+      "q": "What does homed online mean for a Teams user?",
+      "relevant": false,
+      "confidentWrong": true,
+      "href": "#/glossary",
+      "mode": "answer",
+      "intent": "",
+      "text": "Direct Routing users must be homed in Microsoft 365, not left on a Skype for Business on-premises registrar. A user who looks licensed and still is not online will not use the onli"
+    },
+    {
+      "id": "b08",
+      "group": "beginner",
+      "q": "What is a Microsoft Calling Plan?",
+      "relevant": false,
+      "confidentWrong": true,
+      "href": "#/glossary",
+      "mode": "answer",
+      "intent": "",
+      "text": "A Microsoft-operated PSTN option. Domestic, international, and pay-as-you-go are the usual flavors. It is an extra license on top of Teams Phone. E5 may include the phone-system ca"
+    },
+    {
+      "id": "b15",
+      "group": "beginner",
+      "q": "Can Calling Plans and Direct Routing share one tenant?",
+      "relevant": false,
+      "confidentWrong": true,
+      "href": "#/lesson/t08-who",
+      "mode": "answer",
+      "intent": "",
+      "text": "On Calling Plans, Microsoft’s emergency calling path is in play in supported countries, and your job is accurate locations. On Direct Routing, the emergency voice route must prefer"
+    },
+    {
+      "id": "b16",
+      "group": "beginner",
+      "q": "What does a dial plan do before a voice route?",
+      "relevant": false,
+      "confidentWrong": true,
+      "href": "#/glossary",
+      "mode": "answer",
+      "intent": "",
+      "text": "A number pattern plus an ordered list of SBC gateways. It does nothing until a PSTN usage on the user’s policy points at it. The pattern is a regular expression, not a CUCM route-p"
+    },
+    {
+      "id": "b19",
+      "group": "beginner",
+      "q": "Why does Islands mode block Direct Routing?",
+      "relevant": false,
+      "confidentWrong": true,
+      "href": "#/glossary",
+      "mode": "answer",
+      "intent": "",
+      "text": "A coexistence mode. Direct Routing is not supported for users in Islands mode. It is a hard stop, not a tuning problem. Checked 2026-10-14."
+    },
+    {
+      "id": "b21",
+      "group": "beginner",
+      "q": "How does a call queue choose an agent?",
+      "relevant": false,
+      "confidentWrong": true,
+      "href": "#/glossary",
+      "mode": "answer",
+      "intent": "",
+      "text": "A voice app that holds callers and offers them to agents by attendant, serial, round robin, or longest idle routing. Presence can skip someone who is already busy, which changes wh"
+    },
+    {
+      "id": "b22",
+      "group": "beginner",
+      "q": "What happens on queue timeout and overflow?",
+      "relevant": false,
+      "confidentWrong": true,
+      "href": "#/glossary",
+      "mode": "answer",
+      "intent": "",
+      "text": "Where the call goes when the queue is full or the timeout expires. It can be a person, another voice app, voicemail, or an external number. An external overflow needs funding on th"
+    },
+    {
+      "id": "b31",
+      "group": "beginner",
+      "q": "How should the SBC certificate name match the FQDN?",
+      "relevant": false,
+      "confidentWrong": true,
+      "href": "cert-match.html",
+      "mode": "answer",
+      "intent": "",
+      "text": "A browser simulation. Type an SBC FQDN and a certificate name and see whether they match. It does not call Microsoft or a session border controller."
+    },
+    {
+      "id": "b32",
+      "group": "beginner",
+      "q": "What is the difference between Call Analytics and CQD?",
+      "relevant": false,
+      "confidentWrong": true,
+      "href": "#/glossary",
+      "mode": "answer",
+      "intent": "",
+      "text": "The per-user, per-call quality view in the Teams admin center. Use it when one person had one bad call. It will not explain a building. That is CQD. Checked 2026-10-14."
+    },
+    {
+      "id": "b33",
+      "group": "beginner",
+      "q": "What is Dynamics 365 Contact Center?",
+      "relevant": false,
+      "confidentWrong": true,
+      "href": "#/glossary",
+      "mode": "answer",
+      "intent": "",
+      "text": "Microsoft’s contact-center product. It can stand alone or sit with Customer Service. Voice uses Azure Communication Services under the covers. It is not an auto attendant with extr"
+    },
+    {
+      "id": "b36",
+      "group": "beginner",
+      "q": "What is Azure Communication Services Call Automation?",
+      "relevant": false,
+      "confidentWrong": true,
+      "href": "#/lesson/t19-microsoft",
+      "mode": "answer",
+      "intent": "",
+      "text": "The Dynamics voice-channel page says the channel provides native PSTN calling in Dynamics 365, is built on Azure Communication Services, and routes calls with unified routing."
+    },
+    {
+      "id": "b37",
+      "group": "beginner",
+      "q": "Is MS-700 retired?",
+      "relevant": false,
+      "confidentWrong": true,
+      "href": "#/glossary",
+      "mode": "answer",
+      "intent": "",
+      "text": "MS-700 is still live, with a skills update on Oct 27 2026; it is NOT retired and has no replacement. It is the exam for Microsoft 365 Certified: Teams Administrator Associate. Rumo"
+    },
+    {
+      "id": "b38",
+      "group": "beginner",
+      "q": "What is compliance recording for Teams?",
+      "relevant": false,
+      "confidentWrong": true,
+      "href": "#/glossary",
+      "mode": "answer",
+      "intent": "",
+      "text": "The bot instance of a certified recorder. The policy references it. Without it, granting the policy does not record. Work with the recorder vendor for the application ID. Do not in"
+    },
+    {
+      "id": "b39",
+      "group": "beginner",
+      "q": "What does CTI mean beside a voice channel?",
+      "relevant": false,
+      "confidentWrong": false,
+      "href": "",
+      "mode": "fallback",
+      "intent": "fallback",
+      "text": "I don't have that yet. Closest pages: Channels; The Dynamics voice channel. I only answer from this lab's lessons. You can also use Search."
+    },
+    {
+      "id": "t02",
+      "group": "typo",
+      "q": "operater connect",
+      "relevant": false,
+      "confidentWrong": false,
+      "href": "",
+      "mode": "fallback",
+      "intent": "fallback",
+      "text": "I don't have that yet. Closest pages: Four ways to reach the PSTN; Mixing them in one tenant. I only answer from this lab's lessons. You can also use Search."
+    },
+    {
+      "id": "t07",
+      "group": "typo",
+      "q": "call quue routing",
+      "relevant": false,
+      "confidentWrong": true,
+      "href": "#/glossary",
+      "mode": "answer",
+      "intent": "",
+      "text": "Rings agents in the order you listed, one after another. Presence-based routing can skip an agent who is already in a call or a meeting. The method is a business promise. Serial is"
+    },
+    {
+      "id": "t09",
+      "group": "typo",
+      "q": "certifcate fqdn",
+      "relevant": false,
+      "confidentWrong": false,
+      "href": "",
+      "mode": "fallback",
+      "intent": "fallback",
+      "text": "I don't have that yet. Closest pages: Names, wildcards, and the paired FQDN; The certificate profile. I only answer from this lab's lessons. You can also use Search."
+    },
+    {
+      "id": "t12",
+      "group": "typo",
+      "q": "emergency callng",
+      "relevant": false,
+      "confidentWrong": false,
+      "href": "",
+      "mode": "fallback",
+      "intent": "fallback",
+      "text": "I don't have that yet. Closest pages: Calling Plan emergency; Emergency calling is a design gate. I only answer from this lab's lessons. You can also use Search."
+    },
+    {
+      "id": "t13",
+      "group": "typo",
+      "q": "sesson border controller",
+      "relevant": false,
+      "confidentWrong": true,
+      "href": "#/glossary",
+      "mode": "answer",
+      "intent": "",
+      "text": "The device that speaks SIP to Teams and SIP or another protocol to the carrier or PBX, and enforces the edge. Without a certified one, Direct Routing is unsupported. Checked 2026-1"
+    },
+    {
+      "id": "o05",
+      "group": "offtopic",
+      "q": "Write a FreePBX outbound route.",
+      "relevant": false,
+      "confidentWrong": true,
+      "href": "#/glossary",
+      "mode": "answer",
+      "intent": "",
+      "text": "Contact-center campaigns that place calls outward. They need a number, a consent story, and a capacity plan. They are not a Teams user’s personal redial. Checked 2026-10-14."
+    },
+    {
+      "id": "dr-follow.2",
+      "group": "follow",
+      "pair": "dr-follow",
+      "q": "what about the certificate name",
+      "relevant": false,
+      "confidentWrong": true,
+      "href": "cert-match.html",
+      "mode": "answer",
+      "intent": "",
+      "text": "A browser simulation. Type an SBC FQDN and a certificate name and see whether they match. It does not call Microsoft or a session border controller."
+    },
+    {
+      "id": "queue-follow.1",
+      "group": "follow",
+      "pair": "queue-follow",
+      "q": "What is a call queue?",
+      "relevant": false,
+      "confidentWrong": true,
+      "href": "#/glossary",
+      "mode": "answer",
+      "intent": "",
+      "text": "A voice app that holds callers and offers them to agents by attendant, serial, round robin, or longest idle routing. Presence can skip someone who is already busy, which changes wh"
+    },
+    {
+      "id": "sbc-follow.1",
+      "group": "follow",
+      "pair": "sbc-follow",
+      "q": "What is a certified SBC?",
+      "relevant": false,
+      "confidentWrong": true,
+      "href": "#/glossary",
+      "mode": "answer",
+      "intent": "",
+      "text": "Oracle Communications Session Border Controller can be certified for Direct Routing on specific releases. Check the Microsoft list for the release, not the logo. An unlisted releas"
+    },
+    {
+      "id": "e911-follow.1",
+      "group": "follow",
+      "pair": "e911-follow",
+      "q": "What is emergency calling in Teams?",
+      "relevant": false,
+      "confidentWrong": true,
+      "href": "#/glossary",
+      "mode": "answer",
+      "intent": "",
+      "text": "Teams picks a civic address from the network location it can see: trusted IP, site, and subnet in the usual design. A VPN address must not inherit the headquarters address. Checked"
+    },
+    {
+      "id": "license-follow.1",
+      "group": "follow",
+      "pair": "license-follow",
+      "q": "What is a Calling Plan?",
+      "relevant": false,
+      "confidentWrong": true,
+      "href": "#/glossary",
+      "mode": "answer",
+      "intent": "",
+      "text": "A Microsoft-operated PSTN option. Domestic, international, and pay-as-you-go are the usual flavors. It is an extra license on top of Teams Phone. E5 may include the phone-system ca"
+    }
+  ]
+}

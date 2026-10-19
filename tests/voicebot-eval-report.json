@@ -1,0 +1,27 @@
+{
+  "cases": 266,
+  "groups": {
+    "title": {
+      "pass": 130,
+      "total": 130
+    },
+    "where": {
+      "pass": 130,
+      "total": 130
+    },
+    "intent": {
+      "pass": 4,
+      "total": 4
+    },
+    "inject": {
+      "pass": 1,
+      "total": 1
+    },
+    "off": {
+      "pass": 1,
+      "total": 1
+    }
+  },
+  "misses": [],
+  "missCount": 0
+}

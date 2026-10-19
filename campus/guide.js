@@ -312,6 +312,13 @@
   }
 
   function defaultChips() {
+    if (window.mvccVoicebotOwnsChat) {
+      chips([
+        { label: "Tours", run: () => listTours() },
+        { label: "Quiz me", run: () => startQuiz() },
+      ]);
+      return;
+    }
     chips([
       { label: "What is this lab?", run: () => ask("What is this lab?") },
       { label: "Direct Routing prefixes", run: () => ask("Direct Routing firewall prefixes") },
@@ -422,6 +429,18 @@
 
   function ask(question) {
     const clean = String(question || "").trim();
+    if (window.mvccVoicebotOwnsChat) {
+      const q = norm(clean);
+      if (/^tours?$|start a tour|show tours/.test(q)) {
+        listTours();
+        return;
+      }
+      if (/quiz/.test(q)) {
+        startQuiz();
+        return;
+      }
+      return;
+    }
     if (!clean) return;
     bubble("you", clean);
     const input = $("guide-q");

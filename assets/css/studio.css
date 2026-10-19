@@ -1,0 +1,53 @@
+/* Topic worlds for the university shell. CSS 3D, no library. */
+.worlds {
+  margin: 18px 0 8px;
+  perspective: 900px;
+}
+.worlds h2 { margin-bottom: 8px; }
+.world-row {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 12px;
+}
+.world-card {
+  min-height: 112px;
+  padding: 12px;
+  border: 2px solid var(--line, #134e4a);
+  border-radius: 16px;
+  background: #042f2e;
+  color: #ecfdf5;
+  text-align: left;
+  cursor: pointer;
+  transform: rotateX(8deg) translateZ(0);
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.25);
+}
+.world-card strong { display: block; font-size: 1rem; }
+.world-card small { display: block; margin-top: 6px; color: #99f6e4; }
+.world-card:focus-visible { outline: 3px solid #fde047; outline-offset: 3px; }
+.world-card[aria-pressed="true"] { background: #115e59; }
+.world-note {
+  margin-top: 10px;
+  padding: 12px;
+  border-radius: 12px;
+  background: #ecfdf5;
+  color: #042f2e;
+}
+.aurora {
+  height: 72px;
+  margin: 8px 0 0;
+  border-radius: 16px;
+  background: linear-gradient(110deg, #042f2e, #0f766e 40%, #7c3aed 70%, #f59e0b);
+  position: relative;
+  overflow: hidden;
+}
+.aurora canvas { width: 100%; height: 100%; display: block; }
+@media (max-width: 800px) {
+  .world-row { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 390px) {
+  .world-card { min-height: 96px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .world-card { transform: none; }
+  .aurora canvas { display: none; }
+}

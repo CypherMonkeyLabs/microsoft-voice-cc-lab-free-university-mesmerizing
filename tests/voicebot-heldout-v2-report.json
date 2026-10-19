@@ -1,0 +1,238 @@
+{
+  "questions": 102,
+  "beginner": {
+    "total": 40,
+    "relevant": 32,
+    "relevantPct": 80,
+    "confidentWrong": 6,
+    "confidentWrongIds": [
+      "v11",
+      "v22",
+      "v29",
+      "v36",
+      "v39",
+      "v40"
+    ]
+  },
+  "typo": {
+    "total": 15,
+    "relevant": 10,
+    "relevantPct": 66.7,
+    "confidentWrong": 1,
+    "confidentWrongIds": [
+      "y10"
+    ]
+  },
+  "offtopic": {
+    "total": 15,
+    "relevant": 13,
+    "relevantPct": 86.7,
+    "confidentWrong": 2,
+    "confidentWrongIds": [
+      "z14",
+      "z15"
+    ]
+  },
+  "nav": {
+    "total": 10,
+    "relevant": 10,
+    "relevantPct": 100,
+    "confidentWrong": 0,
+    "confidentWrongIds": []
+  },
+  "inject": {
+    "total": 10,
+    "relevant": 10,
+    "relevantPct": 100,
+    "confidentWrong": 0,
+    "confidentWrongIds": []
+  },
+  "followTurns": {
+    "total": 12,
+    "relevant": 11,
+    "relevantPct": 91.7,
+    "confidentWrong": 1,
+    "confidentWrongIds": [
+      "aa-follow.2"
+    ]
+  },
+  "misses": [
+    {
+      "id": "v11",
+      "group": "beginner",
+      "q": "List the PSTN connectivity choices.",
+      "relevant": false,
+      "confidentWrong": true,
+      "href": "#/track/t05",
+      "mode": "answer",
+      "intent": "",
+      "text": "Track t05 is PSTN connectivity. Open it to see the lessons in this world."
+    },
+    {
+      "id": "v16",
+      "group": "beginner",
+      "q": "What happens in normalization before routing?",
+      "relevant": false,
+      "confidentWrong": false,
+      "href": "",
+      "mode": "fallback",
+      "intent": "fallback",
+      "text": "I don't have that yet. Closest pages: Location-based routing; Queue routing methods. I only answer from this lab's lessons. You can also use Search."
+    },
+    {
+      "id": "v22",
+      "group": "beginner",
+      "q": "Where can overflow send a caller?",
+      "relevant": false,
+      "confidentWrong": true,
+      "href": "#/lesson/t07-nest",
+      "mode": "answer",
+      "intent": "",
+      "text": "An attendant can send a key to a queue. A queue can overflow to another queue or back to an attendant. Draw it. If you cannot draw it, callers will find the loop before you do. Kee"
+    },
+    {
+      "id": "v29",
+      "group": "beginner",
+      "q": "What does Direct Routing certification cover?",
+      "relevant": false,
+      "confidentWrong": true,
+      "href": "#/lesson/t05-dr",
+      "mode": "answer",
+      "intent": "",
+      "text": "You pair an SBC FQDN on a verified domain, present a public certificate, signal TLS to sip.pstnhub.microsoft.com and its sip2 and sip3 partners on port 5061, and allow media UDP 34"
+    },
+    {
+      "id": "v36",
+      "group": "beginner",
+      "q": "What is Call Automation in Azure Communication Services?",
+      "relevant": false,
+      "confidentWrong": true,
+      "href": "#/lesson/t19-microsoft",
+      "mode": "answer",
+      "intent": "",
+      "text": "The Dynamics voice-channel page says the channel provides native PSTN calling in Dynamics 365, is built on Azure Communication Services, and routes calls with unified routing."
+    },
+    {
+      "id": "v38",
+      "group": "beginner",
+      "q": "What has to exist before Teams compliance recording runs?",
+      "relevant": false,
+      "confidentWrong": false,
+      "href": "",
+      "mode": "fallback",
+      "intent": "fallback",
+      "text": "I don't have that yet. Closest pages: Compliance recording application; Compliance recording and quality management. I only answer from this lab's lessons. You can also use Search."
+    },
+    {
+      "id": "v39",
+      "group": "beginner",
+      "q": "What does CTI connect to the CRM record?",
+      "relevant": false,
+      "confidentWrong": true,
+      "href": "#/track/t18",
+      "mode": "answer",
+      "intent": "",
+      "text": "Track t18 is CRM and CTI. Open it to see the lessons in this world."
+    },
+    {
+      "id": "v40",
+      "group": "beginner",
+      "q": "How is a workforce forecast different from a quality score?",
+      "relevant": false,
+      "confidentWrong": true,
+      "href": "#/lesson/t20-order",
+      "mode": "answer",
+      "intent": "",
+      "text": "If the work never reaches a queue, read classification and the route-to-queue rules, then the fallback queue. If it reaches the queue and the wrong person gets it, read the assignm"
+    },
+    {
+      "id": "y01",
+      "group": "typo",
+      "q": "direc routing trunk",
+      "relevant": false,
+      "confidentWrong": false,
+      "href": "",
+      "mode": "fallback",
+      "intent": "fallback",
+      "text": "I don't have that yet. Closest pages: Direct Routing; Direct Routing. I only answer from this lab's lessons. You can also use Search."
+    },
+    {
+      "id": "y07",
+      "group": "typo",
+      "q": "que timeout",
+      "relevant": false,
+      "confidentWrong": false,
+      "href": "",
+      "mode": "fallback",
+      "intent": "fallback",
+      "text": "I don't have that yet. Closest pages: Queue timeout seconds; Timeout, overflow, and outbound funding. I only answer from this lab's lessons. You can also use Search."
+    },
+    {
+      "id": "y09",
+      "group": "typo",
+      "q": "fqdn cerificate",
+      "relevant": false,
+      "confidentWrong": false,
+      "href": "",
+      "mode": "fallback",
+      "intent": "fallback",
+      "text": "I don't have that yet. Closest pages: Names, wildcards, and the paired FQDN; The certificate profile. I only answer from this lab's lessons. You can also use Search."
+    },
+    {
+      "id": "y10",
+      "group": "typo",
+      "q": "tennant voice",
+      "relevant": false,
+      "confidentWrong": true,
+      "href": "#/lesson/t05-mix",
+      "mode": "answer",
+      "intent": "",
+      "text": "Write a table: population, connectivity, policy, who operates the trunk. A contact center on Direct Routing and a headquarters on Operator Connect is a normal tenant, not a comprom"
+    },
+    {
+      "id": "y12",
+      "group": "typo",
+      "q": "emergncy calling",
+      "relevant": false,
+      "confidentWrong": false,
+      "href": "",
+      "mode": "fallback",
+      "intent": "fallback",
+      "text": "I don't have that yet. Closest pages: Calling Plan emergency; Emergency calling is a design gate. I only answer from this lab's lessons. You can also use Search."
+    },
+    {
+      "id": "z14",
+      "group": "offtopic",
+      "q": "Write a FreeSWITCH dialplan extension.",
+      "relevant": false,
+      "confidentWrong": true,
+      "href": "#/glossary",
+      "mode": "answer",
+      "intent": "",
+      "text": "A short rule can turn a 4-digit extension into E.164. It must not run before emergency codes. Extensions and short codes share a length problem. Checked 2026-10-14."
+    },
+    {
+      "id": "z15",
+      "group": "offtopic",
+      "q": "How do I theme a WordPress blog?",
+      "relevant": false,
+      "confidentWrong": true,
+      "href": "#/lesson/t05-mix",
+      "mode": "answer",
+      "intent": "",
+      "text": "Write a table: population, connectivity, policy, who operates the trunk. A contact center on Direct Routing and a headquarters on Operator Connect is a normal tenant, not a comprom"
+    },
+    {
+      "id": "aa-follow.2",
+      "group": "follow",
+      "pair": "aa-follow",
+      "q": "what about the resource account",
+      "relevant": false,
+      "confidentWrong": true,
+      "href": "#/lesson/t02-resource",
+      "mode": "answer",
+      "intent": "seed",
+      "text": "Each auto attendant or call queue that answers needs a resource account with a Microsoft Teams Phone Resource Account license, even when you do not assign a phone number. Tenants w"
+    }
+  ]
+}

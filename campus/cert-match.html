@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Certificate name match — simulation</title>
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="app.css">
+<style>
+  body { margin: 0; font-family: "Segoe UI", system-ui, sans-serif; background: #07111a; color: #e8f2f1; }
+  main { max-width: 720px; margin: 0 auto; padding: 24px 16px 48px; }
+  h1 { font-size: 1.6rem; }
+  .sim-flag { display: inline-block; padding: 4px 8px; border-radius: 999px; background: #b45309; color: #fff; font-weight: 700; }
+  form { display: grid; gap: 12px; margin-top: 16px; }
+  label { display: grid; gap: 4px; font-weight: 650; }
+  input[type="text"] { min-height: 44px; padding: 8px 10px; border-radius: 10px; border: 2px solid #134e4a; background: #0b1c24; color: inherit; font: inherit; }
+  button { min-height: 44px; border-radius: 10px; border: 0; background: #14b8a6; color: #04221f; font-weight: 750; }
+  button:focus-visible, input:focus-visible, a:focus-visible { outline: 3px solid #fde047; outline-offset: 2px; }
+  .result { margin-top: 16px; padding: 14px; border-radius: 14px; background: #10232c; }
+  .ok { color: #86efac; }
+  .bad { color: #fecaca; }
+  a { color: #99f6e4; }
+  @media (prefers-reduced-motion: reduce) { * { animation: none !important; transition: none !important; } }
+</style>
+</head>
+<body>
+<main>
+<p><a href="index.html#/labs">Back to the studios</a></p>
+<p class="sim-flag">Simulation</p>
+<h1>Certificate name match</h1>
+<p>Type the SBC FQDN you would pair, and a name from the certificate. This page compares strings in the browser. It does not call Microsoft, a certificate authority, or a session border controller.</p>
+<form id="cert-form">
+  <label>SBC FQDN <input id="fqdn" name="fqdn" type="text" autocomplete="off" value="sbc1.contoso.example" required></label>
+  <label>Certificate name (CN or SAN) <input id="san" name="san" type="text" autocomplete="off" value="sbc1.contoso.example" required></label>
+  <label><input id="wild" type="checkbox"> Treat a leading <code>*.</code> as a single-label wildcard</label>
+  <button type="submit">Compare names</button>
+</form>
+<div id="result" class="result" role="status" aria-live="polite">Nothing compared yet.</div>
+<p>A mismatch here is a teaching result. A real trunk also needs a trusted chain, TLS, and SIP OPTIONS. Those checks are not run on this page.</p>
+</main>
+<script>
+(function () {
+  var form = document.getElementById("cert-form");
+  var out = document.getElementById("result");
+  function norm(value) {
+    return String(value || "").trim().toLowerCase().replace(/\.$/, "");
+  }
+  function match(fqdn, san, wild) {
+    if (!fqdn || !san) return false;
+    if (fqdn === san) return true;
+    if (!wild || san.charAt(0) !== "*" || san.charAt(1) !== ".") return false;
+    var suffix = san.slice(1);
+    var rest = fqdn.slice(0, fqdn.length - suffix.length);
+    return fqdn.endsWith(suffix) && rest.length > 0 && rest.indexOf(".") === -1;
+  }
+  form.addEventListener("submit", function (event) {
+    event.preventDefault();
+    var fqdn = norm(document.getElementById("fqdn").value);
+    var san = norm(document.getElementById("san").value);
+    var wild = document.getElementById("wild").checked;
+    var ok = match(fqdn, san, wild);
+    out.className = "result " + (ok ? "ok" : "bad");
+    out.textContent = ok
+      ? "Simulation: the names match. This did not contact a vendor. OPTIONS and the certificate chain are separate checks."
+      : "Simulation: the names do not match. A paired FQDN that is absent from the certificate name fails before media. Nothing was sent to a vendor.";
+  });
+})();
+</script>
+</body>
+</html>

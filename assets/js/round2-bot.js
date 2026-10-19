@@ -276,6 +276,8 @@
       '</svg>';
   }
 
+  if (document.getElementById("guide")) return;
+
   var greet = document.createElement("div");
   greet.className = "greet-modal";
   greet.hidden = true;
@@ -372,50 +374,61 @@
     if (!href) return;
     location.href = href;
   }
+  var voiceRetriever = null;
+  var voiceLoading = null;
+  function loadVoice() {
+    if (voiceRetriever) return Promise.resolve(voiceRetriever);
+    if (!voiceLoading) {
+      voiceLoading = import(fromRoot("shared/voicebot-chat/engine.js")).then(function (mod) {
+        return fetch(fromRoot("campus/bot/voicebot-index.json")).then(function (response) {
+          if (!response.ok) throw new Error("index");
+          return response.json();
+        }).then(function (data) {
+          voiceRetriever = mod.createRetriever(data);
+          return voiceRetriever;
+        });
+      }).catch(function () { return null; });
+    }
+    return voiceLoading;
+  }
+  function sayAnswer(result) {
+    log.replaceChildren();
+    var text = document.createElement("span");
+    text.textContent = result.text;
+    log.appendChild(text);
+    if (result.href) {
+      var href = result.href.charAt(0) === "#" ? fromRoot("campus/index.html") + result.href : result.href;
+      var link = document.createElement("a");
+      link.href = href;
+      link.textContent = result.link || "Open this page";
+      link.style.display = "block";
+      log.appendChild(link);
+    }
+    setPose(result.mode === "fallback" ? "think" : "cheer");
+  }
   function answer(q) {
-    var query = String(q || "").trim().toLowerCase();
+    var query = String(q || "").trim();
     if (!query) return;
     openPanel();
-    if (query.indexOf("download") !== -1 || query.indexOf("export") !== -1 || query.indexOf("sheet") !== -1) {
-      var exp = exportForHere();
-      say("This section exports as " + exp.label + ".");
-      go(exp.href);
-      return;
-    }
-    if (query.indexOf("10") !== -1 || query.indexOf("ten") !== -1) { say("Ten minutes: tenant, Direct Routing, then one quiz."); go(fromRoot("start.html")); return; }
-    if (query.indexOf("full") !== -1 || query.indexOf("course") !== -1) { say("The full course starts at track 1."); go(fromRoot("index.html#rooms")); return; }
-    if (query.indexOf("bridge") !== -1 || query.indexOf("cucm") !== -1 || query.indexOf("ucce") !== -1 || query.indexOf("webex") !== -1) {
-      say("Bridges to CUCM, Webex, and UCCE are marked confirm-before-relying.");
-      go(fromRoot("bridges.html"));
-      return;
-    }
-    var rooms = index.rooms || [];
-    for (var i = 0; i < rooms.length; i++) {
-      if (rooms[i].title && query.indexOf(rooms[i].title.toLowerCase()) !== -1) {
-        say("Opening " + rooms[i].title + ".");
-        go(fromRoot(rooms[i].href));
+    loadVoice().then(function (engine) {
+      if (!engine) {
+        say("The lesson index did not load. I will not invent an answer.");
         return;
       }
-    }
-    var pages = index.pages || [];
-    for (var j = 0; j < pages.length; j++) {
-      if (pages[j].title && query.indexOf(pages[j].title.toLowerCase()) !== -1) {
-        say("Opening " + pages[j].title + ".");
-        go(fromRoot(pages[j].href));
-        return;
-      }
-    }
-    say("I only answer from this lab. Try Direct Routing, Operator Connect, Copilot, or Downloads. Confirm anything you will build.");
-    setPose("think");
+      sayAnswer(engine.ask(query, {
+        progress: function () { return { done: 0, total: 130, xpLevel: 1, nextHref: "#/lesson/t01-tenant", nextTitle: "The tenant boundary" }; },
+      }));
+    });
   }
   function onOffer(event) {
     var path = event.target.closest && event.target.closest("[data-path]");
     if (path) {
       closeGreet();
+      openPanel();
       var kind = path.getAttribute("data-path");
-      if (kind === "ten") answer("ten minutes");
-      else if (kind === "full") answer("full course");
-      else answer("download");
+      if (kind === "ten") { say("Ten minutes: tenant, Direct Routing, then one quiz."); go(fromRoot("start.html")); }
+      else if (kind === "full") { say("The full course starts at track 1."); go(fromRoot("index.html#rooms")); }
+      else { var exp = exportForHere(); say("This section exports as " + exp.label + "."); go(exp.href); }
       return;
     }
     var jump = event.target.closest && event.target.closest("[data-go]");
