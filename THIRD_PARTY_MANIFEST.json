@@ -1,0 +1,169 @@
+{
+  "components": [
+    {
+      "name": "three.js",
+      "version": "r160",
+      "licence": "MIT",
+      "url": "https://github.com/mrdoob/three.js",
+      "licence_file": "campus/vendor/three.LICENSE",
+      "files": [
+        {
+          "path": "campus/vendor/three.module.min.js",
+          "sha256": "3e690ac7d180b0aadf0891bea39eec643e29e2d3e75c99b18689518665f69ba6"
+        },
+        {
+          "path": "campus/vendor/three.LICENSE",
+          "sha256": "852e0e8699169bf9f6fdc6bda3e682d078dcbc738b5d33e74df594721bff271d"
+        },
+        {
+          "path": "campus/vendor/OrbitControls.js",
+          "sha256": "5a44a9e86a2a0fb11933eed69bc2cd33c76a496854c1aed6ed776efa87d7b064"
+        },
+        {
+          "path": "campus/vendor/postprocessing/EffectComposer.js",
+          "sha256": "e70ed118c220a40ba1488b9eac75307033a492231d8bbb8f1b4f9717be0f5065"
+        },
+        {
+          "path": "campus/vendor/postprocessing/MaskPass.js",
+          "sha256": "e42d3cc265d86138c6e185fd3d171030b5adb120013618711662a2c9be10ee76"
+        },
+        {
+          "path": "campus/vendor/postprocessing/Pass.js",
+          "sha256": "9d0ceb5ce83226fc38c34816ab1b3959439db17bd6130f9ae32567e8c75fbf19"
+        },
+        {
+          "path": "campus/vendor/postprocessing/RenderPass.js",
+          "sha256": "0dd19e6997cb3174c28de8d10ce4c52c970d8e5f6aa36d9c3f4a1e00d829bd5f"
+        },
+        {
+          "path": "campus/vendor/postprocessing/ShaderPass.js",
+          "sha256": "eeb248874b43c604e6783740394fc92d8e9514787bdd1ede27a3a1cc0885250b"
+        },
+        {
+          "path": "campus/vendor/postprocessing/UnrealBloomPass.js",
+          "sha256": "62bfc1d9711f705d4ef86ab43b7a17127e180f163bce37d943638de5a8164cc7"
+        },
+        {
+          "path": "campus/vendor/shaders/CopyShader.js",
+          "sha256": "5e39cd9fbcefdb0fcc136d7d99381d0ede3d07569972ec522fda4ed590ef89ae"
+        },
+        {
+          "path": "campus/vendor/shaders/LuminosityHighPassShader.js",
+          "sha256": "bd44c6f5422afd107f7e66a2ae8dec9f2562f2ba2827d8c5418647cfa57c0ba3"
+        }
+      ]
+    },
+    {
+      "name": "anime.js",
+      "version": "4.5.0",
+      "licence": "MIT",
+      "url": "https://animejs.com/",
+      "licence_file": "(MIT stated in the file header)",
+      "files": [
+        {
+          "path": "campus/vendor/anime.esm.min.js",
+          "sha256": "a19015a1a92d52025a2fb6703b6d67eadd1cc2aeaf880770e96e04cf6aa07be1"
+        }
+      ]
+    },
+    {
+      "name": "d3",
+      "version": "7.9.0",
+      "licence": "unconfirmed",
+      "url": "https://d3js.org",
+      "licence_file": "(file header states Copyright 2010-2023 Mike Bostock; the licence name is unconfirmed in this copy)",
+      "files": [
+        {
+          "path": "campus/vendor/d3.min.js",
+          "sha256": "f2094bbf6141b359722c4fe454eb6c4b0f0e42cc10cc7af921fc158fceb86539"
+        }
+      ]
+    },
+    {
+      "name": "mermaid",
+      "version": "11.12.0",
+      "licence": "unconfirmed",
+      "url": "https://github.com/mermaid-js/mermaid",
+      "licence_file": "(version string is in the bundle; the licence name is unconfirmed in this copy)",
+      "files": [
+        {
+          "path": "campus/vendor/mermaid.min.js",
+          "sha256": "07e37dfa97b337ccc85365d57eddf99b9706f09db3b59b260d0333b23b343c4b"
+        }
+      ]
+    },
+    {
+      "name": "rough.js",
+      "version": "unconfirmed",
+      "licence": "unconfirmed",
+      "url": "https://github.com/rough-stuff/rough",
+      "licence_file": "(no licence header in the vendored file)",
+      "files": [
+        {
+          "path": "campus/vendor/rough.esm.js",
+          "sha256": "e921535f216ebc93d422489d614da955b5286812220b3149fc70978f4cb5bd45"
+        }
+      ]
+    },
+    {
+      "name": "canvas-confetti",
+      "version": "1.9.4",
+      "licence": "unconfirmed",
+      "url": "https://github.com/catdad/canvas-confetti",
+      "licence_file": "(version is in the file comment; the licence name is unconfirmed in this copy)",
+      "files": [
+        {
+          "path": "campus/vendor/confetti.browser.js",
+          "sha256": "49f4bcbc56e7ceb5c3d25d13db1d0da965b6cd1c8a54a707bb055be0685b0a95"
+        }
+      ]
+    },
+    {
+      "name": "canvas-confetti",
+      "version": "1.9.3",
+      "licence": "unconfirmed",
+      "url": "https://github.com/catdad/canvas-confetti",
+      "licence_file": "(version is in the file comment; the licence name is unconfirmed in this copy)",
+      "files": [
+        {
+          "path": "vendor/confetti.browser.js",
+          "sha256": "e103ab02784339d56c93ca3debe2c5a299372cafc5215148d55283de046e86d1"
+        }
+      ]
+    },
+    {
+      "name": "Outfit",
+      "version": "unconfirmed",
+      "licence": "SIL Open Font License 1.1",
+      "url": "https://github.com/Outfitio/Outfit-Fonts",
+      "licence_file": "assets/fonts/OFL-Outfit.txt",
+      "files": [
+        {
+          "path": "assets/fonts/outfit-latin.woff2",
+          "sha256": "6c18d579fd87c3776be068b762cbc83fde3acb543d49eabd3ade842eb987e887"
+        },
+        {
+          "path": "assets/fonts/OFL-Outfit.txt",
+          "sha256": "c676351bf8576b9aba743cd5eaa8c0e7ee0d51f805d720447b4df4ddb6a2e416"
+        }
+      ]
+    },
+    {
+      "name": "Space Grotesk",
+      "version": "unconfirmed",
+      "licence": "SIL Open Font License 1.1",
+      "url": "https://github.com/floriankarsten/space-grotesk",
+      "licence_file": "assets/fonts/OFL-SpaceGrotesk.txt",
+      "files": [
+        {
+          "path": "assets/fonts/space-grotesk-latin.woff2",
+          "sha256": "22f9fe0df47741897991d459bcd18c03edefacafd00ad20f2d25e1d75d3be77e"
+        },
+        {
+          "path": "assets/fonts/OFL-SpaceGrotesk.txt",
+          "sha256": "564ce565c371c5e5bbf286006565a7c9aa55a9f56e7ca58d56e05d649dd61a72"
+        }
+      ]
+    }
+  ]
+}

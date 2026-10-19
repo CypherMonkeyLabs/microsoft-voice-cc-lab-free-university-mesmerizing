@@ -373,13 +373,13 @@
     var host = "";
     try { host = new URL(href, location.href).hostname.replace(/^www\./, "").toLowerCase(); }
     catch (err) { return false; }
-    if (host === "linkedin.com" || host === "x.com" || host === "twitter.com" || host === "huggingface.co") return false;
+    if (host === "x.com" || host === "twitter.com" || host === "huggingface.co") return false;
     return host === "cyphermonkeylabs.com" || host === "github.com" || host === "linktr.ee";
   }
   function renderSocials(list, panel) {
     panel.innerHTML = list.map(function (item) {
       if (!item || !item.href || !item.label || !brandOnly(item.href)) return "";
-      if (item.id === "x" || item.id === "linkedin" || item.id === "huggingface") return "";
+      if (item.id === "x" || item.id === "huggingface") return "";
       return '<a href="' + esc(item.href) + '" target="_blank" rel="noopener noreferrer">' +
         brandIcon(item.id) + "<span>" + esc(item.label) + "</span></a>";
     }).join("");

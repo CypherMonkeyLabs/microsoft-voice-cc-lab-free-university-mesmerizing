@@ -21,6 +21,8 @@
 <meta name="twitter:image:alt" content="Microsoft Voice and Contact Center Lab card.">
 <link rel="stylesheet" href="app.css">
 <link rel="stylesheet" href="chrome.css">
+<link rel="stylesheet" href="bot/chat.css">
+<link rel="manifest" href="manifest.webmanifest">
 <link rel="stylesheet" href="../assets/css/campus-bot.css">
 <script type="importmap">
 {"imports":{"three":"./vendor/three.module.min.js"}}
@@ -95,6 +97,7 @@ try {
     </label>
     <button class="ghost theme-flip" id="theme-flip" type="button" data-i18n="light">Light</button>
     <button class="ghost theme-cycle" id="theme-cycle" type="button" aria-haspopup="dialog" aria-expanded="false" aria-controls="theme-pop">Theme</button>
+    <a class="icon-btn" href="cert-match.html">Cert</a>
     <a class="icon-btn" id="settings" href="#/settings" aria-label="Settings">
       <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="3" fill="none" stroke="currentColor" stroke-width="1.8"></circle><path d="M12 3.5v2.2M12 18.3v2.2M3.5 12h2.2M18.3 12h2.2M6 6l1.6 1.6M16.4 16.4 18 18M18 6l-1.6 1.6M7.6 16.4 6 18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"></path></svg>
     </a>
@@ -239,6 +242,7 @@ try {
 <script src="fx.js" defer></script>
 <script src="app.js" defer></script>
 <script src="guide.js" defer></script>
+<script type="module" src="bot/host.js"></script>
 <script src="../assets/js/round2-bot.js" defer></script>
 </body>
 </html>

@@ -1,0 +1,46 @@
+{
+  "questions": 30,
+  "beginner": {
+    "total": 0,
+    "relevant": 0,
+    "relevantPct": 0,
+    "confidentWrong": 0,
+    "confidentWrongIds": []
+  },
+  "typo": {
+    "total": 0,
+    "relevant": 0,
+    "relevantPct": 0,
+    "confidentWrong": 0,
+    "confidentWrongIds": []
+  },
+  "offtopic": {
+    "total": 20,
+    "relevant": 20,
+    "relevantPct": 100,
+    "confidentWrong": 0,
+    "confidentWrongIds": []
+  },
+  "nav": {
+    "total": 0,
+    "relevant": 0,
+    "relevantPct": 0,
+    "confidentWrong": 0,
+    "confidentWrongIds": []
+  },
+  "inject": {
+    "total": 10,
+    "relevant": 10,
+    "relevantPct": 100,
+    "confidentWrong": 0,
+    "confidentWrongIds": []
+  },
+  "followTurns": {
+    "total": 0,
+    "relevant": 0,
+    "relevantPct": 0,
+    "confidentWrong": 0,
+    "confidentWrongIds": []
+  },
+  "misses": []
+}
