@@ -1,8 +1,7 @@
 #!/usr/bin/env python3
 """Flag income claims and disallowed profile links in lab pages.
 
-A host-name denylist inside frame.js is not a link. Citation anchors are
-reported, not failed, unless they are LinkedIn or Spotify.
+Citation anchors are reported, not failed, unless they are LinkedIn or Spotify.
 """
 import pathlib
 import re
@@ -18,8 +17,6 @@ for path in ROOT.rglob("*"):
     if rel.startswith(("campus/vendor/", "vendor/", "node_modules/", ".git/")):
         continue
     text = path.read_text(errors="replace")
-    if rel == "assets/js/frame.js":
-        text = re.sub(r"linkedin\.com|spotify", "", text, flags=re.I)
     for match in BANNED.finditer(text):
         problems.append(f"{rel}: {match.group(0)}")
 

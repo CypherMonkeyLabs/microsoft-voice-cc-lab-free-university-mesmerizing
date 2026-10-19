@@ -1,0 +1,85 @@
+{
+  "questions": 102,
+  "beginner": {
+    "total": 40,
+    "relevant": 39,
+    "relevantPct": 97.5,
+    "confidentWrong": 0,
+    "confidentWrongIds": []
+  },
+  "typo": {
+    "total": 15,
+    "relevant": 14,
+    "relevantPct": 93.3,
+    "confidentWrong": 1,
+    "confidentWrongIds": [
+      "y07"
+    ]
+  },
+  "offtopic": {
+    "total": 15,
+    "relevant": 15,
+    "relevantPct": 100,
+    "confidentWrong": 0,
+    "confidentWrongIds": []
+  },
+  "nav": {
+    "total": 10,
+    "relevant": 10,
+    "relevantPct": 100,
+    "confidentWrong": 0,
+    "confidentWrongIds": []
+  },
+  "inject": {
+    "total": 10,
+    "relevant": 10,
+    "relevantPct": 100,
+    "confidentWrong": 0,
+    "confidentWrongIds": []
+  },
+  "followTurns": {
+    "total": 12,
+    "relevant": 11,
+    "relevantPct": 91.7,
+    "confidentWrong": 1,
+    "confidentWrongIds": [
+      "dr-follow.2"
+    ]
+  },
+  "misses": [
+    {
+      "id": "c11",
+      "group": "beginner",
+      "q": "How are shared calling and common-area phones licensed?",
+      "relevant": false,
+      "confidentWrong": false,
+      "href": "",
+      "mode": "fallback",
+      "intent": "fallback",
+      "text": "I don't have that yet. Closest pages: Rooms, common area, and shared calling; Common area phone. I only answer from this lab's lessons. You can also use Search."
+    },
+    {
+      "id": "y07",
+      "group": "typo",
+      "q": "operater conect carrier",
+      "relevant": false,
+      "confidentWrong": true,
+      "href": "#/lesson/t05-four",
+      "mode": "answer",
+      "intent": "",
+      "text": "The four options on the connectivity page are Calling Plans, Operator Connect, Teams Phone Mobile, and Direct Routing. Microsoft is the carrier only for Calling Plans. The others u"
+    },
+    {
+      "id": "dr-follow.2",
+      "group": "follow",
+      "pair": "dr-follow",
+      "q": "and the certificate name",
+      "relevant": false,
+      "confidentWrong": true,
+      "href": "cert-match.html",
+      "mode": "answer",
+      "intent": "",
+      "text": "A browser simulation. Type an SBC FQDN and a certificate name and see whether they match. It does not call Microsoft or a session border controller."
+    }
+  ]
+}

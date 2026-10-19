@@ -20,6 +20,68 @@
   outline: 3px solid var(--accent);
   outline-offset: 2px;
 }
+@media (max-width: 800px) {
+  body:has(#guide-panel:not([hidden])) {
+    display: flex;
+    flex-direction: column;
+    height: 100dvh;
+    overflow: hidden;
+  }
+  body:has(#guide-panel:not([hidden])) .top,
+  body:has(#guide-panel:not([hidden])) .readbar { flex: 0 0 auto; }
+  body:has(#guide-panel:not([hidden])) .shell {
+    flex: 1 1 auto;
+    min-height: 0;
+    max-height: none;
+    overflow: auto;
+  }
+  body:has(#guide-panel:not([hidden])) .site-foot,
+  body:has(#guide-panel:not([hidden])) #sources,
+  body:has(#guide-panel:not([hidden])) .dock { display: none; }
+  body:has(#guide-panel:not([hidden])) .bottom-nav {
+    position: static;
+    flex: 0 0 auto;
+    order: 8;
+  }
+  body:has(#guide-panel:not([hidden])) .guide {
+    position: static;
+    order: 7;
+    flex: 0 0 auto;
+    align-items: stretch;
+    width: 100%;
+    max-width: 100%;
+    max-height: 42dvh;
+    left: auto;
+    right: auto;
+    bottom: auto;
+    overflow: hidden;
+  }
+  body:has(#guide-panel:not([hidden])) .guide-launch { display: none; }
+  body:has(#guide-panel:not([hidden])) .guide-panel.has-voicebot {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    max-height: 42dvh;
+    min-height: 0;
+    overflow: hidden;
+  }
+  body:has(#guide-panel:not([hidden])) .py-chat {
+    flex: 1 1 auto;
+    min-height: 0;
+    overflow: hidden;
+  }
+  body:has(#guide-panel:not([hidden])) .py-chat-log {
+    flex: 1 1 auto;
+    min-height: 0;
+    max-height: none;
+    overflow: auto;
+  }
+  body:has(#guide-panel:not([hidden])) .py-chat-form { flex: 0 0 auto; }
+  body:has(#guide-panel:not([hidden])) .py-chat-examples,
+  body:has(#guide-panel:not([hidden])) .py-chat-chips,
+  body:has(#guide-panel:not([hidden])) .guide-chips,
+  body:has(#guide-panel:not([hidden])) .guide-log { display: none; }
+}
 @media (max-width: 390px) {
   .py-chat-log { max-height: 38dvh; }
 }

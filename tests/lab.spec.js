@@ -23,6 +23,27 @@ test("home, lesson, and guide chat", async ({ page }, info) => {
   await expect(page.locator(".py-msg-bot").last()).toContainText(/Direct Routing|SBC|sip\.pstnhub|don't have that yet/i);
   await page.goto("/campus/#/lesson/t01-tenant");
   await expect(page.locator("#main")).toContainText(/tenant/i);
+  const panel = page.locator("#guide-panel");
+  if (await panel.getAttribute("hidden") !== null) await page.locator("#guide-open").click();
+  await expect(panel).toBeVisible();
+  if (info.project.name === "phone") {
+    const hit = await page.evaluate(() => {
+      const y = Math.round(window.innerHeight * 0.32);
+      const el = document.elementFromPoint(24, y);
+      if (el && el.closest("#guide-panel")) return "panel";
+      if (el && el.closest("#main")) return "lesson";
+      return el ? el.tagName : "none";
+    });
+    expect(hit).toBe("lesson");
+    const send = page.locator(".py-chat-form button[type=submit]");
+    await expect(send).toBeVisible();
+    const box = await send.boundingBox();
+    const sendHit = await page.evaluate(({ x, y }) => {
+      const el = document.elementFromPoint(x, y);
+      return Boolean(el && el.closest(".py-chat-form"));
+    }, { x: box.x + box.width / 2, y: box.y + box.height / 2 });
+    expect(sendHit).toBe(true);
+  }
   await page.screenshot({ path: `docs/screenshots/lesson-${info.project.name}.png` });
 });
 

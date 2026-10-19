@@ -320,7 +320,7 @@ function buildDomain(df, seeds) {
   const strong = new Set(STRONG_WORDS);
   const consider = (term, min) => {
     if (!term || term.length < min) return;
-    if (STOP.has(term) || FILLER.has(term) || GENERIC_ENGLISH.has(term) || AMBIGUOUS.has(term)) return;
+    if (STOP.has(term) || FILLER.has(term) || GENERIC_ENGLISH.has(term) || AMBIGUOUS.has(term) || SOFT_SURFACE.has(term)) return;
     strong.add(term);
   };
   for (const term of df.keys()) consider(term, 3);
@@ -331,6 +331,7 @@ function buildDomain(df, seeds) {
 }
 
 function domainKind(word, domain, syn) {
+  if (SOFT_SURFACE.has(word)) return "soft";
   const forms = [word, stem(word)];
   const canonical = canon(word, syn);
   if (canonical) forms.push(canonical);
@@ -346,7 +347,7 @@ function domainKind(word, domain, syn) {
 }
 
 function typoKind(word, domain, syn, pool, freq) {
-  if (!word || word.length < 4 || GENERIC_ENGLISH.has(word)) return "";
+  if (!word || word.length < 4 || GENERIC_ENGLISH.has(word) || SOFT_SURFACE.has(word)) return "";
   const fix = fuzzy(word, pool, word.length >= 7 ? 2 : 1, freq);
   if (!fix) return "";
   if (STOP.has(fix) || STOP.has(stem(fix))) return "stop";
@@ -357,7 +358,17 @@ function typoKind(word, domain, syn, pool, freq) {
   return kind;
 }
 
-const NEIGHBOUR = new Set("freepbx avaya asterisk kamailio twilio five9 ringcentral pandas numpy django flask kubernetes bitcoin pizza zoomphone talkdesk dialpad mitel alcatel 3cx genesyscloud".split(" "));
+const NEIGHBOUR = new Set("freepbx avaya asterisk kamailio twilio five9 ringcentral pandas numpy django flask kubernetes bitcoin pizza zoomphone talkdesk dialpad mitel alcatel 3cx genesyscloud freeswitch wordpress grandstream yeastar".split(" "));
+const SOFT_SURFACE = new Set("island java theme themes extension extensions".split(" "));
+const CURATED = STRONG_WORDS;
+
+function curatedHit(word, syn) {
+  if (!word || SOFT_SURFACE.has(word)) return false;
+  const forms = [word, stem(word)];
+  const canonical = canon(word, syn);
+  if (canonical) forms.push(canonical);
+  return forms.some((form) => CURATED.has(form));
+}
 
 function hasDomainTerm(text, domain, syn, pool, freq) {
   const parts = normalize(text).split(" ").filter((word) => word && word.length >= 2 && !STOP.has(word) && !FILLER.has(word));
@@ -367,8 +378,15 @@ function hasDomainTerm(text, domain, syn, pool, freq) {
   let foreign = 0;
   let typoStrong = 0;
   let neighbour = 0;
+  let curated = 0;
+  let soft = 0;
   for (const word of parts) {
     if (NEIGHBOUR.has(word) || NEIGHBOUR.has(stem(word))) neighbour += 1;
+    if (SOFT_SURFACE.has(word)) {
+      soft += 1;
+      continue;
+    }
+    if (curatedHit(word, syn)) curated += 1;
     const rawKind = domainKind(word, domain, syn);
     if (rawKind === "strong") {
       strong += 1;
@@ -380,12 +398,17 @@ function hasDomainTerm(text, domain, syn, pool, freq) {
     }
     const kind = typoKind(word, domain, syn, pool, freq);
     if (kind === "stop") continue;
-    if (kind === "strong") typoStrong += 1;
-    else if (kind === "weak") weak += 1;
+    if (kind === "strong") {
+      typoStrong += 1;
+      const fix = fuzzy(word, pool, word.length >= 7 ? 2 : 1, freq);
+      if (fix && curatedHit(fix, syn)) curated += 1;
+    } else if (kind === "weak") weak += 1;
     else if (word.length <= 3 || STOP.has(stem(word))) continue;
     else foreign += 1;
   }
   if (neighbour >= 1) return false;
+  if (soft >= 1 && curated < 1) return false;
+  if (curated >= 1) return true;
   if (strong >= 1) return true;
   if (typoStrong >= 1 && foreign === 0) return true;
   if (weak >= 2 && foreign === 0) return true;
@@ -793,6 +816,22 @@ export function createRetriever(index) {
     return true;
   }
 
+  function titleCarries(qTerms, doc) {
+    const title = new Set();
+    for (const term of doc.title || []) {
+      title.add(term);
+      title.add(stem(term));
+    }
+    const distinct = [...new Set(qTerms)].filter((term) => (
+      term && term.length >= 4
+      && !STOP.has(term) && !FILLER.has(term)
+      && !GENERIC_ENGLISH.has(term) && !AMBIGUOUS.has(term)
+      && !SOFT_SURFACE.has(term)
+    ));
+    if (!distinct.length) return false;
+    return distinct.some((term) => title.has(term) || title.has(stem(term)));
+  }
+
   function fallbackAnswer(hits, followMode, quiet = false) {
     const closest = quiet ? [] : (hits || [])
       .filter((hit) => hit.kind === "lesson" || hit.kind === "slide" || hit.kind === "guide" || hit.kind === "glossary")
@@ -1050,6 +1089,11 @@ export function createRetriever(index) {
     const topDoc = top ? docs.find((doc) => doc.i === top.id) : null;
     const nq = normalize(routed.searchText);
     if (!isConfident(top, second, qTerms, topDoc, nq)) return fallbackAnswer(hits, routed.followMode);
+    if (second && second.href !== top.href && !titleCarries(qTerms, topDoc)) {
+      const margin = top.score - second.score;
+      const ratio = second.score > 0 ? top.score / second.score : 99;
+      if (margin < 3.2 || ratio < 1.45) return fallbackAnswer(hits, routed.followMode);
+    }
     const follow = topDoc.eg
       ? "Show an example"
       : (second && second.href !== top.href ? `What about ${second.title}?` : (topDoc.fu || "Where do I start?"));
